@@ -1,5 +1,5 @@
 import React from "react";
-import Canvas from "../components/Canvas"
+import Canvas from "./Canvas"
 
 const styles = {
     canvas : {
@@ -98,9 +98,9 @@ class CanvasPage extends React.Component {
         this.setState({
             mode: 'draw',
             pen : 'up',
-            lineWidth : 2,
+            lineWidth : .5,
             penColor : 'black'
-        })
+        });
 
         this.ctx = this.refs.canvas.getContext('2d')
         this.ctx.fillStyle="white"
@@ -110,7 +110,7 @@ class CanvasPage extends React.Component {
 
     render() {
         return (
-            /* We should seperate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
+            /* We should separate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
              in the functional components. We have to figure a way out later
             */
             <div style={styles.maindiv}>

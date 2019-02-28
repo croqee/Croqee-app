@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import CanvasPage from "./containers/CanvasPage"
+import CanvasPage from "./components/canvas/CanvasPage"
 class App extends Component {
   render() {
     return (
