@@ -1,12 +1,17 @@
-import React from "react";
+import React, {Component} from 'react';
 
-const Canvas = ({
-}) => (
-      <React.Fragment>
-        
-      </React.Fragment>
- );
+class Canvas extends Component {
 
- Canvas.propTypes = {
- };
+
+
+    render() {
+        return (
+            <div>
+                <h1>Haj Arash!!</h1>
+
+            </div>
+        );
+    }
+}
+
 export default Canvas;
