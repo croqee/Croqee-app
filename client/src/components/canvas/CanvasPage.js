@@ -3,7 +3,7 @@ import Canvas from './Canvas';
 
 const styles = {
   canvas: {
-    border: '1px solid #333',
+    // border: '1px solid #333',
     margin: '20px 0px',
     cursor: 'crosshair',
   },
