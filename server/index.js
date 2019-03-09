@@ -7,7 +7,7 @@ const logger = require("morgan");
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 
 app.post("/",(req,res,next)=>{
@@ -15,6 +15,7 @@ app.post("/",(req,res,next)=>{
     "note":"By the way i got genrated by a request from Express server."});
 
 });
+
 
 
 
@@ -34,4 +35,4 @@ app.use((error, req, res, next) => {
     });
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 8080);
