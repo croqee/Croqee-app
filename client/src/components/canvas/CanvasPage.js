@@ -1,5 +1,6 @@
 import React from 'react';
 import Canvas from './Canvas';
+import axios from 'axios';
 
 const styles = {
   canvas: {
@@ -39,6 +40,8 @@ class CanvasPage extends React.Component {
 
   componentDidMount() {
     this.reset();
+    this.sendDrawing();
+   
   }
 
   draw(e) {
@@ -104,6 +107,22 @@ class CanvasPage extends React.Component {
     this.ctx.fillRect(0, 0, 800, 600);
     this.ctx.lineWidth = 10;
   }
+  sendDrawing(){
+    // var canvas = this.refs.canvas.getContext('2d');
+
+    setTimeout(()=>{
+      var canvas = document.getElementById('canvas__drawing');
+      var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
+      console.log(dataURL)
+      axios.post('/send_drawing',{dataURL:dataURL}).then(response=>{
+        // console.log(response);
+        const{score}= response.data;
+        this.setState({
+        })
+      })
+
+    },5000)
+  }
 
   render() {
     return (
@@ -113,6 +132,7 @@ class CanvasPage extends React.Component {
       <div className="canvas" style={styles.maindiv}>
         <h4 className="canvas__title">Draw something</h4>
         <canvas
+          id="canvas__drawing"
           className="canvas__canvas"
           ref="canvas"
           width="800px"

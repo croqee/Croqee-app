@@ -6,8 +6,8 @@ const logger = require("morgan");
 const zerorpc = require("zerorpc");
 
 var node_client = new zerorpc.Client();
-node_client.connect("tcp://127.0.0.1:4234");
-
+node_client.connect("tcp://127.0.0.1:9999");
+ 
 
 
 
@@ -17,20 +17,19 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 
 
 app.post("/",(req,res,next)=>{
-    let message;
-    node_client.invoke("DrawingDistance", " Guuuyyys", function(error, res2, more) {
-        console.log(res2)
-        message = res2;
-        res.json({"greet":"Hello World! Croqee App here!",
-        "note":"By the way i got genrated by a request from Express server.",
-        "messageFromPython":message});
-    });
-   
-
-
+    res.json({"greet":"Hello World! Croqee App here!",
+    "note":"By the way i got genrated by a request from Express server."
+});
 });
 
-
+app.post("/send_drawing",(req,res,next)=>{
+    let dataURL = req.body.dataURL;
+    node_client.invoke("DrawingDistance", dataURL, function(error, res2, more) {
+        console.log(res2)
+        message = res2;
+       res.json({"Your score":message});
+    });   
+ });
 
 
 app.use((req, res, next) => {
@@ -50,3 +49,4 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(process.env.PORT || 8080);
+
