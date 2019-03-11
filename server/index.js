@@ -3,6 +3,12 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 const logger = require("morgan");
+const zerorpc = require("zerorpc");
+
+var node_client = new zerorpc.Client();
+node_client.connect("tcp://127.0.0.1:4234");
+
+
 
 
 app.use(logger("dev"));
@@ -11,8 +17,16 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 
 
 app.post("/",(req,res,next)=>{
-    res.json({"greet":"Hello World! Croqee App here!",
-    "note":"By the way i got genrated by a request from Express server."});
+    let message;
+    node_client.invoke("DrawingDistance", " Guuuyyys", function(error, res2, more) {
+        console.log(res2)
+        message = res2;
+        res.json({"greet":"Hello World! Croqee App here!",
+        "note":"By the way i got genrated by a request from Express server.",
+        "messageFromPython":message});
+    });
+   
+
 
 });
 
