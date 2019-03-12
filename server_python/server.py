@@ -97,5 +97,5 @@ imageAnalyser = ImageAnalyser()
 # s.run()
 
 s = zerorpc.Server(ImageAnalyser())
-s.bind("tcp://0.0.0.0:9995")
+s.bind("tcp://0.0.0.0:9919")
 s.run()

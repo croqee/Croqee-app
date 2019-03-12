@@ -37,13 +37,19 @@ class CanvasPage extends React.Component {
     super(props);
     this.state={
       score:"",
-      countDown:10
+      givenTime:15,
+      countDown:''
     }
   }
 
   componentDidMount() {
-    this.reset();
-    this.sendDrawing();
+    this.setState({
+      countDown:this.state.givenTime
+    },()=>{
+      this.reset();
+      this.sendDrawing(); 
+    })
+  
    
   }
 
@@ -118,7 +124,7 @@ class CanvasPage extends React.Component {
         })
       }else{
         this.setState({
-          countDown:10
+          countDown:this.state.givenTime
         })
         clearInterval(runningTimer)
       }
@@ -141,7 +147,7 @@ class CanvasPage extends React.Component {
         this.startTimer();
       })
 
-    },10000)
+    },this.state.givenTime * 1000)
   }
 
   render() {
