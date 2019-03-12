@@ -31,9 +31,14 @@ class ImageAnalyser(object):
     #######################################
 
     img = cv2.imread('Edge_Detected_Box.png')
+    img = cv2.resize(img,(800,600))
+
     global height
     global width
     height, width, channels = img.shape
+    print(height)
+    print(width)
+    print("____")
     #This time we would add the corners to a white blank image
     blank = np.zeros([height,width,3],dtype=np.uint8)
     blank.fill(255)
@@ -59,10 +64,13 @@ class ImageAnalyser(object):
             pimg = Image.open(sbuf)
             return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
-
-        print(param)
         img2 = imread(BytesIO(b64decode(param)))
+        img2 = cv2.resize(img2,(800,600))
 
+        height2, width2, channels = img2.shape
+        print(height)
+        print(width)
+        print("+++++")
         # with open("image.png", "wb") as f:
         #  img2 =  f.read(data)
         # imgplot = plt.imshow(img2)
@@ -89,5 +97,5 @@ imageAnalyser = ImageAnalyser()
 # s.run()
 
 s = zerorpc.Server(ImageAnalyser())
-s.bind("tcp://0.0.0.0:9999")
+s.bind("tcp://0.0.0.0:9995")
 s.run()

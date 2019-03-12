@@ -6,7 +6,7 @@ const logger = require("morgan");
 const zerorpc = require("zerorpc");
 
 var node_client = new zerorpc.Client();
-node_client.connect("tcp://127.0.0.1:9999");
+node_client.connect("tcp://127.0.0.1:9995");
  
 
 
@@ -26,8 +26,8 @@ app.post("/send_drawing",(req,res,next)=>{
     let dataURL = req.body.dataURL;
     node_client.invoke("DrawingDistance", dataURL, function(error, res2, more) {
         console.log(res2)
-        message = res2;
-       res.json({"Your score":message});
+        message = Math.floor(res2);
+       res.json({"score":message});
     });   
  });
 

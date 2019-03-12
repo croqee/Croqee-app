@@ -25,10 +25,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <CanvasPage/>
-        <h2>{this.state.greet}</h2>
+       <h2>{this.state.greet}</h2>
         <h2>{this.state.messageFromPython}</h2>
         <p>{this.state.note}</p>
+      <img src="./model.jpg" className="modelImg"/>
+        <CanvasPage/>
+       
       </div>
     );
   }
