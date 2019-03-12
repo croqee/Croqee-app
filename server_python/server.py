@@ -29,10 +29,10 @@ class ImageAnalyser(object):
     #######################################
     ##### Shi Tomasi Corner Detection #####
     #######################################
-
-    img = cv2.imread('Edge_Detected_Box.png')
+    global mainImg
+    img = cv2.imread('Edge_Detected_Box_2.png')
     img = cv2.resize(img,(800,600))
-
+    mainImg = img
     global height
     global width
     height, width, channels = img.shape
@@ -48,7 +48,10 @@ class ImageAnalyser(object):
     corners = cv2.goodFeaturesToTrack(gray,225,0.01,10)
     corners = np.int0(corners)
 
-    
+    for i in corners:
+        x,y = i.ravel()
+        cv2.circle(img,(x,y),3,255,-1)
+
 
     def DrawingDistance(self, param):
 
@@ -68,26 +71,44 @@ class ImageAnalyser(object):
         img2 = cv2.resize(img2,(800,600))
 
         height2, width2, channels = img2.shape
-        print(height)
-        print(width)
+        print(height2)
+        print(width2)
         print("+++++")
-        # with open("image.png", "wb") as f:
-        #  img2 =  f.read(data)
-        # imgplot = plt.imshow(img2)
-        # plt.show()
-
-        print("worked til here")
+     
+    
 
         gray2 = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
         corners2 = cv2.goodFeaturesToTrack(gray2,225,0.01,10)
         corners2 = np.int0(corners2)
 
+   #for TEST
+        # blank = np.zeros([height,width,3],dtype=np.uint8)
+        # blank.fill(255)
+        # for i in corners2:
+        #     x,y = i.ravel()
+        #     cv2.circle(blank,(x,y),3,255,-1)
+
+        # plt.subplot(121),plt.imshow(blank,cmap = 'gray')
+        # plt.title('Your Drawing'), plt.xticks([]), plt.yticks([])
+        # plt.subplot(122),plt.imshow(mainImg,cmap = 'gray')
+        # plt.title('Model'), plt.xticks([]), plt.yticks([])
+        # plt.imshow(mainImg),plt.show()
+
+    #END - for TEST
+
+
+
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
         results = HausdorffDist(n1,n2)
-        print(results)
-        return results
+        worstResult = 249
+        if results < worstResult:
+            score = ((250-results)/250)*100   
+        else:   
+            score = 0 
+        print(score)
+        return score
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
@@ -97,5 +118,5 @@ imageAnalyser = ImageAnalyser()
 # s.run()
 
 s = zerorpc.Server(ImageAnalyser())
-s.bind("tcp://0.0.0.0:9919")
+s.bind("tcp://0.0.0.0:9299")
 s.run()

@@ -6,6 +6,9 @@ const styles = {
   canvas: {
     border: '1px solid #333',
     cursor: 'crosshair',
+    // position: 'absolute',
+    // left: '6px',
+    // opacity: .8
   },
 
   maindiv: {
@@ -37,7 +40,7 @@ class CanvasPage extends React.Component {
     super(props);
     this.state={
       score:"",
-      givenTime:15,
+      givenTime:20,
       countDown:''
     }
   }
@@ -107,7 +110,7 @@ class CanvasPage extends React.Component {
     this.setState({
       mode: 'draw',
       pen: 'up',
-      lineWidth: 0.5,
+      lineWidth: .6,
       penColor: 'black',
     });
 
@@ -157,7 +160,7 @@ class CanvasPage extends React.Component {
             */
            <>
             <span id="countDown"> {this.state.countDown}</span>
-           <span id="userScore">Diff: {this.state.score}</span>
+           <span id="userScore">Score: {this.state.score && this.state.score+"%"}</span>
       <div className="canvas" style={styles.maindiv}>
         <canvas
           id="canvas__drawing"
