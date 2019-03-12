@@ -40,7 +40,7 @@ class CanvasPage extends React.Component {
     super(props);
     this.state={
       score:"",
-      givenTime:20,
+      givenTime:15,
       countDown:''
     }
   }

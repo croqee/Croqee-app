@@ -103,8 +103,10 @@ class ImageAnalyser(object):
         n2 = np.squeeze(np.asarray(corners2))
         results = HausdorffDist(n1,n2)
         worstResult = 249
-        if results < worstResult:
-            score = ((250-results)/250)*100   
+        if results < 100:
+            score = (((250-results)/250)*100) + ((100-results)*1.2) 
+        elif  results < worstResult:
+            score = ((250-results)/250)*100  
         else:   
             score = 0 
         print(score)
@@ -112,7 +114,6 @@ class ImageAnalyser(object):
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
-
 # s = zerorpc.Server(ImageAnalyser())
 # s.bind("tcp://0.0.0.0:4241")
 # s.run()
