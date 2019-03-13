@@ -12,10 +12,11 @@ class App extends Component {
   componentDidMount() {
     axios.post('/').then(response=>{
       console.log(response);
-      const{greet,note}= response.data;
+      const{greet,note,messageFromPython}= response.data;
       this.setState({
         greet,
-        note
+        note,
+        messageFromPython
       })
     })
   }
@@ -24,9 +25,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <CanvasPage/>
-        <h2>{this.state.greet}</h2>
+       <h2>{this.state.greet}</h2>
+        <h2>{this.state.messageFromPython}</h2>
         <p>{this.state.note}</p>
+      <img src="./model.jpg" className="modelImg"/>
+        <CanvasPage/>
+       
       </div>
     );
   }
