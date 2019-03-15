@@ -1,18 +1,31 @@
 version: '2'
 services:
-  server:
+  server_python:
+    build:
+      context: ./server_python/
+    command: ["python", "-u", "server.py"]
+    volumes:
+      - ./server_python/:/usr/app
+    ports:
+      - "9699:9699"
+  
+  server_node:
     build:
       context: ./server/
     command: /usr/app/node_modules/.bin/nodemon src/index.js
     volumes:
       - ./server/:/usr/app
       - /usr/app/node_modules
+    depends_on:
+      - server_python
     ports:
       - "8080:8080"
     # env_file: ./server/.env #
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+
+     
   client:
     build:
       context: ./client/
@@ -21,6 +34,6 @@ services:
       - ./client/:/usr/app
       - /usr/app/node_modules
     depends_on:
-      - server
+      - server_node
     ports:
       - "3000:3000"

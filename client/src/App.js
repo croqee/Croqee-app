@@ -30,7 +30,7 @@ class App extends Component {
         <p>{this.state.note}</p>
       <img src="./model.jpg" className="modelImg"/>
         <CanvasPage/>
-       
+
       </div>
     );
   }
