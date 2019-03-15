@@ -5,12 +5,11 @@ import matplotlib.image as mpimg
 from PIL import Image
 import PIL.Image
 from numpy.core.umath_tests import inner1d
-from base64 import b64decode
 from io import StringIO
 from io import BytesIO
 from scipy.misc import imread
 import zerorpc
-from w3lib.url import parse_data_uri
+from base64 import b64decode
 import logging
 logging.basicConfig()
 
@@ -119,5 +118,5 @@ imageAnalyser = ImageAnalyser()
 # s.run()
 
 s = zerorpc.Server(ImageAnalyser())
-s.bind("tcp://0.0.0.0:9299")
+s.bind("tcp://0.0.0.0:9699")
 s.run()

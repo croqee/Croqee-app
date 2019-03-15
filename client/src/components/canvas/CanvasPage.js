@@ -1,5 +1,5 @@
 import React from 'react';
-import Canvas from './Canvas';
+// import Canvas from './Canvas';
 import axios from 'axios';
 
 const styles = {
@@ -123,7 +123,7 @@ class CanvasPage extends React.Component {
     let runningTimer = setInterval(()=>{
       if(this.state.countDown!==0){
         this.setState({
-          countDown:--this.state.countDown
+          countDown:this.state.countDown -1
         })
       }else{
         this.setState({
