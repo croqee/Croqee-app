@@ -2,6 +2,7 @@
 A very cool app that helps drawing/illustration artists to achieve great skills
 bla bla
 
+
 ## Running with Docker
 
 - For development using Docker containers: on a docker installed machine, run "docker-compose up" on root folder.</br>
@@ -28,5 +29,3 @@ Finally it should start Python and Node.js servers as well as React client.
 
 
 
-
- 
