@@ -18,9 +18,11 @@ Then run the python and node servers by the following:
 - Python Server : 
     $ cd server_python<br/>
     $ python server.py<br/>
+    
 - Nodejs/Express Server : 
     $ cd server<br/>
     $ npm run dev<br/>
+    
 Finally it should start both client and express server.
 
 
