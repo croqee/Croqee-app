@@ -11,5 +11,39 @@ a:focus {
     text-decoration: none;
 }
 
+.modelImg{
+    float: left;
+    position: relative;
+    top:10px;
+}
 
+#userScore{
+    font-size: 40px;
+    background: #100005;
+    height: 40px;
+    display: block;
+    position: fixed;
+    right: 139px;
+    color: white;
+    top: 33px;
+    width: 200px;
+    text-align: left;
+    padding: 10px;
+    padding-left: 30px;
 
+}
+#countDown{
+    font-size: 40px;
+    background: #0523cc;
+    height: 40px;
+    display: block;
+    position: fixed;
+    right: 430px;
+    color: white;
+    top: 33px;
+    width: 70px;
+    text-align: left;
+    padding: 10px;
+    padding-left: 30px;
+
+}

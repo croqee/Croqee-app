@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "node-sass": "^4.11.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
@@ -17,6 +18,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://server_node:8080",
   "browserslist": [
     ">0.2%",
     "not dead",

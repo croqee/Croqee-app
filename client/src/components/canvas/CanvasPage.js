@@ -1,11 +1,14 @@
 import React from 'react';
-import Canvas from './Canvas';
+// import Canvas from './Canvas';
+import axios from 'axios';
 
 const styles = {
   canvas: {
-    // border: '1px solid #333',
-    margin: '20px 0px',
+    border: '1px solid #333',
     cursor: 'crosshair',
+    // position: 'absolute',
+    // left: '6px',
+    // opacity: .8
   },
 
   maindiv: {
@@ -35,10 +38,22 @@ const styles = {
 class CanvasPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      score:"",
+      givenTime:15,
+      countDown:''
+    }
   }
 
   componentDidMount() {
-    this.reset();
+    this.setState({
+      countDown:this.state.givenTime
+    },()=>{
+      this.reset();
+      this.sendDrawing(); 
+    })
+  
+   
   }
 
   draw(e) {
@@ -95,7 +110,7 @@ class CanvasPage extends React.Component {
     this.setState({
       mode: 'draw',
       pen: 'up',
-      lineWidth: 0.5,
+      lineWidth: .6,
       penColor: 'black',
     });
 
@@ -104,15 +119,51 @@ class CanvasPage extends React.Component {
     this.ctx.fillRect(0, 0, 800, 600);
     this.ctx.lineWidth = 10;
   }
+  startTimer(){
+    let runningTimer = setInterval(()=>{
+      if(this.state.countDown!==0){
+        this.setState({
+          countDown:this.state.countDown -1
+        })
+      }else{
+        this.setState({
+          countDown:this.state.givenTime
+        })
+        clearInterval(runningTimer)
+      }
+    },1000)
+  }
+  sendDrawing(){
+    this.startTimer();
+    // var canvas = this.refs.canvas.getContext('2d');
+    setInterval(()=>{
+      var canvas = document.getElementById('canvas__drawing');
+      var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
+      console.log(dataURL)
+      axios.post('/send_drawing',{dataURL:dataURL}).then(response=>{
+        // console.log(response);
+        const{score}= response.data;
+        this.setState({
+          score:score
+        })
+        this.reset();
+        this.startTimer();
+      })
+
+    },this.state.givenTime * 1000)
+  }
 
   render() {
     return (
       /* We should separate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
              in the functional components. We have to figure a way out later
             */
+           <>
+            <span id="countDown"> {this.state.countDown}</span>
+           <span id="userScore">Score: {this.state.score && this.state.score+"%"}</span>
       <div className="canvas" style={styles.maindiv}>
-        <h4 className="canvas__title">Draw something</h4>
         <canvas
+          id="canvas__drawing"
           className="canvas__canvas"
           ref="canvas"
           width="800px"
@@ -123,6 +174,7 @@ class CanvasPage extends React.Component {
           onMouseUp={e => this.penUp(e)}
         />
       </div>
+      </>
     );
   }
 }

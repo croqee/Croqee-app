@@ -1,0 +1,22 @@
+version: '2'
+services:
+  server_python:
+    build:
+      context: .
+      dockerfile: Dockerfile-python
+    ports:
+      - "9699:9699"
+
+  web:
+    build: .
+    ports:
+      - "80:8000"
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+    depends_on:
+     - server_python
+
+
+
