@@ -25,7 +25,7 @@ Then run the python and node servers by the following:
     $ cd server<br/>
     $ npm run dev<br/>
     
-Finally it should start both client and express server.
+Finally it should start Python and Node.js servers as well as React client.
 
 
 
