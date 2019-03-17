@@ -1,7 +1,7 @@
 # Croqee-app
 A very cool app that helps drawing/illustration artists to achieve great skills
 bla bla
-<<<<<<< HEAD
+
 
 ## Running with Docker
 
@@ -29,5 +29,3 @@ Finally it should start Python and Node.js servers as well as React client.
 
 
 
-
- 
