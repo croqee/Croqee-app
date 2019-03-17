@@ -12,6 +12,7 @@ import zerorpc
 from base64 import b64decode
 import logging
 logging.basicConfig()
+from alignImages import alignImages
 
 class ImageAnalyser(object):
 
@@ -29,22 +30,21 @@ class ImageAnalyser(object):
     ##### Shi Tomasi Corner Detection #####
     #######################################
     global mainImg
-    img = cv2.imread('Edge_Detected_Box_2.png')
+    img = cv2.imread('Edge_Detected_Box_2.png',0)
     img = cv2.resize(img,(800,600))
     mainImg = img
     global height
     global width
-    height, width, channels = img.shape
+    height, width = img.shape
     print(height)
     print(width)
     print("____")
     #This time we would add the corners to a white blank image
     blank = np.zeros([height,width,3],dtype=np.uint8)
     blank.fill(255)
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     
     global corners
-    corners = cv2.goodFeaturesToTrack(gray,225,0.01,10)
+    corners = cv2.goodFeaturesToTrack(img,225,0.01,10)
     corners = np.int0(corners)
 
     for i in corners:
@@ -75,26 +75,29 @@ class ImageAnalyser(object):
         print("+++++")
      
     
+        #The alignImages() needs to be improved to not throw exeption when drawing is out of scope  
+        try:
+            aligned = alignImages(img2,mainImg)
+        except:
+            aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
-        gray2 = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
-
-        corners2 = cv2.goodFeaturesToTrack(gray2,225,0.01,10)
+        corners2 = cv2.goodFeaturesToTrack(aligned,225,0.01,10)
         corners2 = np.int0(corners2)
 
-   #for TEST
-        # blank = np.zeros([height,width,3],dtype=np.uint8)
-        # blank.fill(255)
-        # for i in corners2:
-        #     x,y = i.ravel()
-        #     cv2.circle(blank,(x,y),3,255,-1)
+# #    for TEST
+#         blank = np.zeros([height,width,3],dtype=np.uint8)
+#         blank.fill(255)
+#         for i in corners2:
+#             x,y = i.ravel()
+#             cv2.circle(blank,(x,y),3,255,-1)
 
-        # plt.subplot(121),plt.imshow(blank,cmap = 'gray')
-        # plt.title('Your Drawing'), plt.xticks([]), plt.yticks([])
-        # plt.subplot(122),plt.imshow(mainImg,cmap = 'gray')
-        # plt.title('Model'), plt.xticks([]), plt.yticks([])
-        # plt.imshow(mainImg),plt.show()
+#         plt.subplot(121),plt.imshow(blank,cmap = 'gray')
+#         plt.title('Your Drawing'), plt.xticks([]), plt.yticks([])
+#         plt.subplot(122),plt.imshow(mainImg,cmap = 'gray')
+#         plt.title('Model'), plt.xticks([]), plt.yticks([])
+#         plt.imshow(mainImg),plt.show()
 
-    #END - for TEST
+#     # END - for TEST
 
 
 
