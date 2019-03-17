@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 from numpy.core.umath_tests import inner1d
 from matplotlib import pyplot as plt
-
+from scaleInnerContents import scaleInnerContents
 
 def alignImages(img, img2):
     img_final = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
@@ -37,9 +37,11 @@ def alignImages(img, img2):
 
     for i in range(0, 40):
         for j in range(0, 30):
+            for k in range(0, 3):
                 M = np.float32([[1,0,i-20],[0,1,j-15]])
                 dst = cv.warpAffine(img,M,(cols,rows))
-        
+                scale = 1 + float(( k * 0.1 ))
+                dst = scaleInnerContents(dst,scale)
                 corners = cv.goodFeaturesToTrack(dst,525,0.01,10)
                 n1 = np.squeeze(np.asarray(corners))
                 try:
@@ -69,4 +71,5 @@ def alignImages(img, img2):
     M = np.float32([[1,0,bestX],[0,1,bestY]])
     rows,cols = img_final.shape
     aligned = cv.warpAffine(img_final,M,(cols,rows))
+    aligned = scaleInnerContents(aligned,scale)
     return aligned
