@@ -35,16 +35,19 @@ def alignImages(img, img2):
         dH = np.max(np.array([np.max(np.min(D_mat,axis=0)),np.max(np.min(D_mat,axis=1))]))
         return(dH)
 
-    for i in range(0, 60):
-        for j in range(0, 30):
-                M = np.float32([[1,0,i-20],[0,1,j-20]])
+    for i in range(0, 120):
+        for j in range(0, 90):
+                M = np.float32([[1,0,i-60],[0,1,j-45]])
                 dst = cv.warpAffine(img,M,(cols,rows))
         
                 corners = cv.goodFeaturesToTrack(dst,225,0.01,10)
                 n1 = np.squeeze(np.asarray(corners))
-                distanc = HausdorffDist(n1,n2)
-                if distanc < smallestDistance:
-                    smallestDistance = distanc
+                try:
+                   distance = HausdorffDist(n1,n2)
+                except:
+                   distance = 1000
+                if distance < smallestDistance:
+                    smallestDistance = distance
                     bestX = i
                     bestY = j
 
@@ -61,8 +64,8 @@ def alignImages(img, img2):
     # cv.waitKey(0)
     # cv.destroyAllWindows()
 
-    bestX = (bestX -20) * 10
-    bestY = (bestY -20) * 10
+    bestX = (bestX -60) * 10
+    bestY = (bestY -45) * 10
     M = np.float32([[1,0,bestX],[0,1,bestY]])
     rows,cols = img_final.shape
     aligned = cv.warpAffine(img_final,M,(cols,rows))
