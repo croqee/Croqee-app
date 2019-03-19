@@ -13,24 +13,19 @@ from base64 import b64decode
 import logging
 logging.basicConfig()
 from alignImages import alignImages
-
+import sys
+from distanceMeasurment import HausdorffDist
 class ImageAnalyser(object):
 
 
-    ######################################
-    ##### Hausdorf Distance Operator #####
-    ######################################
-    def HausdorffDist(A,B):
-        D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
-        dH = np.max(np.array([np.max(np.min(D_mat,axis=0)),np.max(np.min(D_mat,axis=1))]))
-        return(dH)
+  
 
 
     #######################################
     ##### Shi Tomasi Corner Detection #####
     #######################################
     global mainImg
-    img = cv2.imread('Edge_Detected_Box_3.png',0)
+    img = cv2.imread('src/models/objects_1/Edge_Detected_Box_3.png',0)
     img = cv2.resize(img,(800,600))
     mainImg = img
     global height
@@ -54,12 +49,6 @@ class ImageAnalyser(object):
 
     def DrawingDistance(self, param):
 
-
-
-        def HausdorffDist(A,B):
-            D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
-            dH = np.max(np.array([np.max(np.min(D_mat,axis=0)),np.max(np.min(D_mat,axis=1))]))
-            return(dH)
         def readb64(base64_string):
             sbuf = StringIO()
             sbuf.write(base64.b64decode(base64_string))
