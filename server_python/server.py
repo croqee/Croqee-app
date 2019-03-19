@@ -23,7 +23,7 @@ class ImageAnalyser(object):
 
 
     global mainImg
-    img = cv2.imread('src/models/objects_1/Edge_Detected_Box_3.png',0)
+    img = cv2.imread('src/models/objects_1/box_1/Edge_Detected_Box_3.png',0)
     img = cv2.resize(img,(800,600))
     mainImg = img
     global height
