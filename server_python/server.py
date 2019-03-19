@@ -15,15 +15,13 @@ logging.basicConfig()
 from alignImages import alignImages
 import sys
 from distanceMeasurment import HausdorffDist
+from displayImages import displayImages
+from calculateScore import calculateScore
+
 class ImageAnalyser(object):
 
 
-  
 
-
-    #######################################
-    ##### Shi Tomasi Corner Detection #####
-    #######################################
     global mainImg
     img = cv2.imread('src/models/objects_1/Edge_Detected_Box_3.png',0)
     img = cv2.resize(img,(800,600))
@@ -64,7 +62,6 @@ class ImageAnalyser(object):
         print("+++++")
      
     
-        #The alignImages() needs to be improved to not throw exeption when drawing is out of scope  
         try:
             aligned = alignImages(img2,mainImg)
         except:
@@ -74,17 +71,13 @@ class ImageAnalyser(object):
         corners2 = np.int0(corners2)
 
 # #    for TEST
-#         blank = np.zeros([height,width,3],dtype=np.uint8)
-#         blank.fill(255)
-#         for i in corners2:
-#             x,y = i.ravel()
-#             cv2.circle(blank,(x,y),3,255,-1)
+        # blank = np.zeros([height,width,3],dtype=np.uint8)
+        # blank.fill(255)
+        # for i in corners2:
+        #     x,y = i.ravel()
+        #     cv2.circle(blank,(x,y),3,255,-1)
 
-#         plt.subplot(121),plt.imshow(blank,cmap = 'gray')
-#         plt.title('Your Drawing'), plt.xticks([]), plt.yticks([])
-#         plt.subplot(122),plt.imshow(mainImg,cmap = 'gray')
-#         plt.title('Model'), plt.xticks([]), plt.yticks([])
-#         plt.imshow(mainImg),plt.show()
+        # displayImages(mainImg,blank)
 
 #     # END - for TEST
 
@@ -93,21 +86,10 @@ class ImageAnalyser(object):
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
         results = HausdorffDist(n1,n2)
-        worstResult = 249
-        if results < 100:
-            score = (((250-results)/250)*100) 
-        elif  results < worstResult:
-            score = ((250-results)/250)*100  
-        else:   
-            score = 0 
-        print(score)
-        return score
+        return calculateScore(results)
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
-# s = zerorpc.Server(ImageAnalyser())
-# s.bind("tcp://0.0.0.0:4241")
-# s.run()
 
 s = zerorpc.Server(ImageAnalyser())
 s.bind("tcp://0.0.0.0:9699")
