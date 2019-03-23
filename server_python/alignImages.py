@@ -52,6 +52,7 @@ def alignImages(img, img2):
                     smallestDistance = distance
                     bestX = i
                     bestY = j
+                    bestScale = scale
 
 
 
