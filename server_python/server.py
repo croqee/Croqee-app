@@ -52,7 +52,8 @@ class ImageAnalyser(object):
             sbuf.write(base64.b64decode(base64_string))
             pimg = Image.open(sbuf)
             return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
-
+            
+        #This should also be documented
         img2 = imread(BytesIO(b64decode(param)))
         img2 = cv2.resize(img2,(800,600))
 
