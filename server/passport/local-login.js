@@ -13,6 +13,7 @@ module.exports = new PassportLocalStrategy({
   session: false,
   passReqToCallback: true
 }, (req, email, password, done) => {
+  console.log(email.trim())
   const userData = {
     email: email.trim(),
     password: password.trim()
@@ -20,6 +21,7 @@ module.exports = new PassportLocalStrategy({
 
   // find a user by email address
   return User.findOne({ email: userData.email }, (err, user) => {
+
     if (err) { return done(err); }
 
     if (!user) {
@@ -31,6 +33,7 @@ module.exports = new PassportLocalStrategy({
 
     // check if a hashed user's password is equal to a value saved in the database
     return user.comparePassword(userData.password, (passwordErr, isMatch) => {
+      console.log("heyyyyyyy3")
       if (err) { return done(err); }
 
       if (!isMatch) {

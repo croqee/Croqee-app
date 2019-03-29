@@ -15,6 +15,8 @@ const config = require('./config');
 require('./models').connect(config.dbUri);
 
 // tell the app to parse HTTP body messages
+app.use(bodyParser.json())
+
 app.use(bodyParser.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport.initialize());

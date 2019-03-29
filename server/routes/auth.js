@@ -4,6 +4,18 @@ const passport = require('passport');
 
 const router = new express.Router();
 
+let croqeeBodyParser = (body) =>{
+  var reqBody = {};
+  for (var key in body) {
+    reqBody = JSON.parse(key);
+  }
+  return reqBody;
+}
+
+
+
+
+
 /**
  * Validate the sign up form
  *
@@ -76,6 +88,7 @@ function validateLoginForm(payload) {
 }
 
 router.post('/signup', (req, res, next) => {
+  req.body = croqeeBodyParser(req.body)
   const validationResult = validateSignupForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -113,9 +126,11 @@ router.post('/signup', (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login',(req, res, next) => {
 
-  const validationResult = validateLoginForm(req.body);
+req.body = croqeeBodyParser(req.body)
+console.log(req.body)
+const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,
