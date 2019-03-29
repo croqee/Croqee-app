@@ -7,7 +7,7 @@ const config = require('../config');
  *  The Auth Checker middleware function.
  */
 module.exports = (req, res, next) => {
-  if (!req.headers.authorization) {
+  if (!req.headers.authorization ) {
     return res.status(401).end();
   }
 
@@ -26,7 +26,8 @@ module.exports = (req, res, next) => {
       if (userErr || !user) {
         return res.status(401).end();
       }
-
+      // pass user details onto next route
+      req.user = user
       return next();
     });
   });
