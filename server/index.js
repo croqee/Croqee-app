@@ -4,10 +4,36 @@ const bodyParser = require("body-parser");
 const app = express();
 const logger = require("morgan");
 const zerorpc = require("zerorpc");
+const passport = require("passport");
+const config = require('./config');
 
-var node_client = new zerorpc.Client();
-node_client.connect("tcp://server_python:9699");
+// var node_client = new zerorpc.Client();
+// node_client.connect("tcp://server_python:9699");
  
+
+
+require('./models').connect(config.dbUri);
+
+// tell the app to parse HTTP body messages
+app.use(bodyParser.urlencoded({ extended: false }));
+// pass the passport middleware
+app.use(passport.initialize());
+
+// load passport strategies
+const localSignupStrategy = require('./passport/local-signup');
+const localLoginStrategy = require('./passport/local-login');
+passport.use('local-signup', localSignupStrategy);
+passport.use('local-login', localLoginStrategy);
+
+// pass the authenticaion checker middleware
+const authCheckMiddleware = require('./middleware/auth-check');
+app.use('/api', authCheckMiddleware);
+
+// routes
+const authRoutes = require('./routes/auth');
+const apiRoutes = require('./routes/api');
+app.use('/auth', authRoutes);
+app.use('/api', apiRoutes);
 
 
 

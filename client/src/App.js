@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import CanvasPage from './components/canvas/CanvasPage';
-import LoginPage from "./components/login/LoginPage"
-import SignUpPage from "./components/signup/SignUpPage"
+import CanvasPage from './components/pages/canvas/CanvasPage';
+import LoginPage from "./components/pages/login/LoginPage"
+import SignUpPage from "./components/pages/signup/SignUpPage"
+import LogoutFunction from "./components/child/LogoutFunction"
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
 import Auth from './modules/Auth';
@@ -53,6 +54,7 @@ class App extends Component {
 	};
 
 	componentDidMount() {
+
 		axios.post('/').then((response) => {
 			console.log(response);
 			const { greet, note, messageFromPython } = response.data;
@@ -67,25 +69,33 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
+
 				<Router>
 					<div>
 						<ul>
 							<li>
 								<Link to="/">Home</Link>
 							</li>
-							<li>
+							 <li>
 								<Link to="/signup">Sign up</Link>
 							</li>
 							<li>
 								<Link to="/login">Login</Link>
 							</li>
+							<li>
+							<Link to="/LogOut">LogOut</Link>
+							</li>
 						</ul>
 						<h2>{this.state.greet}</h2>
 						<h2>{this.state.messageFromPython}</h2>
 						<p>{this.state.note}</p>
+						<img src="./model.jpg" className="modelImg"/>
+
 						<PrivateRoute exact path="/" component={CanvasPage} />
 						<LoggedOutRoute path="/signup" component={SignUpPage} />
 						<LoggedOutRoute path="/login" component={LoginPage} />
+						<PrivateRoute path="/logout" component={LogoutFunction} />
+
 					</div>
 				</Router>
 			</div>
