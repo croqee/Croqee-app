@@ -7,8 +7,8 @@ const zerorpc = require("zerorpc");
 const passport = require("passport");
 const config = require('./config');
 
-var node_client = new zerorpc.Client();
-node_client.connect("tcp://server_python:9699");
+// var node_client = new zerorpc.Client();
+// node_client.connect("tcp://server_python:9699");
  
 
 

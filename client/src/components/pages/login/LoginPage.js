@@ -4,6 +4,8 @@ import LoginForm from './LoginForm.js';
 import { Redirect } from 'react-router-dom';
 import config from '../../../modules/config';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { setUser } from '../../../js/actions';
 
 class LoginPage extends React.Component {
 	/**
@@ -56,11 +58,12 @@ class LoginPage extends React.Component {
 		axios
 			.post('/auth/login', body, UnAthorizedHeader)
 			.then((response) => {
-				console.log('trigggereed');
+				const {token,user} = response.data;
+				this.props.setUser(user);
 				this.setState({
 					errors: {}
 				});
-				Auth.authenticateUser(response.data.token);
+				Auth.authenticateUser(token);
 				return this.props.history.push('/');
 			})
 			.catch((error) => {
@@ -106,8 +109,11 @@ class LoginPage extends React.Component {
 	}
 }
 
-// LoginPage.contextTypes = {
-//   router: PropTypes.object.isRequired
-// };
 
-export default LoginPage;
+  const mapDispatchToProps = dispatch => {
+	return {
+		setUser: (user) => dispatch(setUser(user))
+	};
+  }
+export default connect(null , mapDispatchToProps)(LoginPage);
+
