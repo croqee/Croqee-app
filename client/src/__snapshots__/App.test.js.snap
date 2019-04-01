@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CanvasPage matches snapshot 1`] = `
+initialize {
+  "0": Object {
+    "attribs": Object {
+      "class": "canvas",
+      "style": "padding:10px;margin:auto;width:800px",
+    },
+    "children": Array [
+      Object {
+        "attribs": Object {
+          "class": "canvas__title",
+        },
+        "children": Array [
+          Object {
+            "data": "Draw something",
+            "next": null,
+            "parent": [Circular],
+            "prev": null,
+            "type": "text",
+          },
+        ],
+        "name": "h4",
+        "namespace": "http://www.w3.org/1999/xhtml",
+        "next": Object {
+          "attribs": Object {
+            "class": "canvas__canvas",
+            "height": "600px",
+            "style": "border:1px solid #333;margin:20px 0px;cursor:crosshair",
+            "width": "800px",
+          },
+          "children": Array [],
+          "name": "canvas",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "next": null,
+          "parent": [Circular],
+          "prev": [Circular],
+          "type": "tag",
+          "x-attribsNamespace": Object {
+            "class": undefined,
+            "height": undefined,
+            "style": undefined,
+            "width": undefined,
+          },
+          "x-attribsPrefix": Object {
+            "class": undefined,
+            "height": undefined,
+            "style": undefined,
+            "width": undefined,
+          },
+        },
+        "parent": [Circular],
+        "prev": null,
+        "type": "tag",
+        "x-attribsNamespace": Object {
+          "class": undefined,
+        },
+        "x-attribsPrefix": Object {
+          "class": undefined,
+        },
+      },
+      Object {
+        "attribs": Object {
+          "class": "canvas__canvas",
+          "height": "600px",
+          "style": "border:1px solid #333;margin:20px 0px;cursor:crosshair",
+          "width": "800px",
+        },
+        "children": Array [],
+        "name": "canvas",
+        "namespace": "http://www.w3.org/1999/xhtml",
+        "next": null,
+        "parent": [Circular],
+        "prev": Object {
+          "attribs": Object {
+            "class": "canvas__title",
+          },
+          "children": Array [
+            Object {
+              "data": "Draw something",
+              "next": null,
+              "parent": [Circular],
+              "prev": null,
+              "type": "text",
+            },
+          ],
+          "name": "h4",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "next": [Circular],
+          "parent": [Circular],
+          "prev": null,
+          "type": "tag",
+          "x-attribsNamespace": Object {
+            "class": undefined,
+          },
+          "x-attribsPrefix": Object {
+            "class": undefined,
+          },
+        },
+        "type": "tag",
+        "x-attribsNamespace": Object {
+          "class": undefined,
+          "height": undefined,
+          "style": undefined,
+          "width": undefined,
+        },
+        "x-attribsPrefix": Object {
+          "class": undefined,
+          "height": undefined,
+          "style": undefined,
+          "width": undefined,
+        },
+      },
+    ],
+    "name": "div",
+    "namespace": "http://www.w3.org/1999/xhtml",
+    "next": null,
+    "parent": null,
+    "prev": null,
+    "root": Object {
+      "attribs": Object {},
+      "children": Array [
+        [Circular],
+      ],
+      "name": "root",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "next": null,
+      "parent": null,
+      "prev": null,
+      "type": "root",
+      "x-attribsNamespace": Object {},
+      "x-attribsPrefix": Object {},
+    },
+    "type": "tag",
+    "x-attribsNamespace": Object {
+      "class": undefined,
+      "style": undefined,
+    },
+    "x-attribsPrefix": Object {
+      "class": undefined,
+      "style": undefined,
+    },
+  },
+  "_root": [Circular],
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "normalizeWhitespace": false,
+    "withDomLvl1": true,
+    "xml": false,
+  },
+}
+`;
