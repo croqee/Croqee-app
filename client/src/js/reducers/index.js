@@ -1,4 +1,4 @@
-import { GET_USER_ASYNC , SET_USER} from '../constants/action-types';
+import { GET_USER_ASYNC , SET_USER} from '../actions/action-types';
 const initialState = {
 	jalil: true,
 	user: {}
