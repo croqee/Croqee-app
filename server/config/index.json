@@ -1,0 +1,4 @@
+  {
+    "dbUri": "mongodb://localhost/croqee_app",
+    "jwtSecret": "a secret phrase!!"
+  }

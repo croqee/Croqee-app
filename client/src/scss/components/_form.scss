@@ -1,0 +1,27 @@
+.auth_input{
+    width: 231px;
+    height: 30px;
+    margin: 10px;
+    border: 1px solid navy;
+    padding: 5px;
+    font-size: 16px;
+}
+.auth_button{
+    margin: 16px;
+    width: 243px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    background-color: #000061;
+    color: white;
+    font-size: 18px;
+}
+.auth_form{
+    label{
+        display: block;
+    }
+    .auth_form_error{
+        color:rgb(177, 10, 10);
+    }
+}

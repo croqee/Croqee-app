@@ -138,8 +138,10 @@ class CanvasPage extends React.Component {
     // var canvas = this.refs.canvas.getContext('2d');
     setInterval(()=>{
       var canvas = document.getElementById('canvas__drawing');
+      console.log(canvas)
+
+      if(canvas){
       var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
-      console.log(dataURL)
       axios.post('/send_drawing',{dataURL:dataURL}).then(response=>{
         // console.log(response);
         const{score}= response.data;
@@ -149,7 +151,7 @@ class CanvasPage extends React.Component {
         this.reset();
         this.startTimer();
       })
-
+    }
     },this.state.givenTime * 1000)
   }
 
