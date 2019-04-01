@@ -5,7 +5,7 @@ server/node_modules
 client/node_modules
 client/.pnp
 .pnp.js
-
+npm-debug.log 
 # testing
 client/coverage
 
