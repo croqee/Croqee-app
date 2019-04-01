@@ -1,16 +1,17 @@
-import { GET_USER_ASYNC } from '../constants/action-types';
+import { GET_USER_ASYNC , SET_USER} from '../constants/action-types';
 const initialState = {
-    jalil:true,
+	jalil: true,
 	user: {}
 };
 
 function rootReducer(state = initialState, action) {
 	switch (action.type) {
+		case SET_USER:
+			//First method to create the new state with existing parameter + changed ones
+			return Object.assign({}, state, {
+				user: (state.user = action.user)
+			});
 		case GET_USER_ASYNC:
-			// //First method to create the new state with existing parameter + changed ones
-			// return Object.assign({}, state, {
-			// 	user: (state.user = action.user)
-			// });
 			return {
 				//Second method
 				...state,
