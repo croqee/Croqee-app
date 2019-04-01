@@ -14,8 +14,6 @@ let croqeeBodyParser = (body) =>{
 
 
 
-
-
 /**
  * Validate the sign up form
  *
@@ -88,6 +86,7 @@ function validateLoginForm(payload) {
 }
 
 router.post('/signup', (req, res, next) => {
+  
   req.body = croqeeBodyParser(req.body)
   const validationResult = validateSignupForm(req.body);
   if (!validationResult.success) {
@@ -127,8 +126,9 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login',(req, res, next) => {
-
 req.body = croqeeBodyParser(req.body)
+console.log(req.body )
+
 const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
