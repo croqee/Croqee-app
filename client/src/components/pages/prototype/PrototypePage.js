@@ -1,9 +1,10 @@
 import React from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
 import Canvas from '../../child/canvas/CanvasPage';
 import CanvasPage from '../../child/canvas/CanvasPage';
-import axios from 'axios';
 import config from  '../../../modules/config';
-
+import { getUser } from '../../../js/actions';
 
 class PrototypePage extends React.Component {
 	constructor(props) {
@@ -11,7 +12,6 @@ class PrototypePage extends React.Component {
 		this.state = {
 			greet: '',
 			note: '',
-			user: {}
 		};
 	}
 	componentDidMount() {
@@ -25,22 +25,15 @@ class PrototypePage extends React.Component {
 			});
 		});
 
-  
-		const AuthorizationHeader = config.AuthorizationHeader();
-		axios.get('/api/getuser',AuthorizationHeader).then((response) => {
-			console.log(response);
-			const { user } = response.data;
-			this.setState({
-			user
-			});
-		});
+		this.props.getUser();
 
 
 	}
 	render() {
+		let user = this.props.user;
 		return (
 			<React.Fragment>
-				<h2>Hello {this.state.user && this.state.user.name}</h2>
+				<h2>Hello {user && user.name}</h2>
 				<h2>{this.state.greet}</h2>
 				<h2>{this.state.messageFromPython}</h2>
 				<p>{this.state.note}</p>
@@ -50,4 +43,13 @@ class PrototypePage extends React.Component {
 		);
 	}
 }
-export default PrototypePage;
+const mapStateToProps = state => {
+	const {events, user} = state;
+	return { events , user};
+  };
+  const mapDispatchToProps = dispatch => {
+	return {
+	  getUser: () => dispatch(getUser())
+	};
+  }
+export default  connect(mapStateToProps , mapDispatchToProps)(PrototypePage);
