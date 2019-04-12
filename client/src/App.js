@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import PrototypePage from './components/pages/prototype/PrototypePage';
-import LoginPage from "./components/pages/login/LoginPage"
-import SignUpPage from "./components/pages/signup/SignUpPage"
-import LogoutFunction from "./components/child/logout/LogoutFunction"
+import LoginPage from './components/pages/login/LoginPage';
+import SignUpPage from './components/pages/signup/SignUpPage';
+import LogoutFunction from './components/child/logout/LogoutFunction';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
 import Auth from './modules/Auth';
+import NavBar from './components/child/navbar/NavBar';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route
@@ -47,41 +48,20 @@ const GlobalRoute = ({ component: Component, ...rest }) => (
 );
 
 class App extends Component {
-	state = {
-	};
+	state = {};
 
-	componentDidMount() {
-
-
-	}
+	componentDidMount() {}
 
 	render() {
 		return (
 			<div className="App">
-
 				<Router>
+					<NavBar />
 					<div>
-						<ul>
-							<li>
-								<Link to="/">Home</Link>
-							</li>
-							 <li>
-								<Link to="/signup">Sign up</Link>
-							</li>
-							<li>
-								<Link to="/login">Login</Link>
-							</li>
-							<li>
-							<Link to="/LogOut">LogOut</Link>
-							</li>
-						</ul>
-					
-
-						<PrivateRoute exact path="/" component={PrototypePage} />
+						<GlobalRoute exact path="/" component={PrototypePage} />
 						<LoggedOutRoute path="/signup" component={SignUpPage} />
 						<LoggedOutRoute path="/login" component={LoginPage} />
 						<PrivateRoute path="/logout" component={LogoutFunction} />
-
 					</div>
 				</Router>
 			</div>
