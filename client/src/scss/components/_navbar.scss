@@ -1,8 +1,13 @@
 
+#logo{
+  width: 200px;
+  position: relative;
+  bottom: 4px;
+}
 .nav {
   height: 50px;
   width: 100%;
-  background-color: #4d4d4d;
+  background-color: #fff;
   position: relative;
 }
 
@@ -13,8 +18,11 @@
 .nav > .nav-header > .nav-title {
   display: inline-block;
   font-size: 22px;
-  color: #fff;
+  color: #000000;
   padding: 10px 10px 10px 10px;
+  float: left;
+  position: relative;
+  left: 150px;
 }
 
 .nav > .nav-btn {
@@ -25,24 +33,33 @@
   display: inline;
   float: right;
   font-size: 18px;
+  position: relative;
+  right: 60px;
 }
 
 .nav > .nav-links > a {
   display: inline-block;
   padding: 13px 10px 13px 10px;
   text-decoration: none;
-  color: #efefef;
+  color: #000000;
+  margin-right: 13px;
 }
 
 .nav > .nav-links > a:hover {
-  background-color: rgba(0, 0, 0, 0.3);
+  // background-color: rgba(0, 0, 0, 0.3);
 }
 
 .nav > #nav-check {
   display: none;
 }
 
-@media (max-width:600px) {
+@media (max-width:750px) {
+
+.nav > .nav-links > a {
+
+  color: #ffffff;
+
+}
   .nav > .nav-btn {
     display: inline-block;
     position: absolute;
@@ -56,13 +73,14 @@
     padding: 13px;
   }
   .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    // background-color: rgba(0, 0, 0, 0.3);
   }
   .nav > .nav-btn > label > span {
     display: block;
     width: 25px;
     height: 10px;
-    border-top: 2px solid #eee;
+    border-top: 2px solid #000;
   }
   .nav > .nav-links {
     position: absolute;
@@ -83,7 +101,8 @@
     height: 0px;
   }
   .nav > #nav-check:checked ~ .nav-links {
-    height: calc(100vh - 50px);
-    overflow-y: auto;
+    height: auto;
+    overflow-y: inherit;
+    z-index: 1000;
   }
 }

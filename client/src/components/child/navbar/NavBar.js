@@ -1,17 +1,17 @@
 import React from 'react';
 import Auth from '../../../modules/Auth';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
-
+import logo from "../../../img/logo.png"
 class NavBar extends React.Component {
 	componentDidMount() {}
 
 	render() {
 		return (
-			<div>
+		
 				<div class="nav">
 					<input type="checkbox" id="nav-check" />
 					<div class="nav-header">
-						<div class="nav-title">Croqee</div>
+						<div class="nav-title"><img id ="logo" src={logo}/></div>
 					</div>
 					<div class="nav-btn">
 						<label for="nav-check">
@@ -36,7 +36,7 @@ class NavBar extends React.Component {
 						</Link>
 					</div>
 				</div>
-			</div>
+	
 		);
 	}
 }

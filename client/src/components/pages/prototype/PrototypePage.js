@@ -33,10 +33,7 @@ class PrototypePage extends React.Component {
 		let user = this.props.user;
 		return (
 			<React.Fragment>
-				<h2>Hello {user && user.name}</h2>
-				<h2>{this.state.greet}</h2>
-				<h2>{this.state.messageFromPython}</h2>
-				<p>{this.state.note}</p>
+				<h2> {user.name && "Hello "+ user.name}</h2>
 				<img src="./model.jpg" className="modelImg" />
 				<CanvasPage />
 			</React.Fragment>
