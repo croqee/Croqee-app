@@ -37,7 +37,7 @@ class PrototypePage extends React.Component {
 				<h2> {user.name && "Hello "+ user.name}</h2>
 				{this.props.showTimer && <Timer/>}
 
-				<img src="./model.jpg" className="modelImg" />
+				<img src="./shapes_1.png" className="modelImg" />
 				<CanvasPage />
 			</React.Fragment>
 		);
