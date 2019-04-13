@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "axios": "^0.18.0",
+    "bourbon": "^5.1.0",
+    "compass-mixins": "^0.12.10",
     "node-sass": "^4.11.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
@@ -17,7 +19,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-saga": "^1.0.2",
     "redux-thunk": "^2.3.0",
-    "sass-loader": "^7.1.0"
+    "sass-loader": "^7.1.0",
+    "sass-npm": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

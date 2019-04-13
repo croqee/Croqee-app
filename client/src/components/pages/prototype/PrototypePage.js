@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import Canvas from '../../child/canvas/CanvasPage';
 import CanvasPage from '../../child/canvas/CanvasPage';
 import config from  '../../../modules/config';
-import { getUser } from '../../../js/actions';
+import { getUser,setTimer } from '../../../js/actions';
+import Timer from '../../child/timer/Timer';
 
 class PrototypePage extends React.Component {
 	constructor(props) {
@@ -34,6 +35,8 @@ class PrototypePage extends React.Component {
 		return (
 			<React.Fragment>
 				<h2> {user.name && "Hello "+ user.name}</h2>
+				{this.props.showTimer && <Timer/>}
+
 				<img src="./model.jpg" className="modelImg" />
 				<CanvasPage />
 			</React.Fragment>
@@ -41,12 +44,13 @@ class PrototypePage extends React.Component {
 	}
 }
 const mapStateToProps = state => {
-	const {events, user} = state;
-	return { events , user};
+	const {events, user, showTimer} = state;
+	return { events , user,showTimer};
   };
   const mapDispatchToProps = dispatch => {
 	return {
-	  getUser: () => dispatch(getUser())
+		getUser: () => dispatch(getUser()),
+
 	};
   }
 export default  connect(mapStateToProps , mapDispatchToProps)(PrototypePage);
