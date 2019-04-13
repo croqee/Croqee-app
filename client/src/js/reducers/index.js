@@ -3,7 +3,7 @@ const initialState = {
 	jalil: true,
 	user: {},
 	isAuthenticated:false,
-	timer:10,
+	timer:20,
 	showTimer:false
 };
 

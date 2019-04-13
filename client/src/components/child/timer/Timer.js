@@ -12,7 +12,7 @@ class Timer extends Component {
 	}
 	componentDidMount() {
         var loader = this.refs.loader
-        , α = 0
+        , α = 360
         , π = Math.PI
         , t = this.props.timer * 2.7;
     // let setTimer = this.props.setTimer;
@@ -22,8 +22,8 @@ class Timer extends Component {
        let setTimerColor = this.setTimerColor;
       (function draw() {
 
-        α++;
-        α %= 360;
+        α--;
+        // α %= 360;
         if(α === 0){
             done = true;
             var end = new Date() - start
@@ -31,9 +31,9 @@ class Timer extends Component {
            
             // setTimer(false);
         }
-        if(α > 120 && α < 240){
+        if(α < 240 && α > 120){
             setTimerColor("timer_orange")
-        }else if(α > 240){
+        }else if(α < 120){
             setTimerColor("timer_red")
 
         }
