@@ -1,7 +1,8 @@
-import { GET_USER_ASYNC , SET_USER} from '../actions/action-types';
+import { GET_USER_ASYNC , SET_USER, AUTHENTICATE} from '../actions/action-types';
 const initialState = {
 	jalil: true,
-	user: {}
+	user: {},
+	isAuthenticated:false
 };
 
 function rootReducer(state = initialState, action) {
@@ -17,6 +18,11 @@ function rootReducer(state = initialState, action) {
 				...state,
 				user: (state.user = action.user)
 			};
+		case AUTHENTICATE:
+			return {
+				...state,
+				isAuthenticated: action.isAuthenticated
+			}
 		default:
 			return state;
 	}

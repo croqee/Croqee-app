@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../../modules/config';
-import { SET_USER, GET_USER_ASYNC } from './action-types';
+import { SET_USER, GET_USER_ASYNC, AUTHENTICATE } from './action-types';
 
 //Get User
 
@@ -12,6 +12,7 @@ export function getUser() {
 		let AuthorizationHeader = config.AuthorizationHeader();
 
 		axios.get('/api/getuser', AuthorizationHeader).then((response) => {
+			dispatch(authenticate(true))
 			let user = response.data;
 			dispatch(getUserAsync(user));
 		});
@@ -21,4 +22,7 @@ export function getUser() {
 //Set User
 export function setUser(payload) {
 	return { type: SET_USER, user: payload };
+}
+export function authenticate(payload){
+	return {type: AUTHENTICATE , isAuthenticated:payload}
 }
