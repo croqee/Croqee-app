@@ -1,9 +1,7 @@
 import React from 'react';
-// import Canvas from './Canvas';
 import axios from 'axios';
-import Timer from '../timer/Timer';
 import {connect} from "react-redux";
-import { setTimer } from '../../../js/actions';
+import { setTimer,invokeScore } from '../../../js/actions';
 
 const styles = {
   canvas: {
@@ -12,19 +10,20 @@ const styles = {
     // position: 'absolute',
     // left: '6px',
     // opacity: .8
+    // marginRight:'50px'
   },
 
   maindiv: {
     padding: '10px',
-    margin: 'auto',
+    // margin: 'auto 60px auto auto',
     width: '800px',
-    marginRight:'10px'
+    // marginRight:'10px'
 
   },
 
   button: {
     border: '0px',
-    margin: '1px',
+    // margin: '1px',
     height: '50px',
     minWidth: '75px',
   },
@@ -44,20 +43,14 @@ class CanvasPage extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      score:"",
-      givenTime:15,
-      countDown:'',
-      invokeTimer:false
     }
   }
 
   componentDidMount() {
-    this.setState({
-      countDown:this.state.givenTime
-    },()=>{
+
       this.reset();
       this.sendDrawing(); 
-    })
+    
   
    
   }
@@ -128,9 +121,6 @@ class CanvasPage extends React.Component {
   }
 
   sendDrawing(){
-    this.setState({
-      invokeTimer:true
-    })
     // var canvas = this.refs.canvas.getContext('2d');
     this.props.setTimer(true);
     setInterval(()=>{
@@ -141,27 +131,19 @@ class CanvasPage extends React.Component {
       var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
       axios.post('/send_drawing',{dataURL:dataURL}).then(response=>{
         // console.log(response);
-        const{score}= response.data;
+        let {score} = response.data;
+        score = score || 0;
+      
         this.props.setTimer(false);
 
         this.props.setTimer(true);
-
-        this.setState({
-          score:score
-        })
+        this.props.invokeScore(score);
         this.reset();
-        this.setState({
-          invokeTimer:true
-        })
       })
     }
     },this.props.timer * 1000)
   }
-  clearTimer = () =>{
-    this.setState({
-      invokeTimer:false
-    })
-  }
+
 
   render() {
     return (
@@ -170,7 +152,7 @@ class CanvasPage extends React.Component {
             */
            <>
 
-           <span id="userScore">Score: {this.state.score && this.state.score+"%"}</span>
+           <span id="userScore" className={this.props.scoreClass}>Score: {this.props.currentScore && this.props.currentScore}</span>
            
       <div className="canvas" style={styles.maindiv}>
         <canvas
@@ -192,13 +174,15 @@ class CanvasPage extends React.Component {
 
 
 const mapStateToProps = state => {
-  const {timer,showTimer} = state;
-  return { timer, showTimer};
+  const {timer,showTimer, scoreClass, currentScore} = state;
+  return { timer, showTimer,scoreClass,currentScore};
 
 };
 const mapDispatchToProps = dispatch => {
 return {
-  setTimer: (payload) => dispatch(setTimer(payload))
+  setTimer: (payload) => dispatch(setTimer(payload)),
+  invokeScore: (payload) => dispatch(invokeScore(payload))
+
 };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(CanvasPage);

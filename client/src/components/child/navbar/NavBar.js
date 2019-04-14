@@ -26,8 +26,12 @@ class NavBar extends React.Component {
                     {this.props.isAuthenticated ?
 					<div class="nav-links">
 						<Link className="nav-link" to="/">
-							Home
+							Home 
 						</Link>
+						<Link className="nav-link" to="/">
+							Hello {this.props.user.name}
+						</Link>
+						<span className="nav-links_seperator"/>
 						<Link className="nav-link" to="/LogOut">
 							LogOut
 						</Link>
@@ -37,6 +41,8 @@ class NavBar extends React.Component {
 					<Link className="nav-link" to="/">
 						Home
 					</Link>
+					<span className="nav-links_seperator"/>
+
 					<Link className="nav-link" to="/signup">
 						Sign up
 					</Link>
@@ -53,8 +59,8 @@ class NavBar extends React.Component {
 	}
 }
 const mapStateToProps = state => {
-	const {isAuthenticated} = state;
-	return {isAuthenticated};
+	const {isAuthenticated,user} = state;
+	return {isAuthenticated,user};
   };
   const mapDispatchToProps = dispatch => {
 

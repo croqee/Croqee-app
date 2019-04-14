@@ -1,10 +1,12 @@
-import { GET_USER_ASYNC , SET_USER, AUTHENTICATE,SET_TIMER} from '../actions/action-types';
+import { GET_USER_ASYNC , SET_USER, AUTHENTICATE,SET_TIMER, SHOW_SCORE, HIDE_SCORE} from '../actions/action-types';
 const initialState = {
 	jalil: true,
 	user: {},
 	isAuthenticated:false,
 	timer:20,
-	showTimer:false
+	showTimer:false,
+	scoreClass:"",
+	currentScore:""
 };
 
 function rootReducer(state = initialState, action) {
@@ -29,6 +31,17 @@ function rootReducer(state = initialState, action) {
 			return{
 				...state,
 				showTimer: action.showTimer
+			}
+		case SHOW_SCORE:
+			return{
+				...state,
+				scoreClass:"userScore_show",
+				currentScore: action.score
+			}
+		case HIDE_SCORE:
+			return{
+				...state,
+				scoreClass:"",
 			}
 		default:
 			return state;

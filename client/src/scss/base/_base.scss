@@ -15,23 +15,38 @@ a:focus {
     float: left;
     position: relative;
     top:10px;
-    left:20px;
+    left:60px;
 }
-
+#drawhere{
+    width: 193px;
+    height: 106px;
+    background-image: url('/drawhere.png');
+    display: block;
+    background-size: 193px;
+    background-repeat: no-repeat;
+    /* float: right; */
+    position: absolute;
+    right: 162px;
+    top: 208px;
+}
 #userScore{
     font-size: 40px;
     background: #100005;
     height: 40px;
     display: block;
     position: fixed;
-    right: 139px;
+    right: -561px;
     color: white;
-    top: 113px;
+    top: 115px;
     width: 200px;
     text-align: left;
     padding: 10px;
     padding-left: 30px;
-
+    -webkit-transition: right 2s;
+    transition: right 2s;
+}
+.userScore_show{
+    right: 177px !important;
 }
 #countDown{
     font-size: 40px;

@@ -1,0 +1,26 @@
+#home_bottom {
+	width: 100%;
+	height: 600px;
+	display: block;
+	clear: both;
+    background-color: #003d02;
+    position: relative;
+    top: 60px;
+}
+#home_bottom_triangle{
+    position: relative;
+    bottom: 2px;
+
+}
+#home_bottom_button{
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 80px;
+    width: 330px;
+    height: 60px;
+    font-size: 23px;
+    color: white;
+    background-color: #980004;
+    border: navajowhite;
+}

@@ -36,9 +36,14 @@ class PrototypePage extends React.Component {
 			<React.Fragment>
 				<h2> {user.name && "Hello "+ user.name}</h2>
 				{this.props.showTimer && <Timer/>}
-
+				<span id="drawhere"/>
 				<img src="./shapes_1.png" className="modelImg" />
 				<CanvasPage />
+
+				<div id="home_bottom">
+				<img id="home_bottom_triangle" src="/triangle.png"/>
+				<button id="home_bottom_button">Challenge with others</button>
+				</div>
 			</React.Fragment>
 		);
 	}
