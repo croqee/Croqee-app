@@ -34,7 +34,6 @@ class PrototypePage extends React.Component {
 		let user = this.props.user;
 		return (
 			<React.Fragment>
-				<h2> {user.name && "Hello "+ user.name}</h2>
 				{this.props.showTimer && <Timer/>}
 				<span id="drawhere"/>
 				<img src="./shapes_1.png" className="modelImg" />
