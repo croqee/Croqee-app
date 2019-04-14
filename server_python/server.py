@@ -29,15 +29,15 @@ class ImageAnalyser(object):
     global height
     global width
     height, width = img.shape
-    print(height)
-    print(width)
-    print("____")
+    # print(height)
+    # print(width)
+    # print("____")
     #This time we would add the corners to a white blank image
     blank = np.zeros([height,width,3],dtype=np.uint8)
     blank.fill(255)
     
     global corners
-    corners = cv2.goodFeaturesToTrack(img,525,0.01,10)
+    corners = cv2.goodFeaturesToTrack(img,250,0.01,10)
     corners = np.int0(corners)
 
     for i in corners:
@@ -58,9 +58,9 @@ class ImageAnalyser(object):
         img2 = cv2.resize(img2,(800,600))
 
         height2, width2, channels = img2.shape
-        print(height2)
-        print(width2)
-        print("+++++")
+        # print(height2)
+        # print(width2)
+        # print("+++++")
      
     
         try:
@@ -68,10 +68,11 @@ class ImageAnalyser(object):
         except:
             aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
-        corners2 = cv2.goodFeaturesToTrack(aligned,525,0.01,10)
-        corners2 = np.int0(corners2)
+        corners2 = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
+
     
 #    for TEST
+
         # blank = np.zeros([height,width,3],dtype=np.uint8)
         # blank.fill(255)
         # for i in corners2:
@@ -80,7 +81,7 @@ class ImageAnalyser(object):
 
         # blank2 = np.zeros([height,width,3],dtype=np.uint8)
         # blank2.fill(255)
-        # print(corners)
+        # # print(corners)
         # for i in corners:
         #     x,y = i.ravel()
         #     cv2.circle(blank2,(x,y),3,255,-1)

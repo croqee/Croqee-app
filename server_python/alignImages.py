@@ -7,16 +7,13 @@ from matplotlib import pyplot as plt
 from scaleInnerContents import scaleInnerContents
 
 def alignImages(img, img2):
-   
     img_final = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-   #  img = img_final
-    gray1 = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-    gray2 = cv.cvtColor(img2,cv.COLOR_BGR2GRAY)
+    gray1 = img_final
+    gray2 = img2
     img = cv.resize(gray1,(80,60))
     img2 = cv.resize(gray2,(80,60))
-    
     rows,cols = img.shape
-    corners2 = cv.goodFeaturesToTrack(img2,225,0.01,10)
+    corners2 = cv.goodFeaturesToTrack(img2,100,0.01,10)
     global n2
     n2 = np.squeeze(np.asarray(corners2))
 
@@ -40,7 +37,7 @@ def alignImages(img, img2):
                 scale = 0.7 + float(( k * 0.1 ))
                 dst = scaleInnerContents(dst,scale)
 
-                corners = cv.goodFeaturesToTrack(dst,225,0.01,10)
+                corners = cv.goodFeaturesToTrack(dst,100,0.01,10)
                 n1 = np.squeeze(np.asarray(corners))
                 try:
                    distance = HausdorffDist(n1,n2)
