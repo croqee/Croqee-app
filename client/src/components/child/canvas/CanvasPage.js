@@ -155,8 +155,9 @@ class CanvasPage extends React.Component {
            <>
 
            <span id="userScore" className={this.props.scoreClass}>Score: {this.props.currentScore && this.props.currentScore}</span>
-           {this.props.imageProcessing && <Loader/>}
       <div className="canvas " style={styles.maindiv}>
+      {this.props.imageProcessing && <Loader/>}
+
         <canvas
           id="canvas__drawing"
           className="canvas__canvas "
