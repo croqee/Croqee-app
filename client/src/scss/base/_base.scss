@@ -66,34 +66,38 @@ a:focus {
 
 
 @media only screen and (max-width: 1750px) {
+
     .draw_and_model  {
       width: 700px!important;
     }
   }
-  @media only screen and (max-width: 1600px) {
+  @media only screen and (max-width: 1650px) {
     .draw_and_model  {
       width: 650px!important;
     }
   }
 
-  @media only screen and (max-width: 1480px) {
-    .draw_and_model  {
-      width: 600px!important;
+  @media only screen and (max-width: 1600px) {
+    .canvas{
+        margin-right: 0!important;
     }
-  }
-  @media only screen and (max-width: 1360px) {
     .draw_and_model  {
-      width: 550px!important;
+        position: inherit;
+        margin-top: 10px;
     }
   }
 
-@media only screen and (max-width: 1240px) {
+
+@media only screen and (max-width: 1490px) {
+
   .draw_and_model  {
-    width: 500px!important;
+    position: inherit;
+    width: 600px!important;
+
   }
 }
-@media only screen and (max-width: 1120px) {
+@media only screen and (max-width: 1440px) {
     .draw_and_model  {
-      width: 450px!important;
+      width: 550px!important;
     }
   }
