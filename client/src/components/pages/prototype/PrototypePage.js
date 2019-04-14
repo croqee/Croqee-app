@@ -41,7 +41,7 @@ class PrototypePage extends React.Component {
 
 				<div id="home_bottom">
 				<img id="home_bottom_triangle" src="/triangle.png"/>
-				<button id="home_bottom_button">Challenge with others</button>
+				<button id="home_bottom_button">Compete with others</button>
 				</div>
 			</React.Fragment>
 		);
