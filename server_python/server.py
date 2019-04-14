@@ -23,7 +23,7 @@ class ImageAnalyser(object):
 
 
     global mainImg
-    img = cv2.imread('src/models/objects_2/shapes_1.png',0)
+    img = cv2.imread('src/models/objects_2/shapes_1_e.png',0)
     img = cv2.resize(img,(800,600))
     mainImg = img
     global height
@@ -71,30 +71,30 @@ class ImageAnalyser(object):
         corners2 = cv2.goodFeaturesToTrack(aligned,525,0.01,10)
         corners2 = np.int0(corners2)
     
-# #    for TEST
-#         blank = np.zeros([height,width,3],dtype=np.uint8)
-#         blank.fill(255)
-#         for i in corners2:
-#             x,y = i.ravel()
-#             cv2.circle(blank,(x,y),3,255,-1)
+#    for TEST
+        # blank = np.zeros([height,width,3],dtype=np.uint8)
+        # blank.fill(255)
+        # for i in corners2:
+        #     x,y = i.ravel()
+        #     cv2.circle(blank,(x,y),3,255,-1)
 
-#         blank2 = np.zeros([height,width,3],dtype=np.uint8)
-#         blank2.fill(255)
-#         print(corners)
-#         for i in corners:
-#             x,y = i.ravel()
-#             cv2.circle(blank2,(x,y),3,255,-1)
+        # blank2 = np.zeros([height,width,3],dtype=np.uint8)
+        # blank2.fill(255)
+        # print(corners)
+        # for i in corners:
+        #     x,y = i.ravel()
+        #     cv2.circle(blank2,(x,y),3,255,-1)
 
 
       
-#         plt.subplot(121),plt.imshow(blank2,cmap = 'gray')
-#         plt.title('Original image'), plt.xticks([]), plt.yticks([])
-#         plt.subplot(122)
-#         plt.title('drawn'), plt.xticks([]), plt.yticks([])
-#         plt.imshow(blank,cmap = 'gray'),plt.show()
+        # plt.subplot(121),plt.imshow(blank2,cmap = 'gray')
+        # plt.title('Original image'), plt.xticks([]), plt.yticks([])
+        # plt.subplot(122)
+        # plt.title('drawn'), plt.xticks([]), plt.yticks([])
+        # plt.imshow(blank,cmap = 'gray'),plt.show()
 
 
-#     # END - for TEST
+    # END - for TEST
 
 
 
