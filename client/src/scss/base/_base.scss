@@ -1,103 +1,100 @@
 body {
-    // padding-top: 75px; // background: url(../img/asset-3.png) no-repeat 100%;
-    // background-size: 100%;
-    background-color: $background-White;
-    margin: 0;
+	// padding-top: 75px; // background: url(../img/asset-3.png) no-repeat 100%;
+	// background-size: 100%;
+	background-color: $background-White;
+	margin: 0;
 }
 
 a:hover,
 a:focus {
-    color: none;
-    text-decoration: none;
+	color: none;
+	text-decoration: none;
 }
 
-.modelImg{
-    float: left;
-    position: relative;
-    top:10px;
-    left:60px;
+.modelImg {
+	float: left;
+	position: relative;
+	top: 10px;
+	left: 60px;
 }
-#drawhere{
-    width: 193px;
-    height: 106px;
-    background-image: url('/drawhere.png');
-    display: block;
-    background-size: 193px;
-    background-repeat: no-repeat;
-    /* float: right; */
-    position: absolute;
-    right: 162px;
-    top: 161px;
+#drawhere {
+	width: 193px;
+	height: 106px;
+	background-image: url('/drawhere.png');
+	display: block;
+	background-size: 193px;
+	background-repeat: no-repeat;
+	/* float: right; */
+	position: absolute;
+	right: 162px;
+	top: 161px;
 }
-#userScore{
-    font-size: 40px;
-    background: #100005;
-    height: 40px;
-    display: block;
-    position: fixed;
-    right: -561px;
-    color: white;
-    top: 115px;
-    width: 200px;
-    text-align: left;
-    padding: 10px;
-    padding-left: 30px;
-    -webkit-transition: right 1.2s;
-    transition: right 1.2s;
+#userScore {
+	font-size: 40px;
+	background: #100005;
+	height: 40px;
+	display: block;
+	position: fixed;
+	right: -561px;
+	color: white;
+	top: 115px;
+	width: 200px;
+	text-align: left;
+	padding: 10px;
+	padding-left: 30px;
+	-webkit-transition: right 1.2s;
+	transition: right 1.2s;
 }
-.userScore_show{
-    right: 177px !important;
+.userScore_show {
+	right: 177px !important;
 }
-#countDown{
-    font-size: 40px;
-    background: #0523cc;
-    height: 40px;
-    display: block;
-    position: fixed;
-    right: 430px;
-    color: white;
-    top: 113px;
-    width: 70px;
-    text-align: left;
-    padding: 10px;
-    padding-left: 30px;
-
+#countDown {
+	font-size: 40px;
+	background: #0523cc;
+	height: 40px;
+	display: block;
+	position: fixed;
+	right: 430px;
+	color: white;
+	top: 113px;
+	width: 70px;
+	text-align: left;
+	padding: 10px;
+	padding-left: 30px;
 }
-
 
 @media only screen and (max-width: 1750px) {
-
-    .draw_and_model  {
-      width: 700px!important;
-    }
-  }
-  @media only screen and (max-width: 1650px) {
-    .draw_and_model  {
-      width: 650px!important;
-    }
-  }
-
-  @media only screen and (max-width: 1600px) {
-    .canvas{
-        margin-right: 0!important;
-    }
-    .draw_and_model  {
-        position: inherit;
-        margin-top: 10px;
-    }
-  }
-
-
-@media only screen and (max-width: 1490px) {
-
-  .draw_and_model  {
-    position: inherit;
-    width: 600px!important;
-
-  }
+	.canvas {
+		margin-right: 0 !important;
+	}
+	.draw_and_model {
+		position: inherit;
+		margin-top: 10px;
+	}
 }
-@media only screen and (max-width: 1440px) {
-    .draw_and_model  {
-      width: 550px!important;
-    }
-  }
+@media only screen and (max-width: 1650px) {
+	.draw_and_model {
+		width: 700px !important;
+	}
+}
+
+@media only screen and (max-width: 1540px) {
+	.draw_and_model {
+		width: 650px !important;
+	}
+}
+@media only screen and (max-width: 1490px) {
+	.draw_and_model {
+		width: 600px !important;
+	}
+}
+@media only screen and (max-width: 1435px) {
+	.draw_and_model {
+		width: 550px !important;
+	}
+}
+@media only screen and (max-width: 1385px) {
+	.draw_and_model {
+		width: 500px !important;
+	}
+}
