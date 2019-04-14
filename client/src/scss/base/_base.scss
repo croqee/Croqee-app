@@ -63,3 +63,37 @@ a:focus {
     padding-left: 30px;
 
 }
+
+
+@media only screen and (max-width: 1750px) {
+    .draw_and_model  {
+      width: 700px!important;
+    }
+  }
+  @media only screen and (max-width: 1600px) {
+    .draw_and_model  {
+      width: 650px!important;
+    }
+  }
+
+  @media only screen and (max-width: 1480px) {
+    .draw_and_model  {
+      width: 600px!important;
+    }
+  }
+  @media only screen and (max-width: 1360px) {
+    .draw_and_model  {
+      width: 550px!important;
+    }
+  }
+
+@media only screen and (max-width: 1240px) {
+  .draw_and_model  {
+    width: 500px!important;
+  }
+}
+@media only screen and (max-width: 1120px) {
+    .draw_and_model  {
+      width: 450px!important;
+    }
+  }

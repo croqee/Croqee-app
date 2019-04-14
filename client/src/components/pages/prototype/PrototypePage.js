@@ -36,7 +36,7 @@ class PrototypePage extends React.Component {
 			<React.Fragment>
 				{this.props.showTimer && <Timer/>}
 				<span id="drawhere"/>
-				<img src="./shapes_1.png" className="modelImg" />
+				<img src="./shapes_1.png" className="modelImg draw_and_model" />
 				<CanvasPage />
 
 				<div id="home_bottom">
