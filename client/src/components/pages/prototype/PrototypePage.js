@@ -6,6 +6,7 @@ import CanvasPage from '../../child/canvas/CanvasPage';
 import config from  '../../../modules/config';
 import { getUser,setTimer } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
+import EmptyTimer from '../../child/timer/EmptyTimer';
 
 class PrototypePage extends React.Component {
 	constructor(props) {
@@ -34,7 +35,7 @@ class PrototypePage extends React.Component {
 		let user = this.props.user;
 		return (
 			<React.Fragment>
-				{this.props.showTimer && <Timer/>}
+				{this.props.showTimer ? <Timer/>:<EmptyTimer/>}
 				<span id="drawhere"/>
 				<img src="./shapes_1.png" className="modelImg draw_and_model" />
 				<CanvasPage />
