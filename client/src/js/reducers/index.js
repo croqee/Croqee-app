@@ -1,4 +1,4 @@
-import { GET_USER_ASYNC , SET_USER, AUTHENTICATE,SET_TIMER, SHOW_SCORE, HIDE_SCORE} from '../actions/action-types';
+import { GET_USER_ASYNC , SET_USER, AUTHENTICATE,SET_TIMER, SHOW_SCORE, HIDE_SCORE, SET_IMAGE_PROCESSING} from '../actions/action-types';
 const initialState = {
 	jalil: true,
 	user: {},
@@ -6,7 +6,8 @@ const initialState = {
 	timer:20,
 	showTimer:false,
 	scoreClass:"",
-	currentScore:""
+	currentScore:"",
+	imageProcessing:false
 };
 
 function rootReducer(state = initialState, action) {
@@ -42,6 +43,11 @@ function rootReducer(state = initialState, action) {
 			return{
 				...state,
 				scoreClass:"",
+			}
+	    case SET_IMAGE_PROCESSING:
+			return{
+				...state,
+				imageProcessing:action.imageProcessing,
 			}
 		default:
 			return state;

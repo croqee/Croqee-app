@@ -5,9 +5,9 @@ import {
 	GET_USER_ASYNC,
 	AUTHENTICATE,
 	SET_TIMER,
-	INVOKE_SCORE,
 	SHOW_SCORE,
-	HIDE_SCORE
+	HIDE_SCORE,
+	SET_IMAGE_PROCESSING
 } from './action-types';
 
 //Get User
@@ -54,4 +54,10 @@ export function showScore(payload) {
 }
 export function hideScore() {
 	return { type: HIDE_SCORE };
+}
+
+
+//Set Image Processing
+export function setImageProcessing(payload) {
+	return { type: SET_IMAGE_PROCESSING, imageProcessing:payload };
 }

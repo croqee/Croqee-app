@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import {connect} from "react-redux";
-import { setTimer,invokeScore } from '../../../js/actions';
+import { setTimer,invokeScore,setImageProcessing } from '../../../js/actions';
+import Loader from '../loader/Loader';
 
 const styles = {
   canvas: {
@@ -128,6 +129,7 @@ class CanvasPage extends React.Component {
       console.log(canvas)
 
       if(canvas){
+        this.props.setImageProcessing(true);
       var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
       axios.post('/send_drawing',{dataURL:dataURL}).then(response=>{
         // console.log(response);
@@ -135,8 +137,8 @@ class CanvasPage extends React.Component {
         score = score || 0;
       
         this.props.setTimer(false);
-
         this.props.setTimer(true);
+        this.props.setImageProcessing(false);
         this.props.invokeScore(score);
         this.reset();
       })
@@ -153,7 +155,7 @@ class CanvasPage extends React.Component {
            <>
 
            <span id="userScore" className={this.props.scoreClass}>Score: {this.props.currentScore && this.props.currentScore}</span>
-           
+           {this.props.imageProcessing && <Loader/>}
       <div className="canvas" style={styles.maindiv}>
         <canvas
           id="canvas__drawing"
@@ -174,14 +176,15 @@ class CanvasPage extends React.Component {
 
 
 const mapStateToProps = state => {
-  const {timer,showTimer, scoreClass, currentScore} = state;
-  return { timer, showTimer,scoreClass,currentScore};
+  const {timer,showTimer, scoreClass, currentScore, imageProcessing} = state;
+  return { timer, showTimer,scoreClass,currentScore, imageProcessing};
 
 };
 const mapDispatchToProps = dispatch => {
 return {
   setTimer: (payload) => dispatch(setTimer(payload)),
-  invokeScore: (payload) => dispatch(invokeScore(payload))
+  invokeScore: (payload) => dispatch(invokeScore(payload)),
+  setImageProcessing: (payload) => dispatch(setImageProcessing(payload))
 
 };
 }
