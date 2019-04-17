@@ -68,7 +68,6 @@ class ImageAnalyser(object):
         except:
             aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
-        corners2 = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
 
     
 #    for TEST
@@ -96,13 +95,20 @@ class ImageAnalyser(object):
 
 
     # END - for TEST
-
-
-
+ 
+        corners2 = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
         results = HausdorffDist(n1,n2)
-        return calculateScore(results)
+
+        corners2_b = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
+        n2_b = np.squeeze(np.asarray(corners2_b))
+        results2 = HausdorffDist(n1,n2_b)
+
+
+        print("distances end")
+
+        return calculateScore(min(results,results2))
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")

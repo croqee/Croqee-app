@@ -9,8 +9,8 @@ const styles = {
     border: '1px solid #333',
     cursor: 'crosshair',
     // position: 'absolute',
-    // left: '6px',
-    // opacity: .8
+    // left: '60px',
+    // opacity: .8,
     // marginRight:'50px'
   },
 
