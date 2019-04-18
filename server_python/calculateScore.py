@@ -1,10 +1,10 @@
 def calculateScore(results):
 
-    worstResult = 249
+    worstResult = 1000
     if results < 100:
-            score = (((250-results)/250)*100) 
+            score = (((worstResult-results)/worstResult)*100) 
     elif  results < worstResult:
-            score = ((250-results)/250)*100  
+            score = ((worstResult-results)/worstResult)*100  
     else:   
             score = 0 
     print(score)

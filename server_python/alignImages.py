@@ -20,7 +20,7 @@ def alignImages(img, img2):
     global bestX , bestY , bestScaleX, bestScaleY, bestScale
     bestX = 0
     bestY = 0
-    bestScale = 0
+   #  bestScale = 0
     global smallestDistance
     smallestDistance = 1000
 
@@ -31,11 +31,11 @@ def alignImages(img, img2):
 
     for i in range(0, 40):
         for j in range(0, 30):
-           for k in range(0, 6):
+         #   for k in range(0, 6):
                 M = np.float32([[1,0,i-20],[0,1,j-15]])
                 dst = cv.warpAffine(img,M,(cols,rows))
-                scale = 0.7 + float(( k * 0.1 ))
-                dst = scaleInnerContents(dst,scale)
+               #  scale = 0.8 + float(( k * 0.1 ))
+               #  dst = scaleInnerContents(dst,scale)
 
                 corners = cv.goodFeaturesToTrack(dst,100,0.01,10)
                 n1 = np.squeeze(np.asarray(corners))
@@ -47,14 +47,14 @@ def alignImages(img, img2):
                     smallestDistance = distance
                     bestX = i
                     bestY = j
-                    bestScale = scale
+                  #   bestScale = scale
 
 
 
     print(smallestDistance)
     print(bestX)
     print(bestY)
-    print(bestScale)
+   #  print(bestScale)
 
     dst = cv.warpAffine(img,M,(cols,rows))
    #  cv.imshow('img2',dst)
@@ -65,7 +65,10 @@ def alignImages(img, img2):
     bestY = (bestY -15) * 10
     M = np.float32([[1,0,bestX],[0,1,bestY]])
     rows,cols = img_final.shape
-    aligned = cv.warpAffine(img_final,M,(cols,rows))
-    aligned = scaleInnerContents(aligned,scale)
+    aligned = cv.warpAffine(img_final,M,(cols,rows), borderValue=(255,255,255))
+   #  aligned = scaleInnerContents(aligned,bestScale)
+   #  plt.title(' drawing'), plt.xticks([]), plt.yticks([])
+   #  plt.imshow(aligned),plt.show()
+
 
     return aligned

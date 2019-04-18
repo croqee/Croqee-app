@@ -110,7 +110,7 @@ class CanvasPage extends React.Component {
     this.setState({
       mode: 'draw',
       pen: 'up',
-      lineWidth: .6,
+      lineWidth: 1.6,
       penColor: 'black',
     });
   if(this.refs.canvas){

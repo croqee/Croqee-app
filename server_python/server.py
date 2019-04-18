@@ -17,13 +17,14 @@ import sys
 from distanceMeasurment import HausdorffDist
 from displayImages import displayImages
 from calculateScore import calculateScore
-
+from matchContours import matchContours
 class ImageAnalyser(object):
 
 
 
-    global mainImg
-    img = cv2.imread('src/models/objects_2/shapes_1_e.png',0)
+    global mainImg 
+    img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
+    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img,(800,600))
     mainImg = img
     global height
@@ -55,6 +56,11 @@ class ImageAnalyser(object):
             
         #This should also be documented
         img2 = imread(BytesIO(b64decode(param)))
+        im = Image.fromarray(img2)
+        im = im.convert('RGB')
+        im.save("your_file.jpeg")
+
+        img2_before = img2
         img2 = cv2.resize(img2,(800,600))
 
         height2, width2, channels = img2.shape
@@ -96,19 +102,28 @@ class ImageAnalyser(object):
 
     # END - for TEST
  
-        corners2 = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
+        corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
         results = HausdorffDist(n1,n2)
 
-        corners2_b = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
+        corners2_b = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
         n2_b = np.squeeze(np.asarray(corners2_b))
         results2 = HausdorffDist(n1,n2_b)
-
-
-        print("distances end")
-
-        return calculateScore(min(results,results2))
+        contourDiff = 0
+        if results<results2:
+            img2_before = cv2.cvtColor(img2_before,cv2.COLOR_BGR2GRAY)
+            contourDiff = matchContours(mainImg,  np.array(img2_before, dtype=np.uint8))
+        else:
+            contourDiff =  matchContours(mainImg, aligned)
+        print("contourDiff start")
+        print(contourDiff)
+        contourCorner = min(results,results2) * (contourDiff*70)
+        print(results)
+        print("contourDiff end")
+        
+        
+        return calculateScore(min(results,results2) + contourCorner)
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
