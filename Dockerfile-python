@@ -1,3 +1,5 @@
+# Setup and build the python server
+
 FROM python:2
 
 # Installing dependencies for linux installation of opencv
@@ -16,34 +18,32 @@ RUN apt-get update && \
         libjpeg-dev \
         libpng-dev \
         libtiff-dev \
-	      libpng16-16 \
+	libpng16-16 \
         libavformat-dev \
         libpq-dev \
-        python-scipy 
-
+        python-scipy
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-RUN mkdir ~/opencv
+# GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
 
-RUN cd ~/opencv && git clone https://github.com/Itseez/opencv_contrib.git && cd opencv_contrib && git checkout 3.0.0
-RUN cd ~/opencv && git clone https://github.com/Itseez/opencv.git && cd opencv && git checkout 3.0.0
-
-RUN cd ~/opencv/opencv && mkdir release && cd release && \
-          cmake -D CMAKE_BUILD_TYPE=RELEASE \
-          -D CMAKE_INSTALL_PREFIX=/usr/local \
-          -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-          -D INSTALL_C_EXAMPLES=ON \
-          -D INSTALL_PYTHON_EXAMPLES=ON \
-          -D BUILD_EXAMPLES=ON \
-          -D WITH_OPENGL=ON \
-          -D WITH_V4L=ON \
-          -D WITH_XINE=ON \
-          -D WITH_TBB=ON ..
-
-RUN cd ~/opencv/opencv/release && make -j $(nproc) && make install
+RUN wget https://github.com/opencv/opencv/archive/3.4.zip \
+&& unzip 3.4.zip \
+&& mkdir /opencv-3.4/cmake_binary \
+&& cd /opencv-3.4/cmake_binary \
+&& cmake -DWITH_QT=OFF \
+        -DWITH_OPENGL=ON \
+        -DFORCE_VTK=OFF \
+        -DWITH_TBB=ON \
+        -DWITH_GDAL=ON \
+        -DWITH_XINE=ON \
+        -DBUILD_EXAMPLES=OFF \
+        -DENABLE_PRECOMPILED_HEADERS=OFF .. \
+&& make install \
+&& rm /3.4.zip \
+&& rm -r /opencv-3.4
 
 # Run the image as a non-root user
 RUN adduser myuser
@@ -52,6 +52,6 @@ USER myuser
 ADD ./server_python /usr/app/server_python/
 WORKDIR /usr/app/server_python/
 
-
 EXPOSE 9699
 CMD ["python", "-u", "server.py"]
+
