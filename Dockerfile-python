@@ -27,7 +27,7 @@ RUN \
         gfortran \
         libhdf5-dev \
         python3-pip && \
-    pip install --ignore-installed six && \
+    pip3 install --ignore-installed six && \
     pip3 install --upgrade pip && \
     apt-get -qq install python3.4-dev -y && \
     pip3 install numpy && \
@@ -36,7 +36,7 @@ RUN \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
     COPY requirements.txt ./
-    RUN pip install --no-cache-dir -r requirements.txt
+    RUN pip3 install --no-cache-dir -r requirements.txt
 
 
 # Download OpenCV 3.2.0 and install
