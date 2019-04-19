@@ -21,7 +21,7 @@ from matchContours import matchContours
 class ImageAnalyser(object):
 
 
-
+    print(cv2.__version__)
     global mainImg 
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
