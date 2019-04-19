@@ -23,8 +23,7 @@ RUN apt-get update && \
         libavformat-dev \
         libpq-dev \
         python-scipy \
-        autoremove \
-        clean
+
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
