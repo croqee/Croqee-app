@@ -19,7 +19,7 @@ RUN apt-get update && \
 	      libpng16-16 \
         libavformat-dev \
         libpq-dev \
-        python-scipy \
+        python-scipy 
 
 
 COPY requirements.txt ./
