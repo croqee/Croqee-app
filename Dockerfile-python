@@ -27,7 +27,7 @@ RUN \
         gfortran \
         libhdf5-dev \
         python3-pip && \
-
+    pip install --ignore-installed six && \
     pip3 install --upgrade pip && \
     apt-get -qq install python3.4-dev -y && \
     pip3 install numpy && \
