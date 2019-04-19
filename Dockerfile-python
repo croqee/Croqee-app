@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
 
-RUN wget https://github.com/opencv/opencv/archive/3.4.zip
+RUN wget https://github.com/opencv/opencv/archive/3.4.zip \
 && unzip 3.4.zip\
 && mkdir /opencv-2.4.13.3/cmake_binary \
 && cd /opencv-2.4.13.3/cmake_binary \
