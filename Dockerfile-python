@@ -24,28 +24,32 @@ RUN apt-get update && \
         python-scipy
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt \
+RUN pip install --no-cache-dir -r requirements.txt 
 
 # GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
 
 
 
-RUN wget https://github.com/opencv/opencv/archive/3.4.zip\
-&& unzip opencv-3.4.zip \
-&& mkdir /opencv-3.4/cmake_binary \
-&& cd /opencv-3.4/cmake_binary \
-&& cmake -DWITH_QT=OFF \
-        -DWITH_OPENGL=ON \
-        -DFORCE_VTK=OFF \
-        -DWITH_TBB=ON \
-        -DWITH_GDAL=ON \
-        -DWITH_XINE=ON \
-        -DBUILD_EXAMPLES=OFF \
-        -DENABLE_PRECOMPILED_HEADERS=OFF .. \
-&& make install \
-&& rm /opencv-3.4.zip \
-&& rm -r /opencv-3.4
-
+WORKDIR /
+RUN wget https://github.com/opencv/opencv/archive/3.2.0.zip -O opencv3.zip && \
+    unzip -q opencv3.zip && mv /opencv-3.2.0 /opencv
+RUN wget https://github.com/opencv/opencv_contrib/archive/3.2.0.zip -O opencv_contrib3.zip && \
+    unzip -q opencv_contrib3.zip && mv /opencv_contrib-3.2.0 /opencv_contrib
+RUN mkdir /opencv/build
+WORKDIR /opencv/build
+RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D BUILD_PYTHON_SUPPORT=ON \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_C_EXAMPLES=ON \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
+    -D BUILD_EXAMPLES=ON \
+    -D BUILD_NEW_PYTHON_SUPPORT=ON \
+    -D WITH_IPP=OFF \
+    -D WITH_V4L=ON ..
+RUN make -j4
+RUN make install
+RUN ldconfig
 
 # Run the image as a non-root user
 RUN adduser myuser
