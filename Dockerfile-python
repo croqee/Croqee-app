@@ -41,7 +41,7 @@ RUN wget https://github.com/opencv/opencv/archive/3.4.zip\
         -DBUILD_EXAMPLES=OFF \
         -DENABLE_PRECOMPILED_HEADERS=OFF .. \
 && make install \
-&& rm /3.4.zip  \
+&& rm /opencv-3.4.zip  \
 && rm -r /opencv-3.4
 
 # Run the image as a non-root user
