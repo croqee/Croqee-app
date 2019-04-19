@@ -51,4 +51,3 @@ WORKDIR /usr/app/server_python/
 
 EXPOSE 9699
 CMD ["python", "-u", "server.py"]
-
