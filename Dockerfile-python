@@ -1,4 +1,4 @@
-FROM thiagofalcao/python2.7
+FROM python:2
 
 ENV DEBIAN_FRONTEND noninteractive
 
