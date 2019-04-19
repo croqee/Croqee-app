@@ -20,7 +20,9 @@ RUN apt-get update && \
         libpq-dev \
         python-scipy
 
-RUN pip install numpy 
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
 
 
 WORKDIR /
