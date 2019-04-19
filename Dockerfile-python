@@ -26,26 +26,32 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-WORKDIR /
-RUN wget https://github.com/opencv/opencv/archive/3.2.0.zip -O opencv3.zip && \
-    unzip -q opencv3.zip && mv /opencv-3.2.0 /opencv
-RUN wget https://github.com/opencv/opencv_contrib/archive/3.2.0.zip -O opencv_contrib3.zip && \
-    unzip -q opencv_contrib3.zip && mv /opencv_contrib-3.2.0 /opencv_contrib
-RUN mkdir /opencv/build
-WORKDIR /opencv/build
-RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
-    -D BUILD_PYTHON_SUPPORT=ON \
-    -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D INSTALL_C_EXAMPLES=ON \
-    -D INSTALL_PYTHON_EXAMPLES=ON \
-    -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
-    -D BUILD_EXAMPLES=ON \
-    -D BUILD_NEW_PYTHON_SUPPORT=ON \
-    -D WITH_IPP=OFF \
-    -D WITH_V4L=ON ..
-RUN make -j4
-RUN make install
-RUN ldconfig
+RUN mkdir ~/opencv
+
+RUN cd ~/opencv && git clone https://github.com/Itseez/opencv_contrib.git && cd opencv_contrib && git checkout 3.0.0
+RUN cd ~/opencv && git clone https://github.com/Itseez/opencv.git && cd opencv && git checkout 3.0.0
+
+RUN cd ~/opencv/opencv && mkdir release && cd release && \
+          cmake -D CMAKE_BUILD_TYPE=RELEASE \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+          -D INSTALL_C_EXAMPLES=ON \
+          -D INSTALL_PYTHON_EXAMPLES=ON \
+          -D BUILD_EXAMPLES=ON \
+          -D WITH_OPENGL=ON \
+          -D WITH_V4L=ON \
+          -D WITH_XINE=ON \
+          -D WITH_TBB=ON ..
+
+RUN cd ~/opencv/opencv/release && make -j $(nproc) && make install
+
+# Run the image as a non-root user
+RUN adduser myuser
+USER myuser
+
+ADD ./server_python /usr/app/server_python/
+WORKDIR /usr/app/server_python/
+
 
 EXPOSE 9699
 CMD ["python", "-u", "server.py"]
