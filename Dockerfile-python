@@ -3,26 +3,26 @@ FROM thiagofalcao/python2.7
 ENV DEBIAN_FRONTEND noninteractive
 
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
-    wget \
-    unzip \
-    cmake \
-    git \
-    pkg-config \
-    libatlas-base-dev \
-    gfortran \
-    libjasper-dev \
-    libgtk2.0-dev \
-    libavcodec-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libtiff-dev \
-    libjasper-dev \
-    libv4l-dev \
+# Installing dependencies for linux installation of opencv
+RUN apt-get update && \
+        apt-get install -y \
+        build-essential \
+        cmake \
+        git \
+        wget \
+        unzip \
+        yasm \
+        pkg-config \
+        libswscale-dev \
+        libtbb2 \
+        libtbb-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libtiff-dev \
+	      libpng16-16 \
+        libavformat-dev \
+        libpq-dev \
+        python-scipy
     && apt-get autoremove \
     && apt-get clean
 
