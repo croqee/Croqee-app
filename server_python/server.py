@@ -56,9 +56,9 @@ class ImageAnalyser(object):
             
         #This should also be documented
         img2 = imread(BytesIO(b64decode(param)))
-        im = Image.fromarray(img2)
-        im = im.convert('RGB')
-        im.save("your_file.jpeg")
+        # im = Image.fromarray(img2)
+        # im = im.convert('RGB')
+        # im.save("your_file.jpeg")
 
         img2_before = img2
         img2 = cv2.resize(img2,(800,600))
