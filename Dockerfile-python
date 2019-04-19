@@ -1,6 +1,6 @@
 # Setup and build the python server
 
-FROM python:3
+FROM python:2
 
 # Installing dependencies for linux installation of opencv
 RUN apt-get update && \
@@ -25,7 +25,6 @@ RUN apt-get update && \
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt \
-RUN pip install numpy \
 
 # GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
 
@@ -53,4 +52,4 @@ ADD ./server_python /usr/app/server_python/
 WORKDIR /usr/app/server_python/
 
 EXPOSE 9699
-CMD ["python3", "-u", "server.py"]
+CMD ["python", "-u", "server.py"]
