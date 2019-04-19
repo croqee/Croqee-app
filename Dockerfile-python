@@ -1,8 +1,5 @@
 FROM python:2
 
-ENV DEBIAN_FRONTEND noninteractive
-
-
 # Installing dependencies for linux installation of opencv
 RUN apt-get update && \
         apt-get install -y \
