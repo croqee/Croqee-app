@@ -20,8 +20,7 @@ RUN apt-get update && \
         libpq-dev \
         python-scipy
 
-RUN pip install numpy \
-    pip install zerorpc
+RUN pip install numpy 
 
 
 WORKDIR /
