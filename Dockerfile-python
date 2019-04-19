@@ -28,10 +28,12 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 # GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
 
+
+
 RUN wget https://github.com/opencv/opencv/archive/3.4.zip\
 && unzip opencv-3.4.zip \
 && mkdir /opencv-3.4/cmake_binary \
-&& cd /opencv-3.4//cmake_binary \
+&& cd /opencv-3.4/cmake_binary \
 && cmake -DWITH_QT=OFF \
         -DWITH_OPENGL=ON \
         -DFORCE_VTK=OFF \
@@ -41,8 +43,9 @@ RUN wget https://github.com/opencv/opencv/archive/3.4.zip\
         -DBUILD_EXAMPLES=OFF \
         -DENABLE_PRECOMPILED_HEADERS=OFF .. \
 && make install \
-&& rm /opencv-3.4.zip  \
+&& rm /opencv-3.4.zip \
 && rm -r /opencv-3.4
+
 
 # Run the image as a non-root user
 RUN adduser myuser
