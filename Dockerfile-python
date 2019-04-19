@@ -31,12 +31,12 @@ RUN \
     pip3 install --upgrade pip && \
     apt-get -qq install python3.4-dev -y && \
     pip3 install numpy && \
-    COPY requirements.txt ./
-    RUN pip3 install --no-cache-dir -r requirements.txt
-
     apt-get autoclean && apt-get clean && \
 
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+    COPY requirements.txt ./
+    RUN pip3 install --no-cache-dir -r requirements.txt
 
 
 # Download OpenCV 3.2.0 and install
