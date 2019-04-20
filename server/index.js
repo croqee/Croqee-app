@@ -6,10 +6,10 @@ const logger = require("morgan");
 const zerorpc = require("zerorpc");
 const passport = require("passport");
 const config = require('./config');
-
+const helpers = require('./helpers');
 var node_client = new zerorpc.Client();
 node_client.connect("tcp://server_python:9699");
-// node_client.connect("tcp://localhost:9699");
+// node_clieKnt.connect("tcp://localhost:9699");
 
 
 
@@ -60,6 +60,13 @@ app.post("/send_drawing",(req,res,next)=>{
     });   
  });
 
+ //avoid python server sleeping
+setInterval(()=>{
+    let dataURL = helpers.dataURL;
+    node_client.invoke("DrawingDistance", dataURL, function(error, res2, more) {
+    });   
+},
+10000)
 
 app.use((req, res, next) => {
     const error = new Error("Not Found");

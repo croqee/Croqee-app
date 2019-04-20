@@ -131,6 +131,7 @@ class CanvasPage extends React.Component {
       if (canvas) {
         this.props.setImageProcessing(true);
         var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
+        console.log(dataURL)
         this.props.setTimer(false);
         axios.post('/send_drawing', { dataURL: dataURL }).then(response => {
           // console.log(response);
