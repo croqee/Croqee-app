@@ -7,7 +7,8 @@ import {
 	SET_TIMER,
 	SHOW_SCORE,
 	HIDE_SCORE,
-	SET_IMAGE_PROCESSING
+	SET_IMAGE_PROCESSING,
+	SET_HAND_SIDE
 } from './action-types';
 
 //Get User
@@ -60,4 +61,8 @@ export function hideScore() {
 //Set Image Processing
 export function setImageProcessing(payload) {
 	return { type: SET_IMAGE_PROCESSING, imageProcessing:payload };
+}
+
+export function setHandSide(payload){
+	return {type: SET_HAND_SIDE, side:payload}
 }

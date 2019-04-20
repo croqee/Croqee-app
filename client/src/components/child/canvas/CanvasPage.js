@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import {connect} from "react-redux";
-import { setTimer,invokeScore,setImageProcessing } from '../../../js/actions';
+import { connect } from "react-redux";
+import { setTimer, invokeScore, setImageProcessing } from '../../../js/actions';
 import Loader from '../loader/Loader';
 
 const styles = {
@@ -43,17 +43,17 @@ const styles = {
 class CanvasPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
     }
   }
 
   componentDidMount() {
 
-      this.reset();
-      this.sendDrawing(); 
-    
-  
-   
+    this.reset();
+    this.sendDrawing();
+
+
+
   }
 
   draw(e) {
@@ -113,64 +113,66 @@ class CanvasPage extends React.Component {
       lineWidth: 1.6,
       penColor: 'black',
     });
-  if(this.refs.canvas){
-    this.ctx = this.refs.canvas.getContext('2d');
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, 800, 600);
-    this.ctx.lineWidth = 10;
-  }
+    if (this.refs.canvas) {
+      this.ctx = this.refs.canvas.getContext('2d');
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(0, 0, 800, 600);
+      this.ctx.lineWidth = 10;
+    }
   }
 
-  sendDrawing(){
+  sendDrawing() {
     // var canvas = this.refs.canvas.getContext('2d');
     this.props.setTimer(true);
-    setInterval(()=>{
+    setInterval(() => {
       var canvas = document.getElementById('canvas__drawing');
       console.log(canvas)
 
-      if(canvas){
+      if (canvas) {
         this.props.setImageProcessing(true);
-      var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
-      this.props.setTimer(false);
-      axios.post('/send_drawing',{dataURL:dataURL}).then(response=>{
-        // console.log(response);
-        let {score} = response.data;
-        score = score || 0;
-      
-        
-        this.props.setTimer(true);
-        this.props.setImageProcessing(false);
-        this.props.invokeScore(score);
-        this.reset();
-      })
-    }
-    },this.props.timer * 1000)
+        var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg);base64,/, "");
+        this.props.setTimer(false);
+        axios.post('/send_drawing', { dataURL: dataURL }).then(response => {
+          // console.log(response);
+          let { score } = response.data;
+          score = score || 0;
+
+
+          this.props.setTimer(true);
+          this.props.setImageProcessing(false);
+          this.props.invokeScore(score);
+          this.reset();
+        })
+      }
+    }, this.props.timer * 1000)
   }
 
 
   render() {
+    let side = this.props.leftHand ? "canvas_left_hand" : ""
     return (
       /* We should separate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
              in the functional components. We have to figure a way out later
             */
-           <>
+      <>
 
-           <span id="userScore" className={this.props.scoreClass}>Score: {this.props.currentScore && this.props.currentScore}</span>
-      <div className="canvas " style={styles.maindiv}>
-      {this.props.imageProcessing && <Loader/>}
+        <span id="userScore" className={this.props.scoreClass}>Score: {this.props.currentScore && this.props.currentScore}</span>
+        <div className={"canvas " + side} style={styles.maindiv}>
+          {this.props.imageProcessing && <Loader />}
+          <span id="drawhere" />
 
-        <canvas
-          id="canvas__drawing"
-          className="canvas__canvas "
-          ref="canvas"
-          width="800px"
-          height="600px"
-          style={styles.canvas}
-          onMouseMove={e => this.drawing(e)}
-          onMouseDown={e => this.penDown(e)}
-          onMouseUp={e => this.penUp(e)}
-        />
-      </div>
+          <canvas
+            id="canvas__drawing"
+            className="canvas__canvas "
+            ref="canvas"
+            width="800px"
+            height="600px"
+            style={styles.canvas}
+            onMouseMove={e => this.drawing(e)}
+            onMouseDown={e => this.penDown(e)}
+            onMouseUp={e => this.penUp(e)}
+          />
+        </div>
       </>
     );
   }
@@ -178,16 +180,16 @@ class CanvasPage extends React.Component {
 
 
 const mapStateToProps = state => {
-  const {timer,showTimer, scoreClass, currentScore, imageProcessing} = state;
-  return { timer, showTimer,scoreClass,currentScore, imageProcessing};
+  const { timer, showTimer, scoreClass, currentScore, imageProcessing, leftHand } = state;
+  return { timer, showTimer, scoreClass, currentScore, imageProcessing, leftHand };
 
 };
 const mapDispatchToProps = dispatch => {
-return {
-  setTimer: (payload) => dispatch(setTimer(payload)),
-  invokeScore: (payload) => dispatch(invokeScore(payload)),
-  setImageProcessing: (payload) => dispatch(setImageProcessing(payload))
+  return {
+    setTimer: (payload) => dispatch(setTimer(payload)),
+    invokeScore: (payload) => dispatch(invokeScore(payload)),
+    setImageProcessing: (payload) => dispatch(setImageProcessing(payload))
 
-};
+  };
 }
-export default connect(mapStateToProps,mapDispatchToProps)(CanvasPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CanvasPage);

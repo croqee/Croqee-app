@@ -19,16 +19,28 @@ a:focus {
     clear: both;
 }
 #drawhere {
-	width: 193px;
-	height: 106px;
-	background-image: url('/drawhere.png');
-	display: block;
-	background-size: 193px;
-	background-repeat: no-repeat;
-	/* float: right; */
-	position: absolute;
-	right: 162px;
-	top: 161px;
+    width: 193px;
+    height: 106px;
+    background-image: url(http://localhost:3000/drawhere.png);
+    display: block;
+    background-size: 193px;
+    background-repeat: no-repeat;
+    float: right;
+    position: relative;
+    right: 180px;
+    top: -92px;
+    margin-bottom: -200px;
+}
+.model_left_hand{
+	float: right;
+	left: -50px!important;
+}
+.canvas_left_hand{
+	float: left!important;
+	position: relative;
+	left: 50px!important;
+
+
 }
 #userScore {
 	font-size: 40px;
