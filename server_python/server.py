@@ -105,6 +105,17 @@ class ImageAnalyser(object):
         corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
+        len1 = len(n1)
+        len2 = len(n2)
+        print("lengths")
+        print(len1)
+        print(len2)
+        print("lengths-e")
+      
+
+
+
+
         results = HausdorffDist(n1,n2)
 
         corners2_b = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
@@ -118,12 +129,16 @@ class ImageAnalyser(object):
             contourDiff =  matchContours(mainImg, aligned)
         print("contourDiff start")
         print(contourDiff)
-        contourCorner = min(results,results2) * (contourDiff*70)
-        print(results)
+        contourCorner = min(results,results2) * (contourDiff*120)
         print("contourDiff end")
+        print("results-s")
+        print(results)
+        print(results2)
+        print("results-e")
+     
         
         
-        return calculateScore(min(results,results2) + contourCorner)
+        return calculateScore(min(results,results2) + contourCorner + (abs(len1-len2)*4))
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
