@@ -138,7 +138,7 @@ class ImageAnalyser(object):
      
         
         
-        return calculateScore(min(results,results2) + contourCorner + (abs(len1-len2)*4))
+        return calculateScore(min(results,results2) + contourCorner + (abs(len1-len2)*3))
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
