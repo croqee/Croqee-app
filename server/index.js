@@ -62,8 +62,7 @@ app.post("/send_drawing",(req,res,next)=>{
 
  //avoid python server sleeping
 setInterval(()=>{
-    let dataURL = helpers.dataURL;
-    node_client.invoke("DrawingDistance", dataURL, function(error, res2, more) {
+    node_client.invoke("wakeUp", null, function(error, res2, more) {
     });   
 },
 10000)

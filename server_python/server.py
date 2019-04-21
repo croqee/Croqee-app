@@ -20,7 +20,9 @@ from calculateScore import calculateScore
 from matchContours import matchContours
 class ImageAnalyser(object):
 
-
+    def wakeUp():
+        print("I'm Awake")
+        
     print(cv2.__version__)
     global mainImg 
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
