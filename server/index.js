@@ -62,7 +62,7 @@ app.post("/send_drawing",(req,res,next)=>{
 
  //avoid python server sleeping
 setInterval(()=>{
-    node_client.invoke("wakeUp", null, function(error, res2, more) {
+    node_client.invoke("wakeUp", function(error, res2, more) {
     });   
 },
 10000)
