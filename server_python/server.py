@@ -131,7 +131,7 @@ class ImageAnalyser(object):
             contourDiff =  matchContours(mainImg, aligned)
         print("contourDiff start")
         print(contourDiff)
-        contourCorner = (min(results,results2) * 2) * (contourDiff*70)
+        contourCorner = (min(results,results2) * 1.5) * (contourDiff*70)
         print("contourDiff end")
         print("results-s")
         print(results)
