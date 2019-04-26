@@ -18,6 +18,7 @@ from distanceMeasurment import HausdorffDist
 from displayImages import displayImages
 from calculateScore import calculateScore
 from matchContours import matchContours
+
 class ImageAnalyser(object):
 
     def wakeUp(self):
@@ -117,7 +118,14 @@ class ImageAnalyser(object):
 
 
 
+        def ModHausdorffDist(A,B):
+            D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
+            FHD = np.mean(np.min(D_mat,axis=1))
+            RHD = np.mean(np.min(D_mat,axis=0))
+            MHD = np.max(np.array([FHD, RHD]))
+            return MHD
 
+        results0 = ModHausdorffDist(n1,n2)
         results = HausdorffDist(n1,n2)
 
         corners2_b = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
@@ -129,18 +137,20 @@ class ImageAnalyser(object):
             contourDiff = matchContours(mainImg,  np.array(img2_before, dtype=np.uint8))
         else:
             contourDiff =  matchContours(mainImg, aligned)
+        distance = min(results,results2)
         print("contourDiff start")
         print(contourDiff)
-        contourCorner = (min(results,results2) * 1.5) * (contourDiff*70)
+        diff = (distance* .7) + (contourDiff*8000) + (abs(len1-len2)* 2)
         print("contourDiff end")
         print("results-s")
+        print(results0)
         print(results)
         print(results2)
         print("results-e")
      
         
         
-        return calculateScore(min(results,results2) + contourCorner + (abs(len1-len2)*4))
+        return calculateScore(diff)
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
