@@ -140,7 +140,7 @@ class ImageAnalyser(object):
         distance = min(results,results2)
         print("contourDiff start")
         print(contourDiff)
-        diff = (distance* ((distance/10)*2)) + (contourDiff*8000) + (abs(len1-len2)* 2)
+        diff = (distance* ((distance/50))) + (contourDiff*8000) + (abs(len1-len2)* 2)
         print("contourDiff end")
         print("results-s")
         print(results0)
