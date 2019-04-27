@@ -18,6 +18,7 @@ from distanceMeasurment import HausdorffDist
 from displayImages import displayImages
 from calculateScore import calculateScore
 from matchContours import matchContours
+from chamferDist import  chamfer_distance_numpy
 
 class ImageAnalyser(object):
 
@@ -140,7 +141,7 @@ class ImageAnalyser(object):
         distance = min(results,results2)
         print("contourDiff start")
         print(contourDiff)
-        diff = (distance* ((distance/20))) + (contourDiff*8000) + (abs(len1-len2)* 2)
+        diff = (distance * 4) + (contourDiff*5000) + (abs(len1-len2)*.2) + ((champer - (champer * 4/5))*2)
         print("contourDiff end")
         print("results-s")
         print(results0)
