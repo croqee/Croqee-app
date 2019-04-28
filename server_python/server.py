@@ -18,26 +18,23 @@ from distanceMeasurment import HausdorffDist
 from displayImages import displayImages
 from calculateScore import calculateScore
 from matchContours import matchContours
-from chamferDist import  chamfer_distance_numpy
+from chamferDist import  chamferDist
 
 class ImageAnalyser(object):
 
     def wakeUp(self):
         print("I'm Awake")
 
-    print(cv2.__version__)
-    global mainImg 
+    global mainImg
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img,(800,600))
-    mainImg = img
     global height
     global width
     height, width = img.shape
-    # print(height)
-    # print(width)
-    # print("____")
-    #This time we would add the corners to a white blank image
+    mainImg = img
+
+
     blank = np.zeros([height,width,3],dtype=np.uint8)
     blank.fill(255)
     
@@ -68,10 +65,7 @@ class ImageAnalyser(object):
         img2 = cv2.resize(img2,(800,600))
 
         height2, width2, channels = img2.shape
-        # print(height2)
-        # print(width2)
-        # print("+++++")
-     
+
     
         try:
             aligned = alignImages(img2,mainImg)
@@ -103,10 +97,9 @@ class ImageAnalyser(object):
         # plt.title('drawn'), plt.xticks([]), plt.yticks([])
         # plt.imshow(blank,cmap = 'gray'),plt.show()
 
-
     # END - for TEST
  
-        corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),130,0.01,10)
+        corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
         len1 = len(n1)
@@ -115,9 +108,9 @@ class ImageAnalyser(object):
 
 
         results = HausdorffDist(n1,n2)
-        champer = chamfer_distance_numpy(corners,corners2)
+        champer = chamferDist(mainImg,img2)
 
-        corners2_b = cv2.goodFeaturesToTrack(aligned,130,0.01,10)
+        corners2_b = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
         n2_b = np.squeeze(np.asarray(corners2_b))
         results2 = HausdorffDist(n1,n2_b)
         contourDiff = 0
@@ -131,6 +124,7 @@ class ImageAnalyser(object):
        
         print("contour: "+ str(contourDiff))
         print("champer: "+ str(champer))
+        print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
         print("hasudorff: "+ str(distance))
         print("length: "+ str(abs(len1-len2)))
         

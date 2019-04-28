@@ -7,5 +7,5 @@ def calculateScore(results):
             score = ((worstResult-results)/worstResult)*100  
     else:   
             score = 0 
-    print(score)
+#     print(score)
     return score

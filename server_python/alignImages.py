@@ -51,11 +51,11 @@ def alignImages(img, img2):
 
 
 
-    print(smallestDistance)
-    print(bestX)
-    print(bestY)
-    print(bestScale)
-    print("bestScale")
+   #  print(smallestDistance)
+   #  print(bestX)
+   #  print(bestY)
+   #  print(bestScale)
+   #  print("bestScale")
 
     dst = cv.warpAffine(img,M,(cols,rows))
    #  cv.imshow('img2',dst)
