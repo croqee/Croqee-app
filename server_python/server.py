@@ -42,7 +42,7 @@ class ImageAnalyser(object):
     blank.fill(255)
     
     global corners
-    corners = cv2.goodFeaturesToTrack(img,250,0.01,10)
+    corners = cv2.goodFeaturesToTrack(img,130,0.01,10)
     corners = np.int0(corners)
 
     for i in corners:
