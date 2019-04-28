@@ -111,12 +111,7 @@ class ImageAnalyser(object):
         n2 = np.squeeze(np.asarray(corners2))
         len1 = len(n1)
         len2 = len(n2)
-        print("lengths")
-        print(len1)
-        print(len2)
-        print("lengths-e")
-      
-
+   
 
 
         results = HausdorffDist(n1,n2)
