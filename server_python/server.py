@@ -120,6 +120,7 @@ class ImageAnalyser(object):
 
 
         results = HausdorffDist(n1,n2)
+        champer = chamfer_distance_numpy(corners,corners2)
 
         corners2_b = cv2.goodFeaturesToTrack(aligned,130,0.01,10)
         n2_b = np.squeeze(np.asarray(corners2_b))
