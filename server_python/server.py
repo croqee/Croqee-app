@@ -106,7 +106,7 @@ class ImageAnalyser(object):
 
     # END - for TEST
  
-        corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
+        corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),130,0.01,10)
         n1 = np.squeeze(np.asarray(corners))
         n2 = np.squeeze(np.asarray(corners2))
         len1 = len(n1)
@@ -119,17 +119,9 @@ class ImageAnalyser(object):
 
 
 
-        def ModHausdorffDist(A,B):
-            D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
-            FHD = np.mean(np.min(D_mat,axis=1))
-            RHD = np.mean(np.min(D_mat,axis=0))
-            MHD = np.max(np.array([FHD, RHD]))
-            return MHD
-
-        results0 = ModHausdorffDist(n1,n2)
         results = HausdorffDist(n1,n2)
 
-        corners2_b = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
+        corners2_b = cv2.goodFeaturesToTrack(aligned,130,0.01,10)
         n2_b = np.squeeze(np.asarray(corners2_b))
         results2 = HausdorffDist(n1,n2_b)
         contourDiff = 0
@@ -139,16 +131,12 @@ class ImageAnalyser(object):
         else:
             contourDiff =  matchContours(mainImg, aligned)
         distance = min(results,results2)
-        print("contourDiff start")
-        print(contourDiff)
         diff = (distance * 4) + (contourDiff*5000) + (abs(len1-len2)*.2) + ((champer - (champer * 4/5))*2)
-        print("contourDiff end")
-        print("results-s")
-        print(results0)
-        print(results)
-        print(results2)
-        print("results-e")
-     
+       
+        print("contour: +" contourDiff)
+        print("champer: +" champer)
+        print("hasudorff: "+ distance)
+        print("length: " + abs(len1-len2))
         
         
         return calculateScore(diff)
