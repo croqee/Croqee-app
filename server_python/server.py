@@ -134,10 +134,10 @@ class ImageAnalyser(object):
         distance = min(results,results2)
         diff = (distance * 4) + (contourDiff*5000) + (abs(len1-len2)*.2) + ((champer - (champer * 4/5))*2)
        
-        print("contour: +" contourDiff)
-        print("champer: +" champer)
+        print("contour: "+ contourDiff)
+        print("champer: "+ champer)
         print("hasudorff: "+ distance)
-        print("length: " + abs(len1-len2))
+        print("length: "+ abs(len1-len2))
         
         
         return calculateScore(diff)
