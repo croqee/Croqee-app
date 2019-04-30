@@ -26,25 +26,27 @@ class ImageAnalyser(object):
         print("I'm Awake")
 
     global mainImg
+    global beforeGrad
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img,(800,600))
-    global height
-    global width
-    height, width = img.shape
     mainImg = img
 
+    # global height
+    # global width
+    # height, width = img.shape
 
-    blank = np.zeros([height,width,3],dtype=np.uint8)
-    blank.fill(255)
+    # blank = np.zeros([height,width,3],dtype=np.uint8)
+    # blank.fill(255)
     
-    global corners
-    corners = cv2.goodFeaturesToTrack(img,130,0.01,10)
-    corners = np.int0(corners)
+    # global corners
+    # corners = cv2.goodFeaturesToTrack(mainImg,250,0.01,10)
 
-    for i in corners:
-        x,y = i.ravel()
-        cv2.circle(img,(x,y),3,255,-1)
+    # corners = np.int0(corners)
+
+    # for i in corners:
+    #     x,y = i.ravel()
+    #     cv2.circle(img,(x,y),3,255,-1)
 
 
     def DrawingDistance(self, param):
@@ -64,13 +66,13 @@ class ImageAnalyser(object):
         img2_before = img2
         img2 = cv2.resize(img2,(800,600))
 
-        height2, width2, channels = img2.shape
+        # height2, width2, channels = img2.shape
 
     
-        try:
-            aligned = alignImages(img2,mainImg)
-        except:
-            aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
+     #   try:
+        aligned , finalDistance, lengthDiff  = alignImages(img2,mainImg)
+      #  except:
+       #     aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
 
     
@@ -99,34 +101,17 @@ class ImageAnalyser(object):
 
     # END - for TEST
  
-        corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),250,0.01,10)
-        n1 = np.squeeze(np.asarray(corners))
-        n2 = np.squeeze(np.asarray(corners2))
-        len1 = len(n1)
-        len2 = len(n2)
-   
 
-
-        results = HausdorffDist(n1,n2)
-        champer = chamferDist(mainImg,img2)
-
-        corners2_b = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
-        n2_b = np.squeeze(np.asarray(corners2_b))
-        results2 = HausdorffDist(n1,n2_b)
-        contourDiff = 0
-        if results<results2:
-            img2_before = cv2.cvtColor(img2_before,cv2.COLOR_BGR2GRAY)
-            contourDiff = matchContours(mainImg,  np.array(img2_before, dtype=np.uint8))
-        else:
-            contourDiff =  matchContours(mainImg, aligned)
-        distance = min(results,results2)
-        diff = (distance * 4) + (contourDiff*5000) + (abs(len1-len2)*.2) + ((champer - (champer * 4/5))*2)
+        champer = chamferDist(mainImg,aligned)
+        contourDiff =  matchContours(mainImg, aligned)
+        distance = finalDistance
+        diff = (distance * 4) + (contourDiff*5000) + (lengthDiff *.2) + ((champer - (champer * 4/5))*2)
        
         print("contour: "+ str(contourDiff))
         print("champer: "+ str(champer))
         print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
         print("hasudorff: "+ str(distance))
-        print("length: "+ str(abs(len1-len2)))
+        print("length diff: "+ str(lengthDiff))
         
         
         return calculateScore(diff)

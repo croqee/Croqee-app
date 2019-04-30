@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from "react-redux";
-import { setTimer, invokeScore, setImageProcessing } from '../../../js/actions';
+import { setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
 import Loader from '../loader/Loader';
 
 const styles = {
@@ -50,8 +50,7 @@ class CanvasPage extends React.Component {
   componentDidMount() {
 
     this.reset();
-    this.sendDrawing();
-
+    this.props.setTimer(true);
 
 
   }
@@ -123,8 +122,6 @@ class CanvasPage extends React.Component {
 
   sendDrawing() {
     // var canvas = this.refs.canvas.getContext('2d');
-    this.props.setTimer(true);
-    setInterval(() => {
       var canvas = document.getElementById('canvas__drawing');
       console.log(canvas)
 
@@ -138,14 +135,24 @@ class CanvasPage extends React.Component {
           let { score } = response.data;
           score = score || 0;
 
-
-          this.props.setTimer(true);
+          if(response){
+            this.props.setTimer(true);
+            this.props.setTimerDone(false)
+          }
           this.props.setImageProcessing(false);
           this.props.invokeScore(score);
           this.reset();
         })
       }
-    }, this.props.timer * 1000)
+  }
+  componentDidUpdate(prevProps,prevStates){
+    if(prevProps.timerDone!==this.props.timerDone){
+      if(this.props.timerDone){
+
+        this.sendDrawing()
+
+      }
+    }
   }
 
 
@@ -181,15 +188,16 @@ class CanvasPage extends React.Component {
 
 
 const mapStateToProps = state => {
-  const { timer, showTimer, scoreClass, currentScore, imageProcessing, leftHand } = state;
-  return { timer, showTimer, scoreClass, currentScore, imageProcessing, leftHand };
+  const { timer, showTimer,timerDone, scoreClass, currentScore, imageProcessing, leftHand } = state;
+  return { timer, showTimer,timerDone, scoreClass, currentScore, imageProcessing, leftHand };
 
 };
 const mapDispatchToProps = dispatch => {
   return {
     setTimer: (payload) => dispatch(setTimer(payload)),
     invokeScore: (payload) => dispatch(invokeScore(payload)),
-    setImageProcessing: (payload) => dispatch(setImageProcessing(payload))
+    setImageProcessing: (payload) => dispatch(setImageProcessing(payload)),
+    setTimerDone:(payload) => dispatch(setTimerDone(payload))
 
   };
 }

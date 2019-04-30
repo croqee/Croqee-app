@@ -27,22 +27,22 @@ def chamfer_distance_numpy(array1, array2):
     dist = 0
     for i in range(batch_size):
         av_dist1 = array2samples_distance(array1[i], array2[i])
-        av_dist2 = array2samples_distance(array2[i], array1[i])
-        dist = dist + (av_dist1+av_dist2)/batch_size
+        # av_dist2 = array2samples_distance(array2[i], array1[i])
+        dist = dist + (av_dist1)/batch_size
     return dist
 
 def chamferDist(img, img2):
     corners = cv2.goodFeaturesToTrack(img,130,0.01,10)
-    corners2 = cv2.goodFeaturesToTrack(cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY),130,0.01,10)
+    corners2 = cv2.goodFeaturesToTrack(img2,130,0.01,10)
     if len(corners2) < len(corners):
         corners = cv2.goodFeaturesToTrack(img,len(corners2),0.01,10)
     elif len(corners) < len(corners2):
         corners2 = cv2.goodFeaturesToTrack(img,len(corners2),0.01,10)
 
 
-    print("cornersss")
-    print(len(corners))
-    print(len(corners2))
+    # print("cornersss")
+    # print(len(corners))
+    # print(len(corners2))
     dist = chamfer_distance_numpy(corners,corners2)
     return dist
 

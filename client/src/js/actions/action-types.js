@@ -8,3 +8,4 @@ export const SHOW_SCORE = "SHOW_SCORE";
 export const HIDE_SCORE = "HIDE_SCORE";
 export const SET_IMAGE_PROCESSING = "SET_IMAGE_PROCESSING";
 export const SET_HAND_SIDE = "SET_HAND_SIDE";
+export const SET_TIMER_DONE = "SET_TIMER_DONE";

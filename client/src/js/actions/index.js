@@ -8,7 +8,8 @@ import {
 	SHOW_SCORE,
 	HIDE_SCORE,
 	SET_IMAGE_PROCESSING,
-	SET_HAND_SIDE
+	SET_HAND_SIDE,
+	SET_TIMER_DONE
 } from './action-types';
 
 //Get User
@@ -36,9 +37,12 @@ export function authenticate(payload) {
 	return { type: AUTHENTICATE, isAuthenticated: payload };
 }
 
-//Set Timer
+//Timer
 export function setTimer(payload) {
 	return { type: SET_TIMER, showTimer: payload };
+}
+export function setTimerDone(payload) {
+	return { type: SET_TIMER_DONE, done: payload };
 }
 
 //Invoke Score

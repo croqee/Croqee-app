@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import { setTimer } from '../../../js/actions';
+import { setTimer,setTimerDone } from '../../../js/actions';
 
 class Timer extends Component {
 	constructor(props) {
@@ -20,6 +20,7 @@ class Timer extends Component {
         let done = false;
 
        let setTimerColor = this.setTimerColor;
+       let setTimerDone = this.props.setTimerDone;
       (function draw() {
 
         α--;
@@ -28,8 +29,7 @@ class Timer extends Component {
             done = true;
             var end = new Date() - start
             console.info('Execution time: %dms', end)
-           
-            // setTimer(false);
+            setTimerDone(true);
         }
         if(α < 240 && α > 120){
             setTimerColor("timer_orange")
@@ -83,7 +83,9 @@ const mapStateToProps = state => {
   };
   const mapDispatchToProps = dispatch => {
 	return {
-	  setTimer: (payload) => dispatch(setTimer(payload))
+    setTimer: (payload) => dispatch(setTimer(payload)),
+    setTimerDone: (payload) => dispatch(setTimerDone(payload))
+
 	};
   }
   export default connect(mapStateToProps,mapDispatchToProps)(Timer)

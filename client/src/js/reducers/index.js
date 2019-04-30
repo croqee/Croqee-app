@@ -1,12 +1,23 @@
-import { GET_USER_ASYNC, SET_USER, AUTHENTICATE, SET_TIMER, SHOW_SCORE, HIDE_SCORE, SET_IMAGE_PROCESSING, SET_HAND_SIDE } from '../actions/action-types';
+import {
+	GET_USER_ASYNC,
+	SET_USER,
+	AUTHENTICATE,
+	SET_TIMER,
+	SHOW_SCORE,
+	HIDE_SCORE,
+	SET_IMAGE_PROCESSING,
+	SET_HAND_SIDE,
+	SET_TIMER_DONE
+} from '../actions/action-types';
 const initialState = {
 	jalil: true,
 	user: {},
 	isAuthenticated: false,
 	timer: 30,
 	showTimer: false,
-	scoreClass: "",
-	currentScore: "",
+	timerDone: false,
+	scoreClass: '',
+	currentScore: '',
 	imageProcessing: false,
 	leftHand: false
 };
@@ -28,34 +39,39 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				isAuthenticated: action.isAuthenticated
-			}
+			};
 		case SET_TIMER:
 			return {
 				...state,
 				showTimer: action.showTimer
-			}
+			};
+		case SET_TIMER_DONE:
+			return {
+				...state,
+				timerDone: action.done
+			};
 		case SHOW_SCORE:
 			return {
 				...state,
-				scoreClass: "userScore_show",
+				scoreClass: 'userScore_show',
 				currentScore: action.score
-			}
+			};
 		case HIDE_SCORE:
 			return {
 				...state,
-				scoreClass: "",
-			}
+				scoreClass: ''
+			};
 		case SET_IMAGE_PROCESSING:
 			return {
 				...state,
-				imageProcessing: action.imageProcessing,
-			}
+				imageProcessing: action.imageProcessing
+			};
 		case SET_HAND_SIDE:
-			console.log(action)
-			return{
+			console.log(action);
+			return {
 				...state,
-				leftHand:action.side
-			}
+				leftHand: action.side
+			};
 		default:
 			return state;
 	}
