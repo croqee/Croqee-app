@@ -12,4 +12,4 @@ def HausdorffDist(A,B):
             # return(dH)
             d_forward = directed_hausdorff(A, B)[0]
             d_backward = directed_hausdorff(B, A)[0]
-            return (d_forward + d_backward) / 2
+            return max(d_forward, d_backward)

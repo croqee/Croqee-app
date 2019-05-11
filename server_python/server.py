@@ -102,14 +102,16 @@ class ImageAnalyser(object):
     # END - for TEST
  
 
-        champer = chamferDist(mainImg,aligned)
         contourDiff =  matchContours(mainImg, aligned)
         distance = finalDistance
-        diff = (distance * 4) + (contourDiff*5000) + (lengthDiff *.2) + ((champer - (champer * 4/5))*2)
+        if distance < 80:
+            distance = distance - ((80 - distance) * 6)
+        if distance < 0:
+            distance = 0
+        diff = (distance * 4) + (contourDiff*5000) + (lengthDiff *.2)
        
         print("contour: "+ str(contourDiff))
-        print("champer: "+ str(champer))
-        print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
+        # print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
         print("hasudorff: "+ str(distance))
         print("length diff: "+ str(lengthDiff))
         

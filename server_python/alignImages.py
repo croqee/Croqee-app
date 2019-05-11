@@ -13,18 +13,18 @@ def alignImages(img, img2):
     gray1 = img_final
     gray2 = img2
 
-    def Hausdorff_Dist(A,B):
-        D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
-        dH = np.max(np.array([np.max(np.min(D_mat,axis=0)),np.max(np.min(D_mat,axis=1))]))
-        return(dH)
+   #  def Hausdorff_Dist(A,B):
+   #      D_mat = np.sqrt(inner1d(A,A)[np.newaxis].T + inner1d(B,B)-2*(np.dot(A,B.T)))
+   #      dH = np.max(np.array([np.max(np.min(D_mat,axis=0)),np.max(np.min(D_mat,axis=1))]))
+   #      return(dH)
 
     corners_org = cv.goodFeaturesToTrack(gray1,250,0.01,10)
     n1_org = np.squeeze(np.asarray(corners_org))
     corners2_org = cv.goodFeaturesToTrack(gray2,250,0.01,10)
     n2_org = np.squeeze(np.asarray(corners2_org))
     distance_org = HausdorffDist(n1_org,n2_org)
-    print("khas  "+ str(Hausdorff_Dist(n1_org,n2_org)))
-    print("lib  "+ str(distance_org))
+   #  print("khas  "+ str(Hausdorff_Dist(n1_org,n2_org)))
+   #  print("lib  "+ str(distance_org))
 
     img = cv.resize(gray1,(80,60))
     img2 = cv.resize(gray2,(80,60))
