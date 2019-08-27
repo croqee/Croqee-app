@@ -1,4 +1,4 @@
   {
-    "dbUri": "mongodb://localhost/croqee_app",
+    "dbUri": "mongodb+srv://croqee:yamaha3000@cluster0-9lzas.mongodb.net/test?retryWrites=true&w=majority",
     "jwtSecret": "a secret phrase!!"
   }

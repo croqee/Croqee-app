@@ -7,6 +7,7 @@ import LogoutFunction from './components/child/logout/LogoutFunction';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
 import Auth from './modules/Auth';
 import NavBar from './components/child/navbar/NavBar';
+import ClubsPage from './components/pages/clubs/ClubsPage';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route
@@ -62,6 +63,9 @@ class App extends Component {
 						<LoggedOutRoute path="/signup" component={SignUpPage} />
 						<LoggedOutRoute path="/login" component={LoginPage} />
 						<PrivateRoute path="/logout" component={LogoutFunction} />
+						<PrivateRoute path="/clubs" component={ClubsPage} />
+
+						
 					</div>
 				</Router>
 			</div>

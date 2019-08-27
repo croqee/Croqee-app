@@ -48,7 +48,7 @@ class PrototypePage extends React.Component {
 				</div>
 				<div id="home_bottom">
 					<img id="home_bottom_triangle" src="/triangle.png" />
-					<button id="home_bottom_button">Compete with others</button>
+					<button onClick={()=>this.props.history.push("/clubs")} id="home_bottom_button">Compete with others</button>
 				</div>
 			</React.Fragment>
 		);
