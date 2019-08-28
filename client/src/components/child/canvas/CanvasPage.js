@@ -151,6 +151,7 @@ class CanvasPage extends React.Component {
 	}
 
 	render() {
+		const {showGuideLine} = this.props;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		return (
 			/* We should separate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
@@ -162,7 +163,7 @@ class CanvasPage extends React.Component {
 				</span>
 				<div className={'canvas ' + side} style={styles.maindiv}>
 					{this.props.imageProcessing && <Loader />}
-					<span id="drawhere" />
+					{showGuideLine && <span id="drawhere" />}
 
 					<canvas
 						id="canvas__drawing"

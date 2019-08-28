@@ -1,0 +1,59 @@
+// $Var
+$bg-color: #ffff33;
+$color: blue;
+
+// $Mixin
+@mixin size($width , $height: $width ) {
+	width: $width;
+	height: $height;
+}
+
+@mixin absPosition ($top: auto, $right: auto, $bottom: auto, $left: auto) {
+	position: absolute;
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin animation($animation...) {
+	-webkit-animation: $animation;
+	animation: $animation;
+}
+
+.userpendingloader {
+	border-bottom: 1px solid black;
+    width: 100%;
+    padding: 10px 0;
+	&__loader {
+		display: inline-block;
+		position: relative;
+		@include size(40px);
+		vertical-align: middle;
+		border-radius: 50px;
+		border: 6px solid lightblue;
+		&:after {
+			content: "";
+			@include absPosition(-6px, -6px, -6px, -6px);
+			border-radius: 50px;
+			border: 6px solid transparent;
+			border-top-color: $color;
+			@include animation(spin 1s linear infinite);
+		}
+	}
+	&__caption {
+		font-size: 26px;
+		margin-left: 10px;
+	}
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		tranform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		tranform: rotate(360deg);
+	}
+}

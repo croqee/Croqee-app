@@ -18,7 +18,7 @@ class ClubsPage extends React.Component {
 	componentDidMount() {}
 	render() {
 		return (
-			<div className="clubpage">
+			<div className="clubpage"  onClick={()=>this.props.history.push("/compete")}>
 				<div className="clubpage__wrapper">
 				<h1 className="clubpage__wrapper__header">Select the subject to enter the competition</h1>
 

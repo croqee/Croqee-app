@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } fr
 import Auth from './modules/Auth';
 import NavBar from './components/child/navbar/NavBar';
 import ClubsPage from './components/pages/clubs/ClubsPage';
+import CompetePage from './components/pages/compete/CompetePage';
+
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route
@@ -64,7 +66,7 @@ class App extends Component {
 						<LoggedOutRoute path="/login" component={LoginPage} />
 						<PrivateRoute path="/logout" component={LogoutFunction} />
 						<PrivateRoute path="/clubs" component={ClubsPage} />
-
+						<PrivateRoute path="/compete" component={CompetePage} />
 						
 					</div>
 				</Router>

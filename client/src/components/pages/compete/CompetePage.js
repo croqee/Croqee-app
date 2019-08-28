@@ -8,47 +8,32 @@ import { getUser, setTimer } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
 import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
+import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
 
 
-class PrototypePage extends React.Component {
+class CompetePage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			greet: '',
-			note: '',
+			existingPlayer:false
+
 		};
 	}
 	componentDidMount() {
-		axios.post('/').then((response) => {
-			console.log(response);
-			const { greet, note, messageFromPython } = response.data;
-			this.setState({
-				greet,
-				note,
-				messageFromPython
-			});
-		});
-
-		this.props.getUser();
-
 
 	}
 	render() {
-		let user = this.props.user;
 		let side = this.props.leftHand?"model_left_hand":""
 		return (
 			<React.Fragment>
+			<UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/>
 				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
 				<div>
 				<HandSide/>
 					<img src="./shapes_1.png" className={"modelImg draw_and_model " + side} />
 					<div>	
-						<CanvasPage showGuideLine={true}/>
+						<CanvasPage showGuideLine={false}/>
 					</div>
-				</div>
-				<div id="home_bottom">
-					<img id="home_bottom_triangle" src="/triangle.png" />
-					<button onClick={()=>this.props.history.push("/clubs")} id="home_bottom_button">Compete with others</button>
 				</div>
 			</React.Fragment>
 		);
@@ -64,4 +49,4 @@ const mapDispatchToProps = dispatch => {
 
 	};
 }
-export default connect(mapStateToProps, mapDispatchToProps)(PrototypePage);
+export default connect(mapStateToProps, mapDispatchToProps)(CompetePage);
