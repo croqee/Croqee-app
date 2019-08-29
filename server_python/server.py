@@ -70,12 +70,19 @@ class ImageAnalyser(object):
 
     
      #   try:
-        aligned , finalDistance, lengthDiff  = alignImages(img2,mainImg)
+        aligned  = alignImages(img2,mainImg)
       #  except:
        #     aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
 
-    
+        corners_org = cv2.goodFeaturesToTrack(mainImg,250,0.01,10)
+        n1_org = np.squeeze(np.asarray(corners_org))
+        corners_drawing = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
+        n1_drw = np.squeeze(np.asarray(corners_drawing))
+        finalDistance = HausdorffDist(n1_drw,n1_org)
+
+
+        lengthDiff = abs(len(corners_org)-len(corners_drawing))
 #    for TEST
 
         # blank = np.zeros([height,width,3],dtype=np.uint8)
@@ -93,22 +100,21 @@ class ImageAnalyser(object):
 
 
       
-        # plt.subplot(121),plt.imshow(blank2,cmap = 'gray')
+        plt.figure()
         # plt.title('Original image'), plt.xticks([]), plt.yticks([])
-        # plt.subplot(122)
-        # plt.title('drawn'), plt.xticks([]), plt.yticks([])
-        # plt.imshow(blank,cmap = 'gray'),plt.show()
+        plt.imshow(mainImg.astype(np.float32) - aligned.astype(np.float32),cmap = 'gray')
+        plt.show()
 
     # END - for TEST
  
 
         contourDiff =  matchContours(mainImg, aligned)
         distance = finalDistance
-        if distance < 80:
-            distance = distance - ((80 - distance) * 6)
-        if distance < 0:
-            distance = 0
-        diff = (distance * 4) + (contourDiff*5000) + (lengthDiff *.2)
+        # if distance < 80:
+        #     distance = distance - ((80 - distance) * 6)
+        # if distance < 0:
+        #     distance = 0
+        diff = (distance * 10) + (contourDiff*5000) + (lengthDiff *.2)
        
         print("contour: "+ str(contourDiff))
         # print("champerdiff: ")+str(((champer - (champer * 4/5))*2))

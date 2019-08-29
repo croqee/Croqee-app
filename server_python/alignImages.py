@@ -7,7 +7,42 @@ from matplotlib import pyplot as plt
 from scaleInnerContents import scaleInnerContents
 from distanceMeasurment import HausdorffDist
 
-def alignImages(img, img2):
+def alignImages(img, target):
+   if len(img.shape)==3:
+      img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+   if len(target.shape)==3:
+      target = cv.cvtColor(target,cv.COLOR_BGR2GRAY)
+   assert img.shape==target.shape==(600,800)
+   if np.all(img==0):
+      return img, 0, 0
+
+   orig_img = img
+   pad_shape = ((300,300),(400,400))
+   img = np.pad(255-img,pad_shape,mode='constant').astype(np.float32)
+   target = np.pad(255-target,pad_shape,mode='constant').astype(np.float32)
+   target /= np.linalg.norm(target)
+   sigma = 5
+   target = cv.GaussianBlur(target, (4*sigma+1,4*sigma+1),sigma)
+
+   similarities = []
+   for s in np.linspace(0.8,1.6,8):
+      M = np.float32([[s,0,0],[0,s,0]])
+      img1 = cv.warpAffine(img,M,img.shape[::-1])
+      img1 = cv.GaussianBlur(img1, (4*sigma+1,4*sigma+1),sigma)
+      img1 /= np.linalg.norm(img1)
+      conv = np.fft.irfft2(np.fft.rfft2(img1)*np.conjugate(np.fft.rfft2(target)))
+      sx, sy = np.unravel_index(np.argmax(conv), img1.shape[:2])
+      similarities.append((conv[sx,sy],s,(sx,sy)))
+
+   s, shift = max(similarities, key=lambda x:x[0])[1:]
+   sx, sy = shift
+   if sx>600:sx-=1200
+   if sy>800:sy-=1600
+   M = np.float32([[s,0,-sy+400*(s-1)],[0,s,-sx+300*(s-1)]])
+   out = cv.warpAffine(orig_img,M,orig_img.shape[::-1],borderValue=255)
+   return out
+
+def alignImages__old(img, img2):
     global img_final , n2_org , corners2_org
     img_final = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
     gray1 = img_final
