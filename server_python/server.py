@@ -100,10 +100,10 @@ class ImageAnalyser(object):
 
 
       
-        plt.figure()
+        #plt.figure()
         # plt.title('Original image'), plt.xticks([]), plt.yticks([])
-        plt.imshow(mainImg.astype(np.float32) - aligned.astype(np.float32),cmap = 'gray')
-        plt.show()
+        #plt.imshow(mainImg.astype(np.float32) - aligned.astype(np.float32),cmap = 'gray')
+        #plt.show()
 
     # END - for TEST
  
