@@ -45,18 +45,19 @@ a:focus {
 #userScore {
 	font-size: 40px;
 	background: #100005;
-	height: 40px;
+	width: 400px;
+	height: 365px;
 	display: block;
 	position: fixed;
 	right: -561px;
 	color: white;
 	top: 115px;
-	width: 200px;
 	text-align: left;
 	padding: 10px;
 	padding-left: 30px;
 	-webkit-transition: right 1.2s;
 	transition: right 1.2s;
+	z-index: 1000;
 }
 .userScore_show {
 	right: 177px !important;

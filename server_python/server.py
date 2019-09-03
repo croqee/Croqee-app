@@ -19,6 +19,8 @@ from displayImages import displayImages
 from calculateScore import calculateScore
 from matchContours import matchContours
 from chamferDist import  chamferDist
+import base64
+import json
 
 class ImageAnalyser(object):
 
@@ -100,10 +102,10 @@ class ImageAnalyser(object):
 
 
       
-        #plt.figure()
+        # plt.figure()
         # plt.title('Original image'), plt.xticks([]), plt.yticks([])
-        #plt.imshow(mainImg.astype(np.float32) - aligned.astype(np.float32),cmap = 'gray')
-        #plt.show()
+        # plt.imshow(mainImg.astype(np.float32) - aligned.astype(np.float32),cmap = 'gray')
+        # plt.show()
 
     # END - for TEST
  
@@ -121,8 +123,21 @@ class ImageAnalyser(object):
         print("hasudorff: "+ str(distance))
         print("length diff: "+ str(lengthDiff))
         
+        aligned = cv2.resize(aligned,(400,300))
+        new_im = Image.fromarray(aligned)
+        buffered = BytesIO()
+        new_im.save(buffered, format="PNG")
+        buffered.seek(0)
+        data_uri = base64.b64encode(buffered.read()).decode('ascii')
+
+        # encoded = aligned.encode('ascii')
+        print(data_uri)
+        x = {
+        "score": calculateScore(diff),
+        "img": data_uri,
+        }
         
-        return calculateScore(diff)
+        return json.dumps(x)#data_uri#calculateScore(diff)
 
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")

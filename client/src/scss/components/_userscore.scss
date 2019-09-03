@@ -1,0 +1,17 @@
+.userscore{
+    .userscore__drawing{
+        width: 400px;
+        height: 300px;
+        position: relative;
+        right: 9px;
+    }
+    .userscore__model{
+        width: 400px;
+        height: 300px;
+        opacity: 0.3;
+        position: relative;
+        bottom: 311px;
+        right: 9px;
+        z-index: 200;
+    }
+}

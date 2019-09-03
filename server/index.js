@@ -8,8 +8,8 @@ const passport = require("passport");
 const config = require('./config');
 const helpers = require('./helpers');
 var node_client = new zerorpc.Client();
-node_client.connect("tcp://server_python:9699");
-//node_client.connect("tcp://localhost:9699");
+// node_client.connect("tcp://server_python:9699");
+node_client.connect("tcp://localhost:9699");
 
 
 
@@ -54,9 +54,12 @@ app.post("/",(req,res,next)=>{
 app.post("/send_drawing",(req,res,next)=>{
     let dataURL = req.body.dataURL;
     node_client.invoke("DrawingDistance", dataURL, function(error, res2, more) {
-        console.log(res2)
-        message = Math.floor(res2);
-       res.json({"score":message});
+       result = JSON.parse(res2)
+       res.json(
+           {
+               "score":Math.floor(result.score),
+               "img":result.img
+    });
     });   
  });
 

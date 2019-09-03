@@ -42,7 +42,9 @@ const styles = {
 class CanvasPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			baseURL:null
+		};
 	}
 
 	componentDidMount() {
@@ -118,18 +120,20 @@ class CanvasPage extends React.Component {
 	sendDrawing() {
 		// var canvas = this.refs.canvas.getContext('2d');
 		var canvas = document.getElementById('canvas__drawing');
-		console.log(canvas);
+		// console.log(canvas);
 
 		if (canvas) {
 			this.props.setImageProcessing(true);
 			var dataURL = canvas.toDataURL('image/jpeg', 0.1).replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
 			// var dataURL = canvas.toDataURL().replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 
-			console.log(dataURL);
+			// console.log(dataURL);
 			this.props.setTimer(false);
 			axios.post('/send_drawing', { dataURL: dataURL }).then((response) => {
-				// console.log(response);
-				let { score } = response.data;
+				let  score  = response.data.score;
+				this.setState({
+					baseURL:"data:image/png;base64, "+response.data.img
+				})
 				score = score || 0;
 
 				if (response) {
@@ -152,15 +156,19 @@ class CanvasPage extends React.Component {
 
 	render() {
 		const {showGuideLine} = this.props;
+		const {baseURL} = this.state;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		return (
 			/* We should separate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
              in the functional components. We have to figure a way out later
             */
 			<React.Fragment>
-				<span id="userScore" className={this.props.scoreClass}>
+				<span id="userScore" className={"userscore " + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
+					{baseURL && <img className="userscore__drawing" src={baseURL}/>}
+					<img className="userscore__model" src="./shapes_1.png"/>
 				</span>
+				
 				<div className={'canvas ' + side} style={styles.maindiv}>
 					{this.props.imageProcessing && <Loader />}
 					{showGuideLine && <span id="drawhere" />}
