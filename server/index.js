@@ -8,8 +8,8 @@ const passport = require("passport");
 const config = require('./config');
 const helpers = require('./helpers');
 var node_client = new zerorpc.Client();
-// node_client.connect("tcp://server_python:9699");
-node_client.connect("tcp://localhost:9699");
+node_client.connect("tcp://server_python:9699");
+// node_client.connect("tcp://localhost:9699");
 
 
 
@@ -46,8 +46,8 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 
 
 app.post("/",(req,res,next)=>{
-    res.json({"greet":"Hello World! Croqee App here!",
-    "note":"By the way i got genrated by a request from Express server."
+    res.json({"greet":"Hey! Croqee App here!",
+    "note":"something...bla bla"
 });
 });
 

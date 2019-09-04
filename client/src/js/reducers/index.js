@@ -13,7 +13,7 @@ const initialState = {
 	jalil: true,
 	user: {},
 	isAuthenticated: false,
-	timer: 10,
+	timer: 30,
 	showTimer: false,
 	timerDone: false,
 	scoreClass: '',

@@ -51,6 +51,10 @@ export function invokeScore(payload) {
 		dispatch(showScore(payload));
 		setTimeout(() => {
 			dispatch(hideScore());
+			setTimeout(() => {
+				dispatch(setTimer(true));
+				dispatch(setTimerDone(false));
+			}, 1000);
 		}, 5000);
 	};
 }
@@ -61,12 +65,11 @@ export function hideScore() {
 	return { type: HIDE_SCORE };
 }
 
-
 //Set Image Processing
 export function setImageProcessing(payload) {
-	return { type: SET_IMAGE_PROCESSING, imageProcessing:payload };
+	return { type: SET_IMAGE_PROCESSING, imageProcessing: payload };
 }
 
-export function setHandSide(payload){
-	return {type: SET_HAND_SIDE, side:payload}
+export function setHandSide(payload) {
+	return { type: SET_HAND_SIDE, side: payload };
 }

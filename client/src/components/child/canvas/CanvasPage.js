@@ -3,6 +3,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
 import Loader from '../loader/Loader';
+import UserPendingLoader from '../userpendingloader/UserPendingLoader';
 
 const styles = {
 	canvas: {
@@ -137,8 +138,8 @@ class CanvasPage extends React.Component {
 				score = score || 0;
 
 				if (response) {
-					this.props.setTimer(true);
-					this.props.setTimerDone(false);
+					// this.props.setTimer(true);
+					// this.props.setTimerDone(false);
 				}
 				this.props.setImageProcessing(false);
 				this.props.invokeScore(score);
@@ -155,7 +156,7 @@ class CanvasPage extends React.Component {
 	}
 
 	render() {
-		const {showGuideLine} = this.props;
+		const {showGuideLine,timerDone} = this.props;
 		const {baseURL} = this.state;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		return (
@@ -169,6 +170,8 @@ class CanvasPage extends React.Component {
 					<img className="userscore__model" src="./shapes_1.png"/>
 				</span>
 				
+					
+
 				<div className={'canvas ' + side} style={styles.maindiv}>
 					{this.props.imageProcessing && <Loader />}
 					{showGuideLine && <span id="drawhere" />}
