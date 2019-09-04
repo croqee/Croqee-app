@@ -131,7 +131,7 @@ class ImageAnalyser(object):
         data_uri = base64.b64encode(buffered.read()).decode('ascii')
 
         # encoded = aligned.encode('ascii')
-        print(data_uri)
+        # print(data_uri)
         x = {
         "score": calculateScore(diff),
         "img": data_uri,
