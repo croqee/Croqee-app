@@ -38,13 +38,14 @@ class PrototypePage extends React.Component {
 		let side = this.props.leftHand?"model_left_hand":""
 		return (
 			<React.Fragment>
-				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
+				{this.props.showTimer ? <Timer /> : <EmptyTimer/>}
 				<div>
-				<HandSide/>
 					<img src="./shapes_1.png" className={"modelImg draw_and_model " + side} />
 					<div>	
 						<CanvasPage showGuideLine={true}/>
 					</div>
+					<HandSide/>
+
 				</div>
 				<div id="home_bottom">
 					<img id="home_bottom_triangle" src="/triangle.png" />
@@ -55,8 +56,8 @@ class PrototypePage extends React.Component {
 	}
 }
 const mapStateToProps = state => {
-	const { events, user, showTimer,leftHand } = state;
-	return { events, user, showTimer,leftHand };
+	const { events, user, showTimer,leftHand, timerDone } = state;
+	return { events, user, showTimer,leftHand, timerDone };
 };
 const mapDispatchToProps = dispatch => {
 	return {

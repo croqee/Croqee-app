@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setTimer, setTimerDone } from '../../../js/actions';
+import { setTimer, setTimerDone,setStartImageProcessing } from '../../../js/actions';
 
 class Timer extends Component {
 	constructor(props) {
@@ -20,7 +20,7 @@ class Timer extends Component {
 		let done = false;
 
 		let setTimerColor = this.setTimerColor;
-		let setTimerDone = this.props.setTimerDone;
+		let setStartImageProcessing = this.props.setStartImageProcessing;
 		(function draw() {
 			α--;
 			// α %= 360;
@@ -28,7 +28,7 @@ class Timer extends Component {
 				done = true;
 				var end = new Date() - start;
 				console.info('Execution time: %dms', end);
-				setTimerDone(true);
+				setStartImageProcessing(true);
 			}
 			if (α < 240 && α > 120) {
 				setTimerColor('timer_orange');
@@ -75,12 +75,13 @@ class Timer extends Component {
 
 const mapStateToProps = (state) => {
 	const { timer, timerDone } = state;
-	return { timer, timerDone };
+	return { timer, timerDone};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setTimer: (payload) => dispatch(setTimer(payload)),
-		setTimerDone: (payload) => dispatch(setTimerDone(payload))
+		setTimerDone: (payload) => dispatch(setTimerDone(payload)),
+		setStartImageProcessing: (payload) => dispatch(setStartImageProcessing(payload))
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

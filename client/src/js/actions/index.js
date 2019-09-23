@@ -9,7 +9,8 @@ import {
 	HIDE_SCORE,
 	SET_IMAGE_PROCESSING,
 	SET_HAND_SIDE,
-	SET_TIMER_DONE
+	SET_TIMER_DONE,
+	SET_Start_Image_Processing
 } from './action-types';
 
 //Get User
@@ -52,8 +53,9 @@ export function invokeScore(payload) {
 		setTimeout(() => {
 			dispatch(hideScore());
 			setTimeout(() => {
-				dispatch(setTimer(true));
-				dispatch(setTimerDone(false));
+			// 	// dispatch(setTimer(true));
+				dispatch(setTimerDone(true));
+				dispatch(setStartImageProcessing(false));
 			}, 1000);
 		}, 5000);
 	};
@@ -73,3 +75,7 @@ export function setImageProcessing(payload) {
 export function setHandSide(payload) {
 	return { type: SET_HAND_SIDE, side: payload };
 }
+export function setStartImageProcessing(payload) {
+	return { type: SET_Start_Image_Processing, startImageProcessing: payload };
+}
+

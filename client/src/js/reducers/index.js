@@ -7,7 +7,8 @@ import {
 	HIDE_SCORE,
 	SET_IMAGE_PROCESSING,
 	SET_HAND_SIDE,
-	SET_TIMER_DONE
+	SET_TIMER_DONE,
+	SET_Start_Image_Processing,
 } from '../actions/action-types';
 const initialState = {
 	jalil: true,
@@ -15,7 +16,8 @@ const initialState = {
 	isAuthenticated: false,
 	timer: 30,
 	showTimer: false,
-	timerDone: false,
+	timerDone: true,
+	startImageProcessing:false,
 	scoreClass: '',
 	currentScore: '',
 	imageProcessing: false,
@@ -67,11 +69,15 @@ function rootReducer(state = initialState, action) {
 				imageProcessing: action.imageProcessing
 			};
 		case SET_HAND_SIDE:
-			console.log(action);
 			return {
 				...state,
 				leftHand: action.side
 			};
+		case SET_Start_Image_Processing:
+		return {
+			...state,
+			startImageProcessing: action.startImageProcessing
+		};
 		default:
 			return state;
 	}

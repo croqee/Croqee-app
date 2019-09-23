@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class EmptyTimer extends Component {
 	constructor(props) {
@@ -19,10 +20,18 @@ class EmptyTimer extends Component {
 						transform="translate(50, 50) scale(.400)"
 					/>
 				</svg>
-				<span className="takeabreak">Take a break!</span>
+				<span className="begindrawing">{this.props.timerDone ?"The timer starts as you begin drawing the model":"Evaluating your score..."}</span>
 			</React.Fragment>
 		);
 	}
 }
 
-export default EmptyTimer;
+const mapStateToProps = state => {
+	const {  timerDone } = state;
+	return {  timerDone };
+};
+const mapDispatchToProps = dispatch => {
+	return {
+	};
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EmptyTimer);
