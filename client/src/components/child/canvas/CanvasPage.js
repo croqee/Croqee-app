@@ -44,7 +44,8 @@ class CanvasPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			baseURL: null
+			baseURL: null,
+			fadeOut:false
 		};
 	}
 
@@ -66,6 +67,9 @@ class CanvasPage extends React.Component {
 			if (this.props.timerDone) {
 				this.props.setTimer(true);
 				this.props.setTimerDone(false);
+				this.setState({
+					fadeOut:true
+				});
 			}
 
 			this.ctx.beginPath();
@@ -144,6 +148,9 @@ class CanvasPage extends React.Component {
 				if (response) {
 					// this.props.setTimer(true);
 					// this.props.setTimerDone(false);
+					this.setState({
+						fadeOut:false
+					});
 				}
 				this.props.setImageProcessing(false);
 				this.props.invokeScore(score);
@@ -161,7 +168,7 @@ class CanvasPage extends React.Component {
 
 	render() {
 		const { showGuideLine, timerDone } = this.props;
-		const { baseURL } = this.state;
+		const { baseURL, fadeOut } = this.state;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		return (
 			/* We should separate this to another component (Canvas) for modularity reasons. But as we are using but we can't use the'ref' attribute
@@ -176,8 +183,8 @@ class CanvasPage extends React.Component {
 
 				<div className={'canvas ' + side} style={styles.maindiv}>
 					{this.props.imageProcessing && <Loader />}
-					{showGuideLine && <span id="drawhere" />}
-
+					{/* {showGuideLine && <span id="drawhere" />} */}
+                    <span className={fadeOut ?"canvas__draw-here canvas__draw-here--fadeout":"canvas__draw-here canvas__draw-here--fadein "}>Draw the model here</span>
 					<canvas
 						id="canvas__drawing"
 						className="canvas__canvas "
