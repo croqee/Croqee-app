@@ -148,9 +148,6 @@ class CanvasPage extends React.Component {
 				if (response) {
 					// this.props.setTimer(true);
 					// this.props.setTimerDone(false);
-					this.setState({
-						fadeOut:false
-					});
 				}
 				this.props.setImageProcessing(false);
 				this.props.invokeScore(score);
