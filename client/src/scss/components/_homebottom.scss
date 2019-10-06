@@ -3,7 +3,7 @@
 	height: 600px;
 	display: block;
 	clear: both;
-    background-color: #003d02;
+    background-color: $black;
     position: relative;
     top: 60px;
 }
@@ -20,8 +20,8 @@
     width: 330px;
     height: 60px;
     font-size: 23px;
-    color: white;
-    background-color: #980004;
+    color: $black;
+    background-color: $orange;
     border: none;
     cursor: pointer;
 }

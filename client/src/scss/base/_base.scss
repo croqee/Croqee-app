@@ -1,7 +1,8 @@
+@import 'colors';
 body {
 	// padding-top: 75px; // background: url(../img/asset-3.png) no-repeat 100%;
 	// background-size: 100%;
-	background-color: $background-White;
+	background-color: $dark-grey!important;
 	margin: 0;
 }
 
@@ -85,7 +86,8 @@ a:focus {
 	height: 100px;
 	margin:auto;
     margin-bottom: -100px;
-    display: block;
+	display: block;
+	color:$light-grey;
 }
 @media only screen and (max-width: 1750px) {
 	.canvas {

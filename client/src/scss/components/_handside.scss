@@ -2,9 +2,11 @@
     position: relative;
     top: 15px;
     clear: both;
+    color:$mid-light-grey;;
 }
 .btn{
-    border: 3px solid #1a1a1a;
+    border: 3px solid $mid-grey;
+    
     display: inline-block;
     padding: 10px;
     position: relative;
@@ -19,10 +21,10 @@ input[type="radio"].toggle {
         min-width: 80px;
         &:hover{
             background: none;
-            color: #1a1a1a;
+            color: $light-grey;
         }
         &:after{
-            background: #1a1a1a;
+            background-color: $mid-grey;
             content: "";
             height: 100%;
             position: absolute;

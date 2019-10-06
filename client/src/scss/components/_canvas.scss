@@ -17,8 +17,8 @@
 		0% {
 			visibility: hidden;
 			opacity: 0;
-    }
-    100% {
+		}
+		100% {
 			visibility: visible;
 			opacity: 1;
 		}
@@ -29,19 +29,19 @@
 	float: right;
 	margin-right: 50px;
 	.canvas__draw-here {
-		font-size: 50px;
+		font-size: 40px;
 		margin-bottom: -65px;
 		display: block;
 		z-index: 1;
 		position: relative;
 		top: 264px;
-    color: lightgray;
-    user-select: none;
-    cursor: crosshair;
-    pointer-events:none;
-    &--fadein{
-      @include fadeIn();
-    }
+		color: lightgray;
+		user-select: none;
+		cursor: crosshair;
+		pointer-events: none;
+		&--fadein {
+			@include fadeIn();
+		}
 		&--fadeout {
 			@include fadeOut();
 		}
