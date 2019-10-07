@@ -8,8 +8,8 @@ const passport = require("passport");
 const config = require('./config');
 const helpers = require('./helpers');
 var node_client = new zerorpc.Client();
-node_client.connect("tcp://server_python:9699");
-// node_client.connect("tcp://localhost:9699");
+// node_client.connect("tcp://server_python:9699");
+node_client.connect("tcp://localhost:9699");
 const http = require('http')
 const socketIO = require('socket.io')
 
