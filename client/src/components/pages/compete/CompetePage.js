@@ -17,7 +17,7 @@ class CompetePage extends React.Component {
 		super(props);
 		this.state = {
 			existingPlayer:false,
-			endpoint:"server_node:80",
+			endpoint:"croqee.com",
 			// endpoint:"localhost:3000"
 
 		};
