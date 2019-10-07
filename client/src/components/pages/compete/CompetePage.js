@@ -17,11 +17,15 @@ class CompetePage extends React.Component {
 		super(props);
 		this.state = {
 			existingPlayer:false,
-			endpoint:"localhost:3000"
+			endpoint:"server_node:3000"
 		};
 	}
 	componentDidMount() {
 		const socket = socketIOClient(this.state.endpoint);
+		socket.emit('username', this.props.user) 
+		socket.on('new_user', (user)=>{
+			console.log(user)
+		}) 
 
 	}
 	render() {
