@@ -9,31 +9,34 @@ import Timer from '../../child/timer/Timer';
 import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
 import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
+import socketIOClient from 'socket.io-client'
 
 
 class CompetePage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			existingPlayer:false
-
+			existingPlayer:false,
+			endpoint:"localhost:3000"
 		};
 	}
 	componentDidMount() {
+		const socket = socketIOClient(this.state.endpoint);
 
 	}
 	render() {
 		let side = this.props.leftHand?"model_left_hand":""
 		return (
 			<React.Fragment>
-			<UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/>
+			{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
 				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
 				<div>
-				<HandSide/>
 					<img src="./shapes_1.png" className={"modelImg draw_and_model " + side} />
 					<div>	
 						<CanvasPage showGuideLine={false}/>
 					</div>
+					<HandSide/>
+
 				</div>
 			</React.Fragment>
 		);

@@ -20,7 +20,8 @@
     "redux-saga": "^1.0.2",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
-    "sass-npm": "^1.0.2"
+    "sass-npm": "^1.0.2",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,7 +32,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://server_node:8080",
+  "proxy": "http://localhost:8080",
   "browserslist": [
     ">0.2%",
     "not dead",
