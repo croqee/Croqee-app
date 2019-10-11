@@ -20,7 +20,7 @@ class EmptyTimer extends Component {
 						transform="translate(50, 50) scale(.400)"
 					/>
 				</svg>
-				<span className="begindrawing">{this.props.timerDone ?"The timer starts as you begin drawing the model":"Evaluating your score..."}</span>
+				<span className="begindrawing">{this.props.timerDone && !this.props.noText ?"The timer starts as you begin drawing the model":"Evaluating your score..."}</span>
 			</React.Fragment>
 		);
 	}

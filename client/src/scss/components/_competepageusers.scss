@@ -1,0 +1,27 @@
+.compete-page-users {
+	z-index: 100;
+	.compete-page-users__user {
+        vertical-align: top;
+		text-align: center;
+		display: inline-block;
+        padding: 10px;
+        min-width: 130px;
+		.compete-page-users__user__name {
+  
+			font-size: 18px;
+			font-weight: 600;
+			color: $light-grey;
+		}
+		.compete-page-users__user__score {
+			font-size: 18px;
+            color: $orange;
+		}
+		.compete-page-users__user__splitter{
+			height: 50px;
+			border-right:1px solid $light-grey;
+			display: inline-block;
+			float:left;
+			margin-right:30px;
+		}
+	}
+}

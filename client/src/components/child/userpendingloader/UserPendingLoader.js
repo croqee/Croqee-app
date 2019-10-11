@@ -5,7 +5,6 @@ export default function UserPendingLoader({caption}) {
 		<main class="userpendingloader">
 				<span class="userpendingloader__loader"> </span> 
 				<span class="userpendingloader__caption">{caption}</span>
-				<span class="userpendingloader__border"></span>
 		</main>
 	);
 }

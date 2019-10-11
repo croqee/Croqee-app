@@ -45,7 +45,8 @@ function rootReducer(state = initialState, action) {
 		case SET_TIMER:
 			return {
 				...state,
-				showTimer: action.showTimer
+				showTimer: action.showTimer,
+				timer: action.timer
 			};
 		case SET_TIMER_DONE:
 			return {

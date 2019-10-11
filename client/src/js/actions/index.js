@@ -40,7 +40,8 @@ export function authenticate(payload) {
 
 //Timer
 export function setTimer(payload) {
-	return { type: SET_TIMER, showTimer: payload };
+	console.log(payload.timer)
+	return { type: SET_TIMER, showTimer: payload.showTimer , timer:payload.timer };
 }
 export function setTimerDone(payload) {
 	return { type: SET_TIMER_DONE, done: payload };

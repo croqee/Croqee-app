@@ -1,6 +1,6 @@
 // $Var
-$bg-color: #ffff33;
-$color: blue;
+$bg-color: $mid-light-grey;
+$color: $orange;
 
 // $Mixin
 @mixin size($width , $height: $width ) {
@@ -22,7 +22,6 @@ $color: blue;
 }
 
 .userpendingloader {
-	border-bottom: 1px solid black;
     width: 100%;
     padding: 10px 0;
 	&__loader {
@@ -31,7 +30,7 @@ $color: blue;
 		@include size(40px);
 		vertical-align: middle;
 		border-radius: 50px;
-		border: 6px solid lightblue;
+		border: 6px solid $bg-color;
 		&:after {
 			content: "";
 			@include absPosition(-6px, -6px, -6px, -6px);

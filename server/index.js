@@ -1,23 +1,23 @@
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 const app = express();
-const logger = require("morgan");
-const zerorpc = require("zerorpc");
-const passport = require("passport");
+const logger = require('morgan');
+const zerorpc = require('zerorpc');
+const passport = require('passport');
 const config = require('./config');
 const helpers = require('./helpers');
 var node_client = new zerorpc.Client();
 node_client.connect("tcp://server_python:9699");
-// node_client.connect("tcp://localhost:9699");
-const http = require('http')
-const socketIO = require('socket.io')
+// node_client.connect('tcp://localhost:9699');
+const http = require('http');
+const socketIO = require('socket.io');
 
 require('./models').connect(config.dbUri);
 
 // tell the app to parse HTTP body messages
-app.use(bodyParser.json())
-app.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser.json());
+app.use(bodyParser({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport.initialize());
@@ -38,73 +38,194 @@ const apiRoutes = require('./routes/api');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
-
-
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
-
-app.post("/",(req,res,next)=>{
-    res.json({"greet":"Hey! Croqee App here!",
-    "note":"something...bla bla"
+app.post('/', (req, res, next) => {
+	res.json({
+		greet: 'Hey! Croqee App here!',
+		note: 'something...bla bla'
+	});
 });
+
+app.post('/send_drawing', (req, res, next) => {
+	let dataURL = req.body.dataURL;
+	node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+		result = JSON.parse(res2);
+		res.json({
+			score: Math.floor(result.score),
+			img: result.img
+		});
+	});
 });
 
-app.post("/send_drawing",(req,res,next)=>{
-    let dataURL = req.body.dataURL;
-    node_client.invoke("DrawingDistance", dataURL, function(error, res2, more) {
-       result = JSON.parse(res2)
-       res.json(
-           {
-               "score":Math.floor(result.score),
-               "img":result.img
-    });
-    });   
- });
-
- //avoid python server sleeping
-setInterval(()=>{
-    node_client.invoke("wakeUp");   
-},
-10000)
+//avoid python server sleeping
+setInterval(() => {
+	node_client.invoke('wakeUp');
+}, 10000);
 
 app.use((req, res, next) => {
-    const error = new Error("Not Found");
-    error.status = 404;
-    next(error);
+	const error = new Error('Not Found');
+	error.status = 404;
+	next(error);
 });
 
 app.use((error, req, res, next) => {
-    res.status(error.status || 500);
+	res.status(error.status || 500);
 
-    res.json({
-        error:{
-            message:error.message
-        }
-    });
+	res.json({
+		error: {
+			message: error.message
+		}
+	});
 });
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 
+let stillLifePlayers = [];
+let stillLifeModels = [
+	{
+		model: 'model_1',
+		givenTime: 30,
+		timer: 30
+	},
+	{
+		model: 'model_2',
+		givenTime: 30,
+		timer: 30
+	},
+	{
+		model: 'model_2',
+		givenTime: 30,
+		timer: 30
+	}
+];
+let stillLifeRound = 1;
+let isStillLifeBeginProcessed = false;
+let hasToBeResetAsUsersLeave = false;
+let numOfUsersGotScored = 0;
+
+function findWithAttr(array, attr, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i][attr] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+function resetStillLife() {
+     stillLifeModels = [
+        {
+            model: 'model_1',
+            givenTime: 30,
+            timer: 30
+        },
+        {
+            model: 'model_2',
+            givenTime: 30,
+            timer: 30
+        },
+        {
+            model: 'model_2',
+            givenTime: 30,
+            timer: 30
+        }
+    ];
+	stillLifeRound = 1;
+	isStillLifeBeginProcessed = false;
+	hasToBeResetAsUsersLeave = false;
+	numOfUsersGotScored = 0;
+}
 const io = socketIO(server);
-io.on('connection', socket => {
-  console.log('New client connected')
-  
-  // just like on the client side, we have a socket.on method that takes a callback function
-  socket.on('username', (user) => {
-    // once we get a 'change color' event from one of our clients, we will send it to the rest of the clients
-    // we make use of the socket.emit method again with the argument given to use from the callback function above
-    console.log('Username: ', user)
-    io.sockets.emit( 'new_user', user.name)
-  })
-  
-  // disconnect is fired when a client leaves the server
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
-  })
-})
+setInterval(() => {
+	console.log('num of users ' + stillLifePlayers.length);
+	console.log('num of scored users ' + numOfUsersGotScored);
+	if (stillLifePlayers.length != 0) {
+		console.log(isStillLifeBeginProcessed);
+		if (isStillLifeBeginProcessed) {
+			!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
+			stillLifeModels[stillLifeRound - 1].timer--;
+			if (stillLifeModels[stillLifeRound - 1].timer == 0) {
+				isStillLifeBeginProcessed = false;
+				io.sockets.emit('send_your_drawing');
+				stillLifeModels[stillLifeRound - 1].timer = stillLifeModels[stillLifeRound - 1].givenTime;
+				stillLifeRound++;
+				if (stillLifeRound == stillLifeModels.length) {
+					stillLifeRound = 1;
+				}
+			}
+		} else {
+			if (numOfUsersGotScored >= stillLifePlayers.length || stillLifePlayers.length == 1) {
+				setTimeout(() => {
+					io.sockets.emit('start_drawing', stillLifeModels[stillLifeRound - 1]);
+					isStillLifeBeginProcessed = true;
+					numOfUsersGotScored = 0;
+				}, 5000);
+			}
+		}
+	} else {
+		if (hasToBeResetAsUsersLeave) {
+			// reset every thing to defualt
+			resetStillLife();
+			hasToBeResetAsUsersLeave = false;
+		}
+	}
+}, 1000);
 
+io.on('connection', (socket) => {
+	let joinedUser;
+	console.log('New client connected');
+
+	socket.on('username', (user) => {
+		joinedUser = user;
+		let userIsValid = joinedUser && joinedUser._id != null;
+		let userIsNotAlreadyJoined = stillLifePlayers.filter((u) => u._id == joinedUser._id).length == 0;
+		if (userIsValid && userIsNotAlreadyJoined) {
+			joinedUser.status = 'just entered';
+			joinedUser.score = 0;
+			stillLifePlayers.push(joinedUser);
+			console.log('stillLifePlayers');
+            console.log(stillLifePlayers);
+            numOfUsersGotScored++;
+			io.sockets.emit('update_user', stillLifePlayers);
+		}
+		socket.on('my_drawing', (dataURL) => {
+			let _score = 0;
+			if (dataURL != null) {
+				node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+					result = JSON.parse(res2);
+					_score = Math.floor(result.score);
+                    socket.emit('evaluated_score', { score: _score, img: result.img });
+                    numOfUsersGotScored++;
+
+                    let _index = findWithAttr(stillLifePlayers,"_id",joinedUser._id);
+                    joinedUser.score = _score;
+                    joinedUser.status == 'just entered' ? joinedUser.status = 'playing' : '';
+                    stillLifePlayers[_index] = joinedUser;
+                    io.sockets.emit('update_user', stillLifePlayers);
+
+				});
+			} else {
+                socket.emit('evaluated_score', { score: _score, img: null });
+                numOfUsersGotScored++;
+
+                let _index = findWithAttr(stillLifePlayers,"_id",joinedUser._id);
+                joinedUser.score = _score;
+                joinedUser.status == 'just entered' ? joinedUser.status = 'playing' : '';
+                stillLifePlayers[_index] = joinedUser;
+                io.sockets.emit('update_user', stillLifePlayers);
+			}
+
+		});
+	});
+
+	socket.on('disconnect', () => {
+		console.log('user disconnected');
+		stillLifePlayers = stillLifePlayers.filter((u) => u != joinedUser);
+		console.log('stillLifePlayers');
+		console.log(stillLifePlayers);
+	});
+});
 
 server.listen(process.env.PORT || 8080);
-
