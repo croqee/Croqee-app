@@ -1,5 +1,15 @@
+
 .compete-page-users {
 	z-index: 100;
+	.compete-page-users__user-splitter{
+		height: 50px;
+		border-right: 1px solid $light-grey;
+		display: inline-block;
+		margin-right: 20px;
+		position: relative;
+		top: 10px;
+		margin-left: 20px;
+	}
 	.compete-page-users__user {
         vertical-align: top;
 		text-align: center;
@@ -14,14 +24,11 @@
 		}
 		.compete-page-users__user__score {
 			font-size: 18px;
-            color: $orange;
-		}
-		.compete-page-users__user__splitter{
-			height: 50px;
-			border-right:1px solid $light-grey;
-			display: inline-block;
-			float:left;
-			margin-right:30px;
+			color: $orange;
+			text-align: center;
+			.compete-page-users__user__score__number{
+				font-weight: 600;
+			}
 		}
 	}
 }

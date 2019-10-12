@@ -3,9 +3,12 @@ import Auth from '../../../modules/Auth';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
 import logo from "../../../img/logo.png"
 import { connect } from 'react-redux';
+import { getUser } from '../../../js/actions';
 
 class NavBar extends React.Component {
-	componentDidMount() {}
+	componentDidMount() {
+		this.props.getUser();
+	}
 
 	render() {
 		return (
@@ -62,8 +65,10 @@ const mapStateToProps = state => {
 	const {isAuthenticated,user} = state;
 	return {isAuthenticated,user};
   };
-  const mapDispatchToProps = dispatch => {
-
-  }
+	const mapDispatchToProps = dispatch => {
+		return {
+			getUser: () => dispatch(getUser()),
+		};
+	}
 
 export default connect(mapStateToProps , mapDispatchToProps)(NavBar);

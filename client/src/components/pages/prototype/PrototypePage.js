@@ -28,10 +28,6 @@ class PrototypePage extends React.Component {
 				messageFromPython
 			});
 		});
-
-		this.props.getUser();
-
-
 	}
 	render() {
 		let user = this.props.user;
@@ -62,7 +58,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		getUser: () => dispatch(getUser()),
-
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PrototypePage);

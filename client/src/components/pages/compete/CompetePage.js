@@ -15,8 +15,8 @@ import {socketEndPoint} from '../../../clientglobalvariables'
 
 class CompetePage extends React.Component {
 	constructor(props) {
-		console.log(socketEndPoint)
 		super(props);
+		let socket;
 		this.state = {
 			existingPlayer: false,
 			endpoint:socketEndPoint,
@@ -28,21 +28,21 @@ class CompetePage extends React.Component {
 		};
 	}
 	componentDidMount() {
-		const socket = socketIOClient(this.state.endpoint);
-		socket.emit('username', this.props.user);
-		socket.on('update_user', (users) => {
+		this.socket = socketIOClient(this.state.endpoint);
+		this.socket.emit('username', this.props.user);
+		this.socket.on('update_user', (users) => {
 			console.log(users);
 			this.setState({
 				playingUsers: users
 			});
 		});
-		socket.on('start_drawing', (model) => {
+		this.socket.on('start_drawing', (model) => {
 			console.log('start drawing');
 			console.log(model);
 			this.setState({ startDrawing: true });
-			this.props.setTimer({ showTimer: true, timer: model.givenTime });
+			this.props.setTimer({ showTimer: true, timer: model.givenTime/100 });
 		});
-		socket.on('send_your_drawing', () => {
+		this.socket.on('send_your_drawing', () => {
 			if (this.state.startDrawing) {
 				let canvas = document.getElementById('canvas__drawing');
 				if (canvas) {
@@ -54,11 +54,11 @@ class CompetePage extends React.Component {
 							.toDataURL('image/jpeg', 0.1)
 							.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 					}
-					socket.emit('my_drawing', dataURL);
+					this.socket.emit('my_drawing', dataURL);
 				}
 			}
 		});
-		socket.on('evaluated_score', (scoreDetails) => {
+		this.socket.on('evaluated_score', (scoreDetails) => {
 			if (this.state.startDrawing) {
 				console.log(scoreDetails.score);
 				this.props.setImageProcessing(false);
@@ -77,6 +77,9 @@ class CompetePage extends React.Component {
 			}
 		});
 	}
+	componentWillUnmount() {
+		this.socket.close();
+	  }
 	setResetCanvasToFalse = () => {
 		this.setState({
 			resetCanvas: false
@@ -97,7 +100,7 @@ class CompetePage extends React.Component {
 				{!startDrawing && (
 					<div className="compete-page__wait-for-game">
 						{' '}
-						<UserPendingLoader caption={'Please wait until the next round starts...'} />
+						<UserPendingLoader caption={'Please wait until the next round begins...'} />
 					</div>
 				)}
 		<CompetePageUsers playingUsers={playingUsers}/>

@@ -11,7 +11,7 @@ const helpers = require('./helpers');
 const http = require('http');
 const socketIO = require('socket.io');
 
-const {pythonServerEndPoint} = require('./serverglobalvariables');
+const { pythonServerEndPoint, emptyDataUrl } = require('./serverglobalvariables');
 
 require('./models').connect(config.dbUri);
 var node_client = new zerorpc.Client();
@@ -53,13 +53,20 @@ app.post('/', (req, res, next) => {
 
 app.post('/send_drawing', (req, res, next) => {
 	let dataURL = req.body.dataURL;
-	node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
-		result = JSON.parse(res2);
+	if (dataUrl == emptyDataUrl) {
 		res.json({
-			score: Math.floor(result.score),
-			img: result.img
+			score: 0,
+			img: null
 		});
-	});
+	} else {
+		node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+			result = JSON.parse(res2);
+			res.json({
+				score: Math.floor(result.score),
+				img: result.img
+			});
+		});
+	}
 });
 
 //avoid python server sleeping
@@ -87,21 +94,21 @@ const server = http.createServer(app);
 
 let stillLifePlayers = [];
 let stillLifeModels = [
-	{
-		model: 'model_1',
-		givenTime: 30,
-		timer: 30
-	},
-	{
-		model: 'model_2',
-		givenTime: 30,
-		timer: 30
-	},
-	{
-		model: 'model_2',
-		givenTime: 30,
-		timer: 30
-	}
+    {
+        model: 'model_1',
+        givenTime: 3000,
+        timer: 3000
+    },
+    {
+        model: 'model_2',
+        givenTime: 3000,
+        timer: 3000
+    },
+    {
+        model: 'model_2',
+        givenTime: 3000,
+        timer: 3000
+    }
 ];
 let stillLifeRound = 1;
 let isStillLifeBeginProcessed = false;
@@ -109,36 +116,37 @@ let hasToBeResetAsUsersLeave = false;
 let numOfUsersGotScored = 0;
 
 function findWithAttr(array, attr, value) {
-    for(var i = 0; i < array.length; i += 1) {
-        if(array[i][attr] === value) {
-            return i;
-        }
-    }
-    return -1;
+	for (var i = 0; i < array.length; i += 1) {
+		if (array[i][attr] === value) {
+			return i;
+		}
+	}
+	return -1;
 }
 function resetStillLife() {
-     stillLifeModels = [
-        {
-            model: 'model_1',
-            givenTime: 30,
-            timer: 30
-        },
-        {
-            model: 'model_2',
-            givenTime: 30,
-            timer: 30
-        },
-        {
-            model: 'model_2',
-            givenTime: 30,
-            timer: 30
-        }
-    ];
+	stillLifeModels = [
+		{
+			model: 'model_1',
+			givenTime: 3000,
+			timer: 3000
+		},
+		{
+			model: 'model_2',
+			givenTime: 3000,
+			timer: 3000
+		},
+		{
+			model: 'model_2',
+			givenTime: 3000,
+			timer: 3000
+		}
+	];
 	stillLifeRound = 1;
 	isStillLifeBeginProcessed = false;
 	hasToBeResetAsUsersLeave = false;
-	numOfUsersGotScored = 0;
+    numOfUsersGotScored = 0;
 }
+
 const io = socketIO(server);
 setInterval(() => {
 	console.log('num of users ' + stillLifePlayers.length);
@@ -149,31 +157,31 @@ setInterval(() => {
 			!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
 			stillLifeModels[stillLifeRound - 1].timer--;
 			if (stillLifeModels[stillLifeRound - 1].timer == 0) {
-				isStillLifeBeginProcessed = false;
+                isStillLifeBeginProcessed = false;
 				io.sockets.emit('send_your_drawing');
 				stillLifeModels[stillLifeRound - 1].timer = stillLifeModels[stillLifeRound - 1].givenTime;
 				stillLifeRound++;
 				if (stillLifeRound == stillLifeModels.length) {
 					stillLifeRound = 1;
 				}
-			}
+            }
 		} else {
 			if (numOfUsersGotScored >= stillLifePlayers.length || stillLifePlayers.length == 1) {
 				setTimeout(() => {
 					io.sockets.emit('start_drawing', stillLifeModels[stillLifeRound - 1]);
-					isStillLifeBeginProcessed = true;
+                    isStillLifeBeginProcessed = true;
 					numOfUsersGotScored = 0;
 				}, 5000);
-			}
+            }
 		}
 	} else {
 		if (hasToBeResetAsUsersLeave) {
 			// reset every thing to defualt
 			resetStillLife();
 			hasToBeResetAsUsersLeave = false;
-		}
-	}
-}, 1000);
+        }
+    }
+}, 10);
 
 io.on('connection', (socket) => {
 	let joinedUser;
@@ -184,12 +192,12 @@ io.on('connection', (socket) => {
 		let userIsValid = joinedUser && joinedUser._id != null;
 		let userIsNotAlreadyJoined = stillLifePlayers.filter((u) => u._id == joinedUser._id).length == 0;
 		if (userIsValid && userIsNotAlreadyJoined) {
-			joinedUser.status = 'just entered';
+			joinedUser.status = 'recently joined';
 			joinedUser.score = 0;
 			stillLifePlayers.push(joinedUser);
 			console.log('stillLifePlayers');
-            console.log(stillLifePlayers);
-            numOfUsersGotScored++;
+			console.log(stillLifePlayers);
+			numOfUsersGotScored++;
 			io.sockets.emit('update_user', stillLifePlayers);
 		}
 		socket.on('my_drawing', (dataURL) => {
@@ -198,27 +206,25 @@ io.on('connection', (socket) => {
 				node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
 					result = JSON.parse(res2);
 					_score = Math.floor(result.score);
-                    socket.emit('evaluated_score', { score: _score, img: result.img });
-                    numOfUsersGotScored++;
+					socket.emit('evaluated_score', { score: _score, img: result.img });
+					numOfUsersGotScored++;
 
-                    let _index = findWithAttr(stillLifePlayers,"_id",joinedUser._id);
-                    joinedUser.score = _score;
-                    joinedUser.status == 'just entered' ? joinedUser.status = 'playing' : '';
-                    stillLifePlayers[_index] = joinedUser;
-                    io.sockets.emit('update_user', stillLifePlayers);
-
+					let _index = findWithAttr(stillLifePlayers, '_id', joinedUser._id);
+					joinedUser.score = _score;
+					joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
+					stillLifePlayers[_index] = joinedUser;
+					io.sockets.emit('update_user', stillLifePlayers);
 				});
 			} else {
-                socket.emit('evaluated_score', { score: _score, img: null });
-                numOfUsersGotScored++;
+				socket.emit('evaluated_score', { score: _score, img: null });
+				numOfUsersGotScored++;
 
-                let _index = findWithAttr(stillLifePlayers,"_id",joinedUser._id);
-                joinedUser.score = _score;
-                joinedUser.status == 'just entered' ? joinedUser.status = 'playing' : '';
-                stillLifePlayers[_index] = joinedUser;
-                io.sockets.emit('update_user', stillLifePlayers);
+				let _index = findWithAttr(stillLifePlayers, '_id', joinedUser._id);
+				joinedUser.score = _score;
+				joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
+				stillLifePlayers[_index] = joinedUser;
+				io.sockets.emit('update_user', stillLifePlayers);
 			}
-
 		});
 	});
 
