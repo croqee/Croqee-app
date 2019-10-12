@@ -1,56 +1,56 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setTimer, setTimerDone,setStartImageProcessing } from '../../../js/actions';
+import { setTimer, setTimerDone, setStartImageProcessing } from '../../../js/actions';
 
 class Timer extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
-			timerColor: 'timer_green'
+			timerColor: 'timer_green',
 		};
+	
 	}
 	componentDidMount() {
-		var loader = this.refs.loader,
-			α = 360,
-			π = Math.PI,
-			t = this.props.timer * 2.7;
-		// let setTimer = this.props.setTimer;
-		var start = new Date().getTime();
-		let done = false;
+		this.processIntrupted = false
 
-		let setTimerColor = this.setTimerColor;
-		let setStartImageProcessing = this.props.setStartImageProcessing;
-		(function draw() {
-			α--;
-			// α %= 360;
-			if (α === 0) {
-				done = true;
-				var end = new Date() - start;
-				console.info('Execution time: %dms', end);
-				setStartImageProcessing(true);
-			}
-			if (α < 240 && α > 120) {
-				setTimerColor('timer_orange');
-			} else if (α < 120) {
-				setTimerColor('timer_red');
-			}
+		this.loader = this.refs.loader;
+		this.α = 360;
+		this.π = Math.PI;
+		this.t = this.props.timer * 2.7;
+		this.start = new Date().getTime();
+		this.done = false;
+		this.draw();
 
-			var r = α * π / 180,
-				x = Math.sin(r) * 125,
-				y = Math.cos(r) * -125,
-				mid = α > 180 ? 1 : 0,
-				anim = 'M 0 0 v -125 A 125 125 1 ' + mid + ' 1 ' + x + ' ' + y + ' z';
-			// [x,y].forEach(function( d ){
-			//  d = Math.round( d * 1e3 ) / 1e3;
-			// });
-
-			loader.setAttribute('d', anim);
-			if (!done) {
-				setTimeout(draw, t); // Redraw
-			}
-		})();
 	}
+	componentWillUnmount(){
+		this.processIntrupted = true;
+	}
+	draw = () => {
+		this.α--;
+		if (this.α === 0 && !this.processIntrupted) {
+			this.done = true;
+			var end = new Date() - this.start;
+			console.info('Execution time: %dms', end);
+			this.props.setStartImageProcessing(true);
+		}
+		if (this.α < 240 && this.α > 120) {
+			this.setTimerColor('timer_orange');
+		} else if (this.α < 120) {
+			this.setTimerColor('timer_red');
+		}
+
+		var r = this.α * this.π / 180,
+			x = Math.sin(r) * 125,
+			y = Math.cos(r) * -125,
+			mid = this.α > 180 ? 1 : 0,
+			anim = 'M 0 0 v -125 A 125 125 1 ' + mid + ' 1 ' + x + ' ' + y + ' z';
+
+		this.loader.setAttribute('d', anim);
+		if (!this.done && !this.processIntrupted) {
+			setTimeout(this.draw, this.t); // Redraw
+		}
+	};
+
 	setTimerColor = (param) => {
 		this.setState({
 			timerColor: param
@@ -75,7 +75,7 @@ class Timer extends Component {
 
 const mapStateToProps = (state) => {
 	const { timer, timerDone } = state;
-	return { timer, timerDone};
+	return { timer, timerDone };
 };
 const mapDispatchToProps = (dispatch) => {
 	return {

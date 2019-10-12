@@ -53,20 +53,13 @@ app.post('/', (req, res, next) => {
 
 app.post('/send_drawing', (req, res, next) => {
 	let dataURL = req.body.dataURL;
-	if (dataUrl == emptyDataUrl) {
+	node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+		result = JSON.parse(res2);
 		res.json({
-			score: 0,
-			img: null
+			score: Math.floor(result.score),
+			img: result.img
 		});
-	} else {
-		node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
-			result = JSON.parse(res2);
-			res.json({
-				score: Math.floor(result.score),
-				img: result.img
-			});
-		});
-	}
+	});
 });
 
 //avoid python server sleeping
@@ -94,21 +87,21 @@ const server = http.createServer(app);
 
 let stillLifePlayers = [];
 let stillLifeModels = [
-    {
-        model: 'model_1',
-        givenTime: 30,
-        timer: 30
-    },
-    {
-        model: 'model_2',
-        givenTime: 30,
-        timer: 30
-    },
-    {
-        model: 'model_3',
-        givenTime: 30,
-        timer: 30
-    }
+	{
+		model: 'model_1',
+		givenTime: 30,
+		timer: 30
+	},
+	{
+		model: 'model_2',
+		givenTime: 30,
+		timer: 30
+	},
+	{
+		model: 'model_3',
+		givenTime: 30,
+		timer: 30
+	}
 ];
 let stillLifeRound = 1;
 let isStillLifeBeginProcessed = false;
@@ -144,7 +137,7 @@ function resetStillLife() {
 	stillLifeRound = 1;
 	isStillLifeBeginProcessed = false;
 	hasToBeResetAsUsersLeave = false;
-    numOfUsersGotScored = 0;
+	numOfUsersGotScored = 0;
 }
 
 const io = socketIO(server);
@@ -157,30 +150,30 @@ setInterval(() => {
 			!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
 			stillLifeModels[stillLifeRound - 1].timer--;
 			if (stillLifeModels[stillLifeRound - 1].timer == 0) {
-                isStillLifeBeginProcessed = false;
+				isStillLifeBeginProcessed = false;
 				io.sockets.emit('send_your_drawing');
 				stillLifeModels[stillLifeRound - 1].timer = stillLifeModels[stillLifeRound - 1].givenTime;
 				stillLifeRound++;
 				if (stillLifeRound > stillLifeModels.length) {
 					stillLifeRound = 1;
 				}
-            }
+			}
 		} else {
 			if (numOfUsersGotScored >= stillLifePlayers.length || stillLifePlayers.length == 1) {
 				setTimeout(() => {
 					io.sockets.emit('start_drawing', stillLifeModels[stillLifeRound - 1]);
-                    isStillLifeBeginProcessed = true;
+					isStillLifeBeginProcessed = true;
 					numOfUsersGotScored = 0;
 				}, 5000);
-            }
+			}
 		}
 	} else {
 		if (hasToBeResetAsUsersLeave) {
 			// reset every thing to defualt
 			resetStillLife();
 			hasToBeResetAsUsersLeave = false;
-        }
-    }
+		}
+	}
 }, 1000);
 
 io.on('connection', (socket) => {

@@ -25,7 +25,7 @@ class CompetePage extends React.Component {
 			startDrawing: false,
 			hasUserDrawnOnCanvas: false,
 			playingUsers: [],
-			model:{}
+			model:{},
 		};
 	}
 	componentDidMount() {
@@ -81,6 +81,8 @@ class CompetePage extends React.Component {
 	}
 	componentWillUnmount() {
 		this.socket.close();
+		this.props.setTimer({showTimer:false,timer:0});
+		this.props.setTimerDone(true);
 	  }
 	setResetCanvasToFalse = () => {
 		this.setState({
@@ -107,7 +109,7 @@ class CompetePage extends React.Component {
 				)}
 		<CompetePageUsers playingUsers={playingUsers}/>
 				{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
-				{this.props.showTimer ? <Timer /> : <EmptyTimer noText={true}/>}
+				{this.props.showTimer ? <Timer/> : <EmptyTimer noText={true}/>}
 				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL ? (
