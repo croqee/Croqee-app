@@ -96,18 +96,18 @@ let stillLifePlayers = [];
 let stillLifeModels = [
     {
         model: 'model_1',
-        givenTime: 3000,
-        timer: 3000
+        givenTime: 30,
+        timer: 30
     },
     {
         model: 'model_2',
-        givenTime: 3000,
-        timer: 3000
+        givenTime: 30,
+        timer: 30
     },
     {
         model: 'model_3',
-        givenTime: 3000,
-        timer: 3000
+        givenTime: 30,
+        timer: 30
     }
 ];
 let stillLifeRound = 1;
@@ -127,18 +127,18 @@ function resetStillLife() {
 	stillLifeModels = [
 		{
 			model: 'model_1',
-			givenTime: 3000,
-			timer: 3000
+			givenTime: 30,
+			timer: 30
 		},
 		{
 			model: 'model_2',
-			givenTime: 3000,
-			timer: 3000
+			givenTime: 30,
+			timer: 30
 		},
 		{
 			model: 'model_3',
-			givenTime: 3000,
-			timer: 3000
+			givenTime: 30,
+			timer: 30
 		}
 	];
 	stillLifeRound = 1;
@@ -181,7 +181,7 @@ setInterval(() => {
 			hasToBeResetAsUsersLeave = false;
         }
     }
-}, 10);
+}, 1000);
 
 io.on('connection', (socket) => {
 	let joinedUser;

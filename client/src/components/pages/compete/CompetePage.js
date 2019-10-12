@@ -42,7 +42,7 @@ class CompetePage extends React.Component {
 			console.log('start drawing');
 			console.log(model);
 			this.setState({ startDrawing: true });
-			this.props.setTimer({ showTimer: true, timer: model.givenTime/100 });
+			this.props.setTimer({ showTimer: true, timer: model.givenTime });
 		});
 		this.socket.on('send_your_drawing', () => {
 			if (this.state.startDrawing) {
