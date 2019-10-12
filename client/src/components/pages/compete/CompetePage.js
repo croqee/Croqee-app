@@ -11,14 +11,15 @@ import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
 import socketIOClient from 'socket.io-client';
 import CompeteCanvasPage from '../../child/canvas/CompeteCanvasPage';
 import CompetePageUsers from '../../child/competepageusers/CompetePageUsers';
+import {socketEndPoint} from '../../../clientglobalvariables'
 
 class CompetePage extends React.Component {
 	constructor(props) {
+		console.log(socketEndPoint)
 		super(props);
 		this.state = {
 			existingPlayer: false,
-			endpoint:"croqee.com",
-			// endpoint: 'localhost:3000',
+			endpoint:socketEndPoint,
 			baseURL: '',
 			resetCanvas: false,
 			startDrawing: false,
