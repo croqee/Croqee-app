@@ -19,6 +19,7 @@ class PrototypePage extends React.Component {
 		};
 	}
 	componentDidMount() {
+		this.props.getUser();
 		axios.post('/').then((response) => {
 			console.log(response);
 			const { greet, note, messageFromPython } = response.data;

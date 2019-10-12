@@ -4,6 +4,7 @@
 	background-image: url("http://www.williamaberry.com/Images3/photos_still_life_large/pho_sl_geo_white_color.jpg");
 	display: inline-block;
 	cursor: pointer;
+	color:$dark-grey;
 	&:hover {
 		.clubthumbnail__overlay {
 			background-color: black;

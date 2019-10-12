@@ -36,7 +36,7 @@ class NavBar extends React.Component {
 						</Link>
 						<span className="nav-links_seperator"/>
 						<Link className="nav-link" to="/LogOut">
-							LogOut
+							Log out
 						</Link>
 					</div>
 					:

@@ -1,8 +1,14 @@
+a {
+    color:$orange;
+}
+body{
+    color:$light-grey;
+}
 .auth_input{
     width: 231px;
     height: 30px;
     margin: 10px;
-    border: 1px solid navy;
+    border: 1px solid $dark-grey;
     padding: 5px;
     font-size: 16px;
 }
@@ -13,7 +19,7 @@
     cursor: pointer;
     border-radius: 4px;
     border: none;
-    background-color: #000061;
+    background-color: $orange;
     color: white;
     font-size: 18px;
 }
