@@ -105,7 +105,7 @@ let stillLifeModels = [
         timer: 3000
     },
     {
-        model: 'model_2',
+        model: 'model_3',
         givenTime: 3000,
         timer: 3000
     }
@@ -136,7 +136,7 @@ function resetStillLife() {
 			timer: 3000
 		},
 		{
-			model: 'model_2',
+			model: 'model_3',
 			givenTime: 3000,
 			timer: 3000
 		}
@@ -161,7 +161,7 @@ setInterval(() => {
 				io.sockets.emit('send_your_drawing');
 				stillLifeModels[stillLifeRound - 1].timer = stillLifeModels[stillLifeRound - 1].givenTime;
 				stillLifeRound++;
-				if (stillLifeRound == stillLifeModels.length) {
+				if (stillLifeRound > stillLifeModels.length) {
 					stillLifeRound = 1;
 				}
             }

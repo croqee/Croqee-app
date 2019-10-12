@@ -24,7 +24,8 @@ class CompetePage extends React.Component {
 			resetCanvas: false,
 			startDrawing: false,
 			hasUserDrawnOnCanvas: false,
-			playingUsers: []
+			playingUsers: [],
+			model:{}
 		};
 	}
 	componentDidMount() {
@@ -37,6 +38,7 @@ class CompetePage extends React.Component {
 			});
 		});
 		this.socket.on('start_drawing', (model) => {
+			this.setState({model:model})
 			console.log('start drawing');
 			console.log(model);
 			this.setState({ startDrawing: true });
@@ -113,10 +115,19 @@ class CompetePage extends React.Component {
 					) : (
 						<div className="userscore__drawing" />
 					)}
-					<img className="userscore__model" src="./shapes_1.png" />
+					
+					{this.state.model.model =="model_1" && <img className="userscore__model" src="./shapes_1.png" />}
+					{this.state.model.model =="model_2" && <img className="userscore__model" src="./shapes_2.png" />}
+					{this.state.model.model =="model_3" && <img className="userscore__model" src="./shapes_3.png" />}
+
 				</span>
 				<div>
-					<img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />
+					
+					
+				{this.state.model.model =="model_1" && <img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />}
+				{this.state.model.model =="model_2" && <img src="./shapes_2.png" className={'modelImg draw_and_model ' + side} />}
+				{this.state.model.model =="model_3" && <img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />}
+
 					<div>
 						<CompeteCanvasPage
 							showGuideLine={false}
