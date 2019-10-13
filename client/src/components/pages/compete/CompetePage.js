@@ -12,6 +12,7 @@ import socketIOClient from 'socket.io-client';
 import CompeteCanvasPage from '../../child/canvas/CompeteCanvasPage';
 import CompetePageUsers from '../../child/competepageusers/CompetePageUsers';
 import {socketEndPoint} from '../../../clientglobalvariables'
+import Auth from '../../../modules/Auth';
 
 class CompetePage extends React.Component {
 	constructor(props) {
@@ -30,7 +31,8 @@ class CompetePage extends React.Component {
 	}
 	componentDidMount() {
 		this.socket = socketIOClient(this.state.endpoint);
-		this.socket.emit('username', this.props.user);
+		const token = Auth.getToken();
+		this.socket.emit('username',token);
 		this.socket.on('update_user', (users) => {
 			console.log(users);
 			this.setState({

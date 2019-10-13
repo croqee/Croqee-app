@@ -11,9 +11,14 @@ const helpers = require('./helpers');
 const http = require('http');
 const socketIO = require('socket.io');
 
+const jwt = require('jsonwebtoken');
+
 const { pythonServerEndPoint, emptyDataUrl } = require('./serverglobalvariables');
 
 require('./models').connect(config.dbUri);
+
+const User = require('mongoose').model('User');
+
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 
@@ -142,10 +147,7 @@ function resetStillLife() {
 
 const io = socketIO(server);
 setInterval(() => {
-	console.log('num of users ' + stillLifePlayers.length);
-	console.log('num of scored users ' + numOfUsersGotScored);
 	if (stillLifePlayers.length != 0) {
-		console.log(isStillLifeBeginProcessed);
 		if (isStillLifeBeginProcessed) {
 			!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
 			stillLifeModels[stillLifeRound - 1].timer--;
@@ -177,55 +179,67 @@ setInterval(() => {
 }, 1000);
 
 io.on('connection', (socket) => {
-	let joinedUser;
-	console.log('New client connected');
+	let joinedUser = {};
 
-	socket.on('username', (user) => {
-		joinedUser = user;
-		let userIsValid = joinedUser && joinedUser._id != null;
-		let userIsNotAlreadyJoined = stillLifePlayers.filter((u) => u._id == joinedUser._id).length == 0;
-		if (userIsValid && userIsNotAlreadyJoined) {
-			joinedUser.status = 'recently joined';
-			joinedUser.score = 0;
-			stillLifePlayers.push(joinedUser);
-			console.log('stillLifePlayers');
-			console.log(stillLifePlayers);
-			numOfUsersGotScored++;
-			io.sockets.emit('update_user', stillLifePlayers);
-		}
-		socket.on('my_drawing', (dataURL) => {
-			let _score = 0;
-			if (dataURL != null) {
-				node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
-					result = JSON.parse(res2);
-					_score = Math.floor(result.score);
-					socket.emit('evaluated_score', { score: _score, img: result.img });
-					numOfUsersGotScored++;
-
-					let _index = findWithAttr(stillLifePlayers, '_id', joinedUser._id);
-					joinedUser.score = _score;
-					joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
-					stillLifePlayers[_index] = joinedUser;
-					io.sockets.emit('update_user', stillLifePlayers);
-				});
+	socket.on('username', (token) => {
+		jwt.verify(token, config.jwtSecret, (err, decoded) => {
+			if (err) {
+				console.log('no user');
 			} else {
-				socket.emit('evaluated_score', { score: _score, img: null });
-				numOfUsersGotScored++;
+				const userId = decoded.sub;
+				return User.findById(userId, (userErr, user) => {
+					if (userErr || !user) {
+						console.log('no user');
+					} else {
+						let userIsNotAlreadyJoined = stillLifePlayers.filter((u) => u._id == user._id).length == 0;
+						if (userIsNotAlreadyJoined) {
+							joinedUser = {
+								_id: user._id,
+								name: user.name,
+								status: 'recently joined',
+								score: 0
+							};
+							stillLifePlayers.push(joinedUser);
+							numOfUsersGotScored++;
+							io.sockets.emit('update_user', stillLifePlayers);
 
-				let _index = findWithAttr(stillLifePlayers, '_id', joinedUser._id);
-				joinedUser.score = _score;
-				joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
-				stillLifePlayers[_index] = joinedUser;
-				io.sockets.emit('update_user', stillLifePlayers);
+							//Invoking my_drawing after the user is verified
+							socket.on('my_drawing', (dataURL) => {
+								let _score = 0;
+								if (dataURL != null) {
+									node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+										result = JSON.parse(res2);
+										_score = Math.floor(result.score);
+										socket.emit('evaluated_score', { score: _score, img: result.img });
+										numOfUsersGotScored++;
+
+										let _index = findWithAttr(stillLifePlayers, '_id', joinedUser._id);
+										joinedUser.score = _score;
+										joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
+										stillLifePlayers[_index] = joinedUser;
+										io.sockets.emit('update_user', stillLifePlayers);
+									});
+								} else {
+									socket.emit('evaluated_score', { score: _score, img: null });
+									numOfUsersGotScored++;
+
+									let _index = findWithAttr(stillLifePlayers, '_id', joinedUser._id);
+									joinedUser.score = _score;
+									joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
+									stillLifePlayers[_index] = joinedUser;
+									io.sockets.emit('update_user', stillLifePlayers);
+								}
+							});
+						}
+					}
+				});
 			}
 		});
 	});
 
 	socket.on('disconnect', () => {
-		console.log('user disconnected');
-		stillLifePlayers = stillLifePlayers.filter((u) => u != joinedUser);
-		console.log('stillLifePlayers');
-		console.log(stillLifePlayers);
+		stillLifePlayers = stillLifePlayers.filter((u) => u._id != joinedUser._id);
+		io.sockets.emit('update_user', stillLifePlayers);
 	});
 });
 
