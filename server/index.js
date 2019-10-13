@@ -148,8 +148,8 @@ function resetStillLife() {
 const io = socketIO(server);
 setInterval(() => {
 	if (stillLifePlayers.length != 0) {
+		!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
 		if (isStillLifeBeginProcessed) {
-			!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
 			stillLifeModels[stillLifeRound - 1].timer--;
 			if (stillLifeModels[stillLifeRound - 1].timer == 0) {
 				isStillLifeBeginProcessed = false;
@@ -169,12 +169,10 @@ setInterval(() => {
 				}, 5000);
 			}
 		}
-	} else {
-		if (hasToBeResetAsUsersLeave) {
-			// reset every thing to defualt
-			resetStillLife();
-			hasToBeResetAsUsersLeave = false;
-		}
+	} else if (hasToBeResetAsUsersLeave) {
+		// reset every thing to defualt
+		resetStillLife();
+		hasToBeResetAsUsersLeave = false;
 	}
 }, 1000);
 
@@ -183,14 +181,10 @@ io.on('connection', (socket) => {
 
 	socket.on('username', (token) => {
 		jwt.verify(token, config.jwtSecret, (err, decoded) => {
-			if (err) {
-				console.log('no user');
-			} else {
+			if (!err) {
 				const userId = decoded.sub;
 				return User.findById(userId, (userErr, user) => {
-					if (userErr || !user) {
-						console.log('no user');
-					} else {
+					if (!userErr && user) {
 						let userIsNotAlreadyJoined = stillLifePlayers.filter((u) => u._id == user._id).length == 0;
 						if (userIsNotAlreadyJoined) {
 							joinedUser = {

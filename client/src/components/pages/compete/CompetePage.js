@@ -1,18 +1,15 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import Canvas from '../../child/canvas/CanvasPage';
-import config from '../../../modules/config';
 import { getUser, setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
 import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
 import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
 import socketIOClient from 'socket.io-client';
-import CompeteCanvasPage from '../../child/canvas/CompeteCanvasPage';
 import CompetePageUsers from '../../child/competepageusers/CompetePageUsers';
-import {socketEndPoint} from '../../../clientglobalvariables'
+import { socketEndPoint } from '../../../clientglobalvariables';
 import Auth from '../../../modules/Auth';
+import CanvasPage from '../../child/canvas/CanvasPage';
 
 class CompetePage extends React.Component {
 	constructor(props) {
@@ -20,19 +17,19 @@ class CompetePage extends React.Component {
 		let socket;
 		this.state = {
 			existingPlayer: false,
-			endpoint:socketEndPoint,
+			endpoint: socketEndPoint,
 			baseURL: '',
 			resetCanvas: false,
 			startDrawing: false,
 			hasUserDrawnOnCanvas: false,
 			playingUsers: [],
-			model:{},
+			model: {}
 		};
 	}
 	componentDidMount() {
 		this.socket = socketIOClient(this.state.endpoint);
 		const token = Auth.getToken();
-		this.socket.emit('username',token);
+		this.socket.emit('username', token);
 		this.socket.on('update_user', (users) => {
 			console.log(users);
 			this.setState({
@@ -40,7 +37,7 @@ class CompetePage extends React.Component {
 			});
 		});
 		this.socket.on('start_drawing', (model) => {
-			this.setState({model:model})
+			this.setState({ model: model });
 			console.log('start drawing');
 			console.log(model);
 			this.setState({ startDrawing: true });
@@ -83,12 +80,12 @@ class CompetePage extends React.Component {
 	}
 	componentWillUnmount() {
 		this.socket.close();
-		this.props.setTimer({showTimer:false,timer:0});
+		this.props.setTimer({ showTimer: false, timer: 0 });
 		this.props.setTimerDone(true);
-	  }
-	setResetCanvasToFalse = () => {
+	}
+	setShouldResetCanvas = (bool) => {
 		this.setState({
-			resetCanvas: false
+			resetCanvas: bool
 		});
 	};
 	setHasUserDrawnOnCanvas = (bool) => {
@@ -109,9 +106,9 @@ class CompetePage extends React.Component {
 						<UserPendingLoader caption={'Please wait until the next round begins...'} />
 					</div>
 				)}
-		<CompetePageUsers playingUsers={playingUsers}/>
+				<CompetePageUsers playingUsers={playingUsers} />
 				{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
-				{this.props.showTimer ? <Timer/> : <EmptyTimer noText={true}/>}
+				{this.props.showTimer ? <Timer /> : <EmptyTimer noText={true} />}
 				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL ? (
@@ -119,24 +116,25 @@ class CompetePage extends React.Component {
 					) : (
 						<div className="userscore__drawing" />
 					)}
-					
-					{this.state.model.model =="model_1" && <img className="userscore__model" src="./shapes_1.png" />}
-					{this.state.model.model =="model_2" && <img className="userscore__model" src="./shapes_2.png" />}
-					{this.state.model.model =="model_3" && <img className="userscore__model" src="./shapes_3.png" />}
-
+					{this.state.model.model == 'model_1' && <img className="userscore__model" src="./shapes_1.png" />}
+					{this.state.model.model == 'model_2' && <img className="userscore__model" src="./shapes_2.png" />}
+					{this.state.model.model == 'model_3' && <img className="userscore__model" src="./shapes_3.png" />}
 				</span>
 				<div>
-					
-					
-				{this.state.model.model =="model_1" && <img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />}
-				{this.state.model.model =="model_2" && <img src="./shapes_2.png" className={'modelImg draw_and_model ' + side} />}
-				{this.state.model.model =="model_3" && <img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />}
+					{this.state.model.model == 'model_1' && (
+						<img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />
+					)}
+					{this.state.model.model == 'model_2' && (
+						<img src="./shapes_2.png" className={'modelImg draw_and_model ' + side} />
+					)}
+					{this.state.model.model == 'model_3' && (
+						<img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />
+					)}
 
 					<div>
-						<CompeteCanvasPage
-							showGuideLine={false}
-							resetCanvas={this.state.resetCanvas}
-							setResetCanvasToFalse={this.setResetCanvasToFalse}
+						<CanvasPage
+							shouldResetCanvas={this.state.resetCanvas}
+							setShouldResetCanvas={this.setShouldResetCanvas}
 							setHasUserDrawnOnCanvas={this.setHasUserDrawnOnCanvas}
 						/>
 					</div>
