@@ -36,6 +36,7 @@ class CompetePage extends React.Component {
 				playingUsers: users
 			});
 		});
+		
 		this.socket.on('start_drawing', (model) => {
 			this.setState({ model: model });
 			console.log('start drawing');
@@ -94,10 +95,10 @@ class CompetePage extends React.Component {
 		});
 	};
 	render() {
-		let side = this.props.leftHand ? 'model_left_hand' : '';
-		let baseURL = this.state.baseURL;
-		let startDrawing = this.state.startDrawing;
-		let playingUsers = this.state.playingUsers;
+		const side = this.props.leftHand ? 'model_left_hand' : '';
+		const baseURL = this.state.baseURL;
+		const startDrawing = this.state.startDrawing;
+		const playingUsers = this.state.playingUsers;
 		return (
 			<React.Fragment>
 				{!startDrawing && (

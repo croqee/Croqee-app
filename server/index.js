@@ -91,27 +91,13 @@ app.use((error, req, res, next) => {
 const server = http.createServer(app);
 
 let stillLifePlayers = [];
-let stillLifeModels = [
-	{
-		model: 'model_1',
-		givenTime: 30,
-		timer: 30
-	},
-	{
-		model: 'model_2',
-		givenTime: 30,
-		timer: 30
-	},
-	{
-		model: 'model_3',
-		givenTime: 30,
-		timer: 30
-	}
-];
-let stillLifeRound = 1;
-let isStillLifeBeginProcessed = false;
-let hasToBeResetAsUsersLeave = false;
-let numOfUsersGotScored = 0;
+let stillLifeModels = [];
+let stillLifeRound;
+let isStillLifeBeginProcessed;
+let isStillLifeBeginCallbackSent;
+let hasToBeResetAsUsersLeave;
+let numOfUsersGotScored;
+resetStillLife();
 
 function findWithAttr(array, attr, value) {
 	for (var i = 0; i < array.length; i += 1) {
@@ -126,35 +112,38 @@ function resetStillLife() {
 		{
 			model: 'model_1',
 			givenTime: 30,
-			timer: 30
 		},
 		{
 			model: 'model_2',
 			givenTime: 30,
-			timer: 30
 		},
 		{
 			model: 'model_3',
 			givenTime: 30,
-			timer: 30
 		}
 	];
 	stillLifeRound = 1;
 	isStillLifeBeginProcessed = false;
+	isStillLifeBeginCallbackSent = false;
 	hasToBeResetAsUsersLeave = false;
 	numOfUsersGotScored = 0;
 }
+var stillLifeLastUpdateTime;
 
 const io = socketIO(server);
+
+//Still Life game loop
 setInterval(() => {
 	if (stillLifePlayers.length != 0) {
+
 		!hasToBeResetAsUsersLeave ? (hasToBeResetAsUsersLeave = true) : '';
 		if (isStillLifeBeginProcessed) {
-			stillLifeModels[stillLifeRound - 1].timer--;
-			if (stillLifeModels[stillLifeRound - 1].timer == 0) {
+			var currentTime = (new Date()).getTime();
+			var timeDifference = currentTime - stillLifeLastUpdateTime;
+			timeDifference = Math.round(timeDifference/1000)
+			if (stillLifeModels[stillLifeRound - 1].givenTime <= timeDifference) {
 				isStillLifeBeginProcessed = false;
 				io.sockets.emit('send_your_drawing');
-				stillLifeModels[stillLifeRound - 1].timer = stillLifeModels[stillLifeRound - 1].givenTime;
 				stillLifeRound++;
 				if (stillLifeRound > stillLifeModels.length) {
 					stillLifeRound = 1;
@@ -162,11 +151,16 @@ setInterval(() => {
 			}
 		} else {
 			if (numOfUsersGotScored >= stillLifePlayers.length || stillLifePlayers.length == 1) {
+				if (!isStillLifeBeginCallbackSent){
+					isStillLifeBeginCallbackSent = true;
 				setTimeout(() => {
 					io.sockets.emit('start_drawing', stillLifeModels[stillLifeRound - 1]);
+					isStillLifeBeginCallbackSent = false;
 					isStillLifeBeginProcessed = true;
 					numOfUsersGotScored = 0;
+					stillLifeLastUpdateTime = (new Date()).getTime();
 				}, 5000);
+			}
 			}
 		}
 	} else if (hasToBeResetAsUsersLeave) {
@@ -174,7 +168,7 @@ setInterval(() => {
 		resetStillLife();
 		hasToBeResetAsUsersLeave = false;
 	}
-}, 1000);
+}, 200);
 
 io.on('connection', (socket) => {
 	let joinedUser = {};
