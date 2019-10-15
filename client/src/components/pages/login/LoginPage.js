@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import config from '../../../modules/config';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setUser } from '../../../js/actions';
+import { setUser, getUser, setPageToNavigateAfterLogin } from '../../../js/actions';
 
 class LoginPage extends React.Component {
 	/**
@@ -58,13 +58,15 @@ class LoginPage extends React.Component {
 		axios
 			.post('/auth/login', body, UnAthorizedHeader)
 			.then((response) => {
-				const {token,user} = response.data;
+				const { token, user } = response.data;
 				this.props.setUser(user);
 				this.setState({
 					errors: {}
 				});
 				Auth.authenticateUser(token);
-				return this.props.history.push('/');
+				this.props.getUser(user);
+				this.props.history.push(this.props.pageToNavigateAfterLogin);
+				return this.props.setPageToNavigateAfterLogin('/')
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -109,11 +111,16 @@ class LoginPage extends React.Component {
 	}
 }
 
-
-  const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
+	const { pageToNavigateAfterLogin } = state;
+	return { pageToNavigateAfterLogin};
+};
+const mapDispatchToProps = (dispatch) => {
 	return {
-		setUser: (user) => dispatch(setUser(user))
-	};
-  }
-export default connect(null , mapDispatchToProps)(LoginPage);
+		getUser: () => dispatch(getUser()),
+		setUser: (user) => dispatch(setUser(user)),
+		setPageToNavigateAfterLogin: (payload) => dispatch(setPageToNavigateAfterLogin(payload))
 
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

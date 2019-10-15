@@ -9,19 +9,20 @@ import {
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
 	SET_Start_Image_Processing,
+	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN
 } from '../actions/action-types';
 const initialState = {
-	jalil: true,
 	user: {},
 	isAuthenticated: false,
 	timer: 30,
 	showTimer: false,
 	timerDone: true,
-	startImageProcessing:false,
+	startImageProcessing: false,
 	scoreClass: '',
 	currentScore: '',
 	imageProcessing: false,
-	leftHand: false
+	leftHand: false,
+	pageToNavigateAfterLogin: '/'
 };
 
 function rootReducer(state = initialState, action) {
@@ -75,10 +76,15 @@ function rootReducer(state = initialState, action) {
 				leftHand: action.side
 			};
 		case SET_Start_Image_Processing:
-		return {
-			...state,
-			startImageProcessing: action.startImageProcessing
-		};
+			return {
+				...state,
+				startImageProcessing: action.startImageProcessing
+			};
+		case SET_PAGE_TO_NAVIGATE_AFTER_LOGIN:
+			return {
+				...state,
+				pageToNavigateAfterLogin: action.pageToNavigateAfterLogin
+			};
 		default:
 			return state;
 	}

@@ -10,7 +10,8 @@ import {
 	SET_IMAGE_PROCESSING,
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
-	SET_Start_Image_Processing
+	SET_Start_Image_Processing,
+	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN
 } from './action-types';
 
 //Get User
@@ -40,8 +41,7 @@ export function authenticate(payload) {
 
 //Timer
 export function setTimer(payload) {
-	console.log(payload.timer)
-	return { type: SET_TIMER, showTimer: payload.showTimer , timer:payload.timer };
+	return { type: SET_TIMER, showTimer: payload.showTimer, timer: payload.timer };
 }
 export function setTimerDone(payload) {
 	return { type: SET_TIMER_DONE, done: payload };
@@ -54,7 +54,7 @@ export function invokeScore(payload) {
 		setTimeout(() => {
 			dispatch(hideScore());
 			setTimeout(() => {
-			// 	// dispatch(setTimer(true));
+				// 	// dispatch(setTimer(true));
 				dispatch(setTimerDone(true));
 				dispatch(setStartImageProcessing(false));
 			}, 1000);
@@ -68,7 +68,6 @@ export function hideScore() {
 	return { type: HIDE_SCORE };
 }
 
-//Set Image Processing
 export function setImageProcessing(payload) {
 	return { type: SET_IMAGE_PROCESSING, imageProcessing: payload };
 }
@@ -79,4 +78,6 @@ export function setHandSide(payload) {
 export function setStartImageProcessing(payload) {
 	return { type: SET_Start_Image_Processing, startImageProcessing: payload };
 }
-
+export function setPageToNavigateAfterLogin(payload) {
+	return { type: SET_PAGE_TO_NAVIGATE_AFTER_LOGIN, pageToNavigateAfterLogin: payload };
+}

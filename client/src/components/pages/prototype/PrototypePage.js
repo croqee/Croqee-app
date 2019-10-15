@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Canvas from '../../child/canvas/CanvasPage';
 import CanvasPage from '../../child/canvas/CanvasPage';
 import config from '../../../modules/config';
-import { getUser, setTimer, setImageProcessing, invokeScore } from '../../../js/actions';
+import { getUser, setTimer, setImageProcessing, invokeScore, setPageToNavigateAfterLogin} from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
 import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
@@ -54,6 +54,10 @@ class PrototypePage extends React.Component {
 			shouldResetCanvas: bool
 		});
 	};
+	navigateToClubPage = ()=>{
+		this.props.setPageToNavigateAfterLogin('/clubs');
+		this.props.history.push('/clubs');
+	}
 	render() {
 		let { baseURL, shouldResetCanvas } = this.state;
 		let { user } = this.props;
@@ -80,7 +84,7 @@ class PrototypePage extends React.Component {
 				</div>
 				<div id="home_bottom">
 					<img id="home_bottom_triangle" src="/triangle.png" />
-					<button onClick={() => this.props.history.push('/clubs')} id="home_bottom_button">
+					<button onClick={() => this.navigateToClubPage()} id="home_bottom_button">
 						Compete with others
 					</button>
 				</div>
@@ -97,7 +101,8 @@ const mapDispatchToProps = (dispatch) => {
 		getUser: () => dispatch(getUser()),
 		setTimer: (payload) => dispatch(setTimer(payload)),
 		setImageProcessing: (payload) => dispatch(setImageProcessing(payload)),
-		invokeScore: (payload) => dispatch(invokeScore(payload))
+		invokeScore: (payload) => dispatch(invokeScore(payload)),
+		setPageToNavigateAfterLogin: (payload) => dispatch(setPageToNavigateAfterLogin(payload))
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PrototypePage);

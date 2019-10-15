@@ -9,6 +9,6 @@ export const HIDE_SCORE = "HIDE_SCORE";
 export const SET_IMAGE_PROCESSING = "SET_IMAGE_PROCESSING";
 export const SET_HAND_SIDE = "SET_HAND_SIDE";
 export const SET_TIMER_DONE = "SET_TIMER_DONE";
-export const SET_Start_Image_Processing = "SET_Start_Image_Processing";
-
+export const SET_Start_Image_Processing = "SET_START_IMAGE_PROCCESSING";
+export const SET_PAGE_TO_NAVIGATE_AFTER_LOGIN = "SET_PAGE_TO_NAVIGATE_AFTER_LOGIN";
 
