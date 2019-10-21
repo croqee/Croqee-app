@@ -1,0 +1,97 @@
+@mixin small-screen {
+	@media (max-width: 1320px) {
+		@content;
+	}
+}
+@mixin medium-small-screen {
+	@media (max-width: 1365px) {
+		@content;
+	}
+}
+@mixin x-medium-small-screen {
+	@media (max-width: 1400px) {
+		@content;
+	}
+}
+@mixin xx-medium-small-screen {
+	@media (max-width: 1450px) {
+		@content;
+	}
+}
+@mixin medium-screen {
+	@media (max-width: 1500px) {
+		@content;
+	}
+}
+@mixin x-medium-screen {
+	@media (max-width: 1540px) {
+		@content;
+	}
+}
+@mixin xx-medium-screen {
+	@media (max-width: 1580px) {
+		@content;
+	}
+}
+@mixin medium-big-screen {
+	@media (max-width: 1620px) {
+		@content;
+	}
+}
+@mixin x-medium-big-screen {
+	@media (max-width: 1660px) {
+		@content;
+	}
+}
+@mixin xx-medium-big-screen {
+	@media (max-width: 1700px) {
+		@content;
+	}
+}
+@mixin big-screen {
+	@media (max-width: 1800px) {
+		@content;
+	}
+}
+
+
+@mixin canvas-and-model-xx-medium-big {
+    width: 780px;
+    height: 585px;
+}
+@mixin canvas-and-model-x-medium-big {
+    width: 760px;
+    height: 570px;
+}
+@mixin canvas-and-model-medium-big {
+    width: 740px;
+    height: 555px;
+}
+@mixin canvas-and-model-xx-medium {
+    width: 720px;
+    height: 540px;
+}
+@mixin canvas-and-model-x-medium {
+    width: 700px;
+    height: 525px;
+}
+@mixin canvas-and-model-medium {
+    width: 680px;
+    height: 510px;
+}
+@mixin canvas-and-xx-medium-small{
+    width: 660px;
+    height: 495px;
+}
+@mixin canvas-and-x-medium-small{
+    width: 640px;
+    height: 480px;
+}
+@mixin canvas-and-medium-small{
+    width: 620px;
+    height: 465px;
+}
+@mixin canvas-and-small{
+    width: 600px;
+    height: 450px;
+}

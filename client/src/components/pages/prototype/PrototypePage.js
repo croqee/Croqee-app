@@ -8,6 +8,7 @@ import { getUser, setTimer, setImageProcessing, invokeScore, setPageToNavigateAf
 import Timer from '../../child/timer/Timer';
 import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
+import DrawingModel from '../../child/model/DrawingModel';
 
 class PrototypePage extends React.Component {
 	constructor(props) {
@@ -63,23 +64,22 @@ class PrototypePage extends React.Component {
 		let { user } = this.props;
 		let side = this.props.leftHand ? 'model_left_hand' : '';
 		return (
-			<React.Fragment>
+			<div>
 				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
 				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL && <img className="userscore__drawing" src={baseURL} />}
 					<img className="userscore__model" src="./shapes_1.png" />
 				</span>
-				<div>
-					<img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />
-					<div>
+				<div className="drawing-environment">
+					{/* <img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} /> */}
+					<DrawingModel side={side} />
 						<CanvasPage
 							isInHomePage={true}
 							setBaseUrl={this.setBaseUrl}
 							shouldResetCanvas={shouldResetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}
 						/>
-					</div>
 					<HandSide />
 				</div>
 				<div id="home_bottom">
@@ -88,7 +88,7 @@ class PrototypePage extends React.Component {
 						Compete with others
 					</button>
 				</div>
-			</React.Fragment>
+			</div>
 		);
 	}
 }

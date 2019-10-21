@@ -7,11 +7,6 @@ const styles = {
 	canvas: {
 		border: '1px solid #333',
 		cursor: 'crosshair'
-	},
-
-	maindiv: {
-		padding: '10px',
-		width: '800px'
 	}
 };
 
@@ -20,12 +15,18 @@ class CanvasPage extends React.Component {
 		super(props);
 		this.state = {
 			baseURL: null,
-			fadeOut: false
+			fadeOut: false,
+			isSizeSet: false,
+			width: null,
+			height: null
 		};
+		window.addEventListener('resize', () => {
+			this.setCanvasSize();
+		});
 	}
 
 	componentDidMount() {
-		this.reset();
+		this.setCanvasSize();
 	}
 	componentDidUpdate(prevProps, prevStates) {
 		if (prevProps.shouldResetCanvas !== this.props.shouldResetCanvas) {
@@ -34,6 +35,132 @@ class CanvasPage extends React.Component {
 				this.props.setShouldResetCanvas(false);
 			}
 		}
+	}
+	setCanvasSize() {
+		let screenSize = this.getWidth();
+		console.log(screenSize);
+		this.setState({ isSizeSet: false }, () => {
+			if (screenSize > 1700) {
+				this.setState(
+					{
+						width: 800,
+						height: 600,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1660) {
+				this.setState(
+					{
+						width: 780,
+						height: 585,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1620) {
+				this.setState(
+					{
+						width: 760,
+						height: 570,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1580) {
+				this.setState(
+					{
+						width: 740,
+						height: 555,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1540) {
+				this.setState(
+					{
+						width: 720,
+						height: 540,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1500) {
+				this.setState(
+					{
+						width: 700,
+						height: 525,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1450) {
+				this.setState(
+					{
+						width: 680,
+						height: 510,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1400) {
+				this.setState(
+					{
+						width: 660,
+						height: 495,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else if (screenSize > 1365) {
+				this.setState(
+					{
+						width: 640,
+						height: 480,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			} else {
+				this.setState(
+					{
+						width: 600,
+						height: 450,
+						isSizeSet: true
+					},
+					() => {
+						this.reset();
+					}
+				);
+			}
+		});
+	}
+	getWidth() {
+		return Math.max(
+			document.body.scrollWidth,
+			document.documentElement.scrollWidth,
+			document.body.offsetWidth,
+			document.documentElement.offsetWidth,
+			document.documentElement.clientWidth
+		);
 	}
 
 	drawing(e) {
@@ -93,44 +220,62 @@ class CanvasPage extends React.Component {
 		if (this.refs.canvas) {
 			this.ctx = this.refs.canvas.getContext('2d');
 			this.ctx.fillStyle = 'white';
-			this.ctx.fillRect(0, 0, 800, 600);
-			this.ctx.lineWidth = 10;
+			this.ctx.fillRect(0, 0, this.state.width, this.state.height);
+			// this.ctx.lineWidth = 10;
 		}
 	}
 
 	render() {
-		const { fadeOut } = this.state;
+		const { fadeOut, width, height, isSizeSet } = this.state;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
+		console.log(width);
 		return (
 			<React.Fragment>
-				<div className={'canvas ' + side} style={styles.maindiv}>
-					{this.props.imageProcessing && <Loader />}
-					<span
-						className={
-							fadeOut ? (
-								'canvas__draw-here canvas__draw-here--fadeout'
-							) : (
-								'canvas__draw-here canvas__draw-here--fadein '
-							)
-						}
-					>
-						Draw the model here
-					</span>
-					<canvas
-						id="canvas__drawing"
-						className="canvas__canvas "
-						ref="canvas"
-						width="800px"
-						height="600px"
-						style={styles.canvas}
-						onMouseMove={(e) => this.drawing(e)}
-						onMouseDown={(e) => this.penDown(e)}
-						onMouseUp={(e) => this.penUp(e)}
-						onTouchMove={(e) => this.drawing(e)}
-						onTouchStart={(e) => this.drawing(e)}
-						onTouchEnd={(e) => this.penUp(e)}
-					/>
-				</div>
+				{isSizeSet && (
+					<div className={'canvas ' + side} width={`${width}px`} height={`${height}px`}>
+						{this.props.imageProcessing && <Loader />}
+
+						<div
+							className="canvas__overay"
+							className={
+								fadeOut ? (
+									'canvas__overay canvas__overay--fadeout'
+								) : (
+									'canvas__overay canvas__overay--fadein '
+								)
+							}
+							style={{
+								width: `${width}px`,
+								height: `${height}px`,
+								marginBottom: `-${height}px`
+							}}
+						>
+							<span
+								className="canvas__overay__homepage-text"
+								style={{
+									top: `${height / 2 - 40}px`
+								}}
+							>
+								Draw the model here
+							</span>
+						</div>
+
+						<canvas
+							id="canvas__drawing"
+							className="canvas__canvas"
+							ref="canvas"
+							width={`${width}px`}
+							height={`${height}px`}
+							style={styles.canvas}
+							onMouseMove={(e) => this.drawing(e)}
+							onMouseDown={(e) => this.penDown(e)}
+							onMouseUp={(e) => this.penUp(e)}
+							onTouchMove={(e) => this.drawing(e)}
+							onTouchStart={(e) => this.drawing(e)}
+							onTouchEnd={(e) => this.penUp(e)}
+						/>
+					</div>
+				)}
 			</React.Fragment>
 		);
 	}

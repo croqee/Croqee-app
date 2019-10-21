@@ -10,6 +10,7 @@ import CompetePageUsers from '../../child/competepageusers/CompetePageUsers';
 import { socketEndPoint } from '../../../clientglobalvariables';
 import Auth from '../../../modules/Auth';
 import CanvasPage from '../../child/canvas/CanvasPage';
+import DrawingModel from '../../child/model/DrawingModel';
 
 class CompetePage extends React.Component {
 	constructor(props) {
@@ -36,7 +37,7 @@ class CompetePage extends React.Component {
 				playingUsers: users
 			});
 		});
-		
+
 		this.socket.on('start_drawing', (model) => {
 			this.setState({ model: model });
 			console.log('start drawing');
@@ -122,17 +123,17 @@ class CompetePage extends React.Component {
 					{this.state.model.model == 'model_3' && <img className="userscore__model" src="./shapes_3.png" />}
 				</span>
 				<div>
-					{this.state.model.model == 'model_1' && (
-						<img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />
-					)}
-					{this.state.model.model == 'model_2' && (
-						<img src="./shapes_2.png" className={'modelImg draw_and_model ' + side} />
-					)}
-					{this.state.model.model == 'model_3' && (
-						<img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />
-					)}
-
-					<div>
+					<div className="drawing-environment">
+						{/* {this.state.model.model == 'model_1' && (
+							<img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />
+						)}
+						{this.state.model.model == 'model_2' && (
+							<img src="./shapes_2.png" className={'modelImg draw_and_model ' + side} />
+						)}
+						{this.state.model.model == 'model_3' && (
+							<img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />
+						)} */}
+						<DrawingModel model={this.state.model} side={side} compete={true}/>
 						<CanvasPage
 							shouldResetCanvas={this.state.resetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}

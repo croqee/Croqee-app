@@ -12,13 +12,13 @@ a:focus {
 	text-decoration: none;
 }
 
-.modelImg {
-	float: left;
-	position: relative;
-	top: 10px;
-    left: 60px;
-    clear: both;
-}
+// .modelImg {
+// 	float: left;
+// 	position: relative;
+// 	top: 10px;
+//     left: 60px;
+//     clear: both;
+// }
 #drawhere {
     width: 193px;
     height: 106px;
@@ -32,17 +32,11 @@ a:focus {
     top: -92px;
     margin-bottom: -200px;
 }
-.model_left_hand{
-	float: right;
-	left: -50px!important;
-}
-.canvas_left_hand{
-	float: left!important;
-	position: relative;
-	left: 50px!important;
+// .model_left_hand{
+// 	float: right;
+// 	left: -50px!important;
+// }
 
-
-}
 #userScore {
 	font-size: 40px;
 	background: #100005;

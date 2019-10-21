@@ -1,0 +1,7 @@
+.drawing-model{
+    float: left;
+    position: relative;
+    &.model_left_hand{
+        float: right;
+    }
+}
