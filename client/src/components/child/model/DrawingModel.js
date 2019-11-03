@@ -102,22 +102,36 @@ export default class DrawingModel extends Component {
 					<React.Fragment>
 						{compete ? (
 							<React.Fragment>
-								{model.model == 'model_1' && (
-                                    <img src="./shapes_1.png" 
+								{model.model == 'geometrical1' && (
+                                    <img src="./still-life-models/geometrical1.png" 
                                     width={`${width}px`}
                                     height={`${height}px`}
                                     className={'drawing-model ' + this.props.side}
                                     />
 								)}
-								{model.model == 'model_2' && (
-                                    <img src="./shapes_2.png"
+								{model.model == 'geometrical2' && (
+                                    <img src="./still-life-models/geometrical2.png"
                                     width={`${width}px`}
                                     height={`${height}px`}
                                     className={'drawing-model ' + this.props.side}
                                     />
 								)}
-								{model.model == 'model_3' && (
-                                    <img src="./shapes_3.png" 
+								{model.model == 'geometrical3' && (
+                                    <img src="./still-life-models/geometrical3.png" 
+                                    width={`${width}px`}
+                                    height={`${height}px`}
+                                    className={'drawing-model ' + this.props.side}
+                                    />
+								)}
+									{model.model == 'geometrical4' && (
+                                    <img src="./still-life-models/geometrical4.png" 
+                                    width={`${width}px`}
+                                    height={`${height}px`}
+                                    className={'drawing-model ' + this.props.side}
+                                    />
+								)}
+									{model.model == 'geometrical5' && (
+                                    <img src="./still-life-models/geometrical5.png" 
                                     width={`${width}px`}
                                     height={`${height}px`}
                                     className={'drawing-model ' + this.props.side}
@@ -126,7 +140,7 @@ export default class DrawingModel extends Component {
 							</React.Fragment>
 						) : (
 							<img
-								src="./shapes_1.png"
+								src="./still-life-models/geometrical5.png"
 								width={`${width}px`}
 								height={`${height}px`}
 								className={'drawing-model ' + this.props.side}

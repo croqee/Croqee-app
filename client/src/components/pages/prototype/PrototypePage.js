@@ -15,11 +15,12 @@ class PrototypePage extends React.Component {
 		super(props);
 		this.state = {
 			baseURL: '',
-			shouldResetCanvas: false
+			shouldResetCanvas: false,
 		};
 	}
 	componentDidMount() {
 		this.props.getUser();
+
 	}
 	sendDrawing() {
 		var canvas = document.getElementById('canvas__drawing');
@@ -28,6 +29,7 @@ class PrototypePage extends React.Component {
 			this.props.setImageProcessing(true);
 			var dataURL = canvas.toDataURL('image/jpeg', 0.1).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 			this.props.setTimer({ showTimer: false, timer: 30 });
+			console.log(dataURL);
 			axios.post('/send_drawing', { dataURL: dataURL }).then((response) => {
 				let score = response.data.score;
 				this.setState({ baseURL: 'data:image/png;base64, ' + response.data.img });
@@ -60,7 +62,7 @@ class PrototypePage extends React.Component {
 		this.props.history.push('/clubs');
 	}
 	render() {
-		let { baseURL, shouldResetCanvas } = this.state;
+		let { baseURL, shouldResetCanvas} = this.state;
 		let { user } = this.props;
 		let side = this.props.leftHand ? 'model_left_hand' : '';
 		return (
@@ -69,7 +71,7 @@ class PrototypePage extends React.Component {
 				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL && <img className="userscore__drawing" src={baseURL} />}
-					<img className="userscore__model" src="./shapes_1.png" />
+					<img className="userscore__model" src="./still-life-models/geometrical5.png"/>
 				</span>
 				<div className="drawing-environment">
 					{/* <img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} /> */}
@@ -79,6 +81,7 @@ class PrototypePage extends React.Component {
 							setBaseUrl={this.setBaseUrl}
 							shouldResetCanvas={shouldResetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}
+							canStartDrawing={true}
 						/>
 					<HandSide />
 				</div>

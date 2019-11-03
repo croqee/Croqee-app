@@ -22,9 +22,12 @@ class CompetePage extends React.Component {
 			baseURL: '',
 			resetCanvas: false,
 			startDrawing: false,
+			canJoinClub: false,
 			hasUserDrawnOnCanvas: false,
 			playingUsers: [],
-			model: {}
+			model: {},
+			canStartDrawing: false,
+			hasJoined:false
 		};
 	}
 	componentDidMount() {
@@ -37,12 +40,23 @@ class CompetePage extends React.Component {
 				playingUsers: users
 			});
 		});
+		this.socket.on('join_club', (model) => {
+			if(!this.state.hasJoined){
+			this.setState({
+				canJoinClub: true,
+				hasJoined:true,
+				model: model
+			});
+		}
+		});
 
 		this.socket.on('start_drawing', (model) => {
 			this.setState({ model: model });
 			console.log('start drawing');
 			console.log(model);
-			this.setState({ startDrawing: true });
+			this.setState({
+				startDrawing: true,
+			});
 			this.props.setTimer({ showTimer: true, timer: model.givenTime });
 		});
 		this.socket.on('send_your_drawing', () => {
@@ -97,12 +111,10 @@ class CompetePage extends React.Component {
 	};
 	render() {
 		const side = this.props.leftHand ? 'model_left_hand' : '';
-		const baseURL = this.state.baseURL;
-		const startDrawing = this.state.startDrawing;
-		const playingUsers = this.state.playingUsers;
+		const { baseURL, playingUsers, startDrawing, canJoinClub } = this.state;
 		return (
 			<React.Fragment>
-				{!startDrawing && (
+				{!canJoinClub && (
 					<div className="compete-page__wait-for-game">
 						{' '}
 						<UserPendingLoader caption={'Please wait until the next round begins...'} />
@@ -110,7 +122,7 @@ class CompetePage extends React.Component {
 				)}
 				<CompetePageUsers playingUsers={playingUsers} />
 				{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
-				{this.props.showTimer ? <Timer /> : <EmptyTimer noText={true} />}
+				{this.props.showTimer ? <Timer /> : <EmptyTimer isCompeting={true} />}
 				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL ? (
@@ -118,9 +130,12 @@ class CompetePage extends React.Component {
 					) : (
 						<div className="userscore__drawing" />
 					)}
-					{this.state.model.model == 'model_1' && <img className="userscore__model" src="./shapes_1.png" />}
-					{this.state.model.model == 'model_2' && <img className="userscore__model" src="./shapes_2.png" />}
-					{this.state.model.model == 'model_3' && <img className="userscore__model" src="./shapes_3.png" />}
+					{this.state.model.model == 'geometrical1' && <img className="userscore__model" src="./still-life-models/geometrical1.png" />}
+					{this.state.model.model == 'geometrical2' && <img className="userscore__model" src="./still-life-models/geometrical2.png" />}
+					{this.state.model.model == 'geometrical3' && <img className="userscore__model" src="./still-life-models/geometrical3.png" />}
+					{this.state.model.model == 'geometrical4' && <img className="userscore__model" src="./still-life-models/geometrical4.png" />}
+					{this.state.model.model == 'geometrical5' && <img className="userscore__model" src="./still-life-models/geometrical5.png" />}
+			
 				</span>
 				<div>
 					<div className="drawing-environment">
@@ -133,11 +148,14 @@ class CompetePage extends React.Component {
 						{this.state.model.model == 'model_3' && (
 							<img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />
 						)} */}
-						<DrawingModel model={this.state.model} side={side} compete={true}/>
+						<DrawingModel model={this.state.model} side={side} compete={true} />
 						<CanvasPage
 							shouldResetCanvas={this.state.resetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}
 							setHasUserDrawnOnCanvas={this.setHasUserDrawnOnCanvas}
+							canStartDrawing={startDrawing}
+							canJoinClub={canJoinClub}
+							isCompeting={true}
 						/>
 					</div>
 					<HandSide />

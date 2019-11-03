@@ -27,12 +27,35 @@ class ImageAnalyser(object):
     def wakeUp(self):
         print("I'm Awake")
 
-    global mainImg
-    global beforeGrad
+    # global beforeGrad , mainImg, geometrical1 , geometrical2 ,geometrical3 ,geometrical4 ,geometrical5
+
+    
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img,(800,600))
-    mainImg = img
+
+    geometrical1 = cv2.imread('src/models/still-life-models/geometrical1.png')
+    geometrical1 = cv2.cvtColor(geometrical1,cv2.COLOR_BGR2GRAY)
+    geometrical1 = cv2.resize(geometrical1,(800,600))
+    
+    geometrical2 = cv2.imread('src/models/still-life-models/geometrical2.png')
+    geometrical2 = cv2.cvtColor(geometrical2,cv2.COLOR_BGR2GRAY)
+    geometrical2 = cv2.resize(geometrical2,(800,600))
+    
+    geometrical3 = cv2.imread('src/models/still-life-models/geometrical3.png')
+    geometrical3 = cv2.cvtColor(geometrical3,cv2.COLOR_BGR2GRAY)
+    geometrical3 = cv2.resize(geometrical3,(800,600))
+    
+    geometrical4 = cv2.imread('src/models/still-life-models/geometrical4.png')
+    geometrical4 = cv2.cvtColor(geometrical4,cv2.COLOR_BGR2GRAY)
+    geometrical4 = cv2.resize(geometrical4,(800,600))
+    
+    geometrical5 = cv2.imread('src/models/still-life-models/geometrical5.png')
+    geometrical5 = cv2.cvtColor(geometrical5,cv2.COLOR_BGR2GRAY)
+    geometrical5 = cv2.resize(geometrical5,(800,600))
+    
+    # mainImg = img
+
 
     # global height
     # global width
@@ -52,20 +75,37 @@ class ImageAnalyser(object):
 
 
     def DrawingDistance(self, param):
-
+    
         def readb64(base64_string):
             sbuf = StringIO()
             sbuf.write(base64.b64decode(base64_string))
             pimg = Image.open(sbuf)
             return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
-            
+
+        print(param["model"])
+        # global mainImg,geometrical1,geometrical2,geometrical3,geometrical4,geometrical5
+        if param["model"] == "geometrical1":
+            mainImg = self.geometrical1
+        elif param["model"] == "geometrical2":
+            mainImg = self.geometrical2
+        elif param["model"] == "geometrical3":
+            mainImg = self.geometrical3
+        elif param["model"] == "geometrical4":
+            mainImg = self.geometrical4
+        elif param["model"] == "geometrical5":
+            mainImg = self.geometrical5
+
+        
+        # imgplot = plt.imshow(mainImg)
+        # plt.title(param["model"]), plt.xticks([]), plt.yticks([])
+        # plt.show()
         #This should also be documented
-        img2 = imread(BytesIO(b64decode(param)))
+        img2 = imread(BytesIO(b64decode(param["dataURL"])))
         # im = Image.fromarray(img2)
         # im = im.convert('RGB')
         # im.save("your_file.jpeg")
 
-        img2_before = img2
+        # img2_before = img2
         img2 = cv2.resize(img2,(800,600))
 
         # height2, width2, channels = img2.shape
@@ -122,7 +162,8 @@ class ImageAnalyser(object):
         # print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
         print("hasudorff: "+ str(distance))
         print("length diff: "+ str(lengthDiff))
-        
+        print("results: " + str(diff))
+
         aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
         buffered = BytesIO()
@@ -131,7 +172,6 @@ class ImageAnalyser(object):
         data_uri = base64.b64encode(buffered.read()).decode('ascii')
 
         # encoded = aligned.encode('ascii')
-        # print(data_uri)
         x = {
         "score": calculateScore(diff),
         "img": data_uri,

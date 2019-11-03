@@ -18,7 +18,10 @@ class CanvasPage extends React.Component {
 			fadeOut: false,
 			isSizeSet: false,
 			width: null,
-			height: null
+			height: null,
+			countDown: 5,
+			competeTextHideClass: '',
+			moveStartTextClass: ''
 		};
 		window.addEventListener('resize', () => {
 			this.setCanvasSize();
@@ -34,6 +37,25 @@ class CanvasPage extends React.Component {
 				this.reset();
 				this.props.setShouldResetCanvas(false);
 			}
+		}
+		if (prevProps.canStartDrawing != this.props.canStartDrawing) {
+			this.setState({
+				competeTextHideClass: '--hiden-compete-text',
+				moveStartTextClass: '--move-compete-start-text'
+			});
+		}
+		if(prevProps.canJoinClub!=this.props.canJoinClub){
+			this.startCountDown();
+		}
+	}
+	startCountDown() {
+		if (this.state.countDown > 1) {
+			setTimeout(() => {
+				this.setState({ countDown: --this.state.countDown });
+				this.startCountDown();
+			}, 1000);
+		} else {
+			return false;
 		}
 	}
 	setCanvasSize() {
@@ -166,10 +188,10 @@ class CanvasPage extends React.Component {
 	drawing(e) {
 		//if the pen is down in the canvas, draw/erase
 
-		if (this.state.pen === 'down') {
+		if (this.state.pen === 'down' && this.props.canStartDrawing) {
 			if (this.props.timerDone) {
 				if (this.props.isInHomePage) {
-					this.props.setTimer({ showTimer: true, timer: 30 });
+					this.props.setTimer({ showTimer: true, timer: 10 });
 					this.props.setTimerDone(false);
 				} else {
 					this.props.setHasUserDrawnOnCanvas(true);
@@ -226,7 +248,8 @@ class CanvasPage extends React.Component {
 	}
 
 	render() {
-		const { fadeOut, width, height, isSizeSet } = this.state;
+		const { fadeOut, width, height, isSizeSet, countDown, competeTextHideClass, moveStartTextClass } = this.state;
+		const {isCompeting} = this.props;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		console.log(width);
 		return (
@@ -250,7 +273,7 @@ class CanvasPage extends React.Component {
 								marginBottom: `-${height}px`
 							}}
 						>
-							<span
+							{!isCompeting && <span
 								className="canvas__overay__homepage-text"
 								style={{
 									top: `${height / 2 - 40}px`
@@ -258,6 +281,56 @@ class CanvasPage extends React.Component {
 							>
 								Draw the model here
 							</span>
+							 }
+						{isCompeting && 	<div
+								className="canvas__overay__compete-text"
+								style={{
+									top: `${height / 2 - 40}px`
+								}}
+							>
+								<div className="canvas__overay__compete-text__first-line">
+									<span
+										className={
+											'canvas__overay__compete-text__first-line__start ' + moveStartTextClass
+										}
+									>
+										Start
+									</span>
+									<span
+										className={
+											'canvas__overay__compete-text__first-line__text ' + competeTextHideClass
+										}
+									>
+										{' '}
+										drawing the model
+									</span>
+								</div>
+								<div className={'canvas__overay__compete-text__second-line '}>
+									<span
+										className={
+											'canvas__overay__compete-text__second-line__text ' + competeTextHideClass
+										}
+									>
+										here in{' '}
+									</span>
+									<span
+										className={
+											'canvas__overay__compete-text__second-line__text --counter ' + competeTextHideClass
+										}
+									>
+										{countDown}
+									</span>
+									<span
+										className={
+											'canvas__overay__compete-text__second-line__text ' + competeTextHideClass
+										}
+									>
+										{' '}
+										seconds
+									</span>
+								</div>
+							</div>
+							}
 						</div>
 
 						<canvas

@@ -25,13 +25,14 @@
 	}
 }
 
+
 .canvas {
 	float: right;
 
-	&.canvas_left_hand{
-		float: left!important;
+	&.canvas_left_hand {
+		float: left !important;
 	}
-	.canvas__overay{
+	.canvas__overay {
 		position: relative;
 		z-index: 100;
 		user-select: none;
@@ -43,11 +44,33 @@
 		&--fadeout {
 			@include fadeOut();
 		}
-		.canvas__overay__homepage-text{
+		.canvas__overay__homepage-text {
 			position: relative;
 			font-size: 35px;
-	
+		}
+		.canvas__overay__compete-text {
+			position: relative;
+			font-size: 35px;
+			.--hiden-compete-text{
+				visibility: hidden;
 			}
+			.canvas__overay__compete-text__second-line__text{
+				&.--counter{
+					color:$orange;
+				}
+			} 
+			.canvas__overay__compete-text__first-line__start{
+				display: inline-block;
+				&.--move-compete-start-text{
+					transition: width 1.5s, height 1.5s, transform 1.5s, font-size 1.5s;;
+
+					transform: translate(145px);
+					font-size: 50px;
+
+				}
+			}
+		
+		}
 	}
 	.canvas__canvas {
 	}

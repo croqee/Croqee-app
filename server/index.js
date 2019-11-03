@@ -57,9 +57,21 @@ app.post('/', (req, res, next) => {
 });
 
 app.post('/send_drawing', (req, res, next) => {
-	let dataURL = req.body.dataURL;
-	node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+	// let dataURL = req.body.dataURL;
+	// node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+	// 	result = JSON.parse(res2);
+	// 	res.json({
+	// 		score: Math.floor(result.score),
+	// 		img: result.img
+	// 	});
+	// });
+	let param = {
+		dataURL:req.body.dataURL,
+		model:"geometrical5"
+	}
+	node_client.invoke('DrawingDistance', param, function(error, res2, more) {
 		result = JSON.parse(res2);
+
 		res.json({
 			score: Math.floor(result.score),
 			img: result.img
@@ -92,6 +104,7 @@ const server = http.createServer(app);
 
 let stillLifePlayers = [];
 let stillLifeModels = [];
+let lastStillLifeDrawnModel;
 let stillLifeRound;
 let isStillLifeBeginProcessed;
 let isStillLifeBeginCallbackSent;
@@ -110,16 +123,24 @@ function findWithAttr(array, attr, value) {
 function resetStillLife() {
 	stillLifeModels = [
 		{
-			model: 'model_1',
-			givenTime: 30,
+			model: 'geometrical1',
+			givenTime: 20,
 		},
 		{
-			model: 'model_2',
-			givenTime: 30,
+			model: 'geometrical2',
+			givenTime: 20,
 		},
 		{
-			model: 'model_3',
-			givenTime: 30,
+			model: 'geometrical3',
+			givenTime: 20,
+		},
+		{
+			model: 'geometrical4',
+			givenTime: 20,
+		},
+		{
+			model: 'geometrical5',
+			givenTime: 20,
 		}
 	];
 	stillLifeRound = 1;
@@ -144,6 +165,7 @@ setInterval(() => {
 			if (stillLifeModels[stillLifeRound - 1].givenTime <= timeDifference) {
 				isStillLifeBeginProcessed = false;
 				io.sockets.emit('send_your_drawing');
+				lastStillLifeDrawnModel = stillLifeModels[stillLifeRound - 1].model;
 				stillLifeRound++;
 				if (stillLifeRound > stillLifeModels.length) {
 					stillLifeRound = 1;
@@ -153,8 +175,11 @@ setInterval(() => {
 			if (numOfUsersGotScored >= stillLifePlayers.length || stillLifePlayers.length == 1) {
 				if (!isStillLifeBeginCallbackSent){
 					isStillLifeBeginCallbackSent = true;
+					io.sockets.emit('join_club', stillLifeModels[stillLifeRound - 1]);
 				setTimeout(() => {
 					io.sockets.emit('start_drawing', stillLifeModels[stillLifeRound - 1]);
+					console.log(stillLifeModels)
+					console.log(stillLifeRound)
 					isStillLifeBeginCallbackSent = false;
 					isStillLifeBeginProcessed = true;
 					numOfUsersGotScored = 0;
@@ -168,7 +193,7 @@ setInterval(() => {
 		resetStillLife();
 		hasToBeResetAsUsersLeave = false;
 	}
-}, 200);
+}, 80);
 
 io.on('connection', (socket) => {
 	let joinedUser = {};
@@ -195,7 +220,11 @@ io.on('connection', (socket) => {
 							socket.on('my_drawing', (dataURL) => {
 								let _score = 0;
 								if (dataURL != null) {
-									node_client.invoke('DrawingDistance', dataURL, function(error, res2, more) {
+									let param = {
+										dataURL:dataURL,
+										model:lastStillLifeDrawnModel
+									}
+									node_client.invoke('DrawingDistance', param, function(error, res2, more) {
 										result = JSON.parse(res2);
 										_score = Math.floor(result.score);
 										socket.emit('evaluated_score', { score: _score, img: result.img });
