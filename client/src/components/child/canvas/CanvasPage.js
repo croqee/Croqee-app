@@ -191,7 +191,7 @@ class CanvasPage extends React.Component {
 		if (this.state.pen === 'down' && this.props.canStartDrawing) {
 			if (this.props.timerDone) {
 				if (this.props.isInHomePage) {
-					this.props.setTimer({ showTimer: true, timer: 10 });
+					this.props.setTimer({ showTimer: true, timer: 30 });
 					this.props.setTimerDone(false);
 				} else {
 					this.props.setHasUserDrawnOnCanvas(true);
