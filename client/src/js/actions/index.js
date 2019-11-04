@@ -7,6 +7,7 @@ import {
 	SET_TIMER,
 	SHOW_SCORE,
 	HIDE_SCORE,
+	REMOVE_SCORE,
 	SET_IMAGE_PROCESSING,
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
@@ -58,14 +59,25 @@ export function invokeScore(payload) {
 				dispatch(setTimerDone(true));
 				dispatch(setStartImageProcessing(false));
 			}, 1000);
-		}, 5000);
+		}, 4500);
 	};
 }
 export function showScore(payload) {
 	return { type: SHOW_SCORE, score: payload };
 }
-export function hideScore() {
+export function hideScoreAsync() {
 	return { type: HIDE_SCORE };
+}
+export function removeScoreAsync(){
+	return { type: REMOVE_SCORE };
+}
+export function hideScore() {
+	return (dispatch) => {
+			dispatch(hideScoreAsync());
+			setTimeout(() => {
+				dispatch(removeScoreAsync());
+			}, 500);
+	};
 }
 
 export function setImageProcessing(payload) {

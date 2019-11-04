@@ -166,7 +166,7 @@ class ImageAnalyser(object):
         print("length diff: "+ str(lengthDiff))
         print("results: " + str(diff))
 
-        aligned = cv2.resize(aligned,(400,300))
+        # aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
         buffered = BytesIO()
         new_im.save(buffered, format="PNG")

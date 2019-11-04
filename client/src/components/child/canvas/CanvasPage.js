@@ -44,7 +44,7 @@ class CanvasPage extends React.Component {
 				moveStartTextClass: '--move-compete-start-text'
 			});
 		}
-		if(prevProps.canJoinClub!=this.props.canJoinClub){
+		if (prevProps.canJoinClub != this.props.canJoinClub) {
 			this.startCountDown();
 		}
 	}
@@ -249,7 +249,7 @@ class CanvasPage extends React.Component {
 
 	render() {
 		const { fadeOut, width, height, isSizeSet, countDown, competeTextHideClass, moveStartTextClass } = this.state;
-		const {isCompeting} = this.props;
+		const { isCompeting } = this.props;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		console.log(width);
 		return (
@@ -273,65 +273,181 @@ class CanvasPage extends React.Component {
 								marginBottom: `-${height}px`
 							}}
 						>
-							{!isCompeting && <span
-								className="canvas__overay__homepage-text"
-								style={{
-									top: `${height / 2 - 40}px`
-								}}
-							>
-								Draw the model here
-							</span>
-							 }
-						{isCompeting && 	<div
-								className="canvas__overay__compete-text"
-								style={{
-									top: `${height / 2 - 40}px`
-								}}
-							>
-								<div className="canvas__overay__compete-text__first-line">
-									<span
-										className={
-											'canvas__overay__compete-text__first-line__start ' + moveStartTextClass
-										}
-									>
-										Start
-									</span>
-									<span
-										className={
-											'canvas__overay__compete-text__first-line__text ' + competeTextHideClass
-										}
-									>
-										{' '}
-										drawing the model
-									</span>
+							{!isCompeting && (
+								<span
+									className="canvas__overay__homepage-text"
+									style={{
+										top: `${height / 2 - 40}px`
+									}}
+								>
+									Draw the model here
+								</span>
+							)}
+							{isCompeting && (
+								<div
+									className="canvas__overay__compete-text"
+									style={{
+										top: `${height / 2 - 40}px`
+									}}
+								>
+									<div className="canvas__overay__compete-text__first-line">
+										<span
+											className={
+												'canvas__overay__compete-text__first-line__start ' + moveStartTextClass
+											}
+										>
+											Start
+										</span>
+										<span
+											className={
+												'canvas__overay__compete-text__first-line__text ' + competeTextHideClass
+											}
+										>
+											{' '}
+											drawing the model
+										</span>
+									</div>
+									<div className={'canvas__overay__compete-text__second-line '}>
+										<span
+											className={
+												'canvas__overay__compete-text__second-line__text ' +
+												competeTextHideClass
+											}
+										>
+											here in{' '}
+										</span>
+										<span
+											className={
+												'canvas__overay__compete-text__second-line__text --counter ' +
+												competeTextHideClass
+											}
+										>
+											{countDown}
+										</span>
+										<span
+											className={
+												'canvas__overay__compete-text__second-line__text ' +
+												competeTextHideClass
+											}
+										>
+											{' '}
+											seconds
+										</span>
+									</div>
 								</div>
-								<div className={'canvas__overay__compete-text__second-line '}>
-									<span
-										className={
-											'canvas__overay__compete-text__second-line__text ' + competeTextHideClass
-										}
-									>
-										here in{' '}
-									</span>
-									<span
-										className={
-											'canvas__overay__compete-text__second-line__text --counter ' + competeTextHideClass
-										}
-									>
-										{countDown}
-									</span>
-									<span
-										className={
-											'canvas__overay__compete-text__second-line__text ' + competeTextHideClass
-										}
-									>
-										{' '}
-										seconds
-									</span>
-								</div>
-							</div>
-							}
+							)}
 						</div>
+
+						<span
+							id="userScore"
+							className={'userscore ' + this.props.scoreClass}
+							style={{
+								width: `${width}px`,
+								height: `${height}px`,
+								marginBottom: `-${height}px`
+							}}
+						>
+							{this.props.baseURL ? (
+								<React.Fragment>
+									<img
+										className="userscore__drawing"
+										style={{
+											width: `${width}px`,
+											height: `${height}px`,
+											marginBottom: `-${height}px`
+										}}
+										src={this.props.baseURL}
+									/>
+
+									{this.props.isInHomePage ? (
+										<img
+											className="userscore__model"
+											style={{
+												width: `${width}px`,
+												height: `${height}px`
+											}}
+											src="./still-life-models/geometrical5.png"
+										/>
+									) : (
+										<React.Fragment>
+											{this.props.model.model == 'geometrical1' && (
+												<img
+													className="userscore__model"
+													style={{
+														width: `${width}px`,
+														height: `${height}px`
+													}}
+													src="./still-life-models/geometrical1.png"
+												/>
+											)}
+											{this.props.model.model == 'geometrical2' && (
+												<img
+													className="userscore__model"
+													style={{
+														width: `${width}px`,
+														height: `${height}px`
+													}}
+													src="./still-life-models/geometrical2.png"
+												/>
+											)}
+											{this.props.model.model == 'geometrical3' && (
+												<img
+													className="userscore__model"
+													style={{
+														width: `${width}px`,
+														height: `${height}px`
+													}}
+													src="./still-life-models/geometrical3.png"
+												/>
+											)}
+											{this.props.model.model == 'geometrical4' && (
+												<img
+													className="userscore__model"
+													style={{
+														width: `${width}px`,
+														height: `${height}px`
+													}}
+													src="./still-life-models/geometrical4.png"
+												/>
+											)}
+											{this.props.model.model == 'geometrical5' && (
+												<img
+													className="userscore__model"
+													style={{
+														width: `${width}px`,
+														height: `${height}px`
+													}}
+													src="./still-life-models/geometrical5.png"
+												/>
+											)}
+										</React.Fragment>
+									)}
+									<span className="userscore_score">
+										Score:<span className="userscore_score_score">
+											{' '}
+											{this.props.currentScore && this.props.currentScore}
+										</span>
+									</span>
+								</React.Fragment>
+							):
+							(
+								<span
+
+								style={{
+									position:"absolute",
+									width:"400px",
+									textAlign:"center",
+									top: `${height/2-50}px`,
+									left:`${width/2-200}px`,
+									color:"white",
+									fontSize:"28px"
+								}}
+							>
+							Nothing were drawn on the canvas
+							</span>
+							)}
+							
+						</span>
 
 						<canvas
 							id="canvas__drawing"
@@ -355,8 +471,17 @@ class CanvasPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	const { timer, showTimer, timerDone, imageProcessing, leftHand, startImageProcessing } = state;
-	return { timer, showTimer, timerDone, imageProcessing, leftHand, startImageProcessing };
+	const {
+		timer,
+		showTimer,
+		timerDone,
+		imageProcessing,
+		currentScore,
+		scoreClass,
+		leftHand,
+		startImageProcessing
+	} = state;
+	return { timer, showTimer, timerDone, imageProcessing, currentScore, scoreClass, leftHand, startImageProcessing };
 };
 const mapDispatchToProps = (dispatch) => {
 	return {

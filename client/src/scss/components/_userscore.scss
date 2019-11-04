@@ -1,17 +1,48 @@
-.userscore{
-    .userscore__drawing{
-        width: 400px;
-        height: 300px;
-        position: relative;
-        right: 9px;
+.userscore {
+	list-style-type: none;
+	user-select: none;
+	cursor: crosshair;
+	display: block;
+	visibility: hidden;
+	font-size: 40px;
+	color: white;
+	opacity: 0;
+	transition: opacity .5s;
+	z-index: 1000;
+	position: relative;
+    top: 1px;
+    left:1px;
+	background-color: $dark-grey;
+	&.userscore--show {
+		visibility: visible;
+		opacity: 1;
     }
-    .userscore__model{
-        width: 400px;
-        height: 300px;
-        opacity: 0.3;
-        position: relative;
-        bottom: 311px;
-        right: 9px;
-        z-index: 200;
-    }
+    &.userscore--hide {
+		visibility: visible;
+		opacity: 0;
+	}
+	.userscore_score {
+		margin: center;
+		position: absolute;
+		top: 10px;
+		left: 20px;
+        z-index: 1001;
+        color: $dark-grey;
+        .userscore_score_score {
+            color: $orange;
+        }
+	}
+	.userscore__drawing {
+		opacity: 0.9;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+	}
+	.userscore__model {
+		opacity: 0.3;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		z-index: 200;
+	}
 }

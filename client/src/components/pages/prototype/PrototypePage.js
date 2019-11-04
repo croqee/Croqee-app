@@ -27,7 +27,7 @@ class PrototypePage extends React.Component {
 
 		if (canvas) {
 			this.props.setImageProcessing(true);
-			var dataURL = canvas.toDataURL('image/jpeg', 0.1).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+			var dataURL = canvas.toDataURL('image/jpeg', 0.8).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 			this.props.setTimer({ showTimer: false, timer: 30 });
 			console.log(dataURL);
 			axios.post('/send_drawing', { dataURL: dataURL }).then((response) => {
@@ -68,11 +68,11 @@ class PrototypePage extends React.Component {
 		return (
 			<div>
 				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
-				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
+				{/* <span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL && <img className="userscore__drawing" src={baseURL} />}
 					<img className="userscore__model" src="./still-life-models/geometrical5.png"/>
-				</span>
+				</span> */}
 				<div className="drawing-environment">
 					{/* <img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} /> */}
 					<DrawingModel side={side} />
@@ -82,6 +82,7 @@ class PrototypePage extends React.Component {
 							shouldResetCanvas={shouldResetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}
 							canStartDrawing={true}
+							baseURL={baseURL}
 						/>
 					<HandSide />
 				</div>

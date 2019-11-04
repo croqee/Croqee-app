@@ -68,7 +68,7 @@ class CompetePage extends React.Component {
 					let dataURL = null;
 					if (this.state.hasUserDrawnOnCanvas) {
 						dataURL = canvas
-							.toDataURL('image/jpeg', 0.1)
+							.toDataURL('image/jpeg', 0.8)
 							.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 					}
 					this.socket.emit('my_drawing', dataURL);
@@ -123,7 +123,7 @@ class CompetePage extends React.Component {
 				<CompetePageUsers playingUsers={playingUsers} />
 				{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
 				{this.props.showTimer ? <Timer /> : <EmptyTimer isCompeting={true} />}
-				<span id="userScore" className={'userscore ' + this.props.scoreClass}>
+				{/* <span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL ? (
 						<img className="userscore__drawing" src={baseURL} />
@@ -136,7 +136,7 @@ class CompetePage extends React.Component {
 					{this.state.model.model == 'geometrical4' && <img className="userscore__model" src="./still-life-models/geometrical4.png" />}
 					{this.state.model.model == 'geometrical5' && <img className="userscore__model" src="./still-life-models/geometrical5.png" />}
 			
-				</span>
+				</span> */}
 				<div>
 					<div className="drawing-environment">
 						{/* {this.state.model.model == 'model_1' && (
@@ -156,6 +156,8 @@ class CompetePage extends React.Component {
 							canStartDrawing={startDrawing}
 							canJoinClub={canJoinClub}
 							isCompeting={true}
+							baseURL={baseURL}
+							model={this.state.model}
 						/>
 					</div>
 					<HandSide />

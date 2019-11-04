@@ -5,6 +5,7 @@ import {
 	SET_TIMER,
 	SHOW_SCORE,
 	HIDE_SCORE,
+	REMOVE_SCORE,
 	SET_IMAGE_PROCESSING,
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
@@ -57,10 +58,15 @@ function rootReducer(state = initialState, action) {
 		case SHOW_SCORE:
 			return {
 				...state,
-				scoreClass: 'userScore_show',
+				scoreClass: 'userscore--show',
 				currentScore: action.score
 			};
 		case HIDE_SCORE:
+			return {
+				...state,
+				scoreClass: 'userscore--hide'
+			};
+		case REMOVE_SCORE:
 			return {
 				...state,
 				scoreClass: ''
