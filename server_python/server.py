@@ -156,7 +156,9 @@ class ImageAnalyser(object):
         #     distance = distance - ((80 - distance) * 6)
         # if distance < 0:
         #     distance = 0
-        diff = (distance * 10) + (contourDiff*5000) + (lengthDiff *.2)
+        diff = (distance * 15) 
+        # + (contourDiff*5000)
+        + (lengthDiff *.2)
        
         print("contour: "+ str(contourDiff))
         # print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
