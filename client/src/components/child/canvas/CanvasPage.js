@@ -443,7 +443,7 @@ class CanvasPage extends React.Component {
 									fontSize:"28px"
 								}}
 							>
-							Nothing were drawn on the canvas
+							Nothing was drawn on the canvas
 							</span>
 							)}
 							
