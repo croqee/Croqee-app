@@ -5,7 +5,7 @@ import Loader from '../loader/Loader';
 
 const styles = {
 	canvas: {
-		border: '1px solid #333',
+		border: '1px solid #333',•••••••••
 		cursor: 'crosshair'
 	}
 };
@@ -460,7 +460,7 @@ class CanvasPage extends React.Component {
 							onMouseDown={(e) => this.penDown(e)}
 							onMouseUp={(e) => this.penUp(e)}
 							onTouchMove={(e) => this.drawing(e)}
-							onTouchStart={(e) => this.drawing(e)}
+							onTouchStart={(e) => this.penDown(e)}
 							onTouchEnd={(e) => this.penUp(e)}
 						/>
 					</div>
