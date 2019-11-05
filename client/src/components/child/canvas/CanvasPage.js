@@ -5,7 +5,7 @@ import Loader from '../loader/Loader';
 
 const styles = {
 	canvas: {
-		border: '1px solid #333',•••••••••
+		border: '1px solid #333',
 		cursor: 'crosshair'
 	}
 };
