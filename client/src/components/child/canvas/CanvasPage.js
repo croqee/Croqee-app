@@ -459,9 +459,9 @@ class CanvasPage extends React.Component {
 							onMouseMove={(e) => this.drawing(e)}
 							onMouseDown={(e) => this.penDown(e)}
 							onMouseUp={(e) => this.penUp(e)}
-							onTouchMove={(e) => this.drawing(e)}
-							onTouchStart={(e) => this.penDown(e)}
-							onTouchEnd={(e) => this.penUp(e)}
+							onTouchMove={(e) => {e.preventDefault();this.drawing(e)}}
+							onTouchStart={(e) => {e.preventDefault();this.penDown(e)}}
+							onTouchEnd={(e) => {e.preventDefault();this.penUp(e)}}
 						/>
 					</div>
 				)}
