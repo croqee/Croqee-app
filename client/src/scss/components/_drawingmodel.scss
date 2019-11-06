@@ -1,6 +1,12 @@
 .drawing-model{
     float: left;
     position: relative;
+    @include x-small-screen(){
+		float: none;
+		margin: auto;
+		display: block;
+		margin-top:5px;
+	}
     &.model_left_hand{
         float: right;
     }
