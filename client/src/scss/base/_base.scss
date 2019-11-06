@@ -1,9 +1,13 @@
 @import 'colors';
+@import 'mixins';
 body {
-	// padding-top: 75px; // background: url(../img/asset-3.png) no-repeat 100%;
-	// background-size: 100%;
+
 	background-color: $dark-grey!important;
 	margin: 0;
+	@include x-small-screen(){
+		-webkit-user-drag: none;
+		user-select: none;
+	}
 }
 
 a:hover,
@@ -12,13 +16,7 @@ a:focus {
 	text-decoration: none;
 }
 
-// .modelImg {
-// 	float: left;
-// 	position: relative;
-// 	top: 10px;
-//     left: 60px;
-//     clear: both;
-// }
+
 #drawhere {
     width: 193px;
     height: 106px;
@@ -32,10 +30,6 @@ a:focus {
     top: -92px;
     margin-bottom: -200px;
 }
-// .model_left_hand{
-// 	float: right;
-// 	left: -50px!important;
-// }
 
 
 #countDown {
