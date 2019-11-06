@@ -40,6 +40,8 @@
 		float: left !important;
 	}
 	.canvas__canvas {
+		-webkit-user-drag: none;
+		user-select: none;
 		@include x-small-screen(){
 			margin-top:5px;
 		}
