@@ -53,7 +53,9 @@ const GlobalRoute = ({ component: Component, ...rest }) => (
 class App extends Component {
 	state = {};
 
-	componentDidMount() {}
+	componentDidMount() {
+		document.ontouchmove = function(e){ e.preventDefault(); }
+	}
 
 	render() {
 		return (
