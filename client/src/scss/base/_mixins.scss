@@ -1,6 +1,6 @@
 
 @mixin x-small-screen {
-	@media (max-width: 1280px) {
+	@media (max-width: 800px) {
 		@content;
 	}
 }
