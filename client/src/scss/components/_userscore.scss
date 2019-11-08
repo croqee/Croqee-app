@@ -10,8 +10,6 @@
 	transition: opacity .5s;
 	z-index: 1000;
 	position: relative;
-    top: 1px;
-    left:1px;
 	background-color: $dark-grey;
 	&.userscore--show {
 		visibility: visible;
