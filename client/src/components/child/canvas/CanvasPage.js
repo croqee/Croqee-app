@@ -59,120 +59,84 @@ class CanvasPage extends React.Component {
 		}
 	}
 	setCanvasSize() {
-		let screenSize = this.getWidth();
+		const screenSize  = window.innerWidth || document.documentElement.clientWidth || 
+		document.body.clientWidth;
+		// let screenSize = this.getWidth();
+		let width = Math.floor((screenSize/2)-9)
+		let height = Math.floor((width/800)*600)
 		console.log(screenSize);
 		this.setState({ isSizeSet: false }, () => {
-			if (screenSize > 1700) {
-				this.setState(
-					{
-						width: 800,
-						height: 600,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1660) {
-				this.setState(
-					{
-						width: 780,
-						height: 585,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1620) {
-				this.setState(
-					{
-						width: 760,
-						height: 570,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1580) {
-				this.setState(
-					{
-						width: 740,
-						height: 555,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1540) {
-				this.setState(
-					{
-						width: 720,
-						height: 540,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1500) {
-				this.setState(
-					{
-						width: 700,
-						height: 525,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1450) {
-				this.setState(
-					{
-						width: 680,
-						height: 510,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1400) {
-				this.setState(
-					{
-						width: 660,
-						height: 495,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else if (screenSize > 1365) {
-				this.setState(
-					{
-						width: 640,
-						height: 480,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			} else {
-				this.setState(
-					{
-						width: 600,
-						height: 450,
-						isSizeSet: true
-					},
-					() => {
-						this.reset();
-					}
-				);
-			}
+		    
+			this.setState(
+						{
+							width: width,
+							height: height,
+							isSizeSet: true
+						},	() => {
+							this.reset();
+						})
+		// this.setState({ isSizeSet: false }, () => {
+		// 	if (screenSize > 1700) {
+		// 		this.setState({
+		// 			width: 800,
+		// 			height: 600,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1660) {
+		// 		this.setState({
+		// 			width: 780,
+		// 			height: 585,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1620) {
+		// 		this.setState({
+		// 			width: 760,
+		// 			height: 570,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1580) {
+		// 		this.setState({
+		// 			width: 740,
+		// 			height: 555,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1540) {
+		// 		this.setState({
+		// 			width: 720,
+		// 			height: 540,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1500) {
+		// 		this.setState({
+		// 			width: 700,
+		// 			height: 525,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1450) {
+		// 		this.setState({
+		// 			width: 680,
+		// 			height: 510,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1400) {
+		// 		this.setState({
+		// 			width: 660,
+		// 			height: 495,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else if (screenSize > 1365) {
+		// 		this.setState({
+		// 			width: 640,
+		// 			height: 480,
+		// 			isSizeSet: true
+		// 		});
+		// 	} else {
+		// 		this.setState({
+		// 			width: 600,
+		// 			height: 450,
+		// 			isSizeSet: true
+		// 		});
+			// }
 		});
 	}
 	getWidth() {
@@ -233,10 +197,11 @@ class CanvasPage extends React.Component {
 
 	reset() {
 		//clears it to all white, resets state to original
+		let lineWidth = (1.7 * this.state.width) / 800;
 		this.setState({
 			mode: 'draw',
 			pen: 'up',
-			lineWidth: 1.6,
+			lineWidth: lineWidth,
 			penColor: 'black'
 		});
 		if (this.refs.canvas) {
