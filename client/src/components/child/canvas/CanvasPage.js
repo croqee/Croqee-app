@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
 import Loader from '../loader/Loader';
 
-const styles = {
+let styles = {
 	canvas: {
 		cursor: 'crosshair'
 	}
@@ -58,84 +58,38 @@ class CanvasPage extends React.Component {
 		}
 	}
 	setCanvasSize() {
-		const screenSize  = window.innerWidth || document.documentElement.clientWidth || 
-		document.body.clientWidth;
+		const screenSize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 		// let screenSize = this.getWidth();
-		let width = Math.floor((screenSize/2)-9)
-		let height = Math.floor((width/800)*600)
+		let width;
+		let height;
+		if (screenSize > 1850) {
+			const margin = Math.floor((screenSize - 1800) / 3)-2;
+			width = 900;
+			height = 675;
+			styles.canvas = {
+				...styles.canvas,
+				marginRight: margin+'px'
+			};
+		} else {
+			width = Math.floor(screenSize / 2 - 9);
+			height = Math.floor(width / 800 * 600);
+			styles.canvas = {
+				...styles.canvas,
+				marginRight: '0'
+			};
+		}
 		console.log(screenSize);
 		this.setState({ isSizeSet: false }, () => {
-		    
 			this.setState(
-						{
-							width: width,
-							height: height,
-							isSizeSet: true
-						},	() => {
-							this.reset();
-						})
-		// this.setState({ isSizeSet: false }, () => {
-		// 	if (screenSize > 1700) {
-		// 		this.setState({
-		// 			width: 800,
-		// 			height: 600,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1660) {
-		// 		this.setState({
-		// 			width: 780,
-		// 			height: 585,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1620) {
-		// 		this.setState({
-		// 			width: 760,
-		// 			height: 570,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1580) {
-		// 		this.setState({
-		// 			width: 740,
-		// 			height: 555,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1540) {
-		// 		this.setState({
-		// 			width: 720,
-		// 			height: 540,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1500) {
-		// 		this.setState({
-		// 			width: 700,
-		// 			height: 525,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1450) {
-		// 		this.setState({
-		// 			width: 680,
-		// 			height: 510,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1400) {
-		// 		this.setState({
-		// 			width: 660,
-		// 			height: 495,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else if (screenSize > 1365) {
-		// 		this.setState({
-		// 			width: 640,
-		// 			height: 480,
-		// 			isSizeSet: true
-		// 		});
-		// 	} else {
-		// 		this.setState({
-		// 			width: 600,
-		// 			height: 450,
-		// 			isSizeSet: true
-		// 		});
-			// }
+				{
+					width: width,
+					height: height,
+					isSizeSet: true
+				},
+				() => {
+					this.reset();
+				}
+			);
 		});
 	}
 	getWidth() {
@@ -196,7 +150,7 @@ class CanvasPage extends React.Component {
 
 	reset() {
 		//clears it to all white, resets state to original
-		let lineWidth = (1.7 * this.state.width) / 800;
+		let lineWidth = 1.7 * this.state.width / 800;
 		this.setState({
 			mode: 'draw',
 			pen: 'up',
@@ -393,24 +347,21 @@ class CanvasPage extends React.Component {
 										</span>
 									</span>
 								</React.Fragment>
-							):
-							(
+							) : (
 								<span
-
-								style={{
-									position:"absolute",
-									width:"400px",
-									textAlign:"center",
-									top: `${height/2-50}px`,
-									left:`${width/2-200}px`,
-									color:"white",
-									fontSize:"28px"
-								}}
-							>
-							Nothing was drawn on the canvas
-							</span>
+									style={{
+										position: 'absolute',
+										width: '400px',
+										textAlign: 'center',
+										top: `${height / 2 - 50}px`,
+										left: `${width / 2 - 200}px`,
+										color: 'white',
+										fontSize: '28px'
+									}}
+								>
+									Nothing was drawn on the canvas
+								</span>
 							)}
-							
 						</span>
 
 						<canvas
@@ -423,9 +374,18 @@ class CanvasPage extends React.Component {
 							onMouseMove={(e) => this.drawing(e)}
 							onMouseDown={(e) => this.penDown(e)}
 							onMouseUp={(e) => this.penUp(e)}
-							onTouchMove={(e) => {e.preventDefault();this.drawing(e)}}
-							onTouchStart={(e) => {e.preventDefault();this.penDown(e)}}
-							onTouchEnd={(e) => {e.preventDefault();this.penUp(e)}}
+							onTouchMove={(e) => {
+								e.preventDefault();
+								this.drawing(e);
+							}}
+							onTouchStart={(e) => {
+								e.preventDefault();
+								this.penDown(e);
+							}}
+							onTouchEnd={(e) => {
+								e.preventDefault();
+								this.penUp(e);
+							}}
 						/>
 					</div>
 				)}
