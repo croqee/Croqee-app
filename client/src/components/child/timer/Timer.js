@@ -6,7 +6,7 @@ class Timer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			timerColor: 'timer_green',
+			timerColor: 'timer_orange',
 		};
 	
 	}
@@ -33,12 +33,6 @@ class Timer extends Component {
 			console.info('Execution time: %dms', end);
 			this.props.setStartImageProcessing(true);
 		}
-		if (this.α < 240 && this.α > 120) {
-			this.setTimerColor('timer_orange');
-		} else if (this.α < 120) {
-			this.setTimerColor('timer_red');
-		}
-
 		var r = this.α * this.π / 180,
 			x = Math.sin(r) * 125,
 			y = Math.cos(r) * -125,
