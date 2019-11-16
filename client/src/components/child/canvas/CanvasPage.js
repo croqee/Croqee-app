@@ -18,7 +18,7 @@ class CanvasPage extends React.Component {
 			isSizeSet: false,
 			width: null,
 			height: null,
-			countDown: 5,
+			countDown: 7,
 			competeTextHideClass: '',
 			moveStartTextClass: ''
 		};

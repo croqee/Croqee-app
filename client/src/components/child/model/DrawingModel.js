@@ -10,7 +10,8 @@ export default class DrawingModel extends Component {
 		this.state = {
 			isSizeSet: false,
 			width: null,
-			height: null
+			height: null,
+			usersScoreFadeClass:''
 		};
 		window.addEventListener('resize', () => {
 			this.setModelSize();
@@ -20,17 +21,36 @@ export default class DrawingModel extends Component {
 	componentDidMount() {
 		this.setModelSize();
 	}
+	componentDidUpdate(prevProps, prevStates) {
+		if (prevProps.showUserScores != this.props.showUserScores) {
+			if (this.props.showUserScores) {
+				this.setState(
+					{
+						usersScoreFadeClass: 'users-scores--fadein'
+					},
+					() => {
+						setTimeout(() => {
+							this.setState({
+								usersScoreFadeClass: 'users-scores--fadeout'
+							});
+						}, 3500);
+					}
+				);
+			}
+		}
+	}
+
 	setModelSize() {
 		const screenSize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 		let width;
 		let height;
 		if (screenSize > 1850) {
-			const margin = Math.floor((screenSize - 1800) / 3)-2;
+			const margin = Math.floor((screenSize - 1800) / 3) - 2;
 			width = 900;
 			height = 675;
 			styles.model = {
 				...styles.model,
-				marginLeft: margin+'px'
+				marginLeft: margin + 'px'
 			};
 		} else {
 			width = Math.floor(screenSize / 2 - 9);
@@ -59,8 +79,8 @@ export default class DrawingModel extends Component {
 		);
 	}
 	render() {
-		const { width, height, isSizeSet } = this.state;
-		const { model, side, compete } = this.props;
+		const { width, height, isSizeSet,usersScoreFadeClass } = this.state;
+		const { model, side, compete, showUserScores, playingUsers,user } = this.props;
 
 		return (
 			<React.Fragment>
@@ -117,6 +137,52 @@ export default class DrawingModel extends Component {
 									height={`${height}px`}
 									className={'drawing-model ' + this.props.side}
 								/>
+							</div>
+						)}
+						{showUserScores && (
+							<div
+								className={`users-scores ${usersScoreFadeClass}`}
+								style={{
+									...styles.model,
+									width: `${width}px`,
+									height: `${height}px`
+								}}
+							>
+							<div className="users-scores__currently-playing">
+							Currently playing
+							</div>
+								<div className="tbl-header">
+									<table cellPadding="0" cellSpacing="0" border="0">
+										<thead>
+											<tr>
+												<th>Rank</th>
+												<th>Name</th>
+												<th>Score</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div
+									className="tbl-content"
+									style={{
+										height: `${height - 87}px`
+									}}
+								>
+									<table cellPadding="0" cellSpacing="0" border="0">
+										<tbody>
+											{playingUsers &&
+												playingUsers.map((u, i) => {
+													return (
+														<tr className={u._id == user._id?"tbl-content__orange":""}>
+															<td>{i + 1}</td>
+															<td>{u.name}</td>
+															<td>{u.score}</td>
+														</tr>
+													);
+												})}
+										</tbody>
+									</table>
+								</div>
 							</div>
 						)}
 					</React.Fragment>

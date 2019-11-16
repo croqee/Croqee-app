@@ -5,6 +5,7 @@ class CompetePageUsers extends Component {
         let playingUsers = this.props.playingUsers;
 		return (
             <div className="compete-page-users">
+           <h3> Players</h3>
             {playingUsers.length != 0 &&
                 playingUsers.map((user, i) => {
                     return (
@@ -13,10 +14,7 @@ class CompetePageUsers extends Component {
                         <div className="compete-page-users__user" key={user._id}>
                             <div className="compete-page-users__user__name">{user.name} </div>
                             <div className="compete-page-users__user__score">
-                                {' '}
-                                {'last score: '}
-                                {user.status == 'recently joined' ? <div>Recently joined</div> : <span className="compete-page-users__user__score__number">{user.score}</span>}
-                            </div>
+                          </div>
                         </div>
                         </React.Fragment>
                     );

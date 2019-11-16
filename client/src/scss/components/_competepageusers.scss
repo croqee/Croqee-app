@@ -1,6 +1,10 @@
 
 .compete-page-users {
+	width: 90%;
+	text-align: center;
+	margin: auto;
 	z-index: 100;
+	border:1px solid white;
 	.compete-page-users__user-splitter{
 		height: 50px;
 		border-right: 1px solid $light-grey;

@@ -27,7 +27,9 @@ class CompetePage extends React.Component {
 			playingUsers: [],
 			model: {},
 			canStartDrawing: false,
-			hasJoined:false
+			hasJoined:false,
+			showUserScores:false,
+			isFirstTimePlaying:true,
 		};
 	}
 	componentDidMount() {
@@ -41,6 +43,7 @@ class CompetePage extends React.Component {
 			});
 		});
 		this.socket.on('join_club', (model) => {
+			console.log("should join")
 			if(!this.state.hasJoined){
 			this.setState({
 				canJoinClub: true,
@@ -51,13 +54,16 @@ class CompetePage extends React.Component {
 		});
 
 		this.socket.on('start_drawing', (model) => {
+			if(this.state.hasJoined){
 			this.setState({ model: model });
 			console.log('start drawing');
 			console.log(model);
 			this.setState({
 				startDrawing: true,
+				showUserScores:false,
 			});
 			this.props.setTimer({ showTimer: true, timer: model.givenTime });
+			}
 		});
 		this.socket.on('send_your_drawing', () => {
 			if (this.state.startDrawing) {
@@ -93,6 +99,19 @@ class CompetePage extends React.Component {
 				//this.reset();
 			}
 		});
+
+		this.socket.on('users_score', (stillLifePlayers) => {
+			if(!this.state.isFirstTimePlaying){
+			this.setState({
+				showUserScores:true,
+				playingUsers: stillLifePlayers
+			});
+		}else{
+			this.setState({
+				isFirstTimePlaying:false
+			})
+		}
+		});
 	}
 	componentWillUnmount() {
 		this.socket.close();
@@ -111,7 +130,7 @@ class CompetePage extends React.Component {
 	};
 	render() {
 		const side = this.props.leftHand ? 'model_left_hand' : '';
-		const { baseURL, playingUsers, startDrawing, canJoinClub } = this.state;
+		const { baseURL, playingUsers, startDrawing, canJoinClub,showUserScores } = this.state;
 		return (
 			<React.Fragment>
 				{!canJoinClub && (
@@ -120,7 +139,7 @@ class CompetePage extends React.Component {
 						<UserPendingLoader caption={'Please wait until the next round begins...'} />
 					</div>
 				)}
-				<CompetePageUsers playingUsers={playingUsers} />
+				{/* <CompetePageUsers playingUsers={playingUsers} /> */}
 				{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
 				{this.props.showTimer ? <Timer /> : <EmptyTimer isCompeting={true} />}
 				{/* <span id="userScore" className={'userscore ' + this.props.scoreClass}>
@@ -148,7 +167,14 @@ class CompetePage extends React.Component {
 						{this.state.model.model == 'model_3' && (
 							<img src="./shapes_3.png" className={'modelImg draw_and_model ' + side} />
 						)} */}
-						<DrawingModel model={this.state.model} side={side} compete={true} />
+						
+						<DrawingModel
+						model={this.state.model}
+						side={side} 
+						compete={true}
+						playingUsers={playingUsers} 
+						showUserScores={showUserScores}
+						user={this.props.user} />
 						<CanvasPage
 							shouldResetCanvas={this.state.resetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}
