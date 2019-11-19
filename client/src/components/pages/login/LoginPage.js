@@ -6,7 +6,7 @@ import config from '../../../modules/config';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { setUser, getUser, setPageToNavigateAfterLogin } from '../../../js/actions';
-import { GoogleLogin } from 'react-google-login';
+// import { GoogleLogin } from 'react-google-login';
 
 class LoginPage extends React.Component {
 	/**
@@ -96,14 +96,14 @@ class LoginPage extends React.Component {
 		});
 	}
    
-	responseGoogle(response) {
-		console.log(response.code);
+	// responseGoogle(response) {
+	// 	console.log(response.code);
 
-		axios.post('auth/googleauth', { googleCode: response.code }).then((response) => {
-		console.log(response);
-		});
+	// 	axios.post('auth/googleauth', { googleCode: response.code }).then((response) => {
+	// 	console.log(response);
+	// 	});
 
-	  }
+	//   }
 
 	/**
    * Render the component.

@@ -1,7 +1,7 @@
 const express = require('express');
 const validator = require('validator');
 const passport = require('passport');
-const { google } = require("googleapis");
+// const { google } = require("googleapis");
 
 const router = new express.Router();
 
@@ -167,32 +167,32 @@ const validationResult = validateLoginForm(req.body);
   })(req, res, next);
 });
 
-router.post('/googleauth', (req, res, next) => {
+// router.post('/googleauth', (req, res, next) => {
 
-  const googleCode = req.body.googleCode;
-  const oauth2Client = new google.auth.OAuth2(
-    "2889500814-sj1korvtin4tf6svk6mksiq9aqcv880j.apps.googleusercontent.com",
-    "xc8aRJ_lgOTpm0-NvYv10wh9",
-    "postmessage"
-  );
-  google.options({ auth: oauth2Client });
+//   const googleCode = req.body.googleCode;
+//   const oauth2Client = new google.auth.OAuth2(
+//     "2889500814-sj1korvtin4tf6svk6mksiq9aqcv880j.apps.googleusercontent.com",
+//     "xc8aRJ_lgOTpm0-NvYv10wh9",
+//     "postmessage"
+//   );
+//   google.options({ auth: oauth2Client });
 
-  oauth2Client
-  .getToken(googleCode)
-  .then(res => {
-    const tokens = res.tokens;
-    oauth2Client.setCredentials(tokens);
-    const oauth2 = google.oauth2({ version: "v2" });
-    return oauth2.userinfo.get();
-  }).then(
-    userData=>{
-      console.log("userrrr dataaaa")
-      console.log(userData);
-      res.json({
-        userData
-      })
-    }
-  )
-});
+//   oauth2Client
+//   .getToken(googleCode)
+//   .then(res => {
+//     const tokens = res.tokens;
+//     oauth2Client.setCredentials(tokens);
+//     const oauth2 = google.oauth2({ version: "v2" });
+//     return oauth2.userinfo.get();
+//   }).then(
+//     userData=>{
+//       console.log("userrrr dataaaa")
+//       console.log(userData);
+//       res.json({
+//         userData
+//       })
+//     }
+//   )
+// });
 
 module.exports = router;
