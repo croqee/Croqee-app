@@ -2,11 +2,9 @@
     position: relative;
     top: 15px;
     clear: both;
-    color:$mid-light-grey;;
+    color:$mid-light-grey;
 }
-.btn{
-    border: 3px solid $mid-grey;
-    
+.btn{    
     display: inline-block;
     padding: 10px;
     position: relative;
@@ -19,12 +17,11 @@ input[type="radio"].toggle {
     & + label{
         cursor: pointer;
         min-width: 80px;
+        color: $light-grey;
         &:hover{
             background: none;
-            color: $light-grey;
         }
         &:after{
-            background-color: $mid-grey;
             content: "";
             height: 100%;
             position: absolute;
@@ -48,7 +45,7 @@ input[type="radio"].toggle {
     }
     &:checked + label {
         cursor: default;
-        color: #fff;
+        color: $orange;
         transition: color 200ms;
         &:after{
             left: 0;

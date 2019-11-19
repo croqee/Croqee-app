@@ -46,6 +46,9 @@ class CanvasPage extends React.Component {
 		if (prevProps.canJoinClub != this.props.canJoinClub) {
 			this.startCountDown();
 		}
+		if (prevProps.leftHand != this.props.leftHand) {
+			this.setCanvasSize();
+		}
 	}
 	startCountDown() {
 		if (this.state.countDown > 1) {
@@ -59,17 +62,25 @@ class CanvasPage extends React.Component {
 	}
 	setCanvasSize() {
 		const screenSize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-		// let screenSize = this.getWidth();
 		let width;
 		let height;
 		if (screenSize > 1850) {
-			const margin = Math.floor((screenSize - 1800) / 3)-2;
+			const margin = Math.floor((screenSize - 1800) / 3) - 2;
 			width = 900;
 			height = 675;
-			styles.canvas = {
-				...styles.canvas,
-				marginRight: margin+'px'
-			};
+			if (this.props.leftHand) {
+				styles.canvas = {
+					...styles.canvas,
+					marginLeft: margin + 'px',
+					marginRight: 0
+				};
+			} else {
+				styles.canvas = {
+					...styles.canvas,
+					marginRight: margin + 'px',
+					marginLeft: 0
+				};
+			}
 		} else {
 			width = Math.floor(screenSize / 2 - 9);
 			height = Math.floor(width / 800 * 600);
@@ -91,15 +102,6 @@ class CanvasPage extends React.Component {
 				}
 			);
 		});
-	}
-	getWidth() {
-		return Math.max(
-			document.body.scrollWidth,
-			document.documentElement.scrollWidth,
-			document.body.offsetWidth,
-			document.documentElement.offsetWidth,
-			document.documentElement.clientWidth
-		);
 	}
 
 	drawing(e) {

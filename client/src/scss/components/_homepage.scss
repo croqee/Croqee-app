@@ -1,0 +1,14 @@
+.croqee-video-section {
+    width: 100%;
+    height: 600px;
+    border-bottom: 1px dotted $light-grey;
+    &__title {
+        margin: auto;
+        display: block;
+        position: relative;
+        top: 250px;
+        font-size: 26px;
+        clear: both;
+        font-weight: 100;
+	}
+}

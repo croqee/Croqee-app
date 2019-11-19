@@ -11,6 +11,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-google-login": "^5.0.7",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.5",
@@ -32,7 +33,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://server_node:8080",
+  "proxy": "http://localhost:8080",
   "browserslist": [
     ">0.2%",
     "not dead",

@@ -6,6 +6,7 @@ import config from '../../../modules/config';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { setUser, getUser, setPageToNavigateAfterLogin } from '../../../js/actions';
+import { GoogleLogin } from 'react-google-login';
 
 class LoginPage extends React.Component {
 	/**
@@ -66,7 +67,7 @@ class LoginPage extends React.Component {
 				Auth.authenticateUser(token);
 				this.props.getUser(user);
 				this.props.history.push(this.props.pageToNavigateAfterLogin);
-				return this.props.setPageToNavigateAfterLogin('/')
+				return this.props.setPageToNavigateAfterLogin('/');
 			})
 			.catch((error) => {
 				console.log(error.response);
@@ -94,33 +95,52 @@ class LoginPage extends React.Component {
 			user
 		});
 	}
+   
+	responseGoogle(response) {
+		console.log(response.code);
+
+		axios.post('auth/googleauth', { googleCode: response.code }).then((response) => {
+		console.log(response);
+		});
+
+	  }
 
 	/**
    * Render the component.
    */
 	render() {
 		return (
-			<LoginForm
-				onSubmit={this.processForm}
-				onChange={this.changeUser}
-				errors={this.state.errors}
-				successMessage={this.state.successMessage}
-				user={this.state.user}
-			/>
+			<React.Fragment>
+				<LoginForm
+					onSubmit={this.processForm}
+					onChange={this.changeUser}
+					errors={this.state.errors}
+					successMessage={this.state.successMessage}
+					user={this.state.user}
+				/>
+				{/* <GoogleLogin
+					clientId="2889500814-sj1korvtin4tf6svk6mksiq9aqcv880j.apps.googleusercontent.com"
+					buttonText="Login"
+					onSuccess={this.responseGoogle}
+					onFailure={this.responseGoogle}
+					cookiePolicy={'single_host_origin'}
+					responseType="code"
+					accessType="offline"
+				/> */}
+			</React.Fragment>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
 	const { pageToNavigateAfterLogin } = state;
-	return { pageToNavigateAfterLogin};
+	return { pageToNavigateAfterLogin };
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getUser: () => dispatch(getUser()),
 		setUser: (user) => dispatch(setUser(user)),
 		setPageToNavigateAfterLogin: (payload) => dispatch(setPageToNavigateAfterLogin(payload))
-
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

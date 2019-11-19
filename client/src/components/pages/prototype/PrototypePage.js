@@ -67,14 +67,14 @@ class PrototypePage extends React.Component {
 		let side = this.props.leftHand ? 'model_left_hand' : '';
 		return (
 			<div>
+
+				<div className="croqee-video-section">
+					<span className="croqee-video-section__title">Video goes here</span>
+				</div>
+
 				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
-				{/* <span id="userScore" className={'userscore ' + this.props.scoreClass}>
-					Score: {this.props.currentScore && this.props.currentScore}
-					{baseURL && <img className="userscore__drawing" src={baseURL} />}
-					<img className="userscore__model" src="./still-life-models/geometrical5.png"/>
-				</span> */}
 				<div className="drawing-environment">
-					{/* <img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} /> */}
+
 					<DrawingModel side={side} />
 						<CanvasPage
 							isInHomePage={true}

@@ -38,6 +38,43 @@
 		float: right;
 	}
 }
+.drawing-model__select {
+	position: relative;
+    width: 117px;
+	height: 236px;
+	margin-bottom: -276px;
+    padding-left: 11px;
+    padding-top: 13px;
+    z-index: 2;
+    cursor: pointer;
+    background-color: #b1b8b8;
+	span{
+		width: 100px;
+		height: 100px;
+		display: inline-block;
+		margin-bottom: 10px;
+		position: relative;
+		right: 6px;
+		&:hover{
+			opacity: 1;
+		}
+	}
+	&__still-life {
+		border: 2px solid #ff5200;
+		background-image: url("https://i.ibb.co/s990BgW/geometrical5.png");
+		background-size: 142px;
+		background-position-x: -19px;
+
+	}
+	&__anatomy {
+		background-image: url("https://media.discordapp.net/attachments/627435536478633984/643822647292985344/Male2edited2.jpg");
+		background-size: 192px;
+		background-position: -37px -3px;
+		opacity: 0.5;
+		border: 2px solid white;
+
+	}
+}
 .users-scores {
 	background-color: black;
 	opacity: 0.93;
@@ -52,8 +89,8 @@
 		height: 40px;
 		font-size: 22px;
 		padding-top: 7px;
-        border-bottom: 1px solid $dark-grey;
-        color:#585858;
+		border-bottom: 1px solid $dark-grey;
+		color: #585858;
 	}
 	table {
 		width: 100%;
@@ -65,8 +102,8 @@
 		th {
 			position: relative;
 			bottom: 9px;
-        }
-        color:#585858;
+		}
+		color: #585858;
 	}
 	.tbl-content {
 		overflow-x: auto;

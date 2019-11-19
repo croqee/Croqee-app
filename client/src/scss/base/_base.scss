@@ -48,15 +48,15 @@ a:focus {
 }
 
 .begindrawing{
-    font-size: 23px;
+	font-size: 23px;
     position: relative;
-	bottom: 100px;
-	width:260px;
-	height: 100px;
-	margin:auto;
+    bottom: 92px;
+    width: 520px;
+    height: 100px;
+    margin: auto;
     margin-bottom: -100px;
-	display: block;
-	color:$light-grey;
+    display: block;
+    color: $light-grey;
 }
 @media only screen and (max-width: 1750px) {
 	.canvas {

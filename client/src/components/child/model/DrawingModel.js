@@ -11,7 +11,7 @@ export default class DrawingModel extends Component {
 			isSizeSet: false,
 			width: null,
 			height: null,
-			usersScoreFadeClass:''
+			usersScoreFadeClass: ''
 		};
 		window.addEventListener('resize', () => {
 			this.setModelSize();
@@ -38,6 +38,9 @@ export default class DrawingModel extends Component {
 				);
 			}
 		}
+		if (prevProps.leftHand != this.props.leftHand) {
+			this.setCanvasSize();
+		}
 	}
 
 	setModelSize() {
@@ -48,10 +51,19 @@ export default class DrawingModel extends Component {
 			const margin = Math.floor((screenSize - 1800) / 3) - 2;
 			width = 900;
 			height = 675;
-			styles.model = {
-				...styles.model,
-				marginLeft: margin + 'px'
-			};
+			if (this.props.leftHand) {
+				styles.canvas = {
+					...styles.canvas,
+					marginRight: margin + 'px',
+					marginLeft: 0
+				};
+			} else {
+				styles.canvas = {
+					...styles.canvas,
+					marginLeft: margin + 'px',
+					marginRight: 0
+				};
+			}
 		} else {
 			width = Math.floor(screenSize / 2 - 9);
 			height = Math.floor(width / 800 * 600);
@@ -69,18 +81,9 @@ export default class DrawingModel extends Component {
 			});
 		});
 	}
-	getWidth() {
-		return Math.max(
-			document.body.scrollWidth,
-			document.documentElement.scrollWidth,
-			document.body.offsetWidth,
-			document.documentElement.offsetWidth,
-			document.documentElement.clientWidth
-		);
-	}
 	render() {
-		const { width, height, isSizeSet,usersScoreFadeClass } = this.state;
-		const { model, side, compete, showUserScores, playingUsers,user } = this.props;
+		const { width, height, isSizeSet, usersScoreFadeClass } = this.state;
+		const { model, side, compete, showUserScores, playingUsers, user } = this.props;
 
 		return (
 			<React.Fragment>
@@ -130,7 +133,26 @@ export default class DrawingModel extends Component {
 								)}
 							</div>
 						) : (
-							<div style={styles.model}>
+							<div
+								style={{
+									...styles.model,
+									display: 'inline-block',
+									width: `${width}px`,
+									height: `${height}px`,
+									zIndex: '3',
+									overflow: 'hidden'
+								}}
+							>
+								<div
+									className="drawing-model__select"
+									style={{
+										top: `${(height - 236) / 2 - 15}px`
+									}}
+								>
+									{' '}
+									<span className="drawing-model__select__still-life" />{' '}
+									<span className="drawing-model__select__anatomy" />
+								</div>
 								<img
 									src="./still-life-models/geometrical5.png"
 									width={`${width}px`}
@@ -148,9 +170,7 @@ export default class DrawingModel extends Component {
 									height: `${height}px`
 								}}
 							>
-							<div className="users-scores__currently-playing">
-							Currently playing
-							</div>
+								<div className="users-scores__currently-playing">Currently playing</div>
 								<div className="tbl-header">
 									<table cellPadding="0" cellSpacing="0" border="0">
 										<thead>
@@ -173,7 +193,7 @@ export default class DrawingModel extends Component {
 											{playingUsers &&
 												playingUsers.map((u, i) => {
 													return (
-														<tr className={u._id == user._id?"tbl-content__orange":""}>
+														<tr className={u._id == user._id ? 'tbl-content__orange' : ''}>
 															<td>{i + 1}</td>
 															<td>{u.name}</td>
 															<td>{u.score}</td>
