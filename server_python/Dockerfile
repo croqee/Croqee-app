@@ -1,3 +1,5 @@
+# Setup and build the python server
+
 FROM python:2
 
 # Installing dependencies for linux installation of opencv
@@ -24,12 +26,13 @@ RUN apt-get update && \
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+
 # GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
 
-RUN wget https://github.com/opencv/opencv/archive/2.4.13.3.zip \
-&& unzip 2.4.13.3.zip \
-&& mkdir /opencv-2.4.13.3/cmake_binary \
-&& cd /opencv-2.4.13.3/cmake_binary \
+RUN wget https://github.com/opencv/opencv/archive/3.4.4.zip \
+&& unzip 3.4.4.zip \
+&& mkdir /opencv-3.4.4/cmake_binary \
+&& cd /opencv-3.4.4/cmake_binary \
 && cmake -DWITH_QT=OFF \
         -DWITH_OPENGL=ON \
         -DFORCE_VTK=OFF \
@@ -39,19 +42,16 @@ RUN wget https://github.com/opencv/opencv/archive/2.4.13.3.zip \
         -DBUILD_EXAMPLES=OFF \
         -DENABLE_PRECOMPILED_HEADERS=OFF .. \
 && make install \
-&& rm /2.4.13.3.zip \
-&& rm -r /opencv-2.4.13.3
+&& rm /3.4.4.zip \
+&& rm -r /opencv-3.4.4
 
 # Run the image as a non-root user
 RUN adduser myuser
 USER myuser
 
-ADD . /opt/app/
-WORKDIR /opt/app
-
+ADD ./server_python /usr/app/server_python/
+WORKDIR /usr/app/server_python/
 
 EXPOSE 9699
-
-
-CMD ["python", "server.py"]
+CMD ["python", "-u", "server.py"]
 
