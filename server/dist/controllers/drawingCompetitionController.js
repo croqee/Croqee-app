@@ -178,4 +178,4 @@ class StillLifeClubController {
     }
 }
 exports.StillLifeClubController = StillLifeClubController;
-//# sourceMappingURL=StillLifeClubController.js.map
+//# sourceMappingURL=drawingCompetitionController.js.map

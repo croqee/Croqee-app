@@ -4,13 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require('jsonwebtoken');
-const config_1 = __importDefault(require("../config"));
-require('../models').connect(config_1.default.dbUri);
+const config_1 = __importDefault(require("../../config"));
+const stillLifeModels_1 = require("./stillLifeModels");
+require('../../models').connect(config_1.default.dbUri);
 const User = require('mongoose').model('User');
-class StillLifeClubController {
-    constructor(io, node_client) {
+class drawingCompetitionController {
+    constructor(io, node_client, drawingField) {
         this.players = [];
         this.models = [];
+        this.drawingField = drawingField;
         this.resetStillLife();
         this.stillLifeloop(io);
         this.trackEachUser(io, node_client);
@@ -24,28 +26,9 @@ class StillLifeClubController {
         return -1;
     }
     resetStillLife() {
-        this.models = [
-            {
-                model: 'geometrical1',
-                givenTime: 40
-            },
-            {
-                model: 'geometrical2',
-                givenTime: 40
-            },
-            {
-                model: 'geometrical3',
-                givenTime: 40
-            },
-            {
-                model: 'geometrical4',
-                givenTime: 40
-            },
-            {
-                model: 'geometrical5',
-                givenTime: 40
-            }
-        ];
+        if (this.drawingField === 'still_life') {
+            this.models = stillLifeModels_1.stillLifeModels;
+        }
         this.round = 1;
         this.isBeginProcessed = false;
         this.isBeginCallbackSent = false;
@@ -53,7 +36,7 @@ class StillLifeClubController {
         this.numOfUsersGotScored = 0;
     }
     getNumberOfPlayingUsers(users) {
-        return users.filter(u => u.status === 'playing').length;
+        return users.filter((u) => u.status === 'playing').length;
     }
     //Still Life game loop
     stillLifeloop(io) {
@@ -75,7 +58,8 @@ class StillLifeClubController {
                     }
                 }
                 else {
-                    if (this.numOfUsersGotScored >= this.getNumberOfPlayingUsers(this.players) || this.players.length == 1) {
+                    if (this.numOfUsersGotScored >= this.getNumberOfPlayingUsers(this.players) ||
+                        this.players.length == 1) {
                         if (!this.isBeginCallbackSent) {
                             this.isBeginCallbackSent = true;
                             io.sockets.emit('join_club', this.models[this.round - 1]);
@@ -143,7 +127,9 @@ class StillLifeClubController {
                                                 this.increaseNumberOfUsersGotScored();
                                                 let _index = this.findWithAttr(this.players, '_id', joinedUser._id);
                                                 joinedUser.score = _score;
-                                                joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
+                                                joinedUser.status == 'recently joined'
+                                                    ? (joinedUser.status = 'playing')
+                                                    : '';
                                                 this.players[_index] = joinedUser;
                                                 io.sockets.emit('update_user', this.players);
                                             });
@@ -153,7 +139,9 @@ class StillLifeClubController {
                                             this.increaseNumberOfUsersGotScored();
                                             let _index = this.findWithAttr(this.players, '_id', joinedUser._id);
                                             joinedUser.score = _score;
-                                            joinedUser.status == 'recently joined' ? (joinedUser.status = 'playing') : '';
+                                            joinedUser.status == 'recently joined'
+                                                ? (joinedUser.status = 'playing')
+                                                : '';
                                             this.players[_index] = joinedUser;
                                             io.sockets.emit('update_user', this.players);
                                         }
@@ -177,5 +165,5 @@ class StillLifeClubController {
         this.numOfUsersGotScored = 0;
     }
 }
-exports.StillLifeClubController = StillLifeClubController;
-//# sourceMappingURL=StillLifeClubController.js.map
+exports.drawingCompetitionController = drawingCompetitionController;
+//# sourceMappingURL=drawingCompetitionController.js.map
