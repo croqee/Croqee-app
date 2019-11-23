@@ -20,11 +20,11 @@ class DrawingModel extends Component {
 		window.addEventListener('resize', () => {
 			this.setModelSize();
 		});
+		document.addEventListener('scroll', () => this.trackScrolling());
 	}
 
 	componentDidMount() {
 		this.setModelSize();
-		document.addEventListener('scroll', () => this.trackScrolling());
 	}
 	componentDidUpdate(prevProps, prevStates) {
 		if (prevProps.showUserScores != this.props.showUserScores) {
@@ -87,7 +87,7 @@ class DrawingModel extends Component {
 	trackScrolling = () => {
 		const element = document.getElementsByClassName('drawing-model')[0];
 
-		if (element && this.isBottom(element) && !this.props.leftHand) {
+		if (element && this.isBottom(element) && !this.props.leftHand && this.props.timerDone) {
 			this.setState({
 				modelSelectClass: 'drawing-model__select--move-right'
 			});
@@ -123,7 +123,6 @@ class DrawingModel extends Component {
 				marginLeft: '0'
 			};
 		}
-		console.log(screenSize);
 		this.setState({ isSizeSet: false }, () => {
 			this.setState({
 				width: width,

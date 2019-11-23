@@ -40,19 +40,6 @@ app.use('/api', apiRoutes);
 app.use(logger('dev'));
 app.use(body_parser_1.default.json());
 app.use(express.static(path_1.default.join(__dirname, '../../client/build')));
-app.use((req, res, next) => {
-    const error = new Error('Not Found');
-    error.status = 404;
-    next(error);
-});
-app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    res.json({
-        error: {
-            message: error.message
-        }
-    });
-});
 app.post('/send_drawing', (req, res, next) => {
     let param = {
         dataURL: req.body.dataURL,
@@ -70,6 +57,19 @@ app.post('/send_drawing', (req, res, next) => {
 setInterval(() => {
     node_client.invoke('wakeUp');
 }, 10000);
+app.use((req, res, next) => {
+    const error = new Error('Not Found');
+    error.status = 404;
+    next(error);
+});
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    res.json({
+        error: {
+            message: error.message
+        }
+    });
+});
 const server = http_1.default.createServer(app);
 const io = socketIO(server);
 //Drawing competitions

@@ -1,8 +1,15 @@
-#handside{
+
+.hand-side{
     position: relative;
     top: 15px;
     clear: both;
     color:$mid-light-grey;
+    &--fade-in {
+        @include fadeIn();
+    }
+    &--fade-out {
+        @include fadeOut();
+    }
 }
 .btn{    
     display: inline-block;

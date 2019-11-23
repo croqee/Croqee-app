@@ -1,4 +1,34 @@
 
+@mixin fadeOut() {
+	animation: fadeout 0.3s ease-in 0s 1 forwards;
+	@keyframes fadeout {
+		0% {
+			visibility: visible;
+			opacity: 1;
+		}
+		100% {
+			visibility: hidden;
+			opacity: 0;
+		}
+	}
+}
+@mixin fadeIn() {
+	animation: fadein 0.3s ease-in 0s 1 forwards;
+	@keyframes fadein {
+		0% {
+			visibility: hidden;
+			opacity: 0;
+		}
+		100% {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+}
+
+
+
+
 @mixin x-small-screen {
 	@media (max-width: 800px) {
 		@content;
