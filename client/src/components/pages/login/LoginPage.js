@@ -57,7 +57,7 @@ class LoginPage extends React.Component {
 		// let formData = Object.assign({}, body, UnAthorizedHeader);
 
 		axios
-			.post('http://157.230.181.88/auth/login', body, UnAthorizedHeader)
+			.post('/auth/login', body, UnAthorizedHeader)
 			.then((response) => {
 				const { token, user } = response.data;
 				this.props.setUser(user);

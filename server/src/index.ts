@@ -10,7 +10,6 @@ const app: Express = express();
 const logger = require('morgan');
 const zerorpc = require('zerorpc');
 const socketIO = require('socket.io');
-const cors = require("cors");
 
 
 
@@ -22,7 +21,6 @@ require('./models').connect(config.dbUri);
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 
-app.use(cors());
 // tell the app to parse HTTP body messages
 app.use(bodyParser.json());
 app.use(bodyParser({ limit: '50mb' }));

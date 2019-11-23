@@ -1,7 +1,9 @@
 version: '2'
 services:
   server_python:
-    build: ./server_python
+    build:
+      context: .
+      dockerfile: Dockerfile-python
     restart: always
     ports:
       - "9699:9699"
