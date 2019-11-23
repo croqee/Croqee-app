@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
+import { setTimer, invokeScore, setImageProcessing, setTimerDone, setActiveModel } from '../../../js/actions';
 import Loader from '../loader/Loader';
 
 let styles = {
@@ -20,7 +20,7 @@ class CanvasPage extends React.Component {
 			height: null,
 			countDown: 7,
 			competeTextHideClass: '',
-			moveStartTextClass: ''
+			moveStartTextClass: '',
 		};
 		window.addEventListener('resize', () => {
 			this.setCanvasSize();
@@ -30,7 +30,7 @@ class CanvasPage extends React.Component {
 	componentDidMount() {
 		this.setCanvasSize();
 	}
-	componentDidUpdate(prevProps, prevStates) {
+	componentDidUpdate(prevProps) {
 		if (prevProps.shouldResetCanvas !== this.props.shouldResetCanvas) {
 			if (this.props.shouldResetCanvas) {
 				this.reset();
@@ -166,7 +166,12 @@ class CanvasPage extends React.Component {
 			// this.ctx.lineWidth = 10;
 		}
 	}
-
+	retryDrawing() {
+		this.props.setActiveModel({
+			...this.props.activeModel,
+			isDrawn: false
+		});
+	}
 	render() {
 		const { fadeOut, width, height, isSizeSet, countDown, competeTextHideClass, moveStartTextClass } = this.state;
 		const { isCompeting } = this.props;
@@ -257,7 +262,36 @@ class CanvasPage extends React.Component {
 								</div>
 							)}
 						</div>
+						{this.props.activeModel.isDrawn && (
+							<div
+								className={
+									!this.props.activeModel.isDrawn ? (
+										'canvas__blocker canvas__blocker--fadeout'
+									) : (
+										'canvas__blocker canvas__blocker--fadein '
+									)
+								}
+								style={{
+									width: `${width}px`,
+									height: `${height}px`,
+									marginBottom: `-${height}px`,
+									paddingTop: `${height / 2 - 100}px`
+								}}
+							>
+								<button
+									onClick={() => this.props.navigateToClubPage()}
+									className="canvas__blocker__compete-button"
+								>
+									Draw more models and compete
+								</button>
 
+								<h3> OR </h3>
+
+								<button onClick={() => this.retryDrawing()} className="canvas__blocker__retry-button">
+									Retry
+								</button>
+							</div>
+						)}
 						<span
 							id="userScore"
 							className={'userscore ' + this.props.scoreClass}
@@ -434,7 +468,8 @@ const mapDispatchToProps = (dispatch) => {
 		setTimer: (payload) => dispatch(setTimer(payload)),
 		invokeScore: (payload) => dispatch(invokeScore(payload)),
 		setImageProcessing: (payload) => dispatch(setImageProcessing(payload)),
-		setTimerDone: (payload) => dispatch(setTimerDone(payload))
-	};
+		setTimerDone: (payload) => dispatch(setTimerDone(payload)),
+		setActiveModel: (payload) => dispatch(setActiveModel(payload))
+		};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CanvasPage);

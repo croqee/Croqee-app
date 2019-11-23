@@ -53,7 +53,6 @@ app.use(express.static(path.join(__dirname, '../../client/build')));
 
 
 app.post('/send_drawing', (req, res, next) => {
-	console.log(req.body)
 	let param = {
 		dataURL: req.body.dataURL,
 		model: req.body.model

@@ -133,14 +133,14 @@ class DrawingModel extends Component {
 	}
 	setModelToStillLife() {
 		this.props.setActiveModel({
-				model: 'stillLife',
-				isDrawn: false
+			model: 'stillLife',
+			isDrawn: false
 		});
 	}
 	setModelToAnatomy() {
 		this.props.setActiveModel({
-				model: 'anatomy',
-				isDrawn: false
+			model: 'anatomy',
+			isDrawn: false
 		});
 	}
 	render() {
@@ -214,32 +214,35 @@ class DrawingModel extends Component {
 								>
 									{' '}
 									<span
-										className={`drawing-model__select__still-life ${this.props.activeModel.model === "stillLife" && "drawing-model__select__still-life--active"}`}
+										className={`drawing-model__select__still-life ${this.props.activeModel.model ===
+											'stillLife' && 'drawing-model__select__still-life--active'}`}
 										onClick={() => {
 											this.setModelToStillLife();
 										}}
 									/>{' '}
 									<span
-										className={`drawing-model__select__anatomy ${this.props.activeModel.model === "anatomy" && "drawing-model__select__anatomy--active"}`}
+										className={`drawing-model__select__anatomy ${this.props.activeModel.model ===
+											'anatomy' && 'drawing-model__select__anatomy--active'}`}
 										onClick={() => {
 											this.setModelToAnatomy();
 										}}
 									/>
 								</div>
-								{this.props.activeModel && this.props.activeModel.model ==="stillLife"?
-								<img
-									src="./still-life-models/geometrical5.png"
-									width={`${width}px`}
-									height={`${height}px`}
-									className={'drawing-model ' + this.props.side}
-								/>:
-								<img
-									src="./still-life-models/geometrical3.png"
-									width={`${width}px`}
-									height={`${height}px`}
-									className={'drawing-model ' + this.props.side}
-								/>
-							}
+								{this.props.activeModel && this.props.activeModel.model === 'stillLife' ? (
+									<img
+										src="./still-life-models/geometrical5.png"
+										width={`${width}px`}
+										height={`${height}px`}
+										className={'drawing-model ' + this.props.side}
+									/>
+								) : (
+									<img
+										src="./still-life-models/geometrical3.png"
+										width={`${width}px`}
+										height={`${height}px`}
+										className={'drawing-model ' + this.props.side}
+									/>
+								)}
 							</div>
 						)}
 						{showUserScores && (
@@ -294,7 +297,7 @@ class DrawingModel extends Component {
 }
 const mapStateToProps = (state) => {
 	const { showTimer, timerDone, leftHand, activeModel } = state;
-	return { showTimer, timerDone, leftHand,activeModel };
+	return { showTimer, timerDone, leftHand, activeModel };
 };
 const mapDispatchToProps = (dispatch) => {
 	return {

@@ -80,6 +80,7 @@ class PrototypePage extends React.Component {
 						setShouldResetCanvas={this.setShouldResetCanvas}
 						canStartDrawing={true}
 						baseURL={baseURL}
+						navigateToClubPage = {this.navigateToClubPage}
 					/>
 					<HandSide />
 				</div>

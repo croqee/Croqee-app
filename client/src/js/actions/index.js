@@ -13,7 +13,8 @@ import {
 	SET_TIMER_DONE,
 	SET_Start_Image_Processing,
 	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
-	SET_ACTIVE_MODEL
+	SET_ACTIVE_MODEL,
+	SET_ACTIVE_MODEL_DRAWN
 } from './action-types';
 
 //Get User
@@ -59,6 +60,7 @@ export function invokeScore(payload) {
 				// 	// dispatch(setTimer(true));
 				dispatch(setTimerDone(true));
 				dispatch(setStartImageProcessing(false));
+				dispatch(setActiveModelDrawn());
 			}, 1000);
 		}, 4500);
 	};
@@ -69,15 +71,15 @@ export function showScore(payload) {
 export function hideScoreAsync() {
 	return { type: HIDE_SCORE };
 }
-export function removeScoreAsync(){
+export function removeScoreAsync() {
 	return { type: REMOVE_SCORE };
 }
 export function hideScore() {
 	return (dispatch) => {
-			dispatch(hideScoreAsync());
-			setTimeout(() => {
-				dispatch(removeScoreAsync());
-			}, 500);
+		dispatch(hideScoreAsync());
+		setTimeout(() => {
+			dispatch(removeScoreAsync());
+		}, 500);
 	};
 }
 
@@ -96,4 +98,7 @@ export function setPageToNavigateAfterLogin(payload) {
 }
 export function setActiveModel(payload) {
 	return { type: SET_ACTIVE_MODEL, activeModel: payload };
+}
+export function setActiveModelDrawn() {
+	return { type: SET_ACTIVE_MODEL_DRAWN };
 }

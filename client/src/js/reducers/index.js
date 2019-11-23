@@ -11,7 +11,8 @@ import {
 	SET_TIMER_DONE,
 	SET_Start_Image_Processing,
 	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
-	SET_ACTIVE_MODEL
+	SET_ACTIVE_MODEL,
+	SET_ACTIVE_MODEL_DRAWN
 } from '../actions/action-types';
 const initialState = {
 	user: {},
@@ -26,8 +27,8 @@ const initialState = {
 	leftHand: false,
 	pageToNavigateAfterLogin: '/',
 	activeModel: {
-		model:"stillLife",
-		isDrawn:false
+		model: 'stillLife',
+		isDrawn: false
 	}
 };
 
@@ -100,6 +101,15 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				activeModel: action.activeModel
+			};
+		case SET_ACTIVE_MODEL_DRAWN:
+			const model = state.activeModel.model
+			return {
+				...state,
+				activeModel: {
+					model: model,
+					isDrawn: true
+				}
 			};
 		default:
 			return state;
