@@ -12,7 +12,8 @@ import {
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
 	SET_Start_Image_Processing,
-	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN
+	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
+	SET_ACTIVE_MODEL
 } from './action-types';
 
 //Get User
@@ -92,4 +93,7 @@ export function setStartImageProcessing(payload) {
 }
 export function setPageToNavigateAfterLogin(payload) {
 	return { type: SET_PAGE_TO_NAVIGATE_AFTER_LOGIN, pageToNavigateAfterLogin: payload };
+}
+export function setActiveModel(payload) {
+	return { type: SET_ACTIVE_MODEL, activeModel: payload };
 }

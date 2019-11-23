@@ -10,7 +10,8 @@ import {
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
 	SET_Start_Image_Processing,
-	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN
+	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
+	SET_ACTIVE_MODEL
 } from '../actions/action-types';
 const initialState = {
 	user: {},
@@ -23,7 +24,11 @@ const initialState = {
 	currentScore: '',
 	imageProcessing: false,
 	leftHand: false,
-	pageToNavigateAfterLogin: '/'
+	pageToNavigateAfterLogin: '/',
+	activeModel: {
+		model:"stillLife",
+		isDrawn:false
+	}
 };
 
 function rootReducer(state = initialState, action) {
@@ -90,6 +95,11 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				pageToNavigateAfterLogin: action.pageToNavigateAfterLogin
+			};
+		case SET_ACTIVE_MODEL:
+			return {
+				...state,
+				activeModel: action.activeModel
 			};
 		default:
 			return state;

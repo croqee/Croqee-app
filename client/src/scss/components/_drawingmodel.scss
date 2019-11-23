@@ -25,6 +25,22 @@
 	}
 }
 
+@keyframes move-right {
+    0% { right: 127px;}
+    100%{ right: 0;}
+}
+@keyframes move-right-from-right {
+    0% { left: 0;}
+    100%{ left: 127px;}
+}
+@keyframes move-left {
+    0% { right: 0;}
+    100%{ right: 127px;}
+}
+@keyframes move-left-from-right {
+    0% { left: 127px;}
+    100%{ left: 0;}
+}
 .drawing-model {
 	float: left;
 	position: relative;
@@ -40,14 +56,41 @@
 }
 .drawing-model__select {
 	position: relative;
-    width: 117px;
+	width: 117px;
+	right:127px;
 	height: 236px;
-	margin-bottom: -276px;
+	margin-bottom: -249px;
     padding-left: 11px;
     padding-top: 13px;
     z-index: 2;
     cursor: pointer;
-    background-color: #b1b8b8;
+	background-color: #b1b8b8;
+	&--move-right{
+		animation:linear;
+		animation-name: move-right;
+		animation-duration: 1s;
+		right: 0;
+	}
+	&--move-left{
+		animation:linear;
+		animation-name: move-left;
+		animation-duration: 1s;
+	}
+	&--right-float{
+		float:right;
+		&--move-right{
+			animation:linear;
+			animation-name: move-right-from-right;
+			animation-duration: 1s;
+			left: 127px;
+		}
+		&--move-left{
+			animation:linear;
+			animation-name: move-left-from-right;
+			animation-duration: 1s;
+			left:0;
+		}
+	}
 	span{
 		width: 100px;
 		height: 100px;
@@ -60,10 +103,15 @@
 		}
 	}
 	&__still-life {
-		border: 2px solid #ff5200;
 		background-image: url("https://i.ibb.co/s990BgW/geometrical5.png");
 		background-size: 142px;
 		background-position-x: -19px;
+		opacity: 0.5;
+		border: 2px solid white;
+		&--active{
+			border: 2px solid #ff5200;
+			opacity: 1;
+		}
 
 	}
 	&__anatomy {
@@ -72,7 +120,10 @@
 		background-position: -37px -3px;
 		opacity: 0.5;
 		border: 2px solid white;
-
+		&--active{
+			border: 2px solid #ff5200;
+			opacity: 1;
+		}
 	}
 }
 .users-scores {

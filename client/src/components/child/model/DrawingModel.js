@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setActiveModel } from '../../../js/actions';
 
 let styles = {
 	model: {}
 };
 
-export default class DrawingModel extends Component {
+class DrawingModel extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,6 +15,8 @@ export default class DrawingModel extends Component {
 			height: null,
 			usersScoreFadeClass: ''
 		};
+		this.modelSelect = React.createRef();
+
 		window.addEventListener('resize', () => {
 			this.setModelSize();
 		});
@@ -20,6 +24,7 @@ export default class DrawingModel extends Component {
 
 	componentDidMount() {
 		this.setModelSize();
+		document.addEventListener('scroll', () => this.trackScrolling());
 	}
 	componentDidUpdate(prevProps, prevStates) {
 		if (prevProps.showUserScores != this.props.showUserScores) {
@@ -38,11 +43,57 @@ export default class DrawingModel extends Component {
 				);
 			}
 		}
-		if (prevProps.leftHand != this.props.leftHand) {
-			this.setCanvasSize();
+		if (prevProps.leftHand !== this.props.leftHand) {
+			if (this.props.leftHand) {
+				this.setState({
+					modelSelectClassRightFloat: 'drawing-model__select--right-float'
+				});
+			} else {
+				this.setState({
+					modelSelectClassRightFloat: ''
+				});
+			}
+		}
+		if (prevProps.showTimer !== this.props.showTimer) {
+			if (this.props.showTimer) {
+				if (this.props.leftHand) {
+					this.setState({
+						modelSelectClass: 'drawing-model__select--right-float--move-right'
+					});
+				} else {
+					this.setState({
+						modelSelectClass: 'drawing-model__select--move-left'
+					});
+				}
+			}
+		}
+		if (prevProps.timerDone !== this.props.timerDone) {
+			if (this.props.timerDone) {
+				if (this.props.leftHand) {
+					this.setState({
+						modelSelectClass: 'drawing-model__select--right-float--move-left'
+					});
+				} else {
+					this.setState({
+						modelSelectClass: 'drawing-model__select--move-right'
+					});
+				}
+			}
 		}
 	}
+	isBottom(el) {
+		return el.getBoundingClientRect().bottom <= window.innerHeight;
+	}
+	trackScrolling = () => {
+		const element = document.getElementsByClassName('drawing-model')[0];
 
+		if (element && this.isBottom(element) && !this.props.leftHand) {
+			this.setState({
+				modelSelectClass: 'drawing-model__select--move-right'
+			});
+			document.removeEventListener('scroll', this.trackScrolling);
+		}
+	};
 	setModelSize() {
 		const screenSize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 		let width;
@@ -79,6 +130,18 @@ export default class DrawingModel extends Component {
 				height: height,
 				isSizeSet: true
 			});
+		});
+	}
+	setModelToStillLife() {
+		this.props.setActiveModel({
+				model: 'stillLife',
+				isDrawn: false
+		});
+	}
+	setModelToAnatomy() {
+		this.props.setActiveModel({
+				model: 'anatomy',
+				isDrawn: false
 		});
 	}
 	render() {
@@ -144,14 +207,25 @@ export default class DrawingModel extends Component {
 								}}
 							>
 								<div
-									className="drawing-model__select"
+									className={`drawing-model__select ${this.state.modelSelectClass} ${this.state
+										.modelSelectClassRightFloat}`}
 									style={{
 										top: `${(height - 236) / 2 - 15}px`
 									}}
 								>
 									{' '}
-									<span className="drawing-model__select__still-life" />{' '}
-									<span className="drawing-model__select__anatomy" />
+									<span
+										className={`drawing-model__select__still-life ${this.props.activeModel.model === "stillLife" && "drawing-model__select__still-life--active"}`}
+										onClick={() => {
+											this.setModelToStillLife();
+										}}
+									/>{' '}
+									<span
+										className={`drawing-model__select__anatomy ${this.props.activeModel.model === "anatomy" && "drawing-model__select__anatomy--active"}`}
+										onClick={() => {
+											this.setModelToAnatomy();
+										}}
+									/>
 								</div>
 								<img
 									src="./still-life-models/geometrical5.png"
@@ -211,3 +285,13 @@ export default class DrawingModel extends Component {
 		);
 	}
 }
+const mapStateToProps = (state) => {
+	const { showTimer, timerDone, leftHand, activeModel } = state;
+	return { showTimer, timerDone, leftHand,activeModel };
+};
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setActiveModel: (payload) => dispatch(setActiveModel(payload))
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DrawingModel);
