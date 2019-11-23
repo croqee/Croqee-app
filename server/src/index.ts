@@ -53,9 +53,10 @@ app.use(express.static(path.join(__dirname, '../../client/build')));
 
 
 app.post('/send_drawing', (req, res, next) => {
+	console.log(req.body)
 	let param = {
 		dataURL: req.body.dataURL,
-		model: 'geometrical5'
+		model: req.body.model
 	};
 	node_client.invoke('DrawingDistance', param, function(error:any, res2:any, more:any) {
 		const result = JSON.parse(res2);

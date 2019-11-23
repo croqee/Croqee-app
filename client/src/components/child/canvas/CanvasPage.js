@@ -279,7 +279,7 @@ class CanvasPage extends React.Component {
 										src={this.props.baseURL}
 									/>
 
-									{this.props.isInHomePage ? (
+									{this.props.isInHomePage ? this.props.activeModel.model === 'stillLife' ? (
 										<img
 											className="userscore__model"
 											style={{
@@ -287,6 +287,15 @@ class CanvasPage extends React.Component {
 												height: `${height}px`
 											}}
 											src="./still-life-models/geometrical5.png"
+										/>
+									) : (
+										<img
+											className="userscore__model"
+											style={{
+												width: `${width}px`,
+												height: `${height}px`
+											}}
+											src="./still-life-models/geometrical3.png"
 										/>
 									) : (
 										<React.Fragment>
@@ -405,9 +414,20 @@ const mapStateToProps = (state) => {
 		currentScore,
 		scoreClass,
 		leftHand,
-		startImageProcessing
+		startImageProcessing,
+		activeModel
 	} = state;
-	return { timer, showTimer, timerDone, imageProcessing, currentScore, scoreClass, leftHand, startImageProcessing };
+	return {
+		timer,
+		showTimer,
+		timerDone,
+		imageProcessing,
+		currentScore,
+		scoreClass,
+		leftHand,
+		startImageProcessing,
+		activeModel
+	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {

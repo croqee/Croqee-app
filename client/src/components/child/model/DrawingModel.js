@@ -226,12 +226,20 @@ class DrawingModel extends Component {
 										}}
 									/>
 								</div>
+								{this.props.activeModel && this.props.activeModel.model ==="stillLife"?
 								<img
 									src="./still-life-models/geometrical5.png"
 									width={`${width}px`}
 									height={`${height}px`}
 									className={'drawing-model ' + this.props.side}
+								/>:
+								<img
+									src="./still-life-models/geometrical3.png"
+									width={`${width}px`}
+									height={`${height}px`}
+									className={'drawing-model ' + this.props.side}
 								/>
+							}
 							</div>
 						)}
 						{showUserScores && (
