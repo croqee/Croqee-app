@@ -1,6 +1,6 @@
 # Setup and build the client
 
-FROM node:10 as client
+# FROM node:10 as client
 
 # WORKDIR /usr/app/client/
 # COPY client/package*.json ./
@@ -11,7 +11,7 @@ FROM node:10 as client
 
 # # Setup the server
 
-# FROM node:9.4.0-alpine
+FROM node:9.4.0-alpine
 
 # WORKDIR /usr/app/
 # COPY --from=client /usr/app/client/build/ ./client/build/
