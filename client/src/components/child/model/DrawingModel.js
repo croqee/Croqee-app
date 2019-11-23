@@ -15,7 +15,6 @@ class DrawingModel extends Component {
 			height: null,
 			usersScoreFadeClass: ''
 		};
-		this.modelSelect = React.createRef();
 
 		window.addEventListener('resize', () => {
 			this.setModelSize();
