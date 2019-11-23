@@ -74,6 +74,7 @@ setInterval(() => {
 const server = http.createServer(app);
 const io = socketIO(server);
 
+//Drawing competitions
 new drawingCompetitionController(io, node_client, "still_life");
 
 server.listen(process.env.PORT || 8080);

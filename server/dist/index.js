@@ -61,6 +61,7 @@ setInterval(() => {
 }, 10000);
 const server = http_1.default.createServer(app);
 const io = socketIO(server);
+//Drawing competitions
 new drawingCompetitionController_1.drawingCompetitionController(io, node_client, "still_life");
 server.listen(process.env.PORT || 8080);
 //# sourceMappingURL=index.js.map
