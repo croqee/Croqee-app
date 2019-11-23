@@ -11,7 +11,9 @@ const logger = require('morgan');
 const zerorpc = require('zerorpc');
 const socketIO = require('socket.io');
 
-
+interface iError extends Error{
+    status?: number;
+}
 
 const { pythonServerEndPoint } = require('./serverglobalvariables');
 
@@ -46,7 +48,23 @@ app.use('/api', apiRoutes);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../../client/build')));
+
+app.use((req, res, next) => {
+	const error = new Error('Not Found') as iError;
+	error.status = 404;
+	next(error);
+});
+
+app.use((error:any, req:any, res:any, next:any) => {
+	res.status(error.status || 500);
+
+	res.json({
+		error: {
+			message: error.message
+		}
+	});
+});
 
 app.post('/send_drawing', (req, res, next) => {
 	let param = {
