@@ -262,7 +262,7 @@ class CanvasPage extends React.Component {
 								</div>
 							)}
 						</div>
-						{this.props.activeModel.isDrawn && (
+						{this.props.activeModel.isDrawn && !isCompeting && (
 							<div
 								className={
 									!this.props.activeModel.isDrawn ? (
