@@ -5,7 +5,7 @@ imutils==0.4.3
 matplotlib==2.0.0
 numpy==1.11.1
 opencv-python
-Pillow==3.4.2
+Pillow==6.2.0
 psycopg2==2.7.3
 pyparsing==2.1.9
 python-dateutil==2.6.0
