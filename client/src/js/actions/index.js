@@ -25,7 +25,7 @@ export function getUser() {
 	return (dispatch) => {
 		let AuthorizationHeader = config.AuthorizationHeader();
 
-		axios.get('http://157.230.181.88/api/getuser', AuthorizationHeader).then((response) => {
+		axios.get('/api/getuser', AuthorizationHeader).then((response) => {
 			dispatch(authenticate(true));
 			let user = response.data;
 			dispatch(getUserAsync(user));

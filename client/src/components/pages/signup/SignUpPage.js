@@ -48,7 +48,7 @@ class SignUpPage extends React.Component {
 		let UnAthorizedHeader = config.UnAthorizedHeader();
 
 		axios
-			.post('http://157.230.181.88:80/auth/signup', body, UnAthorizedHeader)
+			.post('/auth/signup', body, UnAthorizedHeader)
 			.then((response) => {
 				this.setState({
 					errors: {}
