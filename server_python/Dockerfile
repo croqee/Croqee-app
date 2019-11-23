@@ -49,7 +49,7 @@ RUN wget https://github.com/opencv/opencv/archive/3.4.4.zip \
 RUN adduser myuser
 USER myuser
 
-ADD ./server_python /usr/app/server_python/
+ADD ./ /usr/app/server_python/
 WORKDIR /usr/app/server_python/
 
 EXPOSE 9699
