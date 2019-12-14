@@ -9,7 +9,7 @@ import socketIOClient from 'socket.io-client';
 import CompetePageUsers from '../../child/competepageusers/CompetePageUsers';
 import { socketEndPoint } from '../../../clientglobalvariables';
 import Auth from '../../../modules/Auth';
-import CanvasPage from '../../child/canvas/CanvasPage';
+import Canvas from '../../child/canvas/Canvas';
 import DrawingModel from '../../child/model/DrawingModel';
 
 class CompetePage extends React.Component {
@@ -175,7 +175,7 @@ class CompetePage extends React.Component {
 						playingUsers={playingUsers} 
 						showUserScores={showUserScores}
 						user={this.props.user} />
-						<CanvasPage
+						<Canvas
 							shouldResetCanvas={this.state.resetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}
 							setHasUserDrawnOnCanvas={this.setHasUserDrawnOnCanvas}

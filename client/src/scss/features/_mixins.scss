@@ -10,7 +10,6 @@
 // full function font mixin \\
 @mixin font-fam-size ($size, $family, $weight:null, $color:null, $shade:null) {
     font-size: $size;
-    font-family: $family;
     font-weight: $weight;
     color: $color;
     text-shadow: $shade;

@@ -1,7 +1,9 @@
 @import 'colors';
 @import 'mixins';
-body {
+@import url('https://fonts.googleapis.com/css?family=Hind&display=swap');
 
+body {
+	font-family: 'Hind', sans-serif;
 	background-color: $dark-grey!important;
 	margin: 0;
 	@include x-small-screen(){
@@ -28,7 +30,8 @@ a:focus {
     position: relative;
     right: 180px;
     top: -92px;
-    margin-bottom: -200px;
+	margin-bottom: -200px;
+	
 }
 
 

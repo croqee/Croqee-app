@@ -1,9 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import Canvas from '../../child/canvas/CanvasPage';
-import CanvasPage from '../../child/canvas/CanvasPage';
-import config from '../../../modules/config';
+import Canvas from '../../child/canvas/Canvas';
 import { getUser, setTimer, setImageProcessing, invokeScore, setPageToNavigateAfterLogin } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
 import EmptyTimer from '../../child/timer/EmptyTimer';
@@ -73,7 +71,7 @@ class PrototypePage extends React.Component {
 				{this.props.showTimer ? <Timer /> : <EmptyTimer />}
 				<div className="drawing-environment">
 					<DrawingModel side={side} />
-					<CanvasPage
+					<Canvas
 						isInHomePage={true}
 						setBaseUrl={this.setBaseUrl}
 						shouldResetCanvas={shouldResetCanvas}

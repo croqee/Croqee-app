@@ -1,4 +1,4 @@
-
+$showModelsDuration: 0.7s;
 @keyframes move-right {
     0% { right: 127px;}
     100%{ right: 0;}
@@ -42,26 +42,26 @@
 	&--move-right{
 		animation:linear;
 		animation-name: move-right;
-		animation-duration: 1s;
+		animation-duration: $showModelsDuration;
 		right: 0;
 	}
 	&--move-left{
 		animation:linear;
 		animation-name: move-left;
-		animation-duration: 1s;
+		animation-duration: $showModelsDuration;
 	}
 	&--right-float{
 		float:right;
 		&--move-right{
 			animation:linear;
 			animation-name: move-right-from-right;
-			animation-duration: 1s;
+			animation-duration: $showModelsDuration;
 			left: 127px;
 		}
 		&--move-left{
 			animation:linear;
 			animation-name: move-left-from-right;
-			animation-duration: 1s;
+			animation-duration: $showModelsDuration;
 			left:0;
 		}
 	}
@@ -158,7 +158,7 @@
 	body {
 		background: -webkit-linear-gradient(left, #25c481, #25b7c4);
 		background: linear-gradient(to right, #25c481, #25b7c4);
-		font-family: 'Roboto', sans-serif;
+		font-family: 'Hind', sans-serif;
 	}
 	section {
 		margin: 50px;

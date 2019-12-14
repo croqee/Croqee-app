@@ -153,41 +153,9 @@ class DrawingModel extends Component {
 					<React.Fragment>
 						{compete ? (
 							<div style={styles.model}>
-								{model.model == 'geometrical1' && (
+								{model.model && (
 									<img
-										src="./still-life-models/geometrical1.png"
-										width={`${width}px`}
-										height={`${height}px`}
-										className={'drawing-model ' + this.props.side}
-									/>
-								)}
-								{model.model == 'geometrical2' && (
-									<img
-										src="./still-life-models/geometrical2.png"
-										width={`${width}px`}
-										height={`${height}px`}
-										className={'drawing-model ' + this.props.side}
-									/>
-								)}
-								{model.model == 'geometrical3' && (
-									<img
-										src="./still-life-models/geometrical3.png"
-										width={`${width}px`}
-										height={`${height}px`}
-										className={'drawing-model ' + this.props.side}
-									/>
-								)}
-								{model.model == 'geometrical4' && (
-									<img
-										src="./still-life-models/geometrical4.png"
-										width={`${width}px`}
-										height={`${height}px`}
-										className={'drawing-model ' + this.props.side}
-									/>
-								)}
-								{model.model == 'geometrical5' && (
-									<img
-										src="./still-life-models/geometrical5.png"
+										src={`./still-life-models/${model.model}.png`}
 										width={`${width}px`}
 										height={`${height}px`}
 										className={'drawing-model ' + this.props.side}
