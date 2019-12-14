@@ -55,14 +55,17 @@ class App extends Component {
 
 	componentDidMount() {
 		document.ontouchmove = function(e){ e.preventDefault(); }
+		window.addEventListener("locationchange", function(e){ 
+			console.log("hey")
+		});
 	}
 
 	render() {
 		return (
 			<div className="App">
 				<Router>
-					<NavBar />
-					<div>
+				<GlobalRoute component={NavBar} />
+									<div>
 						<GlobalRoute exact path="/" component={PrototypePage} />
 						<LoggedOutRoute path="/signup" component={SignUpPage} />
 						<LoggedOutRoute path="/login" component={LoginPage} />

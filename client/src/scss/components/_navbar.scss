@@ -9,6 +9,7 @@
   width: 100%;
   background-color: black;
   position: relative;
+  border-bottom: 1px solid $light-grey;
 }
 .nav-links_seperator{
   border-left: 2px solid black;
@@ -47,6 +48,9 @@
   text-decoration: none;
   color:$light-grey;
   margin-right: 13px;
+  &:hover{
+    color:white;
+  }
 }
 
 .nav > .nav-links > a:hover {

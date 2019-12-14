@@ -6,11 +6,32 @@ import { connect } from 'react-redux';
 import { getUser,setPageToNavigateAfterLogin } from '../../../js/actions';
 
 class NavBar extends React.Component {
+	constructor(props){
+		super(props);
+		this.state={
+			activePage:this.props.history.location.pathname
+		}
+
+	}
 	componentDidMount() {
 		this.props.getUser();
 	}
+	componentDidUpdate(prevProps){
+		if(prevProps != this.props){
+			this.setState({
+				activePage:this.props.history.location.pathname
+			})
+		}
+	}
 
 	render() {
+		const {activePage} = this.state;
+		let styles = {
+			orange: {
+				color: "#ff5200",
+				fontWeight: 600
+			}
+		};
 		return (
 		
 				<div class="nav">
@@ -28,28 +49,28 @@ class NavBar extends React.Component {
 
                     {this.props.isAuthenticated ?
 					<div class="nav-links">
-						<Link className="nav-link" to="/">
+						<Link className="nav-link" to="/" style={activePage=='/'? styles.orange:{}}>
 							Home 
 						</Link>
-						<Link className="nav-link" to="/">
+						<Link className="nav-link" to="/" style={activePage=='/account'? styles.orange:{}}>
 							Hello {this.props.user.name}
 						</Link>
 						<span className="nav-links_seperator"/>
-						<Link className="nav-link" to="/LogOut">
+						<Link className="nav-link" to="/LogOut" >
 							Log out
 						</Link>
 					</div>
 					:
 					<div class="nav-links">
-					<Link className="nav-link" to="/">
+					<Link className="nav-link" to="/" style={activePage=='/'? styles.orange:{}}>
 						Home
 					</Link>
 					<span className="nav-links_seperator"/>
 
-					<Link className="nav-link" to="/signup">
+					<Link className="nav-link" to="/signup" style={activePage=='/signup'? styles.orange:{}}>
 						Sign up
 					</Link>
-					<Link className="nav-link" to="/login">
+					<Link className="nav-link" to="/login"style={activePage=='/login'? styles.orange:{}}>
 						Login
 					</Link>
 				</div>
