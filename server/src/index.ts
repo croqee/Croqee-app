@@ -17,7 +17,7 @@ interface iError extends Error{
 
 const { pythonServerEndPoint } = require('./serverglobalvariables');
 
-require('./models').connect(config.dbUri);
+require('./db/models').connect(config.dbUri);
 
 
 var node_client = new zerorpc.Client();

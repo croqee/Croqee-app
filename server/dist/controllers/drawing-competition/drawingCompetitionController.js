@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require('jsonwebtoken');
 const config_1 = __importDefault(require("../../config"));
 const stillLifeModels_1 = require("./stillLifeModels");
-require('../../models').connect(config_1.default.dbUri);
+require('../../db/models').connect(config_1.default.dbUri);
 const User = require('mongoose').model('User');
+const Score = require('mongoose').model('Score');
 class drawingCompetitionController {
     constructor(io, node_client, drawingField) {
         this.players = [];
@@ -132,6 +133,36 @@ class drawingCompetitionController {
                                                     : '';
                                                 this.players[_index] = joinedUser;
                                                 io.sockets.emit('update_user', this.players);
+                                                console.log("Hye 0");
+                                                Score.findOne({
+                                                    userId: joinedUser._id,
+                                                    modelId: this.models[this.round - 1].model
+                                                }).then((userScore) => {
+                                                    console.log("Hye");
+                                                    console.log(userScore.score);
+                                                    if (userScore && userScore.score < _score) {
+                                                        userScore.score = _score;
+                                                        userScore.date = new Date();
+                                                        userScore.save(function (err) {
+                                                            if (err) {
+                                                                console.error('ERROR!');
+                                                            }
+                                                        });
+                                                    }
+                                                    else if (!userScore) {
+                                                        const _userScore = new Score({
+                                                            userId: joinedUser._id,
+                                                            modelId: this.models[this.round - 1].model,
+                                                            score: _score,
+                                                            date: new Date()
+                                                        });
+                                                        _userScore.save(function (err) {
+                                                            if (err) {
+                                                                console.error('ERROR!');
+                                                            }
+                                                        });
+                                                    }
+                                                });
                                             });
                                         }
                                         else {

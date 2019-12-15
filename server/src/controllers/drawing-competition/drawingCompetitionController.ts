@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken');
 import config from '../../config';
 import { iJoinedUser, iModel } from './interfaces';
 import { stillLifeModels } from './stillLifeModels';
-require('../../models').connect(config.dbUri);
+require('../../db/models').connect(config.dbUri);
 const User = require('mongoose').model('User');
+const Score = require('mongoose').model('Score');
 
 export class drawingCompetitionController {
 	private drawingField: string;
@@ -147,6 +148,38 @@ export class drawingCompetitionController {
 														: '';
 													this.players[_index] = joinedUser;
 													io.sockets.emit('update_user', this.players);
+													console.log("Hye 0")
+													Score.findOne({
+															 userId: joinedUser._id ,
+															 modelId: this.models[this.round - 1].model 
+													}).then(
+														(userScore: any) => {
+															console.log("Hye")
+															console.log(userScore.score)
+															if (userScore && userScore.score < _score) {
+																userScore.score = _score;
+																userScore.date = new Date();
+																userScore.save(function (err:any) {
+																	if (err) {
+																	  console.error('ERROR!');
+																	}
+																  });
+															} else if(!userScore) {
+																const _userScore = new Score({
+																	userId: joinedUser._id,
+																	modelId: this.models[this.round - 1].model ,
+																	score: _score,
+																	date: new Date()
+																});
+																_userScore.save(function (err:any) {
+																	if (err) {
+																	  console.error('ERROR!');
+																	}
+																  });
+
+															}
+														}
+													);
 												}
 											);
 										} else {

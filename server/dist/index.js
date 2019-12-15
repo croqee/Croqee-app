@@ -15,7 +15,7 @@ const logger = require('morgan');
 const zerorpc = require('zerorpc');
 const socketIO = require('socket.io');
 const { pythonServerEndPoint } = require('./serverglobalvariables');
-require('./models').connect(config_1.default.dbUri);
+require('./db/models').connect(config_1.default.dbUri);
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 // tell the app to parse HTTP body messages
