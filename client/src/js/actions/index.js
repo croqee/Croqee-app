@@ -14,18 +14,18 @@ import {
 	SET_Start_Image_Processing,
 	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
 	SET_ACTIVE_MODEL,
-	SET_ACTIVE_MODEL_DRAWN
+	SET_ACTIVE_MODEL_DRAWN,
+	GET_USERS_SCORE_ASYNC,
+	GET_SCORED_MODELS_ASYNC
 } from './action-types';
 
 //Get User
-
-export function getUserAsync(payload) {
+function getUserAsync(payload) {
 	return { type: GET_USER_ASYNC, user: payload.user };
 }
 export function getUser() {
 	return (dispatch) => {
 		let AuthorizationHeader = config.AuthorizationHeader();
-
 		axios.get('/api/getuser', AuthorizationHeader).then((response) => {
 			dispatch(authenticate(true));
 			let user = response.data;
@@ -102,3 +102,32 @@ export function setActiveModel(payload) {
 export function setActiveModelDrawn() {
 	return { type: SET_ACTIVE_MODEL_DRAWN };
 }
+
+
+
+//Get UsersScore
+function getUsersScoreAsync(payload) {
+	return { type: GET_USERS_SCORE_ASYNC, usersScore: payload };
+}
+export function getUsersScore() {
+	return (dispatch) => {
+		axios.get('/score/userscore').then((response) => {
+			const usersScore = response.data.usersScore;
+			dispatch(getUsersScoreAsync(usersScore));
+		});
+	};
+}
+
+//Get ScoredModels
+function getScoredModelsAsync(payload) {
+	return { type: GET_SCORED_MODELS_ASYNC, scoredModels: payload };
+}
+export function getScoredModels() {
+	return (dispatch) => {
+		axios.get('/score/scoredmodels').then((response) => {
+			const scoredModels = response.data.scoredModels;
+			dispatch(getScoredModelsAsync(scoredModels));
+		});
+	};
+}
+

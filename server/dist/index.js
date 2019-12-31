@@ -16,6 +16,7 @@ const zerorpc = require('zerorpc');
 const socketIO = require('socket.io');
 const { pythonServerEndPoint } = require('./serverglobalvariables');
 require('./db/models').connect(config_1.default.dbUri);
+const { getUsersTotalScore } = require("./db/repositories/scoreRepo");
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 // tell the app to parse HTTP body messages
@@ -35,11 +36,14 @@ app.use('/api', authCheckMiddleware);
 // routes
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
+const scoreRoutes = require('./routes/score');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+app.use('/score', scoreRoutes);
 app.use(logger('dev'));
 app.use(body_parser_1.default.json());
 app.use(express.static(path_1.default.join(__dirname, '../../client/build')));
+getUsersTotalScore();
 app.post('/send_drawing', (req, res, next) => {
     let param = {
         dataURL: req.body.dataURL,

@@ -8,7 +8,7 @@ const config_1 = __importDefault(require("../../config"));
 const stillLifeModels_1 = require("./stillLifeModels");
 require('../../db/models').connect(config_1.default.dbUri);
 const User = require('mongoose').model('User');
-const Score = require('mongoose').model('Score');
+const ScoreRepo = require('../../db/repositories/scoreRepo');
 class drawingCompetitionController {
     constructor(io, node_client, drawingField) {
         this.players = [];
@@ -133,36 +133,7 @@ class drawingCompetitionController {
                                                     : '';
                                                 this.players[_index] = joinedUser;
                                                 io.sockets.emit('update_user', this.players);
-                                                console.log("Hye 0");
-                                                Score.findOne({
-                                                    userId: joinedUser._id,
-                                                    modelId: this.models[this.round - 1].model
-                                                }).then((userScore) => {
-                                                    console.log("Hye");
-                                                    console.log(userScore.score);
-                                                    if (userScore && userScore.score < _score) {
-                                                        userScore.score = _score;
-                                                        userScore.date = new Date();
-                                                        userScore.save(function (err) {
-                                                            if (err) {
-                                                                console.error('ERROR!');
-                                                            }
-                                                        });
-                                                    }
-                                                    else if (!userScore) {
-                                                        const _userScore = new Score({
-                                                            userId: joinedUser._id,
-                                                            modelId: this.models[this.round - 1].model,
-                                                            score: _score,
-                                                            date: new Date()
-                                                        });
-                                                        _userScore.save(function (err) {
-                                                            if (err) {
-                                                                console.error('ERROR!');
-                                                            }
-                                                        });
-                                                    }
-                                                });
+                                                ScoreRepo.updateUserScore(joinedUser._id, this.models[this.round - 1].model, _score);
                                             });
                                         }
                                         else {

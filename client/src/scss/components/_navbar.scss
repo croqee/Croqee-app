@@ -5,11 +5,10 @@
   bottom: 4px;
 }
 .nav {
-  height: 50px;
+  height: 60px;
   width: 100%;
   background-color: black;
   position: relative;
-  border-bottom: 1px solid $light-grey;
 }
 .nav-links_seperator{
   border-left: 2px solid black;
@@ -24,7 +23,7 @@
   display: inline-block;
   font-size: 22px;
   color:$light-grey;
-  padding: 10px 10px 10px 10px;
+  padding: 13px 10px 13px 10px;
   float: left;
   position: relative;
   left: 150px;
@@ -44,7 +43,7 @@
 
 .nav > .nav-links > a {
   display: inline-block;
-  padding: 13px 10px 13px 10px;
+  padding: 18px 10px 13px 10px;
   text-decoration: none;
   color:$light-grey;
   margin-right: 13px;

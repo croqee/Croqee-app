@@ -9,6 +9,7 @@ import Auth from './modules/Auth';
 import NavBar from './components/child/navbar/NavBar';
 import ClubsPage from './components/pages/clubs/ClubsPage';
 import CompetePage from './components/pages/compete/CompetePage';
+import LeaderboardPage from './components/pages/leaderboard/LeaderboardPage';
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -72,6 +73,7 @@ class App extends Component {
 						<PrivateRoute path="/logout" component={LogoutFunction} />
 						<PrivateRoute path="/clubs" component={ClubsPage} />
 						<PrivateRoute path="/compete" component={CompetePage} />
+						<GlobalRoute path="/leaderboard" component={LeaderboardPage}/>
 						
 					</div>
 				</Router>

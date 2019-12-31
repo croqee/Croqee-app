@@ -12,7 +12,9 @@ import {
 	SET_Start_Image_Processing,
 	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
 	SET_ACTIVE_MODEL,
-	SET_ACTIVE_MODEL_DRAWN
+	SET_ACTIVE_MODEL_DRAWN,
+	GET_USERS_SCORE_ASYNC,
+	GET_SCORED_MODELS_ASYNC
 } from '../actions/action-types';
 const initialState = {
 	user: {},
@@ -29,7 +31,9 @@ const initialState = {
 	activeModel: {
 		model: 'stillLife',
 		isDrawn: false
-	}
+	},
+	usersScore: [],
+	scoredModels: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -103,13 +107,23 @@ function rootReducer(state = initialState, action) {
 				activeModel: action.activeModel
 			};
 		case SET_ACTIVE_MODEL_DRAWN:
-			const model = state.activeModel.model
+			const model = state.activeModel.model;
 			return {
 				...state,
 				activeModel: {
 					model: model,
 					isDrawn: true
 				}
+			};
+		case GET_USERS_SCORE_ASYNC:
+			return {
+				...state,
+				usersScore: action.usersScore
+			};
+		case GET_SCORED_MODELS_ASYNC:
+			return {
+				...state,
+				scoredModels: action.scoredModels
 			};
 		default:
 			return state;

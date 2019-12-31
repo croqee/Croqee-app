@@ -10,7 +10,6 @@ const app: Express = express();
 const logger = require('morgan');
 const zerorpc = require('zerorpc');
 const socketIO = require('socket.io');
-
 interface iError extends Error{
     status?: number;
 }
@@ -18,7 +17,7 @@ interface iError extends Error{
 const { pythonServerEndPoint } = require('./serverglobalvariables');
 
 require('./db/models').connect(config.dbUri);
-
+const {getUsersTotalScore} = require("./db/repositories/scoreRepo");
 
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
@@ -43,13 +42,17 @@ app.use('/api', authCheckMiddleware);
 // routes
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
+const scoreRoutes = require('./routes/score');
+
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+app.use('/score', scoreRoutes);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../../client/build')));
 
+getUsersTotalScore();
 
 
 app.post('/send_drawing', (req, res, next) => {

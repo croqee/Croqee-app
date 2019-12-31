@@ -55,7 +55,13 @@ class NavBar extends React.Component {
 						<Link className="nav-link" to="/" style={activePage=='/account'? styles.orange:{}}>
 							Hello {this.props.user.name}
 						</Link>
-						<span className="nav-links_seperator"/>
+						{/* <span className="nav-links_seperator"/> */}
+						<Link className="nav-link" to="/compete" style={activePage=='/compete'? styles.orange:{}}>
+						Compete
+					</Link>
+						<Link className="nav-link" to="/leaderboard" style={activePage=='/leaderboard'? styles.orange:{}}>
+						Leaderboard
+					</Link>
 						<Link className="nav-link" to="/LogOut" >
 							Log out
 						</Link>
@@ -65,8 +71,13 @@ class NavBar extends React.Component {
 					<Link className="nav-link" to="/" style={activePage=='/'? styles.orange:{}}>
 						Home
 					</Link>
-					<span className="nav-links_seperator"/>
-
+					{/* <span className="nav-links_seperator"/> */}
+					<Link className="nav-link" to="/compete" style={activePage=='/compete'? styles.orange:{}}>
+						Compete
+					</Link>
+					<Link className="nav-link" to="/leaderboard" style={activePage=='/leaderboard'? styles.orange:{}}>
+						Leaderboard
+					</Link>
 					<Link className="nav-link" to="/signup" style={activePage=='/signup'? styles.orange:{}}>
 						Sign up
 					</Link>
