@@ -31,15 +31,7 @@ class LeaderboardPage extends React.Component {
 					);
 				})}
 		</table>
-				<div className="leaderboard__pagination">
-				<span>Page </span>
-				{[...Array(this.props.usersScore.totalPages)].map((_page,i)=>{
-					let page = i + 1;
-					return(
-					<button className={`leaderboard__pagination__button  ${parseInt(this.props.usersScore.page) === page ? "leaderboard__pagination__button--active":""} `} onClick={()=>this.props.getUsersScore(page)}>{page} </button>
-					)
-				})}
-				</div>
+		
 			</div>
 		);
 	}

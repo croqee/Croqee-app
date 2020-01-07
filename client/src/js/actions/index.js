@@ -18,6 +18,7 @@ import {
 	GET_USERS_SCORE_ASYNC,
 	GET_SCORED_MODELS_ASYNC
 } from './action-types';
+import Auth from '../../modules/Auth';
 
 //Get User
 function getUserAsync(payload) {
@@ -109,11 +110,15 @@ export function setActiveModelDrawn() {
 function getUsersScoreAsync(payload) {
 	return { type: GET_USERS_SCORE_ASYNC, usersScore: payload };
 }
-export function getUsersScore(page) {
-	page = !page? 1: page;
+export function getUsersScore() {
 	return (dispatch) => {
-		axios.get('/score/userscore/'+page).then((response) => {
+		axios.get('/score/userscore', {
+			headers: {
+			  Authorization: 'Bearer ' + Auth.getToken()
+			}
+		   }).then((response) => {
 			const usersScore = response.data.usersScore;
+			console.log(usersScore)
 			dispatch(getUsersScoreAsync(usersScore));
 		});
 	};
@@ -125,7 +130,11 @@ function getScoredModelsAsync(payload) {
 }
 export function getScoredModels() {
 	return (dispatch) => {
-		axios.get('/score/scoredmodels').then((response) => {
+		axios.get('/score/scoredmodels', {
+			headers: {
+			  Authorization: 'Bearer ' + Auth.getToken()
+			}
+		   }).then((response) => {
 			const scoredModels = response.data.scoredModels;
 			dispatch(getScoredModelsAsync(scoredModels));
 		});

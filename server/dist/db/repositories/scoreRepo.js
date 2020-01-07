@@ -29,62 +29,90 @@ exports.updateUserScore = function (_userId, _modelId, _score) {
         }
     });
 };
-exports.getUsersTotalScore = function (page, callback, offset = 10) {
-    getTotalScorePages((totalPages) => {
+exports.getUsersTotalScore = function (user, callback) {
+    getTotalScores((totalScores) => {
         Score.aggregate([
             { $match: {} },
             { $group: { _id: '$userId', total: { $sum: '$score' } } },
-            { $sort: { total: -1 }
-            },
-            { "$skip": (page - 1) * offset },
-            { "$limit": offset }
+            {
+                $sort: { total: -1 }
+            }
         ])
             .exec()
             .then((res) => {
             let data = {
-                page: page,
-                totalPages: totalPages,
+                totalScores,
                 data: []
             };
             if (res) {
+                let userFoundend = false;
+                let finalResults = [];
                 let counter = 0;
-                res.forEach((element, i) => {
-                    User.findOne({ _id: element._id }).then((res2) => {
+                for (let i = 0; i < 10; i++) {
+                    if (res[i]) {
+                        finalResults[i] = res[i];
+                        User.findOne({ _id: finalResults[i]._id }).then((res2) => {
+                            const userInfo = {
+                                email: res2.email,
+                                name: res2.name
+                            };
+                            finalResults[i].user = userInfo;
+                            finalResults[i].rank = i + 1;
+                            counter++;
+                        });
+                    }
+                }
+                let counter2 = 0;
+                let index = -1;
+                for (let i = 0; i < 2; i++) {
+                    if (i === 0) {
+                        const obj = res.filter((_obj) => _obj._id == user._id)[0];
+                        index = res.indexOf(obj);
+                        // if (index <= finalResults.length) {
+                        // 	console.log("3rrrrrrrrrrrrrrrrrrrrTRIGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+                        // 	data.data = finalResults;
+                        // 	callback(data);
+                        // 	return;
+                        // }
+                    }
+                    finalResults[finalResults.length] = res[index];
+                    User.findOne({ _id: finalResults[finalResults.length - 1]._id }).then((res2) => {
                         const userInfo = {
                             email: res2.email,
                             name: res2.name
                         };
-                        res[i].user = userInfo;
-                        res[i].rank = (i + 1) + ((page - 1) * offset);
-                        ++counter;
-                        if (counter === res.length) {
-                            data.data = res;
+                        finalResults[finalResults.length - 1].user = userInfo;
+                        finalResults[finalResults.length - 1].rank = index + 1;
+                        ++counter2;
+                        if (true) {
+                            console.log("1rrrrrrrrrrrrrrrrrrrrTRIGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+                            data.data = finalResults;
                             callback(data);
+                            return;
                         }
                     });
-                });
+                    index++;
+                }
             }
         });
     });
 };
-let getTotalScorePages = function (callback, offset = 10) {
+let getTotalScores = function (callback) {
     Score.aggregate([
         { $match: {} },
-        { $group: { _id: '$userId' }
+        {
+            $group: { _id: '$userId' }
         }
     ])
         .exec()
         .then((res) => {
         if (res) {
-            let pageSize = Math.ceil(res.length / offset);
-            callback(pageSize);
+            callback(res.length);
         }
     });
 };
 exports.getScoredModels = function (callback) {
-    Score.distinct('modelId')
-        .exec()
-        .then((res) => {
+    Score.distinct('modelId').exec().then((res) => {
         if (res) {
             callback(res);
         }

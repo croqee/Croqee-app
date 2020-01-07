@@ -38,6 +38,7 @@ passport.use('local-login', localLoginStrategy);
 // pass the authenticaion checker middleware
 const authCheckMiddleware = require('./middleware/auth-check');
 app.use('/api', authCheckMiddleware);
+app.use('/score', authCheckMiddleware);
 
 // routes
 const authRoutes = require('./routes/auth');
