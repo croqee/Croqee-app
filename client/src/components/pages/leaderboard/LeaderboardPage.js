@@ -13,7 +13,8 @@ class LeaderboardPage extends React.Component {
 	render() {
 		return (
 			<div className = "leaderboard">
-				<br/>
+								<br/>
+				<h2 className = "leaderboard__title">Community Leaderboards</h2>
 				<table className = "leaderboard__table"> 
   <tr className = "leaderboard__table__head">
     <th>RANK</th>
@@ -22,7 +23,7 @@ class LeaderboardPage extends React.Component {
   </tr>
 				{this.props.usersScore && this.props.usersScore.data && this.props.usersScore.data.map((score, i) => {
 					return (
-						<tr className = "leaderboard__table__tr">
+						<tr  className={`leaderboard__table__tr   ${this.props.user.email === score.user.email ? "leaderboard__table__tr--self":""} `}>
 							<th> {score.rank}</th>
 							<th>{score.user && score.user.name}</th>
 							<th>{score.total}</th>
@@ -31,6 +32,7 @@ class LeaderboardPage extends React.Component {
 				})}
 		</table>
 				<div className="leaderboard__pagination">
+				<span>Page </span>
 				{[...Array(this.props.usersScore.totalPages)].map((_page,i)=>{
 					let page = i + 1;
 					return(
@@ -43,8 +45,8 @@ class LeaderboardPage extends React.Component {
 	}
 }
 const mapStateToProps = (state) => {
-	const { usersScore } = state;
-	return { usersScore };
+	const { usersScore, user } = state;
+	return { usersScore, user };
 };
 const mapDispatchToProps = (dispatch) => {
 	return {

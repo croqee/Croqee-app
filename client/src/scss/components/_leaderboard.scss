@@ -1,6 +1,9 @@
 $button-size : 28px;
 
 .leaderboard {
+    &__title{
+        font-weight: 400;
+    }
     &__table {
         width: 90%;
         margin: auto;
@@ -14,8 +17,14 @@ $button-size : 28px;
 
         &__tr {
             th {
-                padding-top: 10px;
+                padding-top: 16px;
                 font-weight: 400;
+            }
+            &--self {
+                color: $orange;
+                th {
+                    font-weight: 500;
+                }
             }
         }
     }
