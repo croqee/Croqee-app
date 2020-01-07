@@ -40,27 +40,56 @@ exports.updateUserScore = function(_userId: string, _modelId: string, _score: nu
 	});
 };
 
-exports.getUsersTotalScore = function(callback: any) {
+exports.getUsersTotalScore = function(page:number,callback: any, offset:number = 10) {
+	getTotalScorePages((totalPages:number)=>{
 	Score.aggregate([
 		{ $match: {} },
 		{ $group: { _id: '$userId', total: { $sum: '$score' } } },
-		{ $sort: { total: -1 } }
+		{ $sort: { total: -1 }
+	 },
+	 {"$skip": (page - 1) * offset },
+	 {"$limit": offset }
+		
 	])
 		.exec()
 		.then((res: any) => {
+			let data:any = {
+				page:page,
+				totalPages:totalPages,
+			  data:[]};
 			if (res) {
-				res.forEach((element: any, i: number) => {
+				let counter = 0;
+				res.forEach((element: any, i:number) => {
 					User.findOne({ _id: element._id }).then((res2: any) => {
 						const userInfo: iUserInfo = {
 							email: res2.email,
 							name: res2.name
 						};
 						res[i].user = userInfo;
-						if (i === res.length - 1) {
-							callback(res);
+						res[i].rank = (i + 1) + ((page - 1) * offset);
+						++counter;
+						if (counter === res.length) {
+							data.data = res;
+							callback(data);
 						}
 					});
 				});
+			}
+		});
+	})
+};
+
+let getTotalScorePages = function(callback:any, offset:number = 10) {
+	Score.aggregate([
+		{ $match: {} },
+		{ $group: { _id: '$userId'} 
+	 }
+	])
+		.exec()
+		.then((res: any) => {
+			if (res) {
+				let pageSize:number = Math.ceil(res.length / offset);
+				callback(pageSize);
 			}
 		});
 };

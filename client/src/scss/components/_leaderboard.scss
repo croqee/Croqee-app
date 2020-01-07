@@ -1,0 +1,16 @@
+$button-size : 30px;
+.leaderboard {
+    &__pagination{
+        &__button{
+            margin-right: 8px;
+            border:none;
+            width: $button-size;
+            height: $button-size;
+            border-radius: 50%;
+            cursor: pointer;
+            &--active{
+                background-color: $orange;
+            }
+        }
+    }
+}

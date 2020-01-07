@@ -1,8 +1,10 @@
 const express = require('express');
 const router = new express.Router();
 const ScoreRepo = require('../db/repositories/scoreRepo');
-router.get('/userscore', (req, res) => {
-    ScoreRepo.getUsersTotalScore(usersScore => {
+router.get('/userscore/:page', (req, res) => {
+    let page = req.params.page;
+    console.log(page);
+    ScoreRepo.getUsersTotalScore(page, usersScore => {
         if (usersScore) {
             res.status(200).json({
                 usersScore: usersScore

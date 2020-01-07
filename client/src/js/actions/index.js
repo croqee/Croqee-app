@@ -109,9 +109,10 @@ export function setActiveModelDrawn() {
 function getUsersScoreAsync(payload) {
 	return { type: GET_USERS_SCORE_ASYNC, usersScore: payload };
 }
-export function getUsersScore() {
+export function getUsersScore(page) {
+	page = !page? 1: page;
 	return (dispatch) => {
-		axios.get('/score/userscore').then((response) => {
+		axios.get('/score/userscore/'+page).then((response) => {
 			const usersScore = response.data.usersScore;
 			dispatch(getUsersScoreAsync(usersScore));
 		});
