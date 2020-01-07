@@ -1,14 +1,36 @@
-$button-size : 30px;
+$button-size : 28px;
+
 .leaderboard {
-    &__pagination{
-        &__button{
+    &__table {
+        width: 90%;
+        margin: auto;
+
+        &__head {
+            border-bottom: 1px solid $light-grey;
+            height: 40px;
+            background-color: $orange;
+            color: black
+        }
+
+        &__tr {
+            th {
+                padding-top: 10px;
+                font-weight: 400;
+            }
+        }
+    }
+
+    &__pagination {
+        margin-top: 40px;
+
+        &__button {
             margin-right: 8px;
-            border:none;
+            border: none;
             width: $button-size;
             height: $button-size;
-            border-radius: 50%;
             cursor: pointer;
-            &--active{
+
+            &--active {
                 background-color: $orange;
             }
         }

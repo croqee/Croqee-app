@@ -13,15 +13,23 @@ class LeaderboardPage extends React.Component {
 	render() {
 		return (
 			<div className = "leaderboard">
+				<br/>
+				<table className = "leaderboard__table"> 
+  <tr className = "leaderboard__table__head">
+    <th>RANK</th>
+    <th>USER</th>
+    <th>SCORE</th>
+  </tr>
 				{this.props.usersScore && this.props.usersScore.data && this.props.usersScore.data.map((score, i) => {
 					return (
-						<div>
-							<span> {score.rank}</span>
-							<span>{score.user && score.user.name}</span>
-							<span>{score.total}</span>
-						</div>
+						<tr className = "leaderboard__table__tr">
+							<th> {score.rank}</th>
+							<th>{score.user && score.user.name}</th>
+							<th>{score.total}</th>
+						</tr>
 					);
 				})}
+		</table>
 				<div className="leaderboard__pagination">
 				{[...Array(this.props.usersScore.totalPages)].map((_page,i)=>{
 					let page = i + 1;
