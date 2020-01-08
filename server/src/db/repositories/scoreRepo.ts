@@ -51,64 +51,87 @@ exports.getUsersTotalScore = function(user: any, callback: any) {
 		])
 			.exec()
 			.then((res: any) => {
-				let data: any = {
-					totalScores,
-					data: []
-				};
 				if (res) {
 					let userFoundend: boolean = false;
 					let finalResults: any = [];
+					let data: any = {
+						totalScores,
+						data: []
+					};
 					let counter = 0;
-					for (let i = 0; i < 10; i++) {
+					const iteration = res.length < 10? res.length: 10;
+					for (let i = 0; i < iteration; i++) {
 						if (res[i]) {
 							finalResults[i] = res[i];
 							User.findOne({ _id: finalResults[i]._id }).then((res2: any) => {
+							
 								const userInfo: iUserInfo = {
 									email: res2.email,
 									name: res2.name
 								};
 								finalResults[i].user = userInfo;
 								finalResults[i].rank = i + 1;
+								if(user.email === res2.email){
+									userFoundend = true;
+									data.userRank = i + 1;
+									data.userFounded = true;
+								}
 								counter++;
+								if (counter === iteration) {
+									getUserScorePosition(data,userFoundend,totalScores, res, finalResults, user, (data: any) => {
+										callback(data);
+									});
+									return;
+								}
 							});
 						}
 					}
-    					let counter2 = 0;
-						let index = -1;
-						for (let i = 0; i < 2; i++) {
-							if (i === 0) {
-								const obj = res.filter((_obj: any) => _obj._id == user._id)[0];
-								index = res.indexOf(obj);
-								// if (index <= finalResults.length) {
-								// 	console.log("3rrrrrrrrrrrrrrrrrrrrTRIGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
-
-								// 	data.data = finalResults;
-								// 	callback(data);
-								// 	return;
-								// }
-							}
-								finalResults[finalResults.length] = res[index];
-								User.findOne({ _id: finalResults[finalResults.length - 1]._id }).then((res2: any) => {
-									const userInfo: iUserInfo = {
-										email: res2.email,
-										name: res2.name
-									};
-									finalResults[finalResults.length - 1].user = userInfo;
-									finalResults[finalResults.length - 1].rank = index + 1;
-									++counter2;
-									if (true) {
-										console.log("1rrrrrrrrrrrrrrrrrrrrTRIGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
-										data.data = finalResults;
-										callback(data);
-										return;
-									}
-								});
-								index++;
-							
-						}
-					}
+				}
 			});
 	});
+};
+let getUserScorePosition = function(data:any,userFoundend:boolean,totalScores: number, res: any, finalResults: any, user: any, callback: any) {
+	let counter = 0;
+	let index = -1;
+	const obj = res.filter((_obj: any) => _obj._id == user._id)[0];
+	index = res.indexOf(obj);
+	if (index != -1 && !userFoundend) {
+		const iteration = res.length - index < 3 ? res.length - index : 3;
+		for (let i = 0; i < iteration; i++) {
+			let _index = index;
+			User.findOne({ _id: res[index]._id }).then((res2: any) => {
+				if (res2) {
+					const userInfo: iUserInfo = {
+						email: res2.email,
+						name: res2.name
+					};
+
+					res[_index].user = userInfo;
+					res[_index].rank = _index + 1;
+					if(user.email === res2.email){
+						userFoundend = true;
+						data.userRank = _index + 1;
+						data.userFounded = true;
+					}
+					finalResults.push(res[_index]);
+
+					++counter;
+					if (counter === iteration) {
+						finalResults.sort((a: any, b: any) => a.rank - b.rank);
+						data.data = finalResults;
+						callback(data);
+						return;
+					}
+				}
+				console.log(_index);
+			});
+			++index;
+		}
+	} else {
+		finalResults.sort((a: any, b: any) => a.rank - b.rank);
+		data.data = finalResults;
+		callback(data);
+	}
 };
 
 let getTotalScores = function(callback: any) {

@@ -1,13 +1,18 @@
 $button-size : 28px;
 
 .leaderboard {
+    b{
+        color:$orange;
+        font-weight: 400;
+    }
     &__title{
         font-weight: 400;
     }
-    &__table {
-        width: 90%;
+    &__scores {
+        max-width: 1000px;
+        width: 80%;
         margin: auto;
-
+        font-size: 22px;
         &__head {
             border-bottom: 1px solid $light-grey;
             height: 40px;
@@ -15,17 +20,50 @@ $button-size : 28px;
             color: black
         }
 
-        &__tr {
-            th {
-                padding-top: 16px;
-                font-weight: 400;
+        &__row {
+            border-bottom: 1px solid $mid-grey;
+            height: 50px;
+            display: block;
+            width: 100%;
+            clear: both;
+            &__rank {
+                margin-top: 8px;
+               float: left;
+               margin-right:20px;
+               width: 20px;
             }
+            &__img{
+                float:left;
+                margin-right:20px;
+                margin-top: 4px;
+
+                img{
+                width:40px;
+                height:40px;
+            }
+            }
+            &__user {
+                margin-top: 8px;
+                float: left;
+             }
+             &__score {
+                margin-top: 8px;
+                float: right;
+             }
             &--self {
                 color: $orange;
                 th {
                     font-weight: 500;
                 }
             }
+        }
+        &__etc{
+            background-color: $dark-grey;
+            height: 50px;
+            padding-top: 8px;
+            border-bottom: 1px solid $mid-grey;
+            font-size: 40px;
+            line-height: 27px;
         }
     }
 
