@@ -97,5 +97,9 @@ const io = socketIO(server);
 
 //Drawing competitions
 new drawingCompetitionController(io, node_client, "still_life");
+// new drawingCompetitionController(io, node_client, "anatomy");
+
+
+
 
 server.listen(process.env.PORT || 8080);

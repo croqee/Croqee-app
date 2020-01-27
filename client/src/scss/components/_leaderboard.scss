@@ -1,16 +1,92 @@
 $button-size : 28px;
 
 .leaderboard {
+    padding-top:52px;
+    max-width: 1000px;
+    width: 80%;
+    margin:auto;
+
+    &__title{
+        font-weight: 500;
+        padding-bottom: 50px;
+        font-size: 41px;
+    }
+    &__rank-desc{
+        font-weight: 500;
+        padding-top: 35px;
+        padding-bottom: 50px;
+        font-size: 26px;
+    }
+
+    &__left{
+        float: left;
+        width:49%;
+        text-align: center;
+        // border-right:1px solid $mid-light-grey;
+        height:230px;
+    }
+    &__right{
+        float: right;
+        width: 49%;
+        text-align: center;
+        vertical-align: top;
+        height:230px;
+
+    }
+
+    &__overall-percentage {
+        margin-bottom: 60px;
+        &__circle{
+            width: 120px;
+            height: 120px;
+            margin: auto;
+            background-color: $light-grey;
+            border-radius: 50%;
+            color:$dark-grey;
+            &__text{
+                position: relative;
+                top: 30px;
+                font-size: 40px;
+            }
+            position: relative;
+            right: 8px;
+        }
+        &__desc{
+            margin-top: 20px;
+            font-size: 18px;
+            position: relative;
+            right: 8px;
+        }
+    }
+    &__topic-percentage {
+        display: inline-block;
+        margin-bottom: 60px;
+        margin-right: 22px;
+        margin-left: 22px;
+        &__circle{
+            width: 120px;
+            height: 120px;
+            margin: auto;
+            background-color: $mid-light-grey;
+            border-radius: 50%;
+            &__text{
+                position: relative;
+                top: 30px;
+                font-size: 40px;
+            }
+        }
+        &__desc{
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    }
     b{
         color:$orange;
         font-weight: 400;
     }
-    &__title{
-        font-weight: 400;
-    }
+
     &__scores {
-        max-width: 1000px;
-        width: 80%;
+
         margin: auto;
         font-size: 22px;
         &__head {
@@ -64,6 +140,7 @@ $button-size : 28px;
             border-bottom: 1px solid $mid-grey;
             font-size: 40px;
             line-height: 27px;
+            user-select: none;
         }
     }
 

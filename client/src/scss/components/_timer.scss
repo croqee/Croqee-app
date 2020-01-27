@@ -1,12 +1,22 @@
-svg {
+.timer {
   display: block;
-  margin: 30px auto;
+  margin:30px auto;
   animation-direction: reverse;
   -moz-transform: scale(-1, 1);
   -webkit-transform: scale(-1, 1);
   -o-transform: scale(-1, 1);
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
+  &--home-page{
+    margin:0;
+    position: fixed;
+    left: 47%;
+    opacity: 0.9;
+    top:10px;
+    z-index: 1000;
+    user-select: none;
+    pointer-events: none;
+  }
 }
 
 .timer_orange{

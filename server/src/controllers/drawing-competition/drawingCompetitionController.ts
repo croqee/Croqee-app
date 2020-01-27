@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 import config from '../../config';
 import { iJoinedUser, iModel } from './interfaces';
 import { stillLifeModels } from './stillLifeModels';
+import { anatomyModels } from './anatomyModels';
+
 require('../../db/models').connect(config.dbUri);
 const User = require('mongoose').model('User');
 const ScoreRepo = require('../../db/repositories/scoreRepo');
@@ -35,6 +37,8 @@ export class drawingCompetitionController {
 	private resetStillLife() {
 		if (this.drawingField === 'still_life') {
 			this.models = stillLifeModels;
+		} else if(this.drawingField === 'anatomy'){
+			this.models = anatomyModels;
 		}
 		this.round = 1;
 		this.isBeginProcessed = false;

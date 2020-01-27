@@ -141,7 +141,7 @@ class CompetePage extends React.Component {
 				)}
 				{/* <CompetePageUsers playingUsers={playingUsers} /> */}
 				{/* <UserPendingLoader caption={"Waiting for users to join the competition. Stay tuned and warm up!"}/> */}
-				{this.props.showTimer ? <Timer /> : <EmptyTimer isCompeting={true} />}
+				{this.props.showTimer ? <Timer timerClass=''/> : <EmptyTimer isCompeting={true} />}
 				{/* <span id="userScore" className={'userscore ' + this.props.scoreClass}>
 					Score: {this.props.currentScore && this.props.currentScore}
 					{baseURL ? (

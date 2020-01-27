@@ -1,14 +1,15 @@
 
 #logo{
-  width: 180px;
+  width: 230px;
   position: relative;
   bottom: 4px;
 }
 .nav {
-  height: 60px;
+  height: 90px;
   width: 100%;
   background-color: black;
   position: relative;
+  border-bottom: 1px solid $mid-light-grey;
 }
 .nav-links_seperator{
   border-left: 2px solid black;
@@ -23,7 +24,7 @@
   display: inline-block;
   font-size: 22px;
   color:$light-grey;
-  padding: 13px 10px 13px 10px;
+  padding-top: 29px;
   float: left;
   position: relative;
   left: 150px;
@@ -43,10 +44,11 @@
 
 .nav > .nav-links > a {
   display: inline-block;
-  padding: 17px 10px 13px 10px;
+  padding: 28px 10px 13px 10px;
   text-decoration: none;
   color:$light-grey;
   margin-right: 13px;
+  font-size: 22px;
   &:hover{
     color:white;
   }

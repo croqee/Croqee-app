@@ -4,6 +4,7 @@
     top: 15px;
     clear: both;
     color:$mid-light-grey;
+    font-size: 22px;
     &--fade-in {
         @include fadeIn();
     }

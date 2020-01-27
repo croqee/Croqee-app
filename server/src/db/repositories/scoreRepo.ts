@@ -10,7 +10,12 @@ interface iUserInfo {
 	email: string;
 	name: string;
 }
-
+interface iuserScoresData {
+	totalScores: number;
+	userRank: number | null;
+	userFounded: boolean;
+	data: [];
+}
 exports.updateUserScore = function(_userId: string, _modelId: string, _score: number) {
 	Score.findOne({
 		userId: _userId,
@@ -54,31 +59,32 @@ exports.getUsersTotalScore = function(user: any, callback: any) {
 				if (res) {
 					let userFoundend: boolean = false;
 					let finalResults: any = [];
-					let data: any = {
+					let data: iuserScoresData = {
 						totalScores,
+						userRank: null,
+						userFounded: false,
 						data: []
 					};
 					let counter = 0;
-					const iteration = res.length < 10? res.length: 10;
+					const iteration = res.length < 10 ? res.length : 10;
 					for (let i = 0; i < iteration; i++) {
 						if (res[i]) {
 							finalResults[i] = res[i];
 							User.findOne({ _id: finalResults[i]._id }).then((res2: any) => {
-							
 								const userInfo: iUserInfo = {
 									email: res2.email,
 									name: res2.name
 								};
 								finalResults[i].user = userInfo;
 								finalResults[i].rank = i + 1;
-								if(user.email === res2.email){
+								if (user.email === res2.email) {
 									userFoundend = true;
 									data.userRank = i + 1;
 									data.userFounded = true;
 								}
 								counter++;
 								if (counter === iteration) {
-									getUserScorePosition(data,userFoundend,totalScores, res, finalResults, user, (data: any) => {
+									getUserScorePosition(data, userFoundend, res, finalResults, user, (data: any) => {
 										callback(data);
 									});
 									return;
@@ -90,7 +96,14 @@ exports.getUsersTotalScore = function(user: any, callback: any) {
 			});
 	});
 };
-let getUserScorePosition = function(data:any,userFoundend:boolean,totalScores: number, res: any, finalResults: any, user: any, callback: any) {
+let getUserScorePosition = function(
+	data: iuserScoresData,
+	userFoundend: boolean,
+	res: any,
+	finalResults: any,
+	user: any,
+	callback: any
+) {
 	let counter = 0;
 	let index = -1;
 	const obj = res.filter((_obj: any) => _obj._id == user._id)[0];
@@ -108,7 +121,7 @@ let getUserScorePosition = function(data:any,userFoundend:boolean,totalScores: n
 
 					res[_index].user = userInfo;
 					res[_index].rank = _index + 1;
-					if(user.email === res2.email){
+					if (user.email === res2.email) {
 						userFoundend = true;
 						data.userRank = _index + 1;
 						data.userFounded = true;

@@ -45,6 +45,8 @@ exports.getUsersTotalScore = function (user, callback) {
                 let finalResults = [];
                 let data = {
                     totalScores,
+                    userRank: null,
+                    userFounded: false,
                     data: []
                 };
                 let counter = 0;
@@ -66,7 +68,7 @@ exports.getUsersTotalScore = function (user, callback) {
                             }
                             counter++;
                             if (counter === iteration) {
-                                getUserScorePosition(data, userFoundend, totalScores, res, finalResults, user, (data) => {
+                                getUserScorePosition(data, userFoundend, res, finalResults, user, (data) => {
                                     callback(data);
                                 });
                                 return;
@@ -78,7 +80,7 @@ exports.getUsersTotalScore = function (user, callback) {
         });
     });
 };
-let getUserScorePosition = function (data, userFoundend, totalScores, res, finalResults, user, callback) {
+let getUserScorePosition = function (data, userFoundend, res, finalResults, user, callback) {
     let counter = 0;
     let index = -1;
     const obj = res.filter((_obj) => _obj._id == user._id)[0];

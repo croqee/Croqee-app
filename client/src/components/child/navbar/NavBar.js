@@ -1,7 +1,7 @@
 import React from 'react';
 import Auth from '../../../modules/Auth';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect, withRouter } from 'react-router-dom';
-import logo from "../../../img/logo.png"
+import logo from "../../../img/logo.svg"
 import { connect } from 'react-redux';
 import { getUser,setPageToNavigateAfterLogin } from '../../../js/actions';
 
@@ -74,9 +74,6 @@ class NavBar extends React.Component {
 					{/* <span className="nav-links_seperator"/> */}
 					<Link className="nav-link" to="/compete" style={activePage=='/compete'? styles.orange:{}}>
 						Compete
-					</Link>
-					<Link className="nav-link" to="/leaderboard" style={activePage=='/leaderboard'? styles.orange:{}}>
-						Leaderboard
 					</Link>
 					<Link className="nav-link" to="/signup" style={activePage=='/signup'? styles.orange:{}}>
 						Sign up
