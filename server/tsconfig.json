@@ -1,17 +1,14 @@
 {
-    "compilerOptions": {
-      "sourceMap": true,
-      "esModuleInterop": true,
-      "allowJs": true,
-      "noImplicitAny": true,
-      "moduleResolution": "node",
-      "lib": ["es2018"],
-      "module": "commonjs",
-      "target": "es2018",
-      "outDir": "./dist",
-    },
-    "include": [
-        "src/**/*"
-    ]
-  }
-  
+  "compilerOptions": {
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "lib": ["es2018"],
+    "module": "commonjs",
+    "target": "es2018",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
+}
