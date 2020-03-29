@@ -11,7 +11,7 @@ const config_1 = __importDefault(require("./config"));
 const http_1 = __importDefault(require("http"));
 const app = express();
 const logger = require("morgan");
-// const zerorpc = require('zerorpc');
+// const zerorpc = require("zerorpc");
 const socketIO = require("socket.io");
 const { pythonServerEndPoint } = require("./serverglobalvariables");
 require("./db/models").connect(config_1.default.dbUri);
@@ -44,22 +44,26 @@ app.use(logger("dev"));
 app.use(body_parser_1.default.json());
 app.use(express.static(path_1.default.join(__dirname, "../../client/build")));
 getUsersTotalScore();
-app.post("/send_drawing", (req, res, next) => {
-    let param = {
-        dataURL: req.body.dataURL,
-        model: req.body.model
-    };
-    // node_client.invoke('DrawingDistance', param, function(error:any, res2:any, more:any) {
-    // 	const result = JSON.parse(res2);
-    // 	res.json({
-    // 		score: Math.floor(result.score),
-    // 		img: result.img
-    // 	});
-    // });
-});
+// app.post("/send_drawing", (req, res, next) => {
+//   let param = {
+//     dataURL: req.body.dataURL,
+//     model: req.body.model
+//   };
+//   node_client.invoke("DrawingDistance", param, function(
+//     error: any,
+//     res2: any,
+//     more: any
+//   ) {
+//     const result = JSON.parse(res2);
+//     res.json({
+//       score: Math.floor(result.score),
+//       img: result.img
+//     });
+//   });
+// });
 //avoid python server sleeping
 // setInterval(() => {
-// 	node_client.invoke('wakeUp');
+//   node_client.invoke("wakeUp");
 // }, 10000);
 app.use((req, res, next) => {
     const error = new Error("Not Found");
