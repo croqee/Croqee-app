@@ -16,7 +16,7 @@ from alignImages import alignImages
 import sys
 from distanceMeasurment import HausdorffDist
 from displayImages import displayImages
-from calculateScore import calculateScore
+from calculateScore import compute_distance_score
 from matchContours import matchContours
 from chamferDist import  chamferDist
 import base64
@@ -110,62 +110,11 @@ class ImageAnalyser(object):
 
         # height2, width2, channels = img2.shape
 
-    
-     #   try:
+
         aligned  = alignImages(img2,mainImg)
-      #  except:
-       #     aligned = cv2.cvtColor(img2,cv2.COLOR_BGR2GRAY)
 
-
-        corners_org = cv2.goodFeaturesToTrack(mainImg,250,0.01,10)
-        n1_org = np.squeeze(np.asarray(corners_org))
-        corners_drawing = cv2.goodFeaturesToTrack(aligned,250,0.01,10)
-        n1_drw = np.squeeze(np.asarray(corners_drawing))
-        finalDistance = HausdorffDist(n1_drw,n1_org)
-
-
-        lengthDiff = abs(len(corners_org)-len(corners_drawing))
-#    for TEST
-
-        # blank = np.zeros([height,width,3],dtype=np.uint8)
-        # blank.fill(255)
-        # for i in corners2:
-        #     x,y = i.ravel()
-        #     cv2.circle(blank,(x,y),3,255,-1)
-
-        # blank2 = np.zeros([height,width,3],dtype=np.uint8)
-        # blank2.fill(255)
-        # # print(corners)
-        # for i in corners:
-        #     x,y = i.ravel()
-        #     cv2.circle(blank2,(x,y),3,255,-1)
-
-
-      
-        # plt.figure()
-        # plt.title('Original image'), plt.xticks([]), plt.yticks([])
-        # plt.imshow(mainImg.astype(np.float32) - aligned.astype(np.float32),cmap = 'gray')
-        # plt.show()
-
-    # END - for TEST
- 
-
-        contourDiff =  matchContours(mainImg, aligned)
-        distance = finalDistance
-        # if distance < 80:
-        #     distance = distance - ((80 - distance) * 6)
-        # if distance < 0:
-        #     distance = 0
-        diff = (distance * 15) 
-        # + (contourDiff*5000)
-        + (lengthDiff *.2)
-       
-        print("contour: "+ str(contourDiff))
-        # print("champerdiff: ")+str(((champer - (champer * 4/5))*2))
-        print("hasudorff: "+ str(distance))
-        print("length diff: "+ str(lengthDiff))
-        print("results: " + str(diff))
-
+        score = compute_distance_score(img, mainImg)
+        print('Score: ', score)
         # aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
         buffered = BytesIO()
@@ -175,10 +124,10 @@ class ImageAnalyser(object):
 
         # encoded = aligned.encode('ascii')
         x = {
-        "score": calculateScore(diff),
+        "score": score,
         "img": data_uri,
         }
-        
+
         return json.dumps(x)#data_uri#calculateScore(diff)
 
 imageAnalyser = ImageAnalyser()
