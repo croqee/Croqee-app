@@ -8,7 +8,7 @@ import http from "http";
 import { drawingCompetitionController } from "./controllers/drawing-competition/drawingCompetitionController";
 const app: Express = express();
 const logger = require("morgan");
-// const zerorpc = require("zerorpc");
+const zerorpc = require("zerorpc");
 const socketIO = require("socket.io");
 interface iError extends Error {
   status?: number;
@@ -19,8 +19,8 @@ const { pythonServerEndPoint } = require("./serverglobalvariables");
 require("./db/models").connect(config.dbUri);
 const { getUsersTotalScore } = require("./db/repositories/scoreRepo");
 
-// var node_client = new zerorpc.Client();
-// node_client.connect(pythonServerEndPoint);
+var node_client = new zerorpc.Client();
+node_client.connect(pythonServerEndPoint);
 
 // tell the app to parse HTTP body messages
 app.use(bodyParser.json());
@@ -55,29 +55,29 @@ app.use(express.static(path.join(__dirname, "../../client/build")));
 
 getUsersTotalScore();
 
-// app.post("/send_drawing", (req, res, next) => {
-//   let param = {
-//     dataURL: req.body.dataURL,
-//     model: req.body.model
-//   };
-//   node_client.invoke("DrawingDistance", param, function(
-//     error: any,
-//     res2: any,
-//     more: any
-//   ) {
-//     const result = JSON.parse(res2);
+app.post("/send_drawing", (req, res, next) => {
+  let param = {
+    dataURL: req.body.dataURL,
+    model: req.body.model
+  };
+  node_client.invoke("DrawingDistance", param, function(
+    error: any,
+    res2: any,
+    more: any
+  ) {
+    const result = JSON.parse(res2);
 
-//     res.json({
-//       score: Math.floor(result.score),
-//       img: result.img
-//     });
-//   });
-// });
+    res.json({
+      score: Math.floor(result.score),
+      img: result.img
+    });
+  });
+});
 
-//avoid python server sleeping
-// setInterval(() => {
-//   node_client.invoke("wakeUp");
-// }, 10000);
+// avoid python server sleeping
+setInterval(() => {
+  node_client.invoke("wakeUp");
+}, 10000);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found") as iError;
@@ -99,7 +99,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 //Drawing competitions
-// new drawingCompetitionController(io, node_client, "still_life");
-// new drawingCompetitionController(io, node_client, "anatomy");
+new drawingCompetitionController(io, node_client, "still_life");
+new drawingCompetitionController(io, node_client, "anatomy");
 
 server.listen(process.env.PORT || 8080);

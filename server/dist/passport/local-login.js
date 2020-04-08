@@ -27,7 +27,6 @@ module.exports = new PassportLocalStrategy({
         }
         // check if a hashed user's password is equal to a value saved in the database
         return user.comparePassword(userData.password, (passwordErr, isMatch) => {
-            console.log('heyyyyyyy3');
             if (err) {
                 return done(err);
             }

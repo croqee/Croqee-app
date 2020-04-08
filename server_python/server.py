@@ -113,7 +113,7 @@ class ImageAnalyser(object):
 
         aligned  = alignImages(img2,mainImg)
 
-        score = compute_distance_score(img, mainImg)
+        score = compute_distance_score(aligned, mainImg)
         print('Score: ', score)
         # aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
