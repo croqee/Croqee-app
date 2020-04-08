@@ -5,6 +5,7 @@ const { google } = require("googleapis");
 const User = require("mongoose").model("User");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const graph = require("fbgraph");
 const router = new express.Router();
 let croqeeBodyParser = body => {
     var reqBody = {};
@@ -167,10 +168,8 @@ router.post("/googleauth", (req, res, next) => {
         //check if user has already logged in with their google id before
         User.findOne({ email: googleMail }, (err, userByEmail) => {
             if (userByEmail) {
-                console.log("found the user by mail");
                 //log the user in there
                 const token = jwt.sign(userByEmail.id, config.jwtSecret);
-                console.log(userByEmail.id);
                 res.json({
                     success: true,
                     message: "You have successfully logged in!",
@@ -183,7 +182,6 @@ router.post("/googleauth", (req, res, next) => {
             else {
                 User.findOne({ googleId: googleId }, (error, userById) => {
                     if (userById) {
-                        console.log("found the user by mail");
                         //log the user in there
                         const token = jwt.sign(userById.id, config.jwtSecret);
                         res.status(200).json({
@@ -194,14 +192,12 @@ router.post("/googleauth", (req, res, next) => {
                         });
                     }
                     else {
-                        console.log("couldnt find one so creating a new");
                         //create a new account
                         const userInfo = {
                             name: userData.data.name,
                             email: googleMail,
                             googleId: googleId
                         };
-                        console.log(userInfo);
                         const newUser = new User(userInfo);
                         newUser.save(err => {
                             if (err) {
@@ -229,6 +225,86 @@ router.post("/googleauth", (req, res, next) => {
         });
     })
         .catch(err => res.json("error" + err));
+});
+//facebook Authentication
+router.post("/facebookauth", (req, res) => {
+    graph.authorize({
+        client_id: "641364966683591",
+        redirect_uri: "",
+        client_secret: "1dc9cc0665cd8f6c0a4dd0a4ede05d0f",
+        code: req.body.facebookCode
+    }, function (err, facebookRes) {
+        if (facebookRes) {
+            console.log(facebookRes.access_token);
+            graph.get("/me?fields=email,id,name", (err, userData) => {
+                if (userData) {
+                    console.log(userData);
+                    const fbId = userData.id;
+                    const fbmail = userData.email;
+                    User.findOne({ email: fbmail }, (err, userByEmail) => {
+                        if (userByEmail) {
+                            //log the user in there
+                            const token = jwt.sign(userByEmail.id, config.jwtSecret);
+                            res.json({
+                                success: true,
+                                message: "You have successfully logged in!",
+                                token,
+                                user: {
+                                    name: userByEmail.name
+                                }
+                            });
+                        }
+                        else {
+                            User.findOne({ fbId: fbId }, (error, userById) => {
+                                if (userById) {
+                                    //log the user in there
+                                    const token = jwt.sign(userById.id, config.jwtSecret);
+                                    res.status(200).json({
+                                        success: true,
+                                        message: "You have successfully logged in!",
+                                        token,
+                                        user: { name: userById.name }
+                                    });
+                                }
+                                else {
+                                    //create a new account
+                                    const userInfo = {
+                                        name: userData.name,
+                                        email: fbmail,
+                                        fbId: fbId
+                                    };
+                                    const newUser = new User(userInfo);
+                                    newUser.save(err => {
+                                        if (err) {
+                                            //send err msg
+                                            res.json({
+                                                success: false,
+                                                message: "There was an issue with your google login!"
+                                            });
+                                        }
+                                        else {
+                                            const token = jwt.sign(newUser.id, config.jwtSecret);
+                                            res.json({
+                                                success: true,
+                                                message: "You have successfully logged in!",
+                                                token,
+                                                user: {
+                                                    name: newUser.name
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            console.log(err);
+        }
+    });
 });
 module.exports = router;
 //# sourceMappingURL=auth.js.map

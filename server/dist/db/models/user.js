@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 // define the User model schema
 const UserSchema = new mongoose.Schema({
     email: {
@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
     password: String,
     name: String,
     googleId: {
+        type: String,
+        index: { unique: true }
+    },
+    fbId: {
         type: String,
         index: { unique: true }
     }
@@ -25,10 +29,10 @@ UserSchema.methods.comparePassword = function comparePassword(password, callback
 /**
  * The pre-save hook method.
  */
-UserSchema.pre('save', function saveHook(next) {
+UserSchema.pre("save", function saveHook(next) {
     const user = this;
     // proceed further only if the password is modified or the user is new
-    if (!user.isModified('password'))
+    if (!user.isModified("password"))
         return next();
     return bcrypt.genSalt((saltError, salt) => {
         if (saltError) {
@@ -44,5 +48,5 @@ UserSchema.pre('save', function saveHook(next) {
         });
     });
 });
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);
 //# sourceMappingURL=user.js.map

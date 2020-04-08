@@ -12,6 +12,8 @@ import {
 } from "../../../js/actions";
 import { GoogleLogin } from "react-google-login";
 import { googleApiKey } from "../../../clientglobalvariables";
+import { facebookAppId } from "../../../clientglobalvariables";
+import FacebookLogin from "react-facebook-login";
 
 class LoginPage extends React.Component {
   /**
@@ -101,7 +103,6 @@ class LoginPage extends React.Component {
   }
 
   responseGoogle = response => {
-    this.setState({});
     axios
       .post("auth/googleauth", { googleCode: response.code })
       .then(res => {
@@ -117,7 +118,28 @@ class LoginPage extends React.Component {
       })
       .catch(err => console.log(err));
   };
-
+  componentClicked = () => {
+    console.log();
+  };
+  responseFacebook = response => {
+    //facebook response returns an obj which should be sent to the backend for the code to be extracted
+    const code = JSON.parse(atob(response.signedRequest.split(".")[1])).code;
+    console.log(code);
+    axios
+      .post("auth/facebookauth", { facebookCode: code })
+      .then(res => {
+        const { token, user } = res.data;
+        this.props.setUser(user);
+        this.setState({
+          errors: {}
+        });
+        Auth.authenticateUser(token);
+        this.props.getUser();
+        this.props.history.push(this.props.pageToNavigateAfterLogin);
+        return this.props.setPageToNavigateAfterLogin("/");
+      })
+      .catch(err => console.log(err));
+  };
   /**
    * Render the component.
    */
@@ -140,6 +162,19 @@ class LoginPage extends React.Component {
           responseType="code"
           accessType="offline"
         />
+        <div style={{ margin: "22px" }}>
+          <FacebookLogin
+            appId={facebookAppId}
+            autoLoad={false}
+            size="medium"
+            fields="name,email,id"
+            scope="public_profile, email"
+            onClick={this.componentClicked}
+            callback={this.responseFacebook}
+            textButton="Login to your Facebook"
+            redirectUri="http://localhost:3000"
+          />
+        </div>
       </React.Fragment>
     );
   }
