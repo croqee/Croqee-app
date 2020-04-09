@@ -1,18 +1,15 @@
 version: '2'
 services:
   server_python:
-    build:
-      context: ./server_python/
-    command: ["python", "-u", "server.py"]
-    volumes:
-      - ./server_python/:/usr/app
+    build: ./server_python
+    restart: always
     ports:
       - "9699:9699"
-  
+
   server_node:
     build:
       context: ./server/
-    command: /usr/app/node_modules/.bin/nodemon src/index.js
+    command: /usr/app/node_modules/.bin/nodemon dist/index.js
     volumes:
       - ./server/:/usr/app
       - /usr/app/node_modules

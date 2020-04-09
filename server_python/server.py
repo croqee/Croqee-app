@@ -25,7 +25,7 @@ import json
 class ImageAnalyser(object):
 
     def wakeUp(self):
-        print("I'm Awake")
+        return
 
     # global beforeGrad , mainImg, geometrical1 , geometrical2 ,geometrical3 ,geometrical4 ,geometrical5
 
@@ -114,7 +114,7 @@ class ImageAnalyser(object):
         aligned  = alignImages(img2,mainImg)
 
         score = compute_distance_score(aligned, mainImg)
-        print('Score: ', score)
+        # print('Score: ', score)
         # aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
         buffered = BytesIO()
