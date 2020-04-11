@@ -1,0 +1,97 @@
+.account {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  &__sideNav {
+    flex: 0 0 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 4rem;
+
+    a {
+      flex-basis: 50px;
+      cursor: pointer;
+      user-select: none;
+      color: white;
+    }
+  }
+  &__profile {
+    flex: 0 0 450px;
+    text-align: left;
+    &__img-name-wrapper {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: row;
+      &__img {
+        display: flex;
+        flex-direction: column;
+        img {
+          border-radius: 50%;
+          height: 100px;
+        }
+        a {
+          margin: 1rem;
+          text-align: center;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+      &__name {
+        margin: 0 auto;
+      }
+    }
+    &__email {
+      margin-top: 2rem;
+
+      &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        p {
+          margin: 0;
+        }
+        a {
+          margin: 0 1rem;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+    }
+    &__adress {
+      margin-top: 2rem;
+
+      &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        p {
+          margin: 0;
+        }
+        a {
+          margin: 0 1rem;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+    }
+    &__birth-date {
+      margin-top: 2rem;
+
+      &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        p {
+          margin: 0;
+        }
+        a {
+          margin: 0 1rem;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+    }
+  }
+}

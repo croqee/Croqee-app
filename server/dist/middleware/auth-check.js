@@ -30,6 +30,7 @@ module.exports = (req, res, next) => {
             }
             // pass user details onto next route
             req.user = user;
+            console.log(user);
             return next();
         });
     });
