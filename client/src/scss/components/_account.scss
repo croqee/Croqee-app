@@ -31,8 +31,8 @@
           border-radius: 50%;
           height: 100px;
         }
-        a {
-          margin: 1rem;
+        &-link {
+          margin: 1rem 1rem 2rem;
           text-align: center;
           cursor: pointer;
           user-select: none;
@@ -40,7 +40,22 @@
       }
       &__name {
         margin: 0 auto;
+        width: 100%;
+        padding-left: 4rem;
+        &-container {
+          display: flex;
+          flex-direction: row;
+          text-align: right;
+
+          &__btn {
+            margin: 1.7rem 1rem;
+            flex: 1;
+          }
+        }
       }
+      // a {
+      //   margin: 3rem 1rem;
+      // }
     }
     &__email {
       margin-top: 2rem;
@@ -59,7 +74,7 @@
         }
       }
     }
-    &__adress {
+    &__userInfo {
       margin-top: 2rem;
 
       &__container {
@@ -73,6 +88,39 @@
           margin: 0 1rem;
           cursor: pointer;
           user-select: none;
+        }
+        &__form {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 500px;
+          &__input {
+            border-top-style: none;
+            border-right-style: none;
+            border-left-style: none;
+            border-bottom-style: outset;
+            background-color: transparent;
+            outline: none;
+            color: #b8b8b8;
+            font-size: 1rem;
+            &:focus {
+              transition: border-bottom 0.2s ease-in;
+              border-bottom: 2px solid $active-color;
+            }
+          }
+          &__btn {
+            color: #ff5200;
+            border: none;
+            font-size: 1rem;
+            background-color: transparent;
+            outline: none;
+            &:hover {
+              color: $active-color;
+            }
+            &:focus {
+              color: $active-color;
+            }
+          }
         }
       }
     }

@@ -17,10 +17,12 @@ const UserSchema = new mongoose.Schema({
         index: { unique: true }
     },
     birthDate: {
-        type: Date
+        type: String,
+        default: "When are you born?"
     },
     city: {
-        type: String
+        type: String,
+        default: "Where are you based?"
     }
 });
 /**
