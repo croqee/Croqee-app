@@ -59,7 +59,7 @@ class Timer extends Component {
 						id="loader"
 						className={this.state.timerColor}
 						ref="loader"
-						transform="translate(50, 50) scale(.400)"
+						transform="translate(50, 50) scale(.200)"
 					/>
 				</svg>
 			</React.Fragment>

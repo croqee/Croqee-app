@@ -187,7 +187,9 @@ class CompetePage extends React.Component {
 						/>
 					</div>
 					<HandSide />
+
 				</div>
+
 			</React.Fragment>
 		);
 	}

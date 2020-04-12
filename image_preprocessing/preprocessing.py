@@ -63,7 +63,7 @@ dir_path = os.path.dirname(os.path.abspath(__file__))
 base_image_path = dir_path + '/ColorImages'
 line_image_path = dir_path + '/LineImages'
 
-image_names = [x for x in os.listdir(base_image_path) if x[-4:] == '.png']
+image_names = [x for x in os.listdir(base_image_path) if x[-4:] == '.PNG']
 
 for img_name in image_names:
     image_path = base_image_path + '/' + img_name

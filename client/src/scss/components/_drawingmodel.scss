@@ -16,7 +16,6 @@ $showModelsDuration: 0.7s;
     100%{ left: 0;}
 }
 .drawing-model {
-	float: left;
 	position: relative;
 	@include x-small-screen() {
 		float: none;
