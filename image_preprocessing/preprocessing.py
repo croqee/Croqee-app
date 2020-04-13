@@ -47,14 +47,14 @@ def get_line_maxima(edge_mag, ksize=5, offset=8):
     return np.any([xx_max, yy_max, xy_max, yx_max], axis=0)
 
 def normalize_line_thickness(line_img, new_thickness=3):
-	little_kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE,(3, 3))
+	#little_kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE,(3, 3))
 	filter_kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE,(new_thickness, new_thickness))
 	#line_img = cv.dilate(line_img, little_kernel, iterations=1)
 	thinned_image = cv.ximgproc.thinning(line_img)
 	rethickened_image = cv.dilate(thinned_image, filter_kernel, iterations=1)
 	return rethickened_image
 
-def create_line_drawing2(base_img, thres1=8, line_thickness_normalization=True):
+def create_line_drawing2(base_img, thres1=7, line_thickness_normalization=True, new_line_thickness=3):
     edge_mag = get_edge_magnitude(base_img, ksize=3)
     edge_mag = (edge_mag*255/np.max(edge_mag)).astype(np.uint8)
 
@@ -65,7 +65,7 @@ def create_line_drawing2(base_img, thres1=8, line_thickness_normalization=True):
     tmp1 = (tmp1 * 255).astype(np.uint8)
 
     if line_thickness_normalization:
-    	tmp1 = normalize_line_thickness(tmp1)
+    	tmp1 = normalize_line_thickness(tmp1, new_thickness=new_line_thickness)
 
     return (255 - tmp1)
 
