@@ -69,7 +69,7 @@ class PrototypePage extends React.Component {
 				</div>
 
 				{this.props.showTimer && <Timer timerClass='timer--home-page'/>}
-				<div className="drawing-environment">
+				<div className={`drawing-environment ${side}`}>
 					<DrawingModel side={side} />
 					<Canvas
 						isInHomePage={true}
@@ -80,8 +80,9 @@ class PrototypePage extends React.Component {
 						baseURL={baseURL}
 						navigateToClubPage = {this.navigateToClubPage}
 					/>
-					<HandSide />
 				</div>
+				<HandSide />
+
 				<div id="home_bottom">
 					<img id="home_bottom_triangle" src="/triangle.png" />
 					<button onClick={() => this.navigateToClubPage()} id="home_bottom_button">

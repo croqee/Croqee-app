@@ -15,6 +15,9 @@ $showModelsDuration: 0.7s;
     0% { left: 127px;}
     100%{ left: 0;}
 }
+.model-wrapper{
+	position: relative;
+}
 .drawing-model {
 	position: relative;
 	@include x-small-screen() {

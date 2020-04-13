@@ -157,7 +157,7 @@ class CompetePage extends React.Component {
 			
 				</span> */}
 				<div>
-					<div className="drawing-environment">
+					<div className={`drawing-environment ${side}`}>
 						{/* {this.state.model.model == 'model_1' && (
 							<img src="./shapes_1.png" className={'modelImg draw_and_model ' + side} />
 						)}
@@ -186,7 +186,7 @@ class CompetePage extends React.Component {
 							model={this.state.model}
 						/>
 					</div>
-					<HandSide />
+									<HandSide />
 
 				</div>
 

@@ -68,19 +68,17 @@ class Canvas extends React.Component {
 			const margin = Math.floor((screenSize - 1800) / 3) - 2;
 			width = 900;
 			height = 675;
-			if (this.props.leftHand) {
-				styles.canvas = {
-					...styles.canvas,
-					marginLeft: margin + 'px',
-					marginRight: 0
-				};
-			} else {
-				styles.canvas = {
-					...styles.canvas,
-					marginRight: margin + 'px',
-					marginLeft: 0
-				};
-			}
+			// if (this.props.leftHand) {
+			// 	styles.canvas = {
+			// 		...styles.canvas,
+			// 		marginRight: 0
+			// 	};
+			// } else {
+			// 	styles.canvas = {
+			// 		...styles.canvas,
+			// 		marginLeft: 0
+			// 	};
+			// }
 		} else {
 			width = Math.floor(screenSize / 2 - 9);
 			height = Math.floor(width / 800 * 600);
