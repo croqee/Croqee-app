@@ -1,4 +1,4 @@
-const production = true;
+const production = false;
 
 export let socketEndPoint;
 export let pythonServerEndPoint;

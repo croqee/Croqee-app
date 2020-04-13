@@ -28,34 +28,21 @@ class ImageAnalyser(object):
     def wakeUp(self):
         return
 
-    img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
-    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    img = cv2.resize(img,(800,600))
-
-
-    folder_names = os.listdir('src/models')
+    folder_names = os.listdir('./src/models')
     image_dict = {}
     for folder_name in folder_names:
-        for image_name in os.listdir('src/models/'+folder_name):
+        for image_name in os.listdir('./src/models/'+folder_name):
             if not '.png' in image_name: continue
-            img1 = cv2.imread('src/models/'+folder_name+'/'+image_name)
-            print('src/models/'+folder_name+'/'+image_name)
+            img1 = cv2.imread('./src/models/'+folder_name+'/'+image_name)
+            print('./src/models/'+folder_name+'/'+image_name)
             img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
             img1 = cv2.resize(img1, (800, 600))
-
             image_dict[image_name.split('.')[0]] = img1
-
 
     def DrawingDistance(self, param):
     
-        # def readb64(base64_string):
-        #    sbuf = StringIO()
-        #    sbuf.write(base64.b64decode(base64_string))
-        #    pimg = Image.open(sbuf)
-        #    return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
         print(param["model"])
-
         mainImg = self.image_dict[param["model"]]
 
         img2 = imread(BytesIO(b64decode(param["dataURL"])))
@@ -81,9 +68,6 @@ class ImageAnalyser(object):
 
         return json.dumps(x)#data_uri#calculateScore(diff)
 
-imageAnalyser = ImageAnalyser()
-# imageAnalyser.DrawingDistance("")
-
-s = zerorpc.Server(imageAnalyser)
+s = zerorpc.Server(ImageAnalyser())
 s.bind("tcp://0.0.0.0:9699")
 s.run()
