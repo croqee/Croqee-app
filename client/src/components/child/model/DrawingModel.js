@@ -157,7 +157,7 @@ class DrawingModel extends Component {
 							<div className="model-wrapper">
 								{model.model && (
 									<img
-										src={`./still-life-models/${model.model}.png`}
+										src={`${this.props.imgPath}-models/${model.model}.png`}
 										width={`${width}px`}
 										height={`${height}px`}
 										className={'drawing-model ' + this.props.side}
@@ -191,14 +191,13 @@ class DrawingModel extends Component {
 											top: `${(height - 236) / 2 - 15}px`
 										}}
 									>
-										{' '}
 										<span
 											className={`drawing-model__select__still-life ${this.props.activeModel.model ===
 												'stillLife' && 'drawing-model__select__still-life--active'}`}
 											onClick={() => {
 												this.setModelToStillLife();
 											}}
-										/>{' '}
+										/>
 										<span
 											className={`drawing-model__select__anatomy ${this.props.activeModel.model ===
 												'anatomy' && 'drawing-model__select__anatomy--active'}`}
@@ -209,14 +208,14 @@ class DrawingModel extends Component {
 									</div>
 									{this.props.activeModel && this.props.activeModel.model === 'stillLife' ? (
 										<img
-											src="./still-life-models/geometrical5.png"
+											src="./compete/still-life-models/geometrical5.png"
 											width={`${width}px`}
 											height={`${height}px`}
 											className={'drawing-model ' + this.props.side}
 										/>
 									) : (
 											<img
-												src="./still-life-models/geometrical3.png"
+												src="./compete/anatomy-models/womanprototype.png"
 												width={`${width}px`}
 												height={`${height}px`}
 												className={'drawing-model ' + this.props.side}

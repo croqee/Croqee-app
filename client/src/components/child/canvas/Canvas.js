@@ -327,7 +327,7 @@ class Canvas extends React.Component {
 												width: `${width}px`,
 												height: `${height}px`
 											}}
-											src="./still-life-models/geometrical3.png"
+											src="./anatomy-models/womanprototype.png"
 										/>
 									) : (
 										<React.Fragment>

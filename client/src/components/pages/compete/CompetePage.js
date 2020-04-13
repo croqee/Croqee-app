@@ -30,10 +30,11 @@ class CompetePage extends React.Component {
 			hasJoined: false,
 			showUserScores: false,
 			isFirstTimePlaying: true,
+			drawingField:this.props.history.location.pathname
 		};
 	}
 	componentDidMount() {
-		this.socket = socketIOClient(this.state.endpoint);
+		this.socket = socketIOClient(this.state.endpoint, { path: this.state.drawingField });
 		const token = Auth.getToken();
 		this.socket.emit('username', token);
 		this.socket.on('update_user', (users) => {
@@ -147,7 +148,8 @@ class CompetePage extends React.Component {
 							compete={true}
 							playingUsers={playingUsers}
 							showUserScores={showUserScores}
-							user={this.props.user} />
+							user={this.props.user}
+							imgPath={this.state.drawingField} />
 						<Canvas
 							shouldResetCanvas={this.state.resetCanvas}
 							setShouldResetCanvas={this.setShouldResetCanvas}

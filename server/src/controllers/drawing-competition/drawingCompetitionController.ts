@@ -10,7 +10,16 @@ const ScoreRepo = require('../../db/repositories/scoreRepo');
 
 export class drawingCompetitionController {
 	private drawingField: string;
-	constructor(io: any, node_client: any, drawingField: string) {
+	constructor(socketIO: any, server: any, node_client: any, drawingField: string) {
+		const io = socketIO(server,
+			{
+				path: `/compete/${drawingField}`,
+				// serveClient: false,
+				// below are engine.IO options
+				// pingInterval: 10000,
+				// pingTimeout: 5000,
+				cookie: false
+			});
 		this.drawingField = drawingField;
 		this.resetStillLife();
 		this.stillLifeloop(io);
@@ -35,9 +44,9 @@ export class drawingCompetitionController {
 		return -1;
 	}
 	private resetStillLife() {
-		if (this.drawingField === 'still_life') {
+		if (this.drawingField === 'still-life') {
 			this.models = stillLifeModels;
-		} else if(this.drawingField === 'anatomy'){
+		} else if (this.drawingField === 'anatomy') {
 			this.models = anatomyModels;
 		}
 		this.round = 1;
@@ -79,8 +88,8 @@ export class drawingCompetitionController {
 							io.sockets.emit('join_club', this.models[this.round - 1]);
 							this.players = this.players
 								? this.players.sort((a: iJoinedUser, b: iJoinedUser) => {
-										return b.score - a.score;
-									})
+									return b.score - a.score;
+								})
 								: [];
 							setTimeout(() => {
 								if (!this.isBeginProcessed) {
@@ -115,11 +124,11 @@ export class drawingCompetitionController {
 					if (!err) {
 						let userId = "";
 						if (typeof decoded.sub === "string") {
-						  userId = decoded.sub;
+							userId = decoded.sub;
 						} else {
-						  userId = decoded;
+							userId = decoded;
 						}
-					
+
 						return User.findById(userId, (userErr: any, user: any) => {
 							if (!userErr && user) {
 								let userIsNotAlreadyJoined =
@@ -133,7 +142,7 @@ export class drawingCompetitionController {
 									};
 									this.players.push(joinedUser);
 									io.sockets.emit('update_user', this.players);
-       
+
 									//Invoking my_drawing after the user is verified
 									socket.on('my_drawing', (dataURL: string) => {
 										let _score: number = 0;

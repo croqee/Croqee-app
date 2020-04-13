@@ -26,9 +26,6 @@ class ImageAnalyser(object):
 
     def wakeUp(self):
         return
-
-    # global beforeGrad , mainImg, geometrical1 , geometrical2 ,geometrical3 ,geometrical4 ,geometrical5
-
     
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -54,6 +51,9 @@ class ImageAnalyser(object):
     geometrical5 = cv2.cvtColor(geometrical5,cv2.COLOR_BGR2GRAY)
     geometrical5 = cv2.resize(geometrical5,(800,600))
     
+    womanprototype = cv2.imread('src/models/anatomy-models/womanprototype.png')
+    womanprototype = cv2.cvtColor(womanprototype,cv2.COLOR_BGR2GRAY)
+    womanprototype = cv2.resize(womanprototype,(800,600))
     # mainImg = img
 
 
@@ -83,7 +83,6 @@ class ImageAnalyser(object):
             return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
         print(param["model"])
-        # global mainImg,geometrical1,geometrical2,geometrical3,geometrical4,geometrical5
         if param["model"] == "geometrical1":
             mainImg = self.geometrical1
         elif param["model"] == "geometrical2":
@@ -94,7 +93,8 @@ class ImageAnalyser(object):
             mainImg = self.geometrical4
         elif param["model"] == "geometrical5":
             mainImg = self.geometrical5
-
+        elif param["model"] == "womanprototype":
+            mainImg = self.womanprototype
         
         # imgplot = plt.imshow(mainImg)
         # plt.title(param["model"]), plt.xticks([]), plt.yticks([])
