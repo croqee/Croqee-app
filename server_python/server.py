@@ -33,11 +33,11 @@ class ImageAnalyser(object):
     for folder_name in folder_names:
         for image_name in os.listdir('./src/models/'+folder_name):
             if not '.png' in image_name: continue
-            img1 = cv2.imread('./src/models/'+folder_name+'/'+image_name)
+            img = cv2.imread('./src/models/'+folder_name+'/'+image_name)
             print('./src/models/'+folder_name+'/'+image_name)
-            img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-            img1 = cv2.resize(img1, (800, 600))
-            image_dict[image_name.split('.')[0]] = img1
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.resize(img, (800, 600))
+            image_dict[image_name.split('.')[0]] = img
 
     def DrawingDistance(self, param):
     
@@ -53,7 +53,7 @@ class ImageAnalyser(object):
 
         score = compute_distance_score(aligned, mainImg)
         # print('Score: ', score)
-        aligned = cv2.resize(aligned,(400,300))
+        # aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
         buffered = BytesIO()
         new_im.save(buffered, format="PNG")
