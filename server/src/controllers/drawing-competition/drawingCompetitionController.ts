@@ -113,7 +113,13 @@ export class drawingCompetitionController {
 			socket.on('username', (token: string) => {
 				jwt.verify(token, config.jwtSecret, (err: any, decoded: any) => {
 					if (!err) {
-						const userId = decoded.sub;
+						let userId = "";
+						if (typeof decoded.sub === "string") {
+						  userId = decoded.sub;
+						} else {
+						  userId = decoded;
+						}
+					
 						return User.findById(userId, (userErr: any, user: any) => {
 							if (!userErr && user) {
 								let userIsNotAlreadyJoined =

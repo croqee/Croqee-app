@@ -8,7 +8,7 @@ if (production) {
 }
 else {
     socketEndPoint = 'localhost:3000';
-    pythonServerEndPoint = 'tcp://localhost:9699';
+    pythonServerEndPoint = 'tcp://server_python:9699';
 }
 module.exports.socketEndPoint = socketEndPoint;
 module.exports.pythonServerEndPoint = pythonServerEndPoint;

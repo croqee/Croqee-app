@@ -79,6 +79,6 @@ const server = http_1.default.createServer(app);
 const io = socketIO(server);
 //Drawing competitions
 new drawingCompetitionController_1.drawingCompetitionController(io, node_client, "still_life");
-new drawingCompetitionController_1.drawingCompetitionController(io, node_client, "anatomy");
+// new drawingCompetitionController(io, node_client, "anatomy");
 server.listen(process.env.PORT || 8080);
 //# sourceMappingURL=index.js.map

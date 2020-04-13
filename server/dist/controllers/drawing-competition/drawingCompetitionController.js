@@ -104,7 +104,13 @@ class drawingCompetitionController {
             socket.on('username', (token) => {
                 jwt.verify(token, config_1.default.jwtSecret, (err, decoded) => {
                     if (!err) {
-                        const userId = decoded.sub;
+                        let userId = "";
+                        if (typeof decoded.sub === "string") {
+                            userId = decoded.sub;
+                        }
+                        else {
+                            userId = decoded;
+                        }
                         return User.findById(userId, (userErr, user) => {
                             if (!userErr && user) {
                                 let userIsNotAlreadyJoined = this.players.filter((u) => u._id == user._id).length == 0;
