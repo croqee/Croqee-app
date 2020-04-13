@@ -21,101 +21,52 @@ from matchContours import matchContours
 from chamferDist import  chamferDist
 import base64
 import json
+import os
 
 class ImageAnalyser(object):
 
     def wakeUp(self):
         return
-    
+
     img = cv2.imread('src/models/objects_2/shapes_1_e3.jpeg')
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img,(800,600))
 
-    geometrical1 = cv2.imread('src/models/still-life-models/geometrical1.png')
-    geometrical1 = cv2.cvtColor(geometrical1,cv2.COLOR_BGR2GRAY)
-    geometrical1 = cv2.resize(geometrical1,(800,600))
-    
-    geometrical2 = cv2.imread('src/models/still-life-models/geometrical2.png')
-    geometrical2 = cv2.cvtColor(geometrical2,cv2.COLOR_BGR2GRAY)
-    geometrical2 = cv2.resize(geometrical2,(800,600))
-    
-    geometrical3 = cv2.imread('src/models/still-life-models/geometrical3.png')
-    geometrical3 = cv2.cvtColor(geometrical3,cv2.COLOR_BGR2GRAY)
-    geometrical3 = cv2.resize(geometrical3,(800,600))
-    
-    geometrical4 = cv2.imread('src/models/still-life-models/geometrical4.png')
-    geometrical4 = cv2.cvtColor(geometrical4,cv2.COLOR_BGR2GRAY)
-    geometrical4 = cv2.resize(geometrical4,(800,600))
-    
-    geometrical5 = cv2.imread('src/models/still-life-models/geometrical5.png')
-    geometrical5 = cv2.cvtColor(geometrical5,cv2.COLOR_BGR2GRAY)
-    geometrical5 = cv2.resize(geometrical5,(800,600))
-    
-    womanprototype = cv2.imread('src/models/anatomy-models/womanprototype.png')
-    womanprototype = cv2.cvtColor(womanprototype,cv2.COLOR_BGR2GRAY)
-    womanprototype = cv2.resize(womanprototype,(800,600))
-    # mainImg = img
 
+    folder_names = os.listdir('src/models')
+    image_dict = {}
+    for folder_name in folder_names:
+        for image_name in os.listdir('src/models/'+folder_name):
+            if not '.png' in image_name: continue
+            img1 = cv2.imread('src/models/'+folder_name+'/'+image_name)
+            print('src/models/'+folder_name+'/'+image_name)
+            img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+            img1 = cv2.resize(img1, (800, 600))
 
-    # global height
-    # global width
-    # height, width = img.shape
-
-    # blank = np.zeros([height,width,3],dtype=np.uint8)
-    # blank.fill(255)
-    
-    # global corners
-    # corners = cv2.goodFeaturesToTrack(mainImg,250,0.01,10)
-
-    # corners = np.int0(corners)
-
-    # for i in corners:
-    #     x,y = i.ravel()
-    #     cv2.circle(img,(x,y),3,255,-1)
+            image_dict[image_name.split('.')[0]] = img1
 
 
     def DrawingDistance(self, param):
     
-        def readb64(base64_string):
-            sbuf = StringIO()
-            sbuf.write(base64.b64decode(base64_string))
-            pimg = Image.open(sbuf)
-            return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
+        # def readb64(base64_string):
+        #    sbuf = StringIO()
+        #    sbuf.write(base64.b64decode(base64_string))
+        #    pimg = Image.open(sbuf)
+        #    return cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
         print(param["model"])
-        if param["model"] == "geometrical1":
-            mainImg = self.geometrical1
-        elif param["model"] == "geometrical2":
-            mainImg = self.geometrical2
-        elif param["model"] == "geometrical3":
-            mainImg = self.geometrical3
-        elif param["model"] == "geometrical4":
-            mainImg = self.geometrical4
-        elif param["model"] == "geometrical5":
-            mainImg = self.geometrical5
-        elif param["model"] == "womanprototype":
-            mainImg = self.womanprototype
-        
-        # imgplot = plt.imshow(mainImg)
-        # plt.title(param["model"]), plt.xticks([]), plt.yticks([])
-        # plt.show()
-        #This should also be documented
+
+        mainImg = self.image_dict[param["model"]]
+
         img2 = imread(BytesIO(b64decode(param["dataURL"])))
-        # im = Image.fromarray(img2)
-        # im = im.convert('RGB')
-        # im.save("your_file.jpeg")
 
-        # img2_before = img2
         img2 = cv2.resize(img2,(800,600))
-
-        # height2, width2, channels = img2.shape
-
 
         aligned  = alignImages(img2,mainImg)
 
         score = compute_distance_score(aligned, mainImg)
         # print('Score: ', score)
-        # aligned = cv2.resize(aligned,(400,300))
+        aligned = cv2.resize(aligned,(400,300))
         new_im = Image.fromarray(aligned)
         buffered = BytesIO()
         new_im.save(buffered, format="PNG")
@@ -133,6 +84,6 @@ class ImageAnalyser(object):
 imageAnalyser = ImageAnalyser()
 # imageAnalyser.DrawingDistance("")
 
-s = zerorpc.Server(ImageAnalyser())
+s = zerorpc.Server(imageAnalyser)
 s.bind("tcp://0.0.0.0:9699")
 s.run()
