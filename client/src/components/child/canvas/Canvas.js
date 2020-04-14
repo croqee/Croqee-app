@@ -65,20 +65,8 @@ class Canvas extends React.Component {
 		let width;
 		let height;
 		if (screenSize > 1850) {
-			const margin = Math.floor((screenSize - 1800) / 3) - 2;
 			width = 900;
 			height = 675;
-			// if (this.props.leftHand) {
-			// 	styles.canvas = {
-			// 		...styles.canvas,
-			// 		marginRight: 0
-			// 	};
-			// } else {
-			// 	styles.canvas = {
-			// 		...styles.canvas,
-			// 		marginLeft: 0
-			// 	};
-			// }
 		} else {
 			width = Math.floor(screenSize / 2 - 9);
 			height = Math.floor(width / 800 * 600);
@@ -103,7 +91,7 @@ class Canvas extends React.Component {
 	}
 
 	drawing(e) {
-		//if the pen is down in the canvas, draw/erase
+		//if the pen is down in the canvas, draw
 
 		if (this.state.pen === 'down' && this.props.canStartDrawing) {
 			if (this.props.timerDone) {
@@ -161,7 +149,6 @@ class Canvas extends React.Component {
 			this.ctx = this.refs.canvas.getContext('2d');
 			this.ctx.fillStyle = 'white';
 			this.ctx.fillRect(0, 0, this.state.width, this.state.height);
-			// this.ctx.lineWidth = 10;
 		}
 	}
 	retryDrawing() {
@@ -318,7 +305,7 @@ class Canvas extends React.Component {
 												width: `${width}px`,
 												height: `${height}px`
 											}}
-											src="./still-life-models/geometrical5.png"
+											src="./compete/still-life/geometrical5.png"
 										/>
 									) : (
 										<img
@@ -327,7 +314,7 @@ class Canvas extends React.Component {
 												width: `${width}px`,
 												height: `${height}px`
 											}}
-											src="./anatomy-models/womanprototype.png"
+											src="./compete/anatomy/womanprototype.png"
 										/>
 									) : (
 										<React.Fragment>
@@ -338,7 +325,7 @@ class Canvas extends React.Component {
 														width: `${width}px`,
 														height: `${height}px`
 													}}
-													src={`./still-life-models/${this.props.model.model}.png`}
+													src={`${this.props.imgPath}/${this.props.model.model}.png`}
 												/>
 											)}
 										</React.Fragment>

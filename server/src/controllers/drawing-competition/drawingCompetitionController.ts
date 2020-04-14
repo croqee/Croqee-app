@@ -11,7 +11,8 @@ const ScoreRepo = require('../../db/repositories/scoreRepo');
 export class drawingCompetitionController {
 	private drawingField: string;
 	constructor(socketIO: any, server: any, node_client: any, drawingField: string) {
-		const io = socketIO(server,
+		const io = socketIO(server
+			,
 			{
 				path: `/compete/${drawingField}`,
 				// serveClient: false,
@@ -19,7 +20,8 @@ export class drawingCompetitionController {
 				// pingInterval: 10000,
 				// pingTimeout: 5000,
 				cookie: false
-			});
+			}
+			);
 		this.drawingField = drawingField;
 		this.resetStillLife();
 		this.stillLifeloop(io);

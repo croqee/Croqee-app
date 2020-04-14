@@ -34,7 +34,7 @@ class CompetePage extends React.Component {
 		};
 	}
 	componentDidMount() {
-		this.socket = socketIOClient(this.state.endpoint, { path: this.state.drawingField });
+		this.socket = socketIOClient(this.state.endpoint, { path: `${this.state.drawingField}/socket.io` });
 		const token = Auth.getToken();
 		this.socket.emit('username', token);
 		this.socket.on('update_user', (users) => {
@@ -159,6 +159,7 @@ class CompetePage extends React.Component {
 							isCompeting={true}
 							baseURL={baseURL}
 							model={this.state.model}
+							imgPath={this.state.drawingField} />
 						/>
 					</div>
 					<HandSide />
