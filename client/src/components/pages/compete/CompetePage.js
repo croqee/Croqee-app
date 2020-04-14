@@ -160,7 +160,6 @@ class CompetePage extends React.Component {
 							baseURL={baseURL}
 							model={this.state.model}
 							imgPath={this.state.drawingField} />
-						/>
 					</div>
 					<HandSide />
 
