@@ -68,8 +68,8 @@ class PrototypePage extends React.Component {
 					<span className="croqee-video-section__title">Video goes here</span>
 				</div>
 
-				{this.props.showTimer && <Timer timerClass='timer--home-page'/>}
 				<div className={`drawing-environment ${side}`}>
+					{this.props.showTimer && <Timer timerClass='timer--home-page'/>}
 					<DrawingModel side={side} />
 					<Canvas
 						isInHomePage={true}
