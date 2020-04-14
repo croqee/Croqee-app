@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Canvas from '../../child/canvas/Canvas';
 import { getUser, setTimer, setImageProcessing, invokeScore, setPageToNavigateAfterLogin } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
-import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
 import DrawingModel from '../../child/model/DrawingModel';
 
@@ -68,8 +67,8 @@ class PrototypePage extends React.Component {
 					<span className="croqee-video-section__title">Video goes here</span>
 				</div>
 
-				{this.props.showTimer && <Timer timerClass='timer--home-page'/>}
 				<div className={`drawing-environment ${side}`}>
+					{this.props.showTimer && <Timer/>}
 					<DrawingModel side={side} />
 					<Canvas
 						isInHomePage={true}
