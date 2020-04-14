@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getUser, setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
-import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
 import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
 import socketIOClient from 'socket.io-client';
@@ -138,9 +137,10 @@ class CompetePage extends React.Component {
 						<UserPendingLoader caption={'Please wait until the next round begins...'} />
 					</div>
 				)}
-				{this.props.showTimer ? <Timer timerClass='' /> : <EmptyTimer isCompeting={true} />}
 				<div>
+					<br/>
 					<div className={`drawing-environment ${side}`}>
+					{this.props.showTimer && <Timer/>}
 						<DrawingModel
 							model={this.state.model}
 							side={side}

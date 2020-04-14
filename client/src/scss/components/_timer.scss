@@ -1,32 +1,29 @@
 .timer {
   display: block;
-  margin:30px auto;
+  margin: 30px auto;
   animation-direction: reverse;
   -moz-transform: scale(-1, 1);
   -webkit-transform: scale(-1, 1);
   -o-transform: scale(-1, 1);
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
-  &--home-page{
-    opacity: 0.8;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom:0;
-    margin: auto;
-    z-index: 1000;
-    user-select: none;
-    pointer-events: none;
-  }
-
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 1000;
+  user-select: none;
+  pointer-events: none;
 }
 
-.timer_orange{
+.timer_orange {
   fill: $orange;
 }
 
-#roundTimer{
+#roundTimer {
   width: 100px;
   height: 100px;
 }
