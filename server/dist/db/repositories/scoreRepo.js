@@ -27,7 +27,7 @@ exports.updateUserScore = function (_userId, _modelId, _score) {
                 }
             });
         }
-    });
+    }).catch();
 };
 exports.getUsersTotalScore = function (user, callback) {
     getTotalScores((totalScores) => {
@@ -73,11 +73,11 @@ exports.getUsersTotalScore = function (user, callback) {
                                 });
                                 return;
                             }
-                        });
+                        }).catch((err) => console.log(err));
                     }
                 }
             }
-        });
+        }).catch((err) => console.log(err));
     });
 };
 let getUserScorePosition = function (data, userFoundend, res, finalResults, user, callback) {
@@ -112,7 +112,7 @@ let getUserScorePosition = function (data, userFoundend, res, finalResults, user
                     }
                 }
                 console.log(_index);
-            });
+            }).catch((err) => console.log(err));
             ++index;
         }
     }
@@ -134,7 +134,7 @@ let getTotalScores = function (callback) {
         if (res) {
             callback(res.length);
         }
-    });
+    }).catch((err) => console.log(err));
 };
 exports.getScoredModels = function (callback) {
     Score.distinct('modelId').exec().then((res) => {
