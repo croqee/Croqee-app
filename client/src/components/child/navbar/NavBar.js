@@ -28,7 +28,7 @@ class NavBar extends React.Component {
 		const {activePage} = this.state;
 		let styles = {
 			orange: {
-				color: "#ff5200",
+				color: "#ff3c00",
 				fontWeight: 600
 			}
 		};

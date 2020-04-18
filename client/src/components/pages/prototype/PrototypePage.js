@@ -25,7 +25,7 @@ class PrototypePage extends React.Component {
 			this.props.setImageProcessing(true);
 			const dataURL = canvas.toDataURL('image/jpeg', 0.8).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 			this.props.setTimer({ showTimer: false, timer: 30 });
-			const model = this.props.activeModel.model==="stillLife"?"geometrical5":"womanprototype";
+			const model = this.props.activeModel.model==="stillLife"?"geometrical5":"woman-figure-8";
 			axios.post('/send_drawing', { dataURL: dataURL, model: model }).then((response) => {
 				let score = response.data.score;
 				this.setState({ baseURL: 'data:image/png;base64, ' + response.data.img });

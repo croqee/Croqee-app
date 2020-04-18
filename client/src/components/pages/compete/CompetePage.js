@@ -29,10 +29,11 @@ class CompetePage extends React.Component {
 			hasJoined: false,
 			showUserScores: false,
 			isFirstTimePlaying: true,
-			drawingField:this.props.history.location.pathname
+			drawingField: this.props.history.location.pathname[this.props.history.location.pathname.length - 1] == "/" ? this.props.history.location.pathname : this.props.history.location.pathname + '/'
 		};
 	}
 	componentDidMount() {
+        console.log(this.props.history)
 		this.socket = socketIOClient(this.state.endpoint, { path: `${this.state.drawingField}/socket.io` });
 		const token = Auth.getToken();
 		this.socket.emit('username', token);
@@ -139,9 +140,9 @@ class CompetePage extends React.Component {
 					</div>
 				)}
 				<div>
-					<br/>
+					<br />
 					<div className={`drawing-environment ${side}`}>
-					{this.props.showTimer && <Timer/>}
+						{this.props.showTimer && <Timer />}
 						<DrawingModel
 							model={this.state.model}
 							side={side}

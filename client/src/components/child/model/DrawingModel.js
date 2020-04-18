@@ -149,6 +149,7 @@ class DrawingModel extends Component {
 		const { width, height, isSizeSet, usersScoreFadeClass } = this.state;
 		const { model, side, compete, showUserScores, playingUsers, user } = this.props;
 		const userScoreOverview = userScoreOverview;
+		let imgPath = '';
 		return (
 			<React.Fragment>
 				{isSizeSet && (
@@ -157,7 +158,7 @@ class DrawingModel extends Component {
 							<div className="model-wrapper">
 								{model.model && (
 									<img
-										src={`${this.props.imgPath}/${model.model}.png`}
+										src={require(`../../../img${this.props.imgPath}${model.model}.png`)}
 										width={`${width}px`}
 										height={`${height}px`}
 										className={'drawing-model ' + this.props.side}
@@ -208,21 +209,21 @@ class DrawingModel extends Component {
 									</div>
 									{this.props.activeModel && this.props.activeModel.model === 'stillLife' ? (
 										<img
-											src="./compete/still-life/geometrical5.png"
+											src={require("../../../img/compete/still-life/geometrical5.png")}
 											width={`${width}px`}
 											height={`${height}px`}
 											className={'drawing-model ' + this.props.side}
 										/>
 									) : (
 											<img
-												src="./compete/anatomy/womanprototype.png"
+												src={require("../../../img/compete/anatomy/woman-figure-8.png")}
 												width={`${width}px`}
 												height={`${height}px`}
 												className={'drawing-model ' + this.props.side}
 											/>
 										)}
 									{showUserScores && (
-											<UserScoreOverview
+										<UserScoreOverview
 											usersScoreFadeClass={usersScoreFadeClass}
 											styles={styles}
 											width={width}

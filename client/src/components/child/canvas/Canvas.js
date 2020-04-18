@@ -305,7 +305,7 @@ class Canvas extends React.Component {
 												width: `${width}px`,
 												height: `${height}px`
 											}}
-											src="./compete/still-life/geometrical5.png"
+											src={require("../../../img/compete/still-life/geometrical5.png")}
 										/>
 									) : (
 										<img
@@ -314,7 +314,7 @@ class Canvas extends React.Component {
 												width: `${width}px`,
 												height: `${height}px`
 											}}
-											src="./compete/anatomy/womanprototype.png"
+											src={require("../../../img/compete/anatomy/woman-figure-8.png")}
 										/>
 									) : (
 										<React.Fragment>
@@ -325,7 +325,7 @@ class Canvas extends React.Component {
 														width: `${width}px`,
 														height: `${height}px`
 													}}
-													src={`${this.props.imgPath}/${this.props.model.model}.png`}
+													src={require(`../../../img${this.props.imgPath}${this.props.model.model}.png`)}
 												/>
 											)}
 										</React.Fragment>
