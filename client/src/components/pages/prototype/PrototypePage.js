@@ -54,7 +54,7 @@ class PrototypePage extends React.Component {
 		});
 	};
 	navigateToClubPage = () => {
-		this.props.setPageToNavigateAfterLogin('/clubs');
+		this.props.setPageToNavigateAfterLogin('/competes');
 		this.props.history.push('/clubs');
 	};
 	render() {
