@@ -80,13 +80,13 @@ class App extends Component {
           <GlobalRoute component={NavBar} />
           <div>
             <GlobalRoute exact path="/" component={PrototypePage} />
-            <LoggedOutRoute path="/signup" component={SignUpPage} />
-            <LoggedOutRoute path="/login" component={LoginPage} />
-            <PrivateRoute path="/logout" component={LogoutFunction} />
+						<LoggedOutRoute path="/signup" component={SignUpPage} />
+						<LoggedOutRoute path="/login" component={LoginPage} />
+						<PrivateRoute path="/logout" component={LogoutFunction} />
             <PrivateRoute path="/account" component={Account} />
-            <PrivateRoute path="/clubs" component={ClubsPage} />
-            <PrivateRoute path="/compete" component={CompetePage} />
-            <PrivateRoute path="/leaderboard" component={LeaderboardPage} />
+						<PrivateRoute path="/competes" component={ClubsPage} />
+						<PrivateRoute path="/compete/:field" component={CompetePage} />
+						<PrivateRoute path="/leaderboard" component={LeaderboardPage}/>
           </div>
         </Router>
       </div>
