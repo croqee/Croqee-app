@@ -17,13 +17,15 @@ const UserSchema = new mongoose.Schema({
         index: { unique: true }
     },
     birthDate: {
-        type: String,
-        default: "When are you born?"
+        type: String
     },
     city: {
-        type: String,
-        default: "Where are you based?"
-    }
+        type: String
+    },
+    behance: String,
+    instagram: String,
+    facebook: String,
+    website: String
 });
 /**
  * Compare the passed password with the value in the database. A model method.
