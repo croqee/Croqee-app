@@ -55,7 +55,7 @@ class PrototypePage extends React.Component {
 	};
 	navigateToClubPage = () => {
 		this.props.setPageToNavigateAfterLogin('/competes');
-		this.props.history.push('/clubs');
+		this.props.history.push('/competes');
 	};
 	render() {
 		let { baseURL, shouldResetCanvas } = this.state;
