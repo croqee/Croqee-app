@@ -20,9 +20,9 @@ const { getUsersTotalScore } = require("./db/repositories/scoreRepo");
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 // tell the app to parse HTTP body messages
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.urlencoded({ limit: "50mb" }));
 app.use(body_parser_1.default.json());
-app.use(body_parser_1.default({ limit: "50mb" }));
-app.use(body_parser_1.default.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport_1.default.initialize());
 // load passport strategies

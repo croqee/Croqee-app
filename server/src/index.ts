@@ -23,9 +23,9 @@ var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 
 // tell the app to parse HTTP body messages
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb" }));
 app.use(bodyParser.json());
-app.use(bodyParser({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport.initialize());
 
