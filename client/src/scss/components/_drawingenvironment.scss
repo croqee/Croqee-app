@@ -1,3 +1,10 @@
 .drawing-environment{
     // padding: 0 2%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    &.model_left_hand{
+        flex-direction: row-reverse;
+    }
 }

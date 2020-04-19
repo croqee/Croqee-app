@@ -53,7 +53,6 @@ class NavBar extends React.Component {
             <span />
           </label>
         </div>
-
         {this.props.isAuthenticated ? (
           <div class="nav-links">
             <Link
@@ -125,6 +124,7 @@ class NavBar extends React.Component {
       </div>
     );
   }
+
 }
 const mapStateToProps = state => {
   const { isAuthenticated, user } = state;

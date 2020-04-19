@@ -163,7 +163,7 @@ class LoginPage extends React.Component {
           accessType="offline"
         />
         <div style={{ margin: "22px" }}>
-          <FacebookLogin
+          {/* <FacebookLogin
             appId={facebookAppId}
             autoLoad={false}
             size="medium"
@@ -173,7 +173,7 @@ class LoginPage extends React.Component {
             callback={this.responseFacebook}
             textButton="Login to your Facebook"
             redirectUri="http://localhost:3000"
-          />
+          /> */}
         </div>
       </React.Fragment>
     );

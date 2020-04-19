@@ -8,19 +8,18 @@ class ClubThumbnail extends React.Component {
 	componentDidMount() {
 	}
 	render() {
-		return(
-			<div className="clubthumbnail">
-			<div className="clubthumbnail__overlay">
+		return (
+			<div className={"clubthumbnail clubthumbnail--" + this.props.drawingField} onClick={()=>this.props.handleNavigationToCompetition(this.props.drawingField)}>
+				<div className="clubthumbnail__overlay">
+				</div>
+				<span className="clubthumbnail__text">{this.props.text}</span>
 			</div>
-			<span className="clubthumbnail__text">Still life objects</span>
-
-            </div>
-        )
+		)
 	}
 }
 const mapStateToProps = state => {
-	const {  } = state;
-	return { };
+	const { } = state;
+	return {};
 };
 const mapDispatchToProps = dispatch => {
 	return {

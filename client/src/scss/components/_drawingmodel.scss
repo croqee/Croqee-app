@@ -15,8 +15,10 @@ $showModelsDuration: 0.7s;
     0% { left: 127px;}
     100%{ left: 0;}
 }
+.model-wrapper{
+	position: relative;
+}
 .drawing-model {
-	float: left;
 	position: relative;
 	@include x-small-screen() {
 		float: none;
@@ -89,7 +91,7 @@ $showModelsDuration: 0.7s;
 
 	}
 	&__anatomy {
-		background-image: url("https://cdn.discordapp.com/attachments/535653157791989804/647829444953899059/geometrical3.png");
+		background-image: url("https://cdn.discordapp.com/attachments/618340486083641354/701147023490940998/Woman-figure-8.png");
 		background-size: 167px;
 		background-position: -30px -11px;
 		opacity: 0.5;

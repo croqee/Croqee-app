@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Canvas from '../../child/canvas/Canvas';
 import { getUser, setTimer, setImageProcessing, invokeScore, setPageToNavigateAfterLogin } from '../../../js/actions';
 import Timer from '../../child/timer/Timer';
-import EmptyTimer from '../../child/timer/EmptyTimer';
 import HandSide from '../../child/handside/HandSide';
 import DrawingModel from '../../child/model/DrawingModel';
 
@@ -26,7 +25,7 @@ class PrototypePage extends React.Component {
 			this.props.setImageProcessing(true);
 			const dataURL = canvas.toDataURL('image/jpeg', 0.8).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 			this.props.setTimer({ showTimer: false, timer: 30 });
-			const model = this.props.activeModel.model==="stillLife"?"geometrical5":"geometrical3";
+			const model = this.props.activeModel.model==="stillLife"?"geometrical5":"woman-figure-8";
 			axios.post('/send_drawing', { dataURL: dataURL, model: model }).then((response) => {
 				let score = response.data.score;
 				this.setState({ baseURL: 'data:image/png;base64, ' + response.data.img });
@@ -55,8 +54,8 @@ class PrototypePage extends React.Component {
 		});
 	};
 	navigateToClubPage = () => {
-		this.props.setPageToNavigateAfterLogin('/clubs');
-		this.props.history.push('/clubs');
+		this.props.setPageToNavigateAfterLogin('/competes');
+		this.props.history.push('/competes');
 	};
 	render() {
 		let { baseURL, shouldResetCanvas } = this.state;
@@ -68,8 +67,8 @@ class PrototypePage extends React.Component {
 					<span className="croqee-video-section__title">Video goes here</span>
 				</div>
 
-				{this.props.showTimer && <Timer timerClass='timer--home-page'/>}
-				<div className="drawing-environment">
+				<div className={`drawing-environment ${side}`}>
+					{this.props.showTimer && <Timer/>}
 					<DrawingModel side={side} />
 					<Canvas
 						isInHomePage={true}
@@ -80,8 +79,9 @@ class PrototypePage extends React.Component {
 						baseURL={baseURL}
 						navigateToClubPage = {this.navigateToClubPage}
 					/>
-					<HandSide />
 				</div>
+				<HandSide />
+
 				<div id="home_bottom">
 					<img id="home_bottom_triangle" src="/triangle.png" />
 					<button onClick={() => this.navigateToClubPage()} id="home_bottom_button">

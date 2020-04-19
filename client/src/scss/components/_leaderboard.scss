@@ -86,33 +86,31 @@ $button-size : 28px;
     }
 
     &__scores {
-
+        display: flex;
+        flex-direction: column;
         margin: auto;
         font-size: 22px;
+        clear: both;
         &__head {
             border-bottom: 1px solid $light-grey;
             height: 40px;
             background-color: $orange;
             color: black
         }
-
         &__row {
             border-bottom: 1px solid $mid-grey;
             height: 50px;
-            display: block;
             width: 100%;
-            clear: both;
+            display: flex;
             &__rank {
                 margin-top: 8px;
-               float: left;
                margin-right:20px;
                width: 20px;
+
             }
             &__img{
-                float:left;
                 margin-right:20px;
                 margin-top: 4px;
-
                 img{
                 width:40px;
                 height:40px;
@@ -120,11 +118,11 @@ $button-size : 28px;
             }
             &__user {
                 margin-top: 8px;
-                float: left;
              }
              &__score {
                 margin-top: 8px;
-                float: right;
+                align-self: end;
+                margin-left: auto;
              }
             &--self {
                 color: $orange;
