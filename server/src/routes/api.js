@@ -19,9 +19,7 @@ router.get("/getuser", (req, res) => {
 
 router.post("/updateuser/:id", (req, res) => {
   const userId = req.params.id;
-  console.log(userId);
   req.body = croqeeBodyParser(req.body);
-  console.log(req.body);
   User.findOneAndUpdate({ _id: userId }, req.body, err => {
     if (err) {
       return res.status(400).json({ errors: "id not found." });

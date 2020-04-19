@@ -1,0 +1,80 @@
+.profile {
+  flex: 1 0 50%;
+  text-align: left;
+  padding: 4rem;
+  @media (min-width: $brk-tablet) {
+    padding: 0;
+  }
+  &__img-name-wrapper {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    &__img {
+      display: flex;
+      flex-direction: column;
+      img {
+        border-radius: 50%;
+        height: 100px;
+      }
+      &-link {
+        margin: 1rem 1rem 2rem;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+    &__name {
+      margin: 0 auto;
+      width: 100%;
+      padding-left: 4rem;
+    }
+  }
+
+  &__userInfo {
+    margin-top: 2rem;
+
+    &__container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      p {
+        margin: 0;
+      }
+      a {
+        margin: 0 1rem;
+        cursor: pointer;
+        user-select: none;
+      }
+      &__form {
+        @include profile-form();
+        &__input {
+          @include profile-form-input();
+          &:focus {
+            @include profile-form-input-focus();
+          }
+        }
+        &__btn {
+          flex-basis: 20%;
+          color: #ff5200;
+          border: none;
+          font-size: 1rem;
+          background-color: transparent;
+          outline: none;
+          text-align: right;
+          &:hover {
+            color: $active-color;
+          }
+          &:focus {
+            color: $active-color;
+          }
+        }
+      }
+    }
+  }
+  &__links {
+    margin-top: 2rem;
+    border-top: 1px solid white;
+    height: 100%;
+    width: 100%;
+  }
+}

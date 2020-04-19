@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
-import ProfilePage from "./ProfilePage";
+import ProfilePage from "../../child/profile/ProfilePage";
 
-function Account(props) {
+function Account() {
   return (
     <Fragment>
       <div className="account">
