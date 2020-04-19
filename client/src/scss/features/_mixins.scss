@@ -1,72 +1,106 @@
 // flex rule mixin \\
-@mixin flex-display ($display, $direction, $justify: null, $width: null, $align:null) {
-    display: $display;
-    flex-direction: $direction;
-    justify-content: $justify;
-    width: $width;
-    align-items: $align;
+@mixin flex-display(
+  $display,
+  $direction,
+  $justify: null,
+  $width: null,
+  $align: null
+) {
+  display: $display;
+  flex-direction: $direction;
+  justify-content: $justify;
+  width: $width;
+  align-items: $align;
 }
 
 // full function font mixin \\
-@mixin font-fam-size ($size, $family, $weight:null, $color:null, $shade:null) {
-    font-size: $size;
-    font-weight: $weight;
-    color: $color;
-    text-shadow: $shade;
+@mixin font-fam-size(
+  $size,
+  $family,
+  $weight: null,
+  $color: null,
+  $shade: null
+) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+  text-shadow: $shade;
 }
 
 // bouutons and icons \\
-@mixin button-styles($width, $height, $margin, $background:null, $padding:null, $fontsize:null) {
-    width: $width;
-    height: $height;
-    margin: $margin;
-    background-color: $background;
-    padding: $padding;
-    font-size: $fontsize;
+@mixin button-styles(
+  $width,
+  $height,
+  $margin,
+  $background: null,
+  $padding: null,
+  $fontsize: null
+) {
+  width: $width;
+  height: $height;
+  margin: $margin;
+  background-color: $background;
+  padding: $padding;
+  font-size: $fontsize;
 }
 
 @mixin background($imgpath, $position, $repeat, $size) {
-    background: {
-        image: url($imgpath);
-        position: $position;
-        repeat: $repeat;
-        size: $size;
-    }
+  background: {
+    image: url($imgpath);
+    position: $position;
+    repeat: $repeat;
+    size: $size;
+  }
+}
+
+//account/profile form
+@mixin profile-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+@mixin profile-form-input {
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+  border-bottom-style: outset;
+  background-color: transparent;
+  outline: none;
+  color: #b8b8b8;
+  font-size: 1rem;
+  flex-basis: 60%;
+}
+@mixin profile-form-input-focus {
+  transition: border-bottom 0.2s ease-in;
+  border-bottom: 2px solid $active-color;
 }
 
 // media-queries mixin \\
 @mixin media($break) {
-
-
-    @if $break==landscape {
-        @media (min-device-width: $brk-xs) and (max-device-width: $h-iphone6p) and (orientation: landscape) {
-            @content;
-        }
+  @if $break==landscape {
+    @media (min-device-width: $brk-xs) and (max-device-width: $h-iphone6p) and (orientation: landscape) {
+      @content;
     }
-    @else if $break==iphone-5 {
-        @media (min-width: $brk-iphone-5) {
-            @content;
-        }
+  } @else if $break==iphone-5 {
+    @media (min-width: $brk-iphone-5) {
+      @content;
     }
-
-    @else if $break==iphone-plus {
-        @media (min-width: $brk-iphone-plus) {
-            @content;
-        }
+  } @else if $break==iphone-plus {
+    @media (min-width: $brk-iphone-plus) {
+      @content;
     }
-    @else if $break==tablet {
-        @media (min-width: $brk-tablet) {
-            @content;
-        }
+  } @else if $break==tablet {
+    @media (min-width: $brk-tablet) {
+      @content;
     }
-    @else if $break==laptop {
-        @media (min-width: $brk-laptop) {
-            @content;
-        }
+  } @else if $break==laptop {
+    @media (min-width: $brk-laptop) {
+      @content;
     }
-    @else if $break==desktop {
-        @media (min-width: $brk-desktop) {
-            @content;
-        }
+  } @else if $break==desktop {
+    @media (min-width: $brk-desktop) {
+      @content;
     }
+  }
 }
