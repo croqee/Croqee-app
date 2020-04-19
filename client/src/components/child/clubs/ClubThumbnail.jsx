@@ -9,7 +9,7 @@ class ClubThumbnail extends React.Component {
 	}
 	render() {
 		return (
-			<div className="clubthumbnail" onClick={()=>this.props.handleNavigationToCompetition(this.props.drawingField)}>
+			<div className={"clubthumbnail clubthumbnail--" + this.props.drawingField} onClick={()=>this.props.handleNavigationToCompetition(this.props.drawingField)}>
 				<div className="clubthumbnail__overlay">
 				</div>
 				<span className="clubthumbnail__text">{this.props.text}</span>

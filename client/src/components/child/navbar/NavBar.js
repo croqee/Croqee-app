@@ -53,10 +53,10 @@ class NavBar extends React.Component {
 							Home 
 						</Link>
 						<Link className="nav-link" to="/" style={activePage=='/account'? styles.orange:{}}>
-							Hello {this.props.user.name}
+							Hey {this.props.user.name} ^^
 						</Link>
 						{/* <span className="nav-links_seperator"/> */}
-						<Link className="nav-link" to="/clubs" style={activePage=='/compete'? styles.orange:{}}>
+						<Link className="nav-link" to="/competes" style={activePage.includes('/compete')? styles.orange:{}}>
 						Compete
 					</Link>
 						<Link className="nav-link" to="/leaderboard" style={activePage=='/leaderboard'? styles.orange:{}}>

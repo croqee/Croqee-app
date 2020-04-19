@@ -71,7 +71,7 @@ class App extends Component {
 						<LoggedOutRoute path="/signup" component={SignUpPage} />
 						<LoggedOutRoute path="/login" component={LoginPage} />
 						<PrivateRoute path="/logout" component={LogoutFunction} />
-						<PrivateRoute path="/clubs" component={ClubsPage} />
+						<PrivateRoute path="/competes" component={ClubsPage} />
 						<PrivateRoute path="/compete/:field" component={CompetePage} />
 						<PrivateRoute path="/leaderboard" component={LeaderboardPage}/>
 						
