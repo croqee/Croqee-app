@@ -7,21 +7,26 @@ class ClubsPage extends React.Component {
 		super(props);
 		this.state = {};
 	}
-	componentDidMount() {}
+	componentDidMount() { }
+	handleNavigationToCompetition = (drawingField) => {
+		return this.props.history.push(`/compete/${drawingField}`);
+	}
 	render() {
 		return (
-			<div className="clubpage"  onClick={()=>this.props.history.push("/compete")}>
+			<div className="clubpage">
 				<div className="clubpage__wrapper">
-				<h1 className="clubpage__wrapper__header">Select the subject to enter the competition</h1>
+					<h1 className="clubpage__wrapper__header">Select the subject to enter the competition</h1>
+					<ClubThumbnail drawingField="still-life" text={"Still life objects"} handleNavigationToCompetition={this.handleNavigationToCompetition} />
+					<ClubThumbnail drawingField="anatomy" text={"Human anatomy models"} handleNavigationToCompetition={this.handleNavigationToCompetition} />
 
-					<ClubThumbnail />
 				</div>
 			</div>
 		);
 	}
 }
+
 const mapStateToProps = (state) => {
-	const {} = state;
+	const { } = state;
 	return {};
 };
 const mapDispatchToProps = (dispatch) => {

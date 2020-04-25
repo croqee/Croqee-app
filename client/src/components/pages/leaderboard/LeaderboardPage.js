@@ -61,16 +61,13 @@ class LeaderboardPage extends React.Component {
 									<div
 										className={`leaderboard__scores__row   ${this.props.user.email ===
 										score.user.email
-											? 'leaderboard__scores__row--self'
-											: ''} `}
+											&& 'leaderboard__scores__row--self'} `}
 									>
 										<span className="leaderboard__scores__row__rank"> {score.rank}</span>
 										<span className="leaderboard__scores__row__img">
-											{' '}
 											<img src="https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/1378086_10151970342051354_1573893885_n.jpg?_nc_cat=111&_nc_oc=AQk34qTD8r1DjEzNVOKoLah9lVEuqltXHb0Y3a598xzxUVxW4HnUlmyD8Lw6uNpERj0&_nc_ht=scontent-arn2-1.xx&oh=20be8d2ed50c74027a84aa5abcc43b19&oe=5EA1A05E" />
 										</span>
 										<span className="leaderboard__scores__row__user">
-											{' '}
 											{score.user && score.user.name}
 										</span>
 										<span className="leaderboard__scores__row__score">{score.total}</span>

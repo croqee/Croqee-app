@@ -7,7 +7,7 @@ interface iUserScore {
 }
 
 interface iUserInfo {
-	email: string;
+	email: String;
 	name: string;
 }
 interface iuserScoresData {
@@ -42,7 +42,7 @@ exports.updateUserScore = function(_userId: string, _modelId: string, _score: nu
 				}
 			});
 		}
-	});
+	}).catch();
 };
 
 exports.getUsersTotalScore = function(user: any, callback: any) {
@@ -89,11 +89,11 @@ exports.getUsersTotalScore = function(user: any, callback: any) {
 									});
 									return;
 								}
-							});
+							}).catch((err: any)=>console.log(err));
 						}
 					}
 				}
-			});
+			}).catch((err: any)=>console.log(err));
 	});
 };
 let getUserScorePosition = function(
@@ -137,7 +137,7 @@ let getUserScorePosition = function(
 					}
 				}
 				console.log(_index);
-			});
+			}).catch((err: any)=>console.log(err));
 			++index;
 		}
 	} else {
@@ -159,7 +159,7 @@ let getTotalScores = function(callback: any) {
 			if (res) {
 				callback(res.length);
 			}
-		});
+		}).catch((err: any)=>console.log(err));
 };
 
 exports.getScoredModels = function(callback: any) {

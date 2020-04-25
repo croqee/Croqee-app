@@ -2,19 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stillLifeModels = [
     {
-        model: 'geometrical3',
-        givenTime: 40
-    },
-    {
-        model: 'Woman1',
-        givenTime: 40
-    },
-    {
         model: 'geometrical1',
         givenTime: 40
     },
     {
         model: 'geometrical2',
+        givenTime: 40
+    },
+    {
+        model: 'geometrical3',
         givenTime: 40
     },
     {

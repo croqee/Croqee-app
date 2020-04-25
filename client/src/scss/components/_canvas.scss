@@ -26,7 +26,6 @@
 }
 
 .canvas {
-	float: right;
 	-webkit-user-drag: none;
 	user-select: none;
 	@include x-small-screen() {

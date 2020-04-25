@@ -23,9 +23,9 @@ var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 
 // tell the app to parse HTTP body messages
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb" }));
 app.use(bodyParser.json());
-app.use(bodyParser({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport.initialize());
 
@@ -60,6 +60,7 @@ app.post("/send_drawing", (req, res, next) => {
     dataURL: req.body.dataURL,
     model: req.body.model
   };
+  console.log(param.model)
   node_client.invoke("DrawingDistance", param, function(
     error: any,
     res2: any,
@@ -96,10 +97,10 @@ app.use((error: any, req: any, res: any, next: any) => {
 });
 
 const server = http.createServer(app);
-const io = socketIO(server);
+// const io = socketIO(server);
 
 //Drawing competitions
-new drawingCompetitionController(io, node_client, "still_life");
-new drawingCompetitionController(io, node_client, "anatomy");
+new drawingCompetitionController(socketIO, server, node_client, "still-life");
+new drawingCompetitionController(socketIO, server, node_client, "anatomy");
 
 server.listen(process.env.PORT || 8080);

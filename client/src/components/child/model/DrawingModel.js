@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setActiveModel } from '../../../js/actions';
+import UserScoreOverview from './UserScoreOverview';
+
 
 let styles = {
 	model: {}
@@ -146,117 +148,92 @@ class DrawingModel extends Component {
 	render() {
 		const { width, height, isSizeSet, usersScoreFadeClass } = this.state;
 		const { model, side, compete, showUserScores, playingUsers, user } = this.props;
-
+		const userScoreOverview = userScoreOverview;
+		let imgPath = '';
 		return (
 			<React.Fragment>
 				{isSizeSet && (
 					<React.Fragment>
 						{compete ? (
-							<div style={styles.model}>
+							<div className="model-wrapper">
 								{model.model && (
 									<img
-										src={`./still-life-models/${model.model}.png`}
+										src={require(`../../../img${this.props.imgPath}${model.model}.png`)}
 										width={`${width}px`}
 										height={`${height}px`}
 										className={'drawing-model ' + this.props.side}
 									/>
 								)}
+								{showUserScores &&
+									<UserScoreOverview
+										usersScoreFadeClass={usersScoreFadeClass}
+										styles={styles}
+										width={width}
+										height={height}
+										playingUsers={playingUsers}
+										user={user} />
+								}
 							</div>
 						) : (
-							<div
-								style={{
-									...styles.model,
-									display: 'inline-block',
-									width: `${width}px`,
-									height: `${height}px`,
-									zIndex: '3',
-									overflow: 'hidden'
-								}}
-							>
-								<div
-									className={`drawing-model__select ${this.state.modelSelectClass} ${this.state
-										.modelSelectClassRightFloat}`}
+								<div className="model-wrapper"
 									style={{
-										top: `${(height - 236) / 2 - 15}px`
+										...styles.model,
+										display: 'inline-block',
+										width: `${width}px`,
+										height: `${height}px`,
+										zIndex: '3',
+										overflow: 'hidden'
 									}}
 								>
-									{' '}
-									<span
-										className={`drawing-model__select__still-life ${this.props.activeModel.model ===
-											'stillLife' && 'drawing-model__select__still-life--active'}`}
-										onClick={() => {
-											this.setModelToStillLife();
+									<div
+										className={`drawing-model__select ${this.state.modelSelectClass} ${this.state
+											.modelSelectClassRightFloat}`}
+										style={{
+											top: `${(height - 236) / 2 - 15}px`
 										}}
-									/>{' '}
-									<span
-										className={`drawing-model__select__anatomy ${this.props.activeModel.model ===
-											'anatomy' && 'drawing-model__select__anatomy--active'}`}
-										onClick={() => {
-											this.setModelToAnatomy();
-										}}
-									/>
+									>
+										<span
+											className={`drawing-model__select__still-life ${this.props.activeModel.model ===
+												'stillLife' && 'drawing-model__select__still-life--active'}`}
+											onClick={() => {
+												this.setModelToStillLife();
+											}}
+										/>
+										<span
+											className={`drawing-model__select__anatomy ${this.props.activeModel.model ===
+												'anatomy' && 'drawing-model__select__anatomy--active'}`}
+											onClick={() => {
+												this.setModelToAnatomy();
+											}}
+										/>
+									</div>
+									{this.props.activeModel && this.props.activeModel.model === 'stillLife' ? (
+										<img
+											src={require("../../../img/compete/still-life/geometrical5.png")}
+											width={`${width}px`}
+											height={`${height}px`}
+											className={'drawing-model ' + this.props.side}
+										/>
+									) : (
+											<img
+												src={require("../../../img/compete/anatomy/woman-figure-8.png")}
+												width={`${width}px`}
+												height={`${height}px`}
+												className={'drawing-model ' + this.props.side}
+											/>
+										)}
+									{showUserScores && (
+										<UserScoreOverview
+											usersScoreFadeClass={usersScoreFadeClass}
+											styles={styles}
+											width={width}
+											height={height}
+											playingUsers={playingUsers}
+											user={user} />
+									)}
 								</div>
-								{this.props.activeModel && this.props.activeModel.model === 'stillLife' ? (
-									<img
-										src="./still-life-models/geometrical5.png"
-										width={`${width}px`}
-										height={`${height}px`}
-										className={'drawing-model ' + this.props.side}
-									/>
-								) : (
-									<img
-										src="./still-life-models/geometrical3.png"
-										width={`${width}px`}
-										height={`${height}px`}
-										className={'drawing-model ' + this.props.side}
-									/>
-								)}
-							</div>
-						)}
-						{showUserScores && (
-							<div
-								className={`users-scores ${usersScoreFadeClass}`}
-								style={{
-									...styles.model,
-									width: `${width}px`,
-									height: `${height}px`
-								}}
-							>
-								<div className="users-scores__currently-playing">Currently playing</div>
-								<div className="tbl-header">
-									<table cellPadding="0" cellSpacing="0" border="0">
-										<thead>
-											<tr>
-												<th>Rank</th>
-												<th>Name</th>
-												<th>Score</th>
-											</tr>
-										</thead>
-									</table>
-								</div>
-								<div
-									className="tbl-content"
-									style={{
-										height: `${height - 87}px`
-									}}
-								>
-									<table cellPadding="0" cellSpacing="0" border="0">
-										<tbody>
-											{playingUsers &&
-												playingUsers.map((u, i) => {
-													return (
-														<tr className={u._id == user._id ? 'tbl-content__orange' : ''}>
-															<td>{i + 1}</td>
-															<td>{u.name}</td>
-															<td>{u.score}</td>
-														</tr>
-													);
-												})}
-										</tbody>
-									</table>
-								</div>
-							</div>
-						)}
+							)}
+
 					</React.Fragment>
 				)}
 			</React.Fragment>

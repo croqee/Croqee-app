@@ -11,9 +11,17 @@ require('../../db/models').connect(config_1.default.dbUri);
 const User = require('mongoose').model('User');
 const ScoreRepo = require('../../db/repositories/scoreRepo');
 class drawingCompetitionController {
-    constructor(io, node_client, drawingField) {
+    constructor(socketIO, server, node_client, drawingField) {
         this.players = [];
         this.models = [];
+        const io = socketIO(server, {
+            path: `/compete/${drawingField}`,
+            // serveClient: false,
+            // below are engine.IO options
+            // pingInterval: 10000,
+            // pingTimeout: 5000,
+            cookie: false
+        });
         this.drawingField = drawingField;
         this.resetStillLife();
         this.stillLifeloop(io);
@@ -28,7 +36,7 @@ class drawingCompetitionController {
         return -1;
     }
     resetStillLife() {
-        if (this.drawingField === 'still_life') {
+        if (this.drawingField === 'still-life') {
             this.models = stillLifeModels_1.stillLifeModels;
         }
         else if (this.drawingField === 'anatomy') {
@@ -104,7 +112,13 @@ class drawingCompetitionController {
             socket.on('username', (token) => {
                 jwt.verify(token, config_1.default.jwtSecret, (err, decoded) => {
                     if (!err) {
-                        const userId = decoded.sub;
+                        let userId = "";
+                        if (typeof decoded.sub === "string") {
+                            userId = decoded.sub;
+                        }
+                        else {
+                            userId = decoded;
+                        }
                         return User.findById(userId, (userErr, user) => {
                             if (!userErr && user) {
                                 let userIsNotAlreadyJoined = this.players.filter((u) => u._id == user._id).length == 0;

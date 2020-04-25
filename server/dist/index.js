@@ -20,9 +20,9 @@ const { getUsersTotalScore } = require("./db/repositories/scoreRepo");
 var node_client = new zerorpc.Client();
 node_client.connect(pythonServerEndPoint);
 // tell the app to parse HTTP body messages
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.urlencoded({ limit: "50mb" }));
 app.use(body_parser_1.default.json());
-app.use(body_parser_1.default({ limit: "50mb" }));
-app.use(body_parser_1.default.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport_1.default.initialize());
 // load passport strategies
@@ -50,6 +50,7 @@ app.post("/send_drawing", (req, res, next) => {
         dataURL: req.body.dataURL,
         model: req.body.model
     };
+    console.log(param.model);
     node_client.invoke("DrawingDistance", param, function (error, res2, more) {
         const result = JSON.parse(res2);
         res.json({
@@ -76,9 +77,9 @@ app.use((error, req, res, next) => {
     });
 });
 const server = http_1.default.createServer(app);
-const io = socketIO(server);
+// const io = socketIO(server);
 //Drawing competitions
-new drawingCompetitionController_1.drawingCompetitionController(io, node_client, "still_life");
-new drawingCompetitionController_1.drawingCompetitionController(io, node_client, "anatomy");
+new drawingCompetitionController_1.drawingCompetitionController(socketIO, server, node_client, "still-life");
+new drawingCompetitionController_1.drawingCompetitionController(socketIO, server, node_client, "anatomy");
 server.listen(process.env.PORT || 8080);
 //# sourceMappingURL=index.js.map

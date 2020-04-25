@@ -16,7 +16,17 @@ const UserSchema = new mongoose.Schema({
   fbId: {
     type: String,
     index: { unique: true }
-  }
+  },
+  birthDate: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  behance: String,
+  instagram: String,
+  facebook: String,
+  website: String
 });
 
 /**

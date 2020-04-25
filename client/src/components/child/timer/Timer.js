@@ -54,12 +54,12 @@ class Timer extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<svg className={`timer ${this.props.timerClass}`} width="100" height="100" viewbox="0 0 150 150">
+				<svg className={`timer`} width="100" height="100" viewbox="0 0 150 150">
 					<path
 						id="loader"
 						className={this.state.timerColor}
 						ref="loader"
-						transform="translate(50, 50) scale(.400)"
+						transform="translate(50, 50) scale(.200)"
 					/>
 				</svg>
 			</React.Fragment>
