@@ -1,14 +1,17 @@
-version: '2'
+version: '3.7'
 services:
   server_python:
     build: ./server_python
     restart: always
     ports:
       - "9699:9699"
+    networks:
+      - croqee-network
 
   server_node:
     build:
-      context: ./server/
+      context: ./server
+      dockerfile: Dockerfile
     command: /usr/app/node_modules/.bin/nodemon dist/index.js
     volumes:
       - ./server/:/usr/app
@@ -17,6 +20,8 @@ services:
       - server_python
     ports:
       - "8080:8080"
+    networks:
+      - croqee-network
     # env_file: ./server/.env #
     environment:
       - NODE_ENV=development
@@ -24,8 +29,9 @@ services:
 
   client:
     build:
-      context: ./client/
-    command: npm start
+      context: ./client
+      dockerfile: Dockerfile
+    command: yarn start
     volumes:
       - ./client/:/usr/app
       - /usr/app/node_modules
@@ -33,3 +39,16 @@ services:
       - server_node
     ports:
       - "3000:3000"
+    stdin_open: true
+    networks:
+      - croqee-network
+
+networks:
+  croqee-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+  node_modules:
+  web-root:
+    driver: local
