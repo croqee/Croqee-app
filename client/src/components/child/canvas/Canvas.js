@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setTimer, invokeScore, setImageProcessing, setTimerDone, setActiveModel } from '../../../js/actions';
 import Loader from '../loader/Loader';
+import Sizes from 'react-sizes';
 
 let styles = {
 	canvas: {
@@ -417,4 +418,12 @@ const mapDispatchToProps = (dispatch) => {
 		setActiveModel: (payload) => dispatch(setActiveModel(payload))
 		};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
+const mapSizesToProps = ({ width }) => ({
+	isMobile: width < 768,
+});
+
+const first = connect(mapStateToProps, mapDispatchToProps)(Canvas);
+
+export default Sizes(mapSizesToProps)(first)
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
