@@ -8,7 +8,6 @@ from numpy.core.umath_tests import inner1d
 from io import StringIO
 from io import BytesIO
 from scipy.misc import imread
-import zerorpc
 from base64 import b64decode
 import logging
 logging.basicConfig()
@@ -22,6 +21,8 @@ from chamferDist import  chamferDist
 import base64
 import json
 import os
+import eventlet
+import socketio
 
 class ImageAnalyser(object):
 
@@ -68,6 +69,23 @@ class ImageAnalyser(object):
 
         return json.dumps(x)#data_uri#calculateScore(diff)
 
-s = zerorpc.Server(ImageAnalyser())
-s.bind("tcp://0.0.0.0:9699")
-s.run()
+
+sio = socketio.Server()
+app = socketio.WSGIApp(sio, static_files={
+    '/': {'content_type': 'text/html', 'filename': 'index.html'}
+})
+imageAnalyser = ImageAnalyser()
+@sio.event
+def connect(sid, environ):
+    print('connect ', sid)
+
+@sio.event
+def calculate_score(sid, data):
+    return imageAnalyser.DrawingDistance(data)
+
+@sio.event
+def disconnect(sid):
+    print('disconnect ', sid)
+
+if __name__ == '__main__':
+    eventlet.wsgi.server(eventlet.listen(('', 9699)), app)

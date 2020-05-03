@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
-import PrototypePage from "./components/pages/prototype/PrototypePage";
 import LoginPage from "./components/pages/login/LoginPage";
 import SignUpPage from "./components/pages/signup/SignUpPage";
 import LogoutFunction from "./components/child/logout/LogoutFunction";
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Link,
   Redirect,
-  withRouter
 } from "react-router-dom";
 import Auth from "./modules/Auth";
 import NavBar from "./components/child/navbar/NavBar";
@@ -18,6 +14,7 @@ import ClubsPage from "./components/pages/clubs/ClubsPage";
 import CompetePage from "./components/pages/compete/CompetePage";
 import LeaderboardPage from "./components/pages/leaderboard/LeaderboardPage";
 import Account from "./components/pages/account/Account";
+import HomePage from "./components/pages/homepage/HomePage";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -60,26 +57,14 @@ const GlobalRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => <Component {...props} {...rest} />} />
 );
 
-class App extends Component {
-  state = {};
-
-  componentDidMount() {
-    document.ontouchmove = function(e) {
-      e.preventDefault();
-    };
-    window.addEventListener("locationchange", function(e) {
-      console.log("hey");
-    });
-  }
-
-
+class App extends Component {  
   render() {
     return (
       <div className="App">
         <Router>
           <GlobalRoute component={NavBar} />
           <div>
-            <GlobalRoute exact path="/" component={PrototypePage} />
+            <GlobalRoute exact path="/" component={HomePage} />
 						<LoggedOutRoute path="/signup" component={SignUpPage} />
 						<LoggedOutRoute path="/login" component={LoginPage} />
 						<PrivateRoute path="/logout" component={LogoutFunction} />
@@ -92,8 +77,6 @@ class App extends Component {
       </div>
     );
   }
-
-
 }
 
 export default App;
