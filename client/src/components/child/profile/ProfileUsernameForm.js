@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-export default function ProfileForm({
+export default function ProfileUsernameForm({
   onchange,
   onsubmit,
   setToggleState,
