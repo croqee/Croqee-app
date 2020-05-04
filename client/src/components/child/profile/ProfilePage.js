@@ -1,19 +1,21 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import ProfileForm from "./ProfileForm";
 import { connect } from "react-redux";
 import axios from "axios";
 import config from "../../../modules/config";
 import { getUser } from "../../../js/actions";
+import ProfileBirthDateForm from "./ProfileBirthDateForm";
+import ProfileUsernameForm from "./ProfileUsernameForm";
 
 const ProfilePage = props => {
   const [state, setState] = useState({
-    name: "",
-    city: "",
-    behance: "",
-    instagram: "",
-    facebook: "",
-    website: "",
-    birthDate: ""
+    name: props.user.name,
+    city: props.user.city,
+    behance: props.user.behance,
+    instagram: props.user.instagram,
+    facebook: props.user.facebook,
+    website: props.user.website,
+    birthDate: new Date()
   });
   const [toggle, setToggle] = useState({
     name: false,
@@ -75,7 +77,7 @@ const ProfilePage = props => {
             <a className="profile__img-name-wrapper__img-link">Change</a>
           </div>
           <div className="profile__img-name-wrapper__name">
-            <ProfileForm
+            <ProfileUsernameForm
               name={"name"}
               onchange={onchangeHandler}
               onsubmit={onSubmitHandler}
@@ -101,7 +103,7 @@ const ProfilePage = props => {
           state={state.city}
           userProfileData={props.user.city}
         />
-        <ProfileForm
+        <ProfileBirthDateForm
           name={"birthDate"}
           onchange={onchangeHandler}
           onsubmit={onSubmitHandler}
