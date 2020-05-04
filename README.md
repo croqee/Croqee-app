@@ -1,5 +1,5 @@
 # Croqee-app
-A gamification web app that helps artists to improve their drawing skills (mostly anatomy)
+A gamification web app that helps artists to improve their drawing skills (mostly anatomy).
 
 
 ## Running with Docker for production
