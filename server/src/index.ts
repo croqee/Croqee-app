@@ -5,22 +5,21 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import config from "./config";
 import http from "http";
-import { drawingCompetitionController } from "./controllers/drawing-competition/drawingCompetitionController";
+import { DrawingCompetitionController } from "./controllers/drawing-competition/DrawingCompetitionController";
+
 const app: Express = express();
 const logger = require("morgan");
-const zerorpc = require("zerorpc");
 const socketIO = require("socket.io");
+var ioClient = require('socket.io-client');
+const socketClient = ioClient.connect('http://localhost:9699', { reconnect: true });
+
 interface iError extends Error {
   status?: number;
 }
 
-const { pythonServerEndPoint } = require("./serverglobalvariables");
-
 require("./db/models").connect(config.dbUri);
 const { getUsersTotalScore } = require("./db/repositories/scoreRepo");
 
-var node_client = new zerorpc.Client();
-node_client.connect(pythonServerEndPoint);
 
 // tell the app to parse HTTP body messages
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,25 +59,14 @@ app.post("/send_drawing", (req, res, next) => {
     dataURL: req.body.dataURL,
     model: req.body.model
   };
-  console.log(param.model)
-  node_client.invoke("DrawingDistance", param, function(
-    error: any,
-    res2: any,
-    more: any
-  ) {
-    const result = JSON.parse(res2);
-
+  calculateScore(param, function (_res: any) {
+    const result = JSON.parse(_res);
     res.json({
       score: Math.floor(result.score),
       img: result.img
     });
-  });
+  })
 });
-
-// avoid python server sleeping
-setInterval(() => {
-  node_client.invoke("wakeUp");
-}, 10000);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found") as iError;
@@ -97,10 +85,14 @@ app.use((error: any, req: any, res: any, next: any) => {
 });
 
 const server = http.createServer(app);
-// const io = socketIO(server);
 
+const calculateScore = (param: any, cb: Function) => {
+  socketClient.emit('calculate_score', param, function (res: any) {
+    cb(res);
+  });
+}
 //Drawing competitions
-new drawingCompetitionController(socketIO, server, node_client, "still-life");
-new drawingCompetitionController(socketIO, server, node_client, "anatomy");
+new DrawingCompetitionController(socketIO, server, calculateScore, "still-life");
+new DrawingCompetitionController(socketIO, server, calculateScore, "anatomy");
 
 server.listen(process.env.PORT || 8080);

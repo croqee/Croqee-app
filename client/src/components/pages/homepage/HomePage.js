@@ -6,8 +6,9 @@ import { getUser, setTimer, setImageProcessing, invokeScore, setPageToNavigateAf
 import Timer from '../../child/timer/Timer';
 import HandSide from '../../child/handside/HandSide';
 import DrawingModel from '../../child/model/DrawingModel';
+import PropTypes from 'prop-types';
 
-class PrototypePage extends React.Component {
+class HomePage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -25,11 +26,10 @@ class PrototypePage extends React.Component {
 			this.props.setImageProcessing(true);
 			const dataURL = canvas.toDataURL('image/jpeg', 0.8).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 			this.props.setTimer({ showTimer: false, timer: 30 });
-			const model = this.props.activeModel.model==="stillLife"?"geometrical5":"woman-figure-8";
+			const model = this.props.activeModel.model === "stillLife" ? "geometrical5" : "woman-figure-8";
 			axios.post('/send_drawing', { dataURL: dataURL, model: model }).then((response) => {
 				let score = response.data.score;
 				this.setState({ baseURL: 'data:image/png;base64, ' + response.data.img });
-				// this.props.setBaseUrl('data:image/png;base64, ' + response.data.img);
 				score = score || 0;
 				this.props.setImageProcessing(false);
 				this.props.invokeScore(score);
@@ -68,7 +68,7 @@ class PrototypePage extends React.Component {
 				</div>
 
 				<div className={`drawing-environment ${side}`}>
-					{this.props.showTimer && <Timer/>}
+					{this.props.showTimer && <Timer />}
 					<DrawingModel side={side} />
 					<Canvas
 						isInHomePage={true}
@@ -77,7 +77,7 @@ class PrototypePage extends React.Component {
 						setShouldResetCanvas={this.setShouldResetCanvas}
 						canStartDrawing={true}
 						baseURL={baseURL}
-						navigateToClubPage = {this.navigateToClubPage}
+						navigateToClubPage={this.navigateToClubPage}
 					/>
 				</div>
 				<HandSide />
@@ -125,4 +125,7 @@ const mapDispatchToProps = (dispatch) => {
 		setPageToNavigateAfterLogin: (payload) => dispatch(setPageToNavigateAfterLogin(payload))
 	};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(PrototypePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+
+HomePage.propTypes = {
+};

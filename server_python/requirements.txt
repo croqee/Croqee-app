@@ -15,4 +15,5 @@ six==1.10.0
 virtualenv==15.0.3
 whitenoise==3.3.0
 scipy==1.2.1
-zerorpc
+eventlet
+python-socketio

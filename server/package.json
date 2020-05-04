@@ -26,8 +26,8 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "socket.io": "^2.3.0",
-    "validator": "^10.11.0",
-    "zerorpc": "^0.9.8"
+    "socket.io-client": "^2.3.0",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "@types/async": "^3.2.0",
