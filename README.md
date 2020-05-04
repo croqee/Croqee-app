@@ -1,33 +1,18 @@
-This version is with Redux Thunk integration
-
 # Croqee-app
-A very cool app that helps drawing/illustration artists to achieve great skills
-bla bla
+A gamification web app that helps artists to improve their drawing skills (mostly anatomy)
 
 
-## Running with Docker
-
-- For development using Docker containers: on a docker installed machine, run "docker-compose up" on root folder.</br>
+## Running with Docker for production
+- client/package.json: Make sure the "proxy" is set to "http://server_node:8080"
 - To run Docker Production image: Run "docker-compose -f docker-compose.prod.yml up".
+ 
+## Running Locally for Development
 
-## Running Locally
-
-Note: if you wanna switch back from docker development to local development, you have to change the proxy in the following files:
-
-- client/package.json: from "http://server_node:8080" to "http://localhost:8080"
-- server/index.js: from "tcp://server_python:9699" to "tcp://127.0.0.1:9699""
-
-Then run the python and node servers by the following:
-
-- Python Server : 
-    $ cd server_python<br/>
-    $ python server.py<br/>
-    
-- Nodejs/Express Server : 
-    $ cd server<br/>
-    $ npm run dev<br/>
-    
-Finally it should start Python and Node.js servers as well as React client.
+Note: If the Python server was required in your development (in order to test the drawing results on the Home and Competition page) you'll need to run `docker-compose up --build`. *This has to be done before any of the following to make the Python server work as expected*
 
 
-
+- In the ./client/package.json file make sure the "proxy" is set to "http://localhost:8080"
+- In the ./client directory run `npm install`
+- In the ./server directory run `npm install`
+- In the ./server directory run `npm watch-ts`. This will be a watcher to your changes on ./server/src files which acts as TS/ES6 transpiler to ES5 into the ./server/dist.
+- At the end in a new terminal run `npm run dev` and you'll be ready to get started on "http://localhost:3000" 
