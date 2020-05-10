@@ -55,7 +55,7 @@
         }
         &__btn {
           flex-basis: 20%;
-          color: #ff5200;
+          color: $orange;
           border: none;
           font-size: 1rem;
           background-color: transparent;
@@ -77,4 +77,8 @@
     height: 100%;
     width: 100%;
   }
+}
+
+.MuiSvgIcon-root {
+  color: $light-grey;
 }
