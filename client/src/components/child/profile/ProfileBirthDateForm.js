@@ -1,34 +1,132 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useStyles } from "react";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import axios from "axios";
+import config from "../../../modules/config";
+import { connect } from "react-redux";
+import { getUser } from "../../../js/actions";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-export default function ProfileBirthDateForm({
-  onchange,
-  onsubmit,
-  setToggleState,
-  name,
-  toggle,
-  userProfileData,
-  state
-}) {
+const theme = createMuiTheme({
+  overrides: {
+    MuiInput: {
+      underline: {
+        "&:hover:not($disabled):not($error):not($focused):before": {
+          borderBottom: "1px solid rgba(255, 255, 255, 0.42)"
+        },
+        "&:after": {
+          borderBottom: "1px solid #ff3c00"
+        },
+        "&:before": {
+          borderBottom: "1px solid rgba(255, 255, 255, 0.82)"
+        },
+        color: "#b8b8b8",
+        borderBottom: "0.2px solid rgba(255, 255, 255, 0.42)"
+      }
+    },
+    MuiTypography: {
+      colorPrimary: {
+        color: "#ff3c00"
+      }
+    },
+
+    MuiButton: {
+      textPrimary: {
+        color: "#fff",
+        fontWeight: "600",
+        "&:hover": {
+          backgroundColor: "#4a4b4b",
+          borderRadius: "0"
+        }
+      }
+    },
+    MuiPaper: {
+      elevation24: {
+        boxShadow: "none"
+      },
+      rounded: {
+        borderRadius: "0"
+      }
+    },
+    MuiPickersYear: {
+      root: {
+        "&:focus": {
+          color: "#ff3c00"
+        }
+      }
+    },
+    MuiPickersDay: {
+      container: {
+        borderRadius: "0"
+      },
+      borderRadius: "0",
+      daySelected: {
+        backgroundColor: "#ff3c00",
+        "&:hover": {
+          backgroundColor: "#ff3c00",
+          color: "#fff"
+        }
+      },
+      current: {
+        color: "#ff3c00"
+      }
+    }
+  },
+  palette: {
+    type: "dark",
+    textColor: "#fd5f00"
+  }
+});
+
+function ProfileBirthDateForm(props) {
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
+  const onSubmitHandler = e => {
+    e.preventDefault();
+    let body = {
+      birthDate: selectedDate
+    };
+    let athorizedHeader = config.AuthorizationHeader();
+    axios
+      .post("api/updateuser/" + props.user._id, body, athorizedHeader)
+      .then(res => {
+        props.getUser();
+        props.setToggleState(props.name, false);
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <Fragment>
       <div className="profile__userInfo">
-        <span>{name.charAt(0).toUpperCase() + name.slice(1)}</span>
+        <span>Date of Birth</span>
         <div className="profile__userInfo__container">
-          {toggle ? (
+          {props.toggle ? (
             <form
               className="profile__userInfo__container__form"
-              onSubmit={onsubmit(name)}
+              onSubmit={onSubmitHandler}
             >
-              <input
-                type="text"
-                className="profile__userInfo__container__form__input"
-                onChange={onchange}
-                name={name}
-                defaultValue={state}
-                placeholder={
-                  state === undefined || "" ? `Enter your ${name}` : ""
-                }
-              />
+              <MuiThemeProvider theme={theme}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    //label="Date picker dialog"
+                    format="MM/dd/yyyy"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    name={props.name}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date"
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </MuiThemeProvider>
               <button
                 type="submit"
                 className="profile__userInfo__container__form__btn"
@@ -39,14 +137,14 @@ export default function ProfileBirthDateForm({
           ) : (
             <Fragment>
               <p>
-                {userProfileData
-                  ? userProfileData
-                  : `Link your ${name} account`}
+                {props.user.birthDate
+                  ? props.user.birthDate.substring(0, 10)
+                  : `Link your ${props.name} account`}
               </p>
 
               <a
                 onClick={() => {
-                  setToggleState(name);
+                  props.setToggleState(props.name, true);
                 }}
               >
                 Edit
@@ -58,3 +156,16 @@ export default function ProfileBirthDateForm({
     </Fragment>
   );
 }
+const mapStateToProps = state => {
+  const user = state.user;
+  return { user };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getUser: () => dispatch(getUser())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileBirthDateForm);
