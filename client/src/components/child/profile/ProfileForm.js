@@ -24,6 +24,7 @@ export default function ProfileForm({
                 className="profile__userInfo__container__form__input"
                 onChange={onchange}
                 name={name}
+                pattern={name !== "website" && `https://${name}.com/.*`}
                 defaultValue={state}
                 placeholder={
                   state === undefined || "" ? `Enter your ${name}` : ""
@@ -39,9 +40,11 @@ export default function ProfileForm({
           ) : (
             <Fragment>
               <p>
-                {userProfileData
-                  ? userProfileData
-                  : `Link your ${name} account`}
+                {userProfileData ? (
+                  <a href={userProfileData}>{userProfileData}</a>
+                ) : (
+                  `Link your ${name} account`
+                )}
               </p>
 
               <a
