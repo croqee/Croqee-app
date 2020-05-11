@@ -6,6 +6,7 @@ import config from "../../../modules/config";
 import { getUser } from "../../../js/actions";
 import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
+import ProfileCityForm from "./ProfileCityForm";
 
 const ProfilePage = props => {
   const [state, setState] = useState({
@@ -94,14 +95,11 @@ const ProfilePage = props => {
             <p>{props.user.email}</p>
           </div>
         </div>
-        <ProfileForm
+        <ProfileCityForm
           name={"city"}
-          onchange={onchangeHandler}
-          onsubmit={onSubmitHandler}
           setToggleState={setToggleState}
           toggle={toggle.city}
           state={state.city}
-          userProfileData={props.user.city}
         />
         <ProfileBirthDateForm
           name={"birthDate"}
