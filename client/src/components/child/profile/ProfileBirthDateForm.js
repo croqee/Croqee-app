@@ -10,12 +10,15 @@ import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   overrides: {
     MuiInput: {
       underline: {
         "&:hover:not($disabled):not($error):not($focused):before": {
           borderBottom: "1px solid rgba(255, 255, 255, 0.42)"
+        },
+        "&:hover:not($disabled):not($error):before": {
+          borderBottom: "none"
         },
         "&:after": {
           borderBottom: "1px solid #ff3c00"
