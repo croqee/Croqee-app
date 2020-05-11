@@ -19,7 +19,7 @@ function ProfileCityForm(props) {
   };
   const onSubmitHandler = e => {
     e.preventDefault();
-    let body = {
+    const body = {
       city: address
     };
     let athorizedHeader = config.AuthorizationHeader();
@@ -69,26 +69,11 @@ function ProfileCityForm(props) {
                         const className = suggestion.active
                           ? "suggestion-item--active"
                           : "suggestion-item";
-                        // inline style for demonstration purpose
-                        const style = suggestion.active
-                          ? {
-                              backgroundColor: "#232323",
-                              cursor: "pointer",
-                              color: "#fff",
-                              padding: "0.5rem"
-                            }
-                          : {
-                              backgroundColor: "#5d5e5e",
-                              cursor: "pointer",
-                              color: "#b8b8b8",
-                              padding: "0.5rem",
-                              borderBottom: "0.5px solid #b8b8b8"
-                            };
+
                         return (
                           <div
                             {...getSuggestionItemProps(suggestion, {
-                              className,
-                              style
+                              className
                             })}
                           >
                             <span>{suggestion.description}</span>
