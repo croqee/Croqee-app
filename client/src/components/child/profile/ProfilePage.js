@@ -34,9 +34,9 @@ const ProfilePage = props => {
     setState(_state);
   };
 
-  const setToggleState = name => {
+  const setToggleState = (name, bool) => {
     const _toggle = toggle;
-    _toggle[name] = true;
+    _toggle[name] = bool;
     setToggle(state => {
       return {
         ...state,
@@ -105,12 +105,9 @@ const ProfilePage = props => {
         />
         <ProfileBirthDateForm
           name={"birthDate"}
-          onchange={onchangeHandler}
-          onsubmit={onSubmitHandler}
           setToggleState={setToggleState}
           toggle={toggle.birthDate}
           state={state.birthDate}
-          userProfileData={props.user.birthDate}
         />
         <div className="profile__links">
           <ProfileForm

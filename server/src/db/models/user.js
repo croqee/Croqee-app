@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
     index: { unique: true }
   },
   birthDate: {
-    type: String
+    type: Date
   },
   city: {
     type: String

@@ -46,7 +46,7 @@ export default function ProfileForm({
 
               <a
                 onClick={() => {
-                  setToggleState(name);
+                  setToggleState(name, true);
                 }}
               >
                 Edit
