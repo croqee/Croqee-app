@@ -12,10 +12,7 @@
     &__img {
       display: flex;
       flex-direction: column;
-      img {
-        border-radius: 50%;
-        height: 100px;
-      }
+
       &-link {
         margin: 1rem 1rem 2rem;
         text-align: center;
