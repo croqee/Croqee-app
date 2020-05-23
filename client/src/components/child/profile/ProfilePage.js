@@ -7,6 +7,7 @@ import { getUser } from "../../../js/actions";
 import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
 import ProfileCityForm from "./ProfileCityForm";
+import ProfileImgForm from "./ProfileImgForm";
 
 const ProfilePage = props => {
   const [state, setState] = useState({
@@ -16,7 +17,8 @@ const ProfilePage = props => {
     instagram: props.user.instagram,
     facebook: props.user.facebook,
     website: props.user.website,
-    birthDate: new Date()
+    birthDate: new Date(),
+    image: props.user.img
   });
   const [toggle, setToggle] = useState({
     name: false,
@@ -25,7 +27,8 @@ const ProfilePage = props => {
     facebook: false,
     instagram: false,
     behance: false,
-    birthDate: false
+    birthDate: false,
+    image: false
   });
 
   const onchangeHandler = e => {
@@ -70,13 +73,12 @@ const ProfilePage = props => {
       <div className="profile">
         <h1>Profile</h1>
         <div className="profile__img-name-wrapper">
-          <div className="profile__img-name-wrapper__img">
-            <img
-              src={`https://api.adorable.io/avatars/${props.user._id}`}
-              alt="user profile image"
-            />
-            <a className="profile__img-name-wrapper__img-link">Change</a>
-          </div>
+          <ProfileImgForm
+            name={"image"}
+            setToggleState={setToggleState}
+            toggle={toggle.image}
+            state={state.image}
+          />
           <div className="profile__img-name-wrapper__name">
             <ProfileUsernameForm
               name={"name"}
