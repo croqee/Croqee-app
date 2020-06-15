@@ -5,6 +5,12 @@
   @media (min-width: $brk-tablet) {
     padding: 0;
   }
+  &__img__msg {
+    margin: 1rem;
+    width: auto;
+    display: block;
+  }
+
   &__img-name-wrapper {
     margin-top: 2rem;
     display: flex;
@@ -14,7 +20,7 @@
       flex-direction: column;
 
       &-link {
-        margin: 1rem 1rem 2rem;
+        margin: 1rem 1rem 1rem;
         text-align: center;
         cursor: pointer;
         user-select: none;

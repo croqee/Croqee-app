@@ -9,7 +9,7 @@ import ProfileUsernameForm from "./ProfileUsernameForm";
 import ProfileCityForm from "./ProfileCityForm";
 import ProfileImgForm from "./ProfileImgForm";
 
-const ProfilePage = props => {
+const ProfilePage = (props) => {
   const [state, setState] = useState({
     name: props.user.name,
     city: props.user.city,
@@ -18,7 +18,7 @@ const ProfilePage = props => {
     facebook: props.user.facebook,
     website: props.user.website,
     birthDate: new Date(),
-    image: props.user.img
+    image: props.user.img,
   });
   const [toggle, setToggle] = useState({
     name: false,
@@ -28,10 +28,10 @@ const ProfilePage = props => {
     instagram: false,
     behance: false,
     birthDate: false,
-    image: false
+    image: false,
   });
 
-  const onchangeHandler = e => {
+  const onchangeHandler = (e) => {
     const field = e.target.name;
     const _state = state;
     _state[field] = e.target.value;
@@ -41,32 +41,32 @@ const ProfilePage = props => {
   const setToggleState = (name, bool) => {
     const _toggle = toggle;
     _toggle[name] = bool;
-    setToggle(state => {
+    setToggle((state) => {
       return {
         ...state,
-        _toggle
+        _toggle,
       };
     });
   };
 
-  const onSubmitHandler = platform => e => {
+  const onSubmitHandler = (platform) => (e) => {
     e.preventDefault();
     let body = {
-      [platform]: state[platform]
+      [platform]: state[platform],
     };
     let athorizedHeader = config.AuthorizationHeader();
     axios
       .post("api/updateuser/" + props.user._id, body, athorizedHeader)
-      .then(res => {
+      .then((res) => {
         props.getUser();
-        setToggle(state => {
+        setToggle((state) => {
           return {
             ...state,
-            [platform]: false
+            [platform]: false,
           };
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
   return (
     <Fragment>
@@ -151,13 +151,13 @@ const ProfilePage = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = state.user;
   return { user };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: () => dispatch(getUser())
+    getUser: () => dispatch(getUser()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
