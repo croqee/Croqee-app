@@ -1,18 +1,21 @@
 .account {
-  display: flex;
-  flex-direction: row;
-  max-width: 1000px;
-  flex-wrap: wrap;
   @media (min-width: $brk-tablet) {
-    flex-wrap: unset;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    // flex-wrap: wrap;
+    // justify-content: space-evenly;
   }
 
   &__sideNav {
-    flex: 1 0 20%;
     display: flex;
     flex-direction: column;
     text-align: left;
-    padding: 4rem;
+    padding: 1rem;
+    @media (min-width: $brk-tablet) {
+      flex: 0 0 22%;
+      padding: 2rem;
+    }
 
     a {
       flex-basis: 50px;
