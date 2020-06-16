@@ -3,11 +3,7 @@ import "./App.css";
 import LoginPage from "./components/pages/login/LoginPage";
 import SignUpPage from "./components/pages/signup/SignUpPage";
 import LogoutFunction from "./components/child/logout/LogoutFunction";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Auth from "./modules/Auth";
 import NavBar from "./components/child/navbar/NavBar";
 import ClubsPage from "./components/pages/clubs/ClubsPage";
@@ -15,11 +11,12 @@ import CompetePage from "./components/pages/compete/CompetePage";
 import LeaderboardPage from "./components/pages/leaderboard/LeaderboardPage";
 import Account from "./components/pages/account/Account";
 import HomePage from "./components/pages/homepage/HomePage";
+import UserProfile from "./components/pages/userProfile/UserProfile";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       Auth.isUserAuthenticated() ? (
         <Component {...props} {...rest} />
       ) : (
@@ -27,7 +24,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: props.location }
+              state: { from: props.location },
             }}
           />
         </React.Fragment>
@@ -39,12 +36,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const LoggedOutRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       Auth.isUserAuthenticated() ? (
         <Redirect
           to={{
             pathname: "/",
-            state: { from: props.location }
+            state: { from: props.location },
           }}
         />
       ) : (
@@ -54,10 +51,10 @@ const LoggedOutRoute = ({ component: Component, ...rest }) => (
   />
 );
 const GlobalRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => <Component {...props} {...rest} />} />
+  <Route {...rest} render={(props) => <Component {...props} {...rest} />} />
 );
 
-class App extends Component {  
+class App extends Component {
   render() {
     return (
       <div className="App">
@@ -65,13 +62,14 @@ class App extends Component {
           <GlobalRoute component={NavBar} />
           <div>
             <GlobalRoute exact path="/" component={HomePage} />
-						<LoggedOutRoute path="/signup" component={SignUpPage} />
-						<LoggedOutRoute path="/login" component={LoginPage} />
-						<PrivateRoute path="/logout" component={LogoutFunction} />
+            <LoggedOutRoute path="/signup" component={SignUpPage} />
+            <LoggedOutRoute path="/login" component={LoginPage} />
+            <PrivateRoute path="/logout" component={LogoutFunction} />
             <PrivateRoute path="/account" component={Account} />
-						<PrivateRoute path="/competes" component={ClubsPage} />
-						<PrivateRoute path="/compete/:field" component={CompetePage} />
-						<PrivateRoute path="/leaderboard" component={LeaderboardPage}/>
+            <PrivateRoute path="/competes" component={ClubsPage} />
+            <PrivateRoute path="/compete/:field" component={CompetePage} />
+            <PrivateRoute path="/leaderboard" component={LeaderboardPage} />
+            <PrivateRoute path="/userprofile/:id" component={UserProfile} />
           </div>
         </Router>
       </div>
