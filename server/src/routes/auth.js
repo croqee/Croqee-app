@@ -271,10 +271,8 @@ router.post("/facebookauth", (req, res) => {
     },
     function(err, facebookRes) {
       if (facebookRes) {
-        console.log(facebookRes.access_token);
         graph.get("/me?fields=email,id,name", (err, userData) => {
           if (userData) {
-            console.log(userData);
             const fbId = userData.id;
             const fbmail = userData.email;
             User.findOne({ email: fbmail }, (err, userByEmail) => {
@@ -334,7 +332,6 @@ router.post("/facebookauth", (req, res) => {
           }
         });
       } else {
-        console.log(err);
       }
     }
   );
