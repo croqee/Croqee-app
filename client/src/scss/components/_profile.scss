@@ -3,8 +3,16 @@
   padding: 1rem;
   @media (min-width: $brk-tablet) {
     flex: 1 0;
-    max-width: 50%;
+    // max-width: 50%;
     padding: 0rem 2rem;
+  }
+  &__ranking {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    &__highlight {
+      color: $orange;
+    }
   }
   &__img__msg {
     margin: 1rem;
@@ -16,9 +24,16 @@
     margin-top: 2rem;
     display: flex;
     flex-direction: row;
+
     &__img {
       display: flex;
       flex-direction: column;
+
+      & > img {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+      }
 
       &-link {
         margin: 1rem 1rem 1rem;
@@ -31,17 +46,31 @@
       margin: 0 auto;
       width: 100%;
       padding-left: 4rem;
+      > span {
+        font-size: $sm-font;
+        color: white;
+      }
+      & > h1 {
+        margin: 0;
+        font-weight: lighter;
+      }
     }
   }
 
   &__userInfo {
     margin-top: 2rem;
+    & > span {
+      color: white;
+      font-size: $sm-font;
+    }
 
     &__container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      p {
+      & > p {
+        font-weight: bolder;
+        font-size: $md-font;
         margin: 0;
       }
       a {
@@ -80,6 +109,10 @@
     border-top: 1px solid white;
     height: 100%;
     width: 100%;
+    > p {
+      font-size: $sm-font;
+      color: white;
+    }
   }
 }
 
