@@ -1,4 +1,7 @@
 import React, { Fragment } from "react";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import { theme } from "./ProfileBirthDateForm";
 
 export default function ProfileUsernameForm({
   onchange,
@@ -7,7 +10,7 @@ export default function ProfileUsernameForm({
   name,
   toggle,
   userProfileData,
-  state
+  state,
 }) {
   return (
     <Fragment>
@@ -19,16 +22,19 @@ export default function ProfileUsernameForm({
               className="profile__userInfo__container__form"
               onSubmit={onsubmit(name)}
             >
-              <input
-                type="text"
-                className="profile__userInfo__container__form__input"
-                onChange={onchange}
-                name={name}
-                defaultValue={state}
-                placeholder={
-                  state === undefined || "" ? `Enter your ${name}` : ""
-                }
-              />
+              <MuiThemeProvider theme={theme}>
+                <TextField
+                  type="text"
+                  className="profile__userInfo__container__form__input"
+                  onChange={onchange}
+                  name={name}
+                  error={state === ""}
+                  defaultValue={state}
+                  placeholder={
+                    state === undefined || "" ? `Enter your ${name}` : ""
+                  }
+                />
+              </MuiThemeProvider>
               <button
                 type="submit"
                 className="profile__userInfo__container__form__btn"

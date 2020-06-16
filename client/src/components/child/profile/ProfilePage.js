@@ -19,6 +19,7 @@ const ProfilePage = (props) => {
     website: props.user.website,
     birthDate: new Date(),
     image: props.user.img,
+    _errors: {},
   });
   const [toggle, setToggle] = useState({
     name: false,
@@ -32,10 +33,28 @@ const ProfilePage = (props) => {
   });
 
   const onchangeHandler = (e) => {
-    const field = e.target.name;
+    const input = e.target;
+    const isValid = input.checkValidity();
+    const field = input.name;
     const _state = state;
-    _state[field] = e.target.value;
+    _state[field] = input.value;
     setState(_state);
+    if (!isValid) {
+      setState((prevState) => ({
+        _errors: {
+          ...prevState._errors,
+          [input.name]: input.validationMessage,
+        },
+      }));
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        _errors: {
+          ...prevState._errors,
+          [input.name]: "",
+        },
+      }));
+    }
   };
 
   const setToggleState = (name, bool) => {
@@ -51,22 +70,38 @@ const ProfilePage = (props) => {
 
   const onSubmitHandler = (platform) => (e) => {
     e.preventDefault();
-    let body = {
-      [platform]: state[platform],
-    };
-    let athorizedHeader = config.AuthorizationHeader();
-    axios
-      .post("api/updateuser/" + props.user._id, body, athorizedHeader)
-      .then((res) => {
-        props.getUser();
-        setToggle((state) => {
-          return {
-            ...state,
-            [platform]: false,
-          };
-        });
-      })
-      .catch((err) => console.log(err));
+    const form = e.target;
+    const isValid = form.checkValidity();
+    const formData = new FormData(form);
+    const validationMessages = Array.from(formData.keys()).reduce(
+      (acc, key) => {
+        acc[key] = form.elements[key].validationMessage;
+        return acc;
+      },
+      {}
+    );
+    setState({
+      _errors: validationMessages,
+    });
+
+    if (isValid) {
+      let body = {
+        [platform]: state[platform],
+      };
+      let athorizedHeader = config.AuthorizationHeader();
+      axios
+        .post("api/updateuser/" + props.user._id, body, athorizedHeader)
+        .then((res) => {
+          props.getUser();
+          setToggle((state) => {
+            return {
+              ...state,
+              [platform]: false,
+            };
+          });
+        })
+        .catch((err) => console.log(err));
+    }
   };
   return (
     <Fragment>
@@ -118,6 +153,7 @@ const ProfilePage = (props) => {
             toggle={toggle.website}
             state={state.website}
             userProfileData={props.user.website}
+            _errors={state._errors}
           />
           <ProfileForm
             name={"facebook"}
@@ -127,6 +163,7 @@ const ProfilePage = (props) => {
             toggle={toggle.facebook}
             state={state.facebook}
             userProfileData={props.user.facebook}
+            _errors={state._errors}
           />
           <ProfileForm
             name={"behance"}
@@ -136,6 +173,7 @@ const ProfilePage = (props) => {
             toggle={toggle.behance}
             state={state.behance}
             userProfileData={props.user.behance}
+            _errors={state._errors}
           />
           <ProfileForm
             name={"instagram"}
@@ -144,6 +182,7 @@ const ProfilePage = (props) => {
             setToggleState={setToggleState}
             toggle={toggle.instagram}
             userProfileData={props.user.instagram}
+            _errors={state._errors}
           />
         </div>
       </div>
