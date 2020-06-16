@@ -5,10 +5,19 @@
   @media (min-width: $brk-tablet) {
     padding: 0;
   }
+  &__ranking {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    &__highlight {
+      color: $orange;
+    }
+  }
   &__img-name-wrapper {
     margin-top: 2rem;
     display: flex;
     flex-direction: row;
+
     &__img {
       display: flex;
       flex-direction: column;
@@ -27,6 +36,10 @@
       margin: 0 auto;
       width: 100%;
       padding-left: 4rem;
+      & > h1 {
+        margin: 0;
+        font-weight: lighter;
+      }
     }
   }
 
