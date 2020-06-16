@@ -52,8 +52,11 @@ class UserProfile extends Component {
               <div className="profile__img-name-wrapper">
                 <div className="profile__img-name-wrapper__img">
                   <img
-                    src={`https://api.adorable.io/avatars/${1}`}
-                    alt="user profile image"
+                    className=""
+                    src={`http://localhost:8080/${encodeURI(
+                      userInfo.imageData
+                    )}`}
+                    alt="profile image"
                   />
                 </div>
                 <div className="profile__img-name-wrapper__name">
