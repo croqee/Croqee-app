@@ -3,7 +3,7 @@
   padding: 1rem;
   @media (min-width: $brk-tablet) {
     flex: 1 0;
-    // max-width: 50%;
+    max-width: 600px;
     padding: 0rem 2rem;
   }
   &__ranking {
@@ -69,7 +69,7 @@
       flex-direction: row;
       justify-content: space-between;
       & > p {
-        font-weight: bolder;
+        font-weight: lighter;
         font-size: $md-font;
         margin: 0;
       }
