@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { theme } from "./ProfileBirthDateForm";
+import { theme } from "../MuiTheme";
 
 export default function ProfileUsernameForm({
   onchange,
@@ -10,7 +10,7 @@ export default function ProfileUsernameForm({
   name,
   toggle,
   userProfileData,
-  state,
+  state
 }) {
   return (
     <Fragment>

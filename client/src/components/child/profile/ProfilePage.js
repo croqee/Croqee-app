@@ -8,8 +8,9 @@ import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
 import ProfileCityForm from "./ProfileCityForm";
 import ProfileImgForm from "./ProfileImgForm";
+import { Divider } from "@material-ui/core";
 
-const ProfilePage = (props) => {
+const ProfilePage = props => {
   const [state, setState] = useState({
     name: props.user.name,
     city: props.user.city,
@@ -19,7 +20,7 @@ const ProfilePage = (props) => {
     website: props.user.website,
     birthDate: new Date(),
     image: props.user.img,
-    _errors: {},
+    _errors: {}
   });
   const [toggle, setToggle] = useState({
     name: false,
@@ -29,10 +30,10 @@ const ProfilePage = (props) => {
     instagram: false,
     behance: false,
     birthDate: false,
-    image: false,
+    image: false
   });
 
-  const onchangeHandler = (e) => {
+  const onchangeHandler = e => {
     const input = e.target;
     const isValid = input.checkValidity();
     const field = input.name;
@@ -40,19 +41,19 @@ const ProfilePage = (props) => {
     _state[field] = input.value;
     setState(_state);
     if (!isValid) {
-      setState((prevState) => ({
+      setState(prevState => ({
         _errors: {
           ...prevState._errors,
-          [input.name]: input.validationMessage,
-        },
+          [input.name]: input.validationMessage
+        }
       }));
     } else {
-      setState((prevState) => ({
+      setState(prevState => ({
         ...prevState,
         _errors: {
           ...prevState._errors,
-          [input.name]: "",
-        },
+          [input.name]: ""
+        }
       }));
     }
   };
@@ -60,15 +61,15 @@ const ProfilePage = (props) => {
   const setToggleState = (name, bool) => {
     const _toggle = toggle;
     _toggle[name] = bool;
-    setToggle((state) => {
+    setToggle(state => {
       return {
         ...state,
-        _toggle,
+        _toggle
       };
     });
   };
 
-  const onSubmitHandler = (platform) => (e) => {
+  const onSubmitHandler = platform => e => {
     e.preventDefault();
     const form = e.target;
     const isValid = form.checkValidity();
@@ -81,32 +82,32 @@ const ProfilePage = (props) => {
       {}
     );
     setState({
-      _errors: validationMessages,
+      _errors: validationMessages
     });
 
     if (isValid) {
       let body = {
-        [platform]: state[platform],
+        [platform]: state[platform]
       };
       let athorizedHeader = config.AuthorizationHeader();
       axios
         .post("api/updateuser/" + props.user._id, body, athorizedHeader)
-        .then((res) => {
+        .then(res => {
           props.getUser();
-          setToggle((state) => {
+          setToggle(state => {
             return {
               ...state,
-              [platform]: false,
+              [platform]: false
             };
           });
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   };
   return (
     <Fragment>
       <div className="profile">
-        <h1>Profile</h1>
+        <h2>Profile</h2>
         <div className="profile__img-name-wrapper">
           <ProfileImgForm
             name={"image"}
@@ -190,13 +191,13 @@ const ProfilePage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const user = state.user;
   return { user };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getUser: () => dispatch(getUser()),
+    getUser: () => dispatch(getUser())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
