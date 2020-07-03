@@ -3,7 +3,7 @@ const User = require("mongoose").model("User");
 
 const router = new express.Router();
 
-let croqeeBodyParser = (body) => {
+let croqeeBodyParser = body => {
   var reqBody = {};
   for (var key in body) {
     reqBody = JSON.parse(key);
@@ -13,7 +13,7 @@ let croqeeBodyParser = (body) => {
 
 router.get("/getuser", (req, res) => {
   res.status(200).json({
-    user: req.user,
+    user: req.user
   });
 });
 
@@ -32,7 +32,7 @@ router.get("/user/:id", (req, res) => {
         facebook: user.facebook,
         website: user.website,
         imageName: user.img.imageName,
-        imageData: user.img.imageData,
+        imageData: user.img.imageData
       };
       res.status(200).json(editeduser);
     } else if (err) {
@@ -46,7 +46,7 @@ router.get("/user/:id", (req, res) => {
 router.post("/updateuser/:id", (req, res) => {
   const userId = req.params.id;
   req.body = croqeeBodyParser(req.body);
-  User.findOneAndUpdate({ _id: userId }, req.body, (err) => {
+  User.findOneAndUpdate({ _id: userId }, req.body, err => {
     if (err) {
       return res.status(400).json({ errors: "id not found." });
     } else {
@@ -54,4 +54,26 @@ router.post("/updateuser/:id", (req, res) => {
     }
   });
 });
+
+router.get("/password", (req, res) => {
+  console.log("gerer");
+  const userId = req.user.id;
+  console.log(userId);
+  User.findById({ _id: userId }, (err, user) => {
+    if (err) {
+      return res.status(400).json({ errors: "id not found." });
+    } else if (user) {
+      console.log(user);
+      if (user.password !== undefined) {
+        console.log(user.password);
+        res.status(200).json(false);
+      } else {
+        res.status(200).json(true);
+      }
+    } else {
+      return res.status(500).json({ errors: "internal error" });
+    }
+  });
+});
+
 module.exports = router;

@@ -1,8 +1,6 @@
 .account {
   @media (min-width: $brk-tablet) {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+    float: left;
   }
 
   &__sideNav {
@@ -15,11 +13,15 @@
       padding: 2rem;
     }
 
-    a {
+    &__unActive {
+      text-decoration: none;
       flex-basis: 50px;
       cursor: pointer;
       user-select: none;
       color: white;
+    }
+    &__active {
+      color: $orange;
     }
   }
 }
