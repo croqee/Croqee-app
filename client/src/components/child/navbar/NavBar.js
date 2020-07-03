@@ -64,15 +64,19 @@ class NavBar extends React.Component {
             </Link>
             <Link
               className="nav-link"
-              to="/account"
-              style={activePage == "/account" ? styles.orange : {}}
+              to="/account/profile"
+              style={activePage.indexOf("/account") !== -1 ? styles.orange : {}}
             >
               Hello {this.props.user.name}
             </Link>
             {/* <span className="nav-links_seperator"/> */}
-            <Link className="nav-link" to="/competes" style={activePage.includes('/compete') ? styles.orange : {}}>
+            <Link
+              className="nav-link"
+              to="/competes"
+              style={activePage.includes("/compete") ? styles.orange : {}}
+            >
               Compete
-					</Link>
+            </Link>
             <Link
               className="nav-link"
               to="/leaderboard"
@@ -85,42 +89,41 @@ class NavBar extends React.Component {
             </Link>
           </div>
         ) : (
-            <div class="nav-links">
-              <Link
-                className="nav-link"
-                to="/"
-                style={activePage == "/" ? styles.orange : {}}
-              >
-                Home
+          <div class="nav-links">
+            <Link
+              className="nav-link"
+              to="/"
+              style={activePage == "/" ? styles.orange : {}}
+            >
+              Home
             </Link>
-              {/* <span className="nav-links_seperator"/> */}
-              <Link
-                className="nav-link"
-                to="/compete"
-                style={activePage == "/compete" ? styles.orange : {}}
-              >
-                Compete
+            {/* <span className="nav-links_seperator"/> */}
+            <Link
+              className="nav-link"
+              to="/compete"
+              style={activePage == "/compete" ? styles.orange : {}}
+            >
+              Compete
             </Link>
-              <Link
-                className="nav-link"
-                to="/signup"
-                style={activePage == "/signup" ? styles.orange : {}}
-              >
-                Sign up
+            <Link
+              className="nav-link"
+              to="/signup"
+              style={activePage == "/signup" ? styles.orange : {}}
+            >
+              Sign up
             </Link>
-              <Link
-                className="nav-link"
-                to="/login"
-                style={activePage == "/login" ? styles.orange : {}}
-              >
-                Login
+            <Link
+              className="nav-link"
+              to="/login"
+              style={activePage == "/login" ? styles.orange : {}}
+            >
+              Login
             </Link>
-            </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }
-
 }
 const mapStateToProps = state => {
   const { isAuthenticated, user } = state;
