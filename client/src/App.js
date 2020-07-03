@@ -12,11 +12,13 @@ import LeaderboardPage from "./components/pages/leaderboard/LeaderboardPage";
 import Account from "./components/pages/account/Account";
 import HomePage from "./components/pages/homepage/HomePage";
 import UserProfile from "./components/pages/userProfile/UserProfile";
+import Password from "./components/pages/account/Password";
+import ProfilePage from "./components/child/profile/ProfilePage";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
+    render={props =>
       Auth.isUserAuthenticated() ? (
         <Component {...props} {...rest} />
       ) : (
@@ -24,7 +26,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: props.location },
+              state: { from: props.location }
             }}
           />
         </React.Fragment>
@@ -36,12 +38,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const LoggedOutRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
+    render={props =>
       Auth.isUserAuthenticated() ? (
         <Redirect
           to={{
             pathname: "/",
-            state: { from: props.location },
+            state: { from: props.location }
           }}
         />
       ) : (
@@ -51,7 +53,7 @@ const LoggedOutRoute = ({ component: Component, ...rest }) => (
   />
 );
 const GlobalRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => <Component {...props} {...rest} />} />
+  <Route {...rest} render={props => <Component {...props} {...rest} />} />
 );
 
 class App extends Component {
@@ -66,6 +68,8 @@ class App extends Component {
             <LoggedOutRoute path="/login" component={LoginPage} />
             <PrivateRoute path="/logout" component={LogoutFunction} />
             <PrivateRoute path="/account" component={Account} />
+            <PrivateRoute path="/account/profile" component={ProfilePage} />
+            <PrivateRoute path="/account/password" component={Password} />
             <PrivateRoute path="/competes" component={ClubsPage} />
             <PrivateRoute path="/compete/:field" component={CompetePage} />
             <PrivateRoute path="/leaderboard" component={LeaderboardPage} />
