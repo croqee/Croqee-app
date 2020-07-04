@@ -23,7 +23,7 @@ function ProfileBirthDateForm(props) {
     };
     let athorizedHeader = config.AuthorizationHeader();
     axios
-      .post("api/updateuser/" + props.user._id, body, athorizedHeader)
+      .post("/api/updateuser/" + props.user._id, body, athorizedHeader)
       .then(res => {
         props.getUser();
         props.setToggleState(props.name, false);

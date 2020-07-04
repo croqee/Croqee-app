@@ -81,7 +81,7 @@ function ProfileImgForm(props) {
     const athorizedHeader = config.AuthorizationHeader();
     axios
       .post(
-        "images/uploaduserimg/" + props.user._id,
+        "/images/uploaduserimg/" + props.user._id,
         imageFormObj,
         athorizedHeader
       )

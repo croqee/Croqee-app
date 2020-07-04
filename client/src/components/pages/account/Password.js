@@ -11,17 +11,27 @@ import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import axios from "axios";
 import config from "../../../modules/config";
-export default class Password extends Component {
+import Chip from "@material-ui/core/Chip";
+import DoneIcon from "@material-ui/icons/Done";
+import CloseIcon from "@material-ui/icons/Close";
+import Auth from "../../../modules/Auth";
+import { connect } from "react-redux";
+import { authenticate, setUser } from "../../../js/actions";
+
+class Password extends Component {
   constructor() {
     super();
     this.state = {
       radioValue: null,
       helperText: "",
       isPasswordNull: true,
+      msg: "",
+      err: "",
+      deleteError: "",
       password: {
-        currentPass: "",
+        currentPassword: "",
         newPassword: "",
-        repeatNewPass: ""
+        repeatNewPassword: ""
       },
       _errors: ""
     };
@@ -42,14 +52,16 @@ export default class Password extends Component {
   }
 
   onchange = e => {
-    let value = e.target.value;
     let input = e.target;
     const isValid = input.checkValidity();
-    this.setState({
+    this.setState(prevState => ({
+      msg: "",
+      err: "",
       password: {
-        [e.target.name]: value
+        ...prevState.password,
+        [input.name]: input.value
       }
-    });
+    }));
     if (!isValid) {
       this.setState(prevState => ({
         _errors: {
@@ -72,8 +84,22 @@ export default class Password extends Component {
       radioValue: value
     });
   };
-  handleSubmit = () => {
-    console.log("submitting");
+  handleSubmit = e => {
+    e.preventDefault();
+    let athorizedHeader = config.AuthorizationHeader();
+    axios
+      .delete("/api/account", athorizedHeader)
+      .then(res => {
+        Auth.deauthenticateUser();
+        this.props.authenticate(false);
+        this.props.setUser({});
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        this.setState({
+          deleteError: err
+        });
+      });
   };
 
   handleChangePassword = e => {
@@ -93,17 +119,53 @@ export default class Password extends Component {
     });
 
     if (isValid) {
+      //check if passwords match
       if (
-        this.state.password.currentPass !== this.state.password.repeatNewPass
+        this.state.password.newPassword !==
+        this.state.password.repeatNewPassword
       ) {
         this.setState({
           _errors: {
-            newPass: "Passwords do not match.",
+            newPassword: "Passwords do not match.",
             repeatNewPass: "Passwords do not match."
           }
         });
       } else {
-        console.log("yes");
+        //check if the length of the pass is more than 8
+        if (this.state.password.newPassword.length < 8) {
+          this.setState({
+            _errors: {
+              newPassword: "Password must be at least 8 caracters.",
+              repeatNewPass: "Password must be at least 8 caracters."
+            }
+          });
+        } else {
+          //update password
+          let athorizedHeader = config.AuthorizationHeader();
+          let passwordObj = {
+            currentPassword: this.state.password.currentPassword,
+            newPassword: this.state.password.newPassword
+          };
+          axios
+            .post("/api/password", passwordObj, athorizedHeader)
+            .then(res => {
+              if (res.status === 200) {
+                this.setState({
+                  msg: "Updated",
+                  password: {
+                    currentPassword: "",
+                    newPassword: "",
+                    confirmPassword: ""
+                  }
+                });
+              }
+            })
+            .catch(err => {
+              this.setState({
+                err: err
+              });
+            });
+        }
       }
     }
   };
@@ -117,6 +179,27 @@ export default class Password extends Component {
             <Divider light="true" />
 
             <h3>Change Password</h3>
+            {this.state.msg !== "" && (
+              <Chip
+                size="medium"
+                label={this.state.msg}
+                disabled
+                icon={<DoneIcon />}
+                color="#00FF00"
+                style={{ color: "#00FF00", width: "260px", margin: "1rem 0" }}
+                variant="outlined"
+              />
+            )}
+            {this.state.err !== "" && (
+              <Chip
+                size="medium"
+                label={this.state.err}
+                disabled
+                icon={<CloseIcon />}
+                style={{ color: "#FF0000", width: "260px", margin: "1rem 0" }}
+                variant="outlined"
+              />
+            )}
             {this.state.isPasswordNull && (
               <FormHelperText>
                 It seems like you don not have any local account registered. To
@@ -135,14 +218,14 @@ export default class Password extends Component {
                 type="password"
                 className="security__change_password__field"
                 onChange={this.onchange}
-                name="currentPass"
+                name="currentPassword"
                 id="filled-error"
                 placeholder="Your Current Password"
                 disabled={this.state.isPasswordNull}
                 error={Boolean(Object.keys(this.state._errors).length !== 0)}
                 helperText={
-                  this.state._errors.currentPass !== undefined &&
-                  this.state._errors.currentPass
+                  this.state._errors.currentPassword !== undefined &&
+                  this.state._errors.currentPassword
                 }
               />
               <TextField
@@ -166,16 +249,17 @@ export default class Password extends Component {
                 type="password"
                 className="security__change_password__field"
                 onChange={this.onchange}
-                name="repeatNewPass"
+                name="repeatNewPassword"
                 id="filled-error"
                 placeholder="Confrim Your New Password"
                 disabled={this.state.isPasswordNull}
                 error={Boolean(Object.keys(this.state._errors).length !== 0)}
                 helperText={
-                  this.state._errors.repeatNewPass !== undefined &&
-                  this.state._errors.repeatNewPass
+                  this.state._errors.repeatNewPassword !== undefined &&
+                  this.state._errors.repeatNewPassword
                 }
               />
+
               <Button
                 type="submit"
                 variant="outlined"
@@ -187,6 +271,16 @@ export default class Password extends Component {
             <Divider light />
             <div className="security__change_password">
               <h3>Delete Account</h3>
+              {this.state.deleteError !== "" && (
+                <Chip
+                  size="medium"
+                  label={this.state.deleteError}
+                  disabled
+                  icon={<CloseIcon />}
+                  style={{ color: "#FF0000", width: "260px", margin: "1rem 0" }}
+                  variant="outlined"
+                />
+              )}
               <form onSubmit={this.handleSubmit}>
                 <FormControl component="fieldset" error={this.state.error}>
                   <span>
@@ -221,3 +315,11 @@ export default class Password extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    authenticate: payload => dispatch(authenticate(payload)),
+    setUser: payload => dispatch(setUser(payload))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Password);
