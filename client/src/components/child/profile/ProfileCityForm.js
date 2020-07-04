@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { theme } from "./ProfileBirthDateForm";
+import { theme } from "../MuiTheme";
 import PlacesAutocomplete from "react-places-autocomplete";
 
 function ProfileCityForm(props) {
@@ -24,7 +24,7 @@ function ProfileCityForm(props) {
     };
     let athorizedHeader = config.AuthorizationHeader();
     axios
-      .post("api/updateuser/" + props.user._id, body, athorizedHeader)
+      .post("/api/updateuser/" + props.user._id, body, athorizedHeader)
       .then(res => {
         props.getUser();
         props.setToggleState(props.name, false);
@@ -56,6 +56,7 @@ function ProfileCityForm(props) {
                     <MuiThemeProvider theme={theme}>
                       <TextField
                         defaultValue={props.user.city}
+                        fullWidth
                         id="location"
                         {...getInputProps({
                           placeholder: "Search Your Location ...",

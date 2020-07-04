@@ -11,50 +11,51 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
+import ProfileAvatar from "./ProfileAvatar";
 
 export const theme = createMuiTheme({
   overrides: {
     MuiAvatar: {
       img: {
-        objectFit: "cover", //same as original - not overriding
-      },
+        objectFit: "cover" //same as original - not overriding
+      }
     },
     MuiButton: {
       text: {
         color: "#ff3c00",
-        padding: "1rem 1rem",
-      },
+        padding: "1rem 1rem"
+      }
     },
     MuiChip: {
       outlinedPrimary: {
         color: "green",
-        border: "1px solid green",
+        border: "1px solid green"
       },
       outlinedSecondary: {
         color: "red",
         border: "1px solid red",
-        margin: "0.5rem 0",
-      },
-    },
-  },
+        margin: "0.5rem 0"
+      }
+    }
+  }
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     "& > *": {
-      margin: theme.spacing(1),
-    },
+      margin: theme.spacing(1)
+    }
   },
   small: {
     width: theme.spacing(3),
-    height: theme.spacing(3),
+    height: theme.spacing(3)
   },
   large: {
     width: theme.spacing(16),
     height: theme.spacing(16),
-    backgroundColor: "black",
-  },
+    backgroundColor: "black"
+  }
 }));
 function ProfileImgForm(props) {
   const classes = useStyles();
@@ -64,10 +65,10 @@ function ProfileImgForm(props) {
     success: null,
     icon: <DoneIcon />,
     msg: "",
-    color: "",
+    color: ""
   });
 
-  const onChangeUpload = (e) => {
+  const onChangeUpload = e => {
     setImagePath(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
   };
@@ -80,11 +81,11 @@ function ProfileImgForm(props) {
     const athorizedHeader = config.AuthorizationHeader();
     axios
       .post(
-        "images/uploaduserimg/" + props.user._id,
+        "/images/uploaduserimg/" + props.user._id,
         imageFormObj,
         athorizedHeader
       )
-      .then((res) => {
+      .then(res => {
         props.getUser();
         props.setToggleState(props.name, false);
         setImage();
@@ -93,15 +94,15 @@ function ProfileImgForm(props) {
           success: true,
           icon: <DoneIcon />,
           msg: "Updated.",
-          color: "primary",
+          color: "primary"
         });
       })
-      .catch((err) => {
+      .catch(err => {
         setMessage({
           success: false,
           icon: <CloseIcon />,
           msg: "Update Failed.",
-          color: "secondary",
+          color: "secondary"
         });
       });
   };
@@ -117,7 +118,7 @@ function ProfileImgForm(props) {
                 id="raised-button-file"
                 type="file"
                 style={{ display: "none" }}
-                onChange={(e) => onChangeUpload(e)}
+                onChange={e => onChangeUpload(e)}
               />
               <label htmlFor="raised-button-file">
                 {imagePath === "" ? (
@@ -125,16 +126,12 @@ function ProfileImgForm(props) {
                     <AddAPhotoIcon />
                   </Avatar>
                 ) : (
-                  <Avatar
-                    src={imagePath}
-                    alt="image"
-                    className={classes.large}
-                  />
+                  <ProfileAvatar imageSrc={imagePath} />
                 )}
               </label>
               <Button
                 className="profile__img-name-wrapper__img-link"
-                onClick={(e) => uploadImage()}
+                onClick={e => uploadImage()}
                 disabled={imagePath === ""}
               >
                 Upload
@@ -179,14 +176,14 @@ function ProfileImgForm(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const user = state.user;
   const image = state.user.img;
   return { user, image };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getUser: () => dispatch(getUser()),
+    getUser: () => dispatch(getUser())
   };
 };
 

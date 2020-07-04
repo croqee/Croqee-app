@@ -5,12 +5,12 @@ const multer = require("multer");
 const fs = require("fs");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, "./uploads/");
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     cb(null, Date.now() + file.originalname);
-  },
+  }
 });
 
 const fileFilter = (req, file, cb) => {
@@ -24,9 +24,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5,
+    fileSize: 1024 * 1024 * 5
   },
-  fileFilter: fileFilter,
+  fileFilter: fileFilter
 });
 
 ImageRouter.route("/uploaduserimg/:id").post(
@@ -36,19 +36,26 @@ ImageRouter.route("/uploaduserimg/:id").post(
     let obj = {
       img: {
         imageName: req.body.imageName,
-        imageData: req.file.path,
-      },
+        imageData: req.file.path
+      }
     };
-    if (req.user.img.imageName !== "none") {
-      fs.unlink(req.user.img.imageData, function (err) {
+    console.log(req.body.imageName);
+    console.log(obj);
+    console.log(req.user);
+    if (req.user.img && req.user.img.imageName !== "none") {
+      console.log("not none");
+      fs.unlink(req.user.img.imageData, function(err) {
         if (err) {
           console.log(err);
         }
       });
     }
-    User.findOneAndUpdate({ _id: userId }, obj, (err) => {
+    console.log("next");
+    User.findOneAndUpdate({ _id: userId }, obj, err => {
+      console.log("saving");
       if (err) {
-        res.status(400).json();
+        console.log(err);
+        res.status(400).json(err);
       } else {
         res.status(204).json();
       }

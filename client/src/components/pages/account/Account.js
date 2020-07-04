@@ -1,17 +1,14 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import ProfilePage from "../../child/profile/ProfilePage";
+import AccountSideNav from "./AccountSideNav";
 
-function Account() {
+function Account(props) {
+  console.log(props);
   return (
     <Fragment>
       <div className="account">
-        <div className="account__sideNav">
-          <a>Profile</a>
-          <a>Password and Security</a>
-          <a>Privacy</a>
-        </div>
-        <ProfilePage />
+        <AccountSideNav />
       </div>
     </Fragment>
   );

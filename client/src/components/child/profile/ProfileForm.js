@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { theme } from "./ProfileBirthDateForm";
+import { theme } from "../MuiTheme";
 
 export default function ProfileForm({
   onchange,
@@ -11,7 +11,7 @@ export default function ProfileForm({
   toggle,
   userProfileData,
   state,
-  _errors,
+  _errors
 }) {
   console.log(_errors);
   return (
@@ -37,7 +37,7 @@ export default function ProfileForm({
                         ? `https://.*`
                         : name === "behance"
                         ? `https://${name}.net/.*`
-                        : `https://${name}.com/.*`,
+                        : `https://${name}.com/.*`
                   }}
                   error={Boolean(Object.keys(_errors).length !== 0)}
                   helperText={

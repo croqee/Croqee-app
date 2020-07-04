@@ -5,6 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import axios from "axios";
 import config from "../../../modules/config";
+import ProfileAvatar from "../../child/profile/ProfileAvatar";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class UserProfile extends Component {
     this.state = {
       userRank: "",
       userScore: "",
-      userInfo: {},
+      userInfo: {}
     };
     this.props.getUsersScore(1);
   }
@@ -22,12 +23,12 @@ class UserProfile extends Component {
     let athorizedHeader = config.AuthorizationHeader();
     axios
       .get("/api/user/" + paramsId, athorizedHeader)
-      .then((res) => {
+      .then(res => {
         this.setState({
-          userInfo: res.data,
+          userInfo: res.data
         });
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }
   componentDidUpdate(prevProps) {
     if (this.props.usersScore !== prevProps.usersScore) {
@@ -36,7 +37,7 @@ class UserProfile extends Component {
         if (user._id === paramsId) {
           this.setState({
             userRank: user.rank,
-            userScore: user.total,
+            userScore: user.total
           });
         }
       });
@@ -51,12 +52,10 @@ class UserProfile extends Component {
             <div className="profile">
               <div className="profile__img-name-wrapper">
                 <div className="profile__img-name-wrapper__img">
-                  <img
-                    className=""
-                    src={`http://localhost:8080/${encodeURI(
+                  <ProfileAvatar
+                    imageSrc={`http://localhost:8080/${encodeURI(
                       userInfo.imageData
                     )}`}
-                    alt="profile image"
                   />
                 </div>
                 <div className="profile__img-name-wrapper__name">
@@ -140,14 +139,14 @@ class UserProfile extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { usersScore, user } = state;
   return { usersScore, user };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getUsersScore: (page) => dispatch(getUsersScore(page)),
-    getScoredModels: () => dispatch(getScoredModels()),
+    getUsersScore: page => dispatch(getUsersScore(page)),
+    getScoredModels: () => dispatch(getScoredModels())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
