@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { TextField, Typography } from "@material-ui/core";
 import { theme } from "../MuiTheme";
 
 export default function ProfileUsernameForm({
@@ -44,12 +44,11 @@ export default function ProfileUsernameForm({
             </form>
           ) : (
             <Fragment>
-              <p>
+              <Typography variant="h6">
                 {userProfileData
                   ? userProfileData
                   : `Link your ${name} account`}
-              </p>
-
+              </Typography>
               <a
                 onClick={() => {
                   setToggleState(name, true);

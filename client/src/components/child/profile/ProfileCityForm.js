@@ -4,7 +4,7 @@ import config from "../../../modules/config";
 import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { TextField, Typography } from "@material-ui/core";
 import { theme } from "../MuiTheme";
 import PlacesAutocomplete from "react-places-autocomplete";
 
@@ -95,11 +95,11 @@ function ProfileCityForm(props) {
             </form>
           ) : (
             <Fragment>
-              <p>
+              <Typography variant="body2" style={{ fontSize: "1rem" }}>
                 {props.user.city
                   ? props.user.city
                   : `Link your ${props.name} account`}
-              </p>
+              </Typography>
 
               <a
                 onClick={() => {
