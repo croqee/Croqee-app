@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const ImageSchema = new mongoose.Schema({
+  imageName: {
+    type: String,
+    default: "none"
+  },
+  imageData: {
+    type: String
+  }
+});
+
 // define the User model schema
 const UserSchema = new mongoose.Schema({
   email: {
@@ -18,11 +28,12 @@ const UserSchema = new mongoose.Schema({
     index: { unique: true }
   },
   birthDate: {
-    type: String
+    type: Date
   },
   city: {
     type: String
   },
+  img: ImageSchema,
   behance: String,
   instagram: String,
   facebook: String,
@@ -68,5 +79,5 @@ UserSchema.pre("save", function saveHook(next) {
     });
   });
 });
-
+module.exports = mongoose.model("ImageSchema", ImageSchema);
 module.exports = mongoose.model("User", UserSchema);

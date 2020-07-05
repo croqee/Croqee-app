@@ -3,11 +3,7 @@ import "./App.css";
 import LoginPage from "./components/pages/login/LoginPage";
 import SignUpPage from "./components/pages/signup/SignUpPage";
 import LogoutFunction from "./components/child/logout/LogoutFunction";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Auth from "./modules/Auth";
 import NavBar from "./components/child/navbar/NavBar";
 import ClubsPage from "./components/pages/clubs/ClubsPage";
@@ -15,6 +11,9 @@ import CompetePage from "./components/pages/compete/CompetePage";
 import LeaderboardPage from "./components/pages/leaderboard/LeaderboardPage";
 import Account from "./components/pages/account/Account";
 import HomePage from "./components/pages/homepage/HomePage";
+import UserProfile from "./components/pages/userProfile/UserProfile";
+import Password from "./components/pages/account/Password";
+import ProfilePage from "./components/child/profile/ProfilePage";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -57,7 +56,7 @@ const GlobalRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => <Component {...props} {...rest} />} />
 );
 
-class App extends Component {  
+class App extends Component {
   render() {
     return (
       <div className="App">
@@ -65,13 +64,16 @@ class App extends Component {
           <GlobalRoute component={NavBar} />
           <div>
             <GlobalRoute exact path="/" component={HomePage} />
-						<LoggedOutRoute path="/signup" component={SignUpPage} />
-						<LoggedOutRoute path="/login" component={LoginPage} />
-						<PrivateRoute path="/logout" component={LogoutFunction} />
+            <LoggedOutRoute path="/signup" component={SignUpPage} />
+            <LoggedOutRoute path="/login" component={LoginPage} />
+            <PrivateRoute path="/logout" component={LogoutFunction} />
             <PrivateRoute path="/account" component={Account} />
-						<PrivateRoute path="/competes" component={ClubsPage} />
-						<PrivateRoute path="/compete/:field" component={CompetePage} />
-						<PrivateRoute path="/leaderboard" component={LeaderboardPage}/>
+            <PrivateRoute path="/account/profile" component={ProfilePage} />
+            <PrivateRoute path="/account/password" component={Password} />
+            <PrivateRoute path="/competes" component={ClubsPage} />
+            <PrivateRoute path="/compete/:field" component={CompetePage} />
+            <PrivateRoute path="/leaderboard" component={LeaderboardPage} />
+            <PrivateRoute path="/userprofile/:id" component={UserProfile} />
           </div>
         </Router>
       </div>

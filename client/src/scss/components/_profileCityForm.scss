@@ -1,0 +1,13 @@
+.suggestion-item {
+  background-color: $dark-grey;
+  cursor: pointer;
+  color: "#fff";
+  padding: 0.5rem;
+  &--active {
+    background-color: $dark-grey;
+    cursor: pointer;
+    color: $light-grey;
+    padding: 0.5rem;
+    border-bottom: 0.5px solid $light-grey;
+  }
+}

@@ -1,23 +1,42 @@
 .profile {
-  flex: 1 0 50%;
   text-align: left;
-  padding: 4rem;
+  padding: 1rem;
   @media (min-width: $brk-tablet) {
-    padding: 0;
+    float: left;
+    width: 50%;
+    padding: 0rem 6rem;
   }
+  &__ranking {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    &__highlight {
+      color: $orange;
+    }
+  }
+  &__img__msg {
+    margin: 1rem;
+    width: auto;
+    display: block;
+  }
+
   &__img-name-wrapper {
     margin-top: 2rem;
     display: flex;
     flex-direction: row;
+
     &__img {
       display: flex;
       flex-direction: column;
-      img {
+
+      & > img {
+        width: 125px;
+        height: 125px;
         border-radius: 50%;
-        height: 100px;
       }
+
       &-link {
-        margin: 1rem 1rem 2rem;
+        margin: 1rem 1rem 1rem;
         text-align: center;
         cursor: pointer;
         user-select: none;
@@ -27,17 +46,31 @@
       margin: 0 auto;
       width: 100%;
       padding-left: 4rem;
+      > span {
+        font-size: $sm-font;
+        color: white;
+      }
+      & > h1 {
+        margin: 0;
+        font-weight: lighter;
+      }
     }
   }
 
   &__userInfo {
     margin-top: 2rem;
+    & > span {
+      color: white;
+      font-size: $sm-font;
+    }
 
     &__container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      p {
+      & > p {
+        font-weight: lighter;
+        font-size: $md-font;
         margin: 0;
       }
       a {
@@ -55,7 +88,7 @@
         }
         &__btn {
           flex-basis: 20%;
-          color: #ff5200;
+          color: $orange;
           border: none;
           font-size: 1rem;
           background-color: transparent;
@@ -73,8 +106,16 @@
   }
   &__links {
     margin-top: 2rem;
-    border-top: 1px solid white;
+    border-top: 1px solid $mid-grey;
     height: 100%;
     width: 100%;
+    > p {
+      font-size: $sm-font;
+      color: white;
+    }
   }
+}
+
+.MuiSvgIcon-root {
+  color: $light-grey;
 }

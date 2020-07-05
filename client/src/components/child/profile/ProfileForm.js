@@ -1,4 +1,7 @@
 import React, { Fragment } from "react";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import { theme } from "../MuiTheme";
 
 export default function ProfileForm({
   onchange,
@@ -7,8 +10,10 @@ export default function ProfileForm({
   name,
   toggle,
   userProfileData,
-  state
+  state,
+  _errors
 }) {
+  console.log(_errors);
   return (
     <Fragment>
       <div className="profile__userInfo">
@@ -16,19 +21,35 @@ export default function ProfileForm({
         <div className="profile__userInfo__container">
           {toggle ? (
             <form
+              noValidate
               className="profile__userInfo__container__form"
               onSubmit={onsubmit(name)}
             >
-              <input
-                type="text"
-                className="profile__userInfo__container__form__input"
-                onChange={onchange}
-                name={name}
-                defaultValue={state}
-                placeholder={
-                  state === undefined || "" ? `Enter your ${name}` : ""
-                }
-              />
+              <MuiThemeProvider theme={theme}>
+                <TextField
+                  className="profile__userInfo__container__form__input"
+                  onChange={onchange}
+                  name={name}
+                  id="filled-error"
+                  inputProps={{
+                    pattern:
+                      name === "website"
+                        ? `https://.*`
+                        : name === "behance"
+                        ? `https://${name}.net/.*`
+                        : `https://${name}.com/.*`
+                  }}
+                  error={Boolean(Object.keys(_errors).length !== 0)}
+                  helperText={
+                    _errors[`${name}`] !== undefined && _errors[`${name}`]
+                  }
+                  // pattern={name !== "website" && `https://${name}.com/.*`}
+                  defaultValue={state}
+                  placeholder={
+                    state === undefined || "" ? `https://${name}.com/` : ""
+                  }
+                />
+              </MuiThemeProvider>
               <button
                 type="submit"
                 className="profile__userInfo__container__form__btn"
@@ -39,14 +60,16 @@ export default function ProfileForm({
           ) : (
             <Fragment>
               <p>
-                {userProfileData
-                  ? userProfileData
-                  : `Link your ${name} account`}
+                {userProfileData ? (
+                  <a href={userProfileData}>{userProfileData}</a>
+                ) : (
+                  `Link your ${name} account`
+                )}
               </p>
 
               <a
                 onClick={() => {
-                  setToggleState(name);
+                  setToggleState(name, true);
                 }}
               >
                 Edit

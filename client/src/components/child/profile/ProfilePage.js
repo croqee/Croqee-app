@@ -6,6 +6,9 @@ import config from "../../../modules/config";
 import { getUser } from "../../../js/actions";
 import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
+import ProfileCityForm from "./ProfileCityForm";
+import ProfileImgForm from "./ProfileImgForm";
+import { Divider } from "@material-ui/core";
 
 const ProfilePage = props => {
   const [state, setState] = useState({
@@ -15,7 +18,9 @@ const ProfilePage = props => {
     instagram: props.user.instagram,
     facebook: props.user.facebook,
     website: props.user.website,
-    birthDate: new Date()
+    birthDate: new Date(),
+    image: props.user.img,
+    _errors: {}
   });
   const [toggle, setToggle] = useState({
     name: false,
@@ -24,19 +29,38 @@ const ProfilePage = props => {
     facebook: false,
     instagram: false,
     behance: false,
-    birthDate: false
+    birthDate: false,
+    image: false
   });
 
   const onchangeHandler = e => {
-    const field = e.target.name;
+    const input = e.target;
+    const isValid = input.checkValidity();
+    const field = input.name;
     const _state = state;
-    _state[field] = e.target.value;
+    _state[field] = input.value;
     setState(_state);
+    if (!isValid) {
+      setState(prevState => ({
+        _errors: {
+          ...prevState._errors,
+          [input.name]: input.validationMessage
+        }
+      }));
+    } else {
+      setState(prevState => ({
+        ...prevState,
+        _errors: {
+          ...prevState._errors,
+          [input.name]: ""
+        }
+      }));
+    }
   };
 
-  const setToggleState = name => {
+  const setToggleState = (name, bool) => {
     const _toggle = toggle;
-    _toggle[name] = true;
+    _toggle[name] = bool;
     setToggle(state => {
       return {
         ...state,
@@ -47,35 +71,50 @@ const ProfilePage = props => {
 
   const onSubmitHandler = platform => e => {
     e.preventDefault();
-    let body = {
-      [platform]: state[platform]
-    };
-    let athorizedHeader = config.AuthorizationHeader();
-    axios
-      .post("api/updateuser/" + props.user._id, body, athorizedHeader)
-      .then(res => {
-        props.getUser();
-        setToggle(state => {
-          return {
-            ...state,
-            [platform]: false
-          };
-        });
-      })
-      .catch(err => console.log(err));
+    const form = e.target;
+    const isValid = form.checkValidity();
+    const formData = new FormData(form);
+    const validationMessages = Array.from(formData.keys()).reduce(
+      (acc, key) => {
+        acc[key] = form.elements[key].validationMessage;
+        return acc;
+      },
+      {}
+    );
+    setState({
+      _errors: validationMessages
+    });
+
+    if (isValid) {
+      let body = {
+        [platform]: state[platform]
+      };
+      let athorizedHeader = config.AuthorizationHeader();
+      axios
+        .post("/api/updateuser/" + props.user._id, body, athorizedHeader)
+        .then(res => {
+          props.getUser();
+          setToggle(state => {
+            return {
+              ...state,
+              [platform]: false
+            };
+          });
+        })
+        .catch(err => console.log(err));
+    }
   };
   return (
     <Fragment>
       <div className="profile">
-        <h1>Profile</h1>
+        <h2>Profile</h2>
         <div className="profile__img-name-wrapper">
-          <div className="profile__img-name-wrapper__img">
-            <img
-              src={`https://api.adorable.io/avatars/${props.user._id}`}
-              alt="user profile image"
-            />
-            <a className="profile__img-name-wrapper__img-link">Change</a>
-          </div>
+          <ProfileImgForm
+            name={"image"}
+            setToggleState={setToggleState}
+            toggle={toggle.image}
+            state={state.image}
+          />
           <div className="profile__img-name-wrapper__name">
             <ProfileUsernameForm
               name={"name"}
@@ -94,23 +133,17 @@ const ProfilePage = props => {
             <p>{props.user.email}</p>
           </div>
         </div>
-        <ProfileForm
+        <ProfileCityForm
           name={"city"}
-          onchange={onchangeHandler}
-          onsubmit={onSubmitHandler}
           setToggleState={setToggleState}
           toggle={toggle.city}
           state={state.city}
-          userProfileData={props.user.city}
         />
         <ProfileBirthDateForm
           name={"birthDate"}
-          onchange={onchangeHandler}
-          onsubmit={onSubmitHandler}
           setToggleState={setToggleState}
           toggle={toggle.birthDate}
           state={state.birthDate}
-          userProfileData={props.user.birthDate}
         />
         <div className="profile__links">
           <ProfileForm
@@ -121,6 +154,7 @@ const ProfilePage = props => {
             toggle={toggle.website}
             state={state.website}
             userProfileData={props.user.website}
+            _errors={state._errors}
           />
           <ProfileForm
             name={"facebook"}
@@ -130,6 +164,7 @@ const ProfilePage = props => {
             toggle={toggle.facebook}
             state={state.facebook}
             userProfileData={props.user.facebook}
+            _errors={state._errors}
           />
           <ProfileForm
             name={"behance"}
@@ -139,6 +174,7 @@ const ProfilePage = props => {
             toggle={toggle.behance}
             state={state.behance}
             userProfileData={props.user.behance}
+            _errors={state._errors}
           />
           <ProfileForm
             name={"instagram"}
@@ -147,6 +183,7 @@ const ProfilePage = props => {
             setToggleState={setToggleState}
             toggle={toggle.instagram}
             userProfileData={props.user.instagram}
+            _errors={state._errors}
           />
         </div>
       </div>
