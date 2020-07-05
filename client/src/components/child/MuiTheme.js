@@ -1,4 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
+import { red } from "@material-ui/core/colors";
 
 export const theme = createMuiTheme({
   overrides: {
@@ -29,7 +30,17 @@ export const theme = createMuiTheme({
 
     MuiInputBase: {
       input: {
-        padding: "1rem 0"
+        padding: "1rem 0",
+        color: "#5d5e5e"
+      }
+    },
+    MuiFormLabel: {
+      root: {
+        margin: "1rem 0",
+        "&$focused": {
+          color: "#ff3c00",
+          fontWeight: "bold"
+        }
       }
     },
 
@@ -40,12 +51,14 @@ export const theme = createMuiTheme({
     },
 
     MuiButton: {
+      root: {
+        width: "260px"
+      },
       outlined: {
         color: "#ff3c00",
-        //border: "1px solid  #ff3c00"
-        width: "260px",
-        margin: "2rem 0"
+        margin: "1.5rem 0"
       },
+
       textPrimary: {
         color: "#fff",
         fontWeight: "600",
@@ -53,9 +66,23 @@ export const theme = createMuiTheme({
           backgroundColor: "#4a4b4b",
           borderRadius: "0"
         }
+      },
+      iconSizeMedium: {
+        color: "#ff3c00"
+      }
+    },
+    MuiCard: {
+      root: {
+        paddingBottom: "2rem"
       }
     },
     MuiPaper: {
+      root: {
+        minWidth: "275px",
+        maxWidth: "400px",
+        margin: "4rem auto 0.25rem auto",
+        backgroundColor: "transparent"
+      },
       elevation24: {
         boxShadow: "none"
       },

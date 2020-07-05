@@ -1,33 +1,41 @@
 a {
-    color:$orange;
+  color: $orange;
 }
-body{
-    color:$light-grey;
+body {
+  color: $light-grey;
 }
-.auth_input{
-    width: 231px;
-    height: 30px;
-    margin: 10px;
-    border: 1px solid $dark-grey;
-    padding: 5px;
-    font-size: 16px;
+.auth_input {
+  width: 231px;
+  height: 30px;
+  margin: 10px;
+  border: 1px solid $dark-grey;
+  padding: 5px;
+  font-size: 16px;
 }
-.auth_button{
-    margin: 16px;
-    width: 243px;
-    height: 40px;
-    cursor: pointer;
-    border-radius: 4px;
-    border: none;
-    background-color: $orange;
-    color: white;
-    font-size: 18px;
+.auth_button {
+  margin: 16px;
+  width: 243px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background-color: $orange;
+  color: white;
+  font-size: 18px;
 }
-.auth_form{
-    label{
-        display: block;
-    }
-    .auth_form_error{
-        color:rgb(177, 10, 10);
-    }
+.auth_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  & > div,
+  button {
+    margin: 0 auto;
+  }
+  & > button {
+    margin: 1.5rem auto;
+  }
+  .auth_form_error {
+    color: rgb(177, 10, 10);
+  }
 }
