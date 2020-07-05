@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react";
 import Auth from "../../../modules/Auth";
 import LoginForm from "./LoginForm.js";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import config from "../../../modules/config";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -14,6 +14,11 @@ import { GoogleLogin } from "react-google-login";
 import { googleApiKey } from "../../../clientglobalvariables";
 import { facebookAppId } from "../../../clientglobalvariables";
 import FacebookLogin from "react-facebook-login";
+import { Card, Button, Typography } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { theme } from "../../child/MuiTheme";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
 
 class LoginPage extends React.Component {
   /**
@@ -80,7 +85,6 @@ class LoginPage extends React.Component {
         let { errors, message } = error.response.data;
         const errorLogs = errors ? errors : {};
         errorLogs.summary = message;
-
         this.setState({
           errors: errorLogs
         });
@@ -96,7 +100,6 @@ class LoginPage extends React.Component {
     const field = event.target.name;
     const user = this.state.user;
     user[field] = event.target.value;
-
     this.setState({
       user
     });
@@ -118,9 +121,7 @@ class LoginPage extends React.Component {
       })
       .catch(err => console.log(err));
   };
-  componentClicked = () => {
-    console.log();
-  };
+
   responseFacebook = response => {
     //facebook response returns an obj which should be sent to the backend for the code to be extracted
     const code = JSON.parse(atob(response.signedRequest.split(".")[1])).code;
@@ -146,24 +147,35 @@ class LoginPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <LoginForm
-          onSubmit={this.processForm}
-          onChange={this.changeUser}
-          errors={this.state.errors}
-          successMessage={this.state.successMessage}
-          user={this.state.user}
-        />
-        <GoogleLogin
-          clientId={googleApiKey}
-          buttonText="Login to your Google account"
-          onSuccess={this.responseGoogle}
-          onFailure={this.responseGoogle}
-          cookiePolicy={"single_host_origin"}
-          responseType="code"
-          accessType="offline"
-        />
-        <div style={{ margin: "22px" }}>
-          {/* <FacebookLogin
+        <MuiThemeProvider theme={theme}>
+          <Card variant="outlined" square dark>
+            <LoginForm
+              onSubmit={this.processForm}
+              onChange={this.changeUser}
+              errors={this.state.errors}
+              successMessage={this.state.successMessage}
+              user={this.state.user}
+            />
+            <GoogleLogin
+              clientId={googleApiKey}
+              render={renderProps => (
+                <Button
+                  variant="contained"
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  startIcon={<i class="fab fa-google"></i>}
+                >
+                  Continue With Google
+                </Button>
+              )}
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+              cookiePolicy={"single_host_origin"}
+              responseType="code"
+              accessType="offline"
+            />
+            <div>
+              {/* <FacebookLogin
             appId={facebookAppId}
             autoLoad={false}
             size="medium"
@@ -174,7 +186,12 @@ class LoginPage extends React.Component {
             textButton="Login to your Facebook"
             redirectUri="http://localhost:3000"
           /> */}
-        </div>
+            </div>
+          </Card>
+          <Typography variant="caption" display="block" gutterBottom>
+            Don't have an account? <Link to={"/signup"}>Create one</Link>.
+          </Typography>
+        </MuiThemeProvider>
       </React.Fragment>
     );
   }
