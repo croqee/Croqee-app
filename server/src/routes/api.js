@@ -34,9 +34,11 @@ router.get("/user/:id", (req, res) => {
         instagram: user.instagram,
         facebook: user.facebook,
         website: user.website,
-        imageName: user.img.imageName,
-        imageData: user.img.imageData
       };
+      if (user.img) {
+        editeduser.imageName = user.img.imageName;
+        editeduser.imageName = user.img.imageData;
+      }
       res.status(200).json(editeduser);
     } else if (err) {
       res.status(400).json(err);
