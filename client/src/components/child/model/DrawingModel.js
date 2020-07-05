@@ -154,14 +154,22 @@ class DrawingModel extends Component {
 		return (
 			<React.Fragment>
 				{isSizeSet && (
-					<React.Fragment>
+						<div className="model-wrapper"
+						style={{
+							...styles.model,
+							width: `${width}px`,
+							height: `${height}px`,
+							zIndex: '3',
+							overflow: 'hidden'
+						}}
+					>
 						{compete ? (
-							<div className="model-wrapper">
+							<React.Fragment>
 								{model.model && (
 									<img
 										src={require(`../../../img${this.props.imgPath}${model.model}.png`)}
-										width={`${width}px`}
-										height={`${height}px`}
+										width={`${imgWidth}px`}
+										height={`${imgHeight}px`}
 										className={'drawing-model ' + this.props.side}
 									/>
 								)}
@@ -174,17 +182,9 @@ class DrawingModel extends Component {
 										playingUsers={playingUsers}
 										user={user} />
 								}
-							</div>
+							</React.Fragment>
 						) : (
-								<div className="model-wrapper"
-									style={{
-										...styles.model,
-										width: `${width}px`,
-										height: `${height}px`,
-										zIndex: '3',
-										overflow: 'hidden'
-									}}
-								>
+								<React.Fragment>
 									<div
 										className={`drawing-model__select ${this.state.modelSelectClass} ${this.state
 											.modelSelectClassRightFloat}`}
@@ -231,10 +231,10 @@ class DrawingModel extends Component {
 											playingUsers={playingUsers}
 											user={user} />
 									)}
-								</div>
+								</React.Fragment>
 							)}
 
-					</React.Fragment>
+					</div>
 				)}
 			</React.Fragment>
 		);
