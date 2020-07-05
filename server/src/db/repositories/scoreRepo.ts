@@ -16,7 +16,7 @@ interface iuserScoresData {
 	userFounded: boolean;
 	data: [];
 }
-exports.updateUserScore = function(_userId: string, _modelId: string, _score: number) {
+exports.updateUserScore = function (_userId: string, _modelId: string, _score: number) {
 	Score.findOne({
 		userId: _userId,
 		modelId: _modelId
@@ -24,7 +24,7 @@ exports.updateUserScore = function(_userId: string, _modelId: string, _score: nu
 		if (userScore && userScore.score < _score) {
 			userScore.score = _score;
 			userScore.date = new Date();
-			userScore.save(function(err: any) {
+			userScore.save(function (err: any) {
 				if (err) {
 					console.error('ERROR!');
 				}
@@ -36,7 +36,7 @@ exports.updateUserScore = function(_userId: string, _modelId: string, _score: nu
 				score: _score,
 				date: new Date()
 			});
-			_userScore.save(function(err: any) {
+			_userScore.save(function (err: any) {
 				if (err) {
 					console.error('ERROR!');
 				}
@@ -45,7 +45,7 @@ exports.updateUserScore = function(_userId: string, _modelId: string, _score: nu
 	}).catch();
 };
 
-exports.getUsersTotalScore = function(user: any, callback: any) {
+exports.getUsersTotalScore = function (user: any, callback: any) {
 	getTotalScores((totalScores: number) => {
 		Score.aggregate([
 			{ $match: {} },
@@ -71,32 +71,34 @@ exports.getUsersTotalScore = function(user: any, callback: any) {
 						if (res[i]) {
 							finalResults[i] = res[i];
 							User.findOne({ _id: finalResults[i]._id }).then((res2: any) => {
-								const userInfo: iUserInfo = {
-									email: res2.email,
-									name: res2.name
-								};
-								finalResults[i].user = userInfo;
-								finalResults[i].rank = i + 1;
-								if (user.email === res2.email) {
-									userFoundend = true;
-									data.userRank = i + 1;
-									data.userFounded = true;
+								if (res2) {
+									const userInfo: iUserInfo = {
+										email: res2.email,
+										name: res2.name
+									};
+									finalResults[i].user = userInfo;
+									finalResults[i].rank = i + 1;
+									if (user.email === res2.email) {
+										userFoundend = true;
+										data.userRank = i + 1;
+										data.userFounded = true;
+									}
+									counter++;
+									if (counter === iteration) {
+										getUserScorePosition(data, userFoundend, res, finalResults, user, (data: any) => {
+											callback(data);
+										});
+										return;
+									}
 								}
-								counter++;
-								if (counter === iteration) {
-									getUserScorePosition(data, userFoundend, res, finalResults, user, (data: any) => {
-										callback(data);
-									});
-									return;
-								}
-							}).catch((err: any)=>console.log(err));
+							}).catch((err: any) => console.log(err));
 						}
 					}
 				}
-			}).catch((err: any)=>console.log(err));
+			}).catch((err: any) => console.log(err));
 	});
 };
-let getUserScorePosition = function(
+let getUserScorePosition = function (
 	data: iuserScoresData,
 	userFoundend: boolean,
 	res: any,
@@ -137,7 +139,7 @@ let getUserScorePosition = function(
 					}
 				}
 				console.log(_index);
-			}).catch((err: any)=>console.log(err));
+			}).catch((err: any) => console.log(err));
 			++index;
 		}
 	} else {
@@ -147,7 +149,7 @@ let getUserScorePosition = function(
 	}
 };
 
-let getTotalScores = function(callback: any) {
+let getTotalScores = function (callback: any) {
 	Score.aggregate([
 		{ $match: {} },
 		{
@@ -159,10 +161,10 @@ let getTotalScores = function(callback: any) {
 			if (res) {
 				callback(res.length);
 			}
-		}).catch((err: any)=>console.log(err));
+		}).catch((err: any) => console.log(err));
 };
 
-exports.getScoredModels = function(callback: any) {
+exports.getScoredModels = function (callback: any) {
 	Score.distinct('modelId').exec().then((res: any) => {
 		if (res) {
 			callback(res);

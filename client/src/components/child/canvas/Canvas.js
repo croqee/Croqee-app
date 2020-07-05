@@ -9,29 +9,33 @@ let styles = {
 		cursor: 'crosshair'
 	}
 };
-
 class Canvas extends React.Component {
 	constructor(props) {
 		super(props);
+		this.bool = false;
 		this.state = {
 			baseURL: null,
 			fadeOut: false,
 			isSizeSet: false,
 			width: null,
 			height: null,
+			imgWidth: null,
+			imgHeight: null,
 			countDown: 7,
 			competeTextHideClass: '',
 			moveStartTextClass: '',
+			drawing: false,
+			currentColor: "black",
+			cleared: false,
 		};
+
 		window.addEventListener('resize', () => {
 			this.setCanvasSize();
 		});
 	}
 
-	componentDidMount() {
-		this.setCanvasSize();
-	}
 	componentDidUpdate(prevProps) {
+
 		if (prevProps.shouldResetCanvas !== this.props.shouldResetCanvas) {
 			if (this.props.shouldResetCanvas) {
 				this.reset();
@@ -50,6 +54,7 @@ class Canvas extends React.Component {
 		if (prevProps.leftHand != this.props.leftHand) {
 			this.setCanvasSize();
 		}
+
 	}
 	startCountDown() {
 		if (this.state.countDown > 1) {
@@ -62,26 +67,37 @@ class Canvas extends React.Component {
 		}
 	}
 	setCanvasSize() {
-		const screenSize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		const screenSize = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
 		let width;
 		let height;
-		if (screenSize > 1850) {
-			width = 900;
-			height = 675;
+		if (screenSize <= 900) {
+			width = screenSize;
+			height = (window.innerHeight / 2);
 		} else {
-			width = Math.floor(screenSize / 2 - 9);
-			height = Math.floor(width / 800 * 600);
+			width = Math.floor(screenSize / 2);
+			height = window.innerHeight;
 			styles.canvas = {
 				...styles.canvas,
 				marginRight: '0'
 			};
 		}
-		console.log(screenSize);
+		const imgRatio = 800 / 600;
+		let imgWidth;
+		let imgHeight;
+		if ((width / height) <= imgRatio) {
+			imgWidth = width;
+			imgHeight = imgWidth / imgRatio;
+		} else {
+			imgHeight = height;
+			imgWidth = imgHeight * imgRatio;
+		}
 		this.setState({ isSizeSet: false }, () => {
 			this.setState(
 				{
 					width: width,
 					height: height,
+					imgWidth,
+					imgHeight,
 					isSizeSet: true
 				},
 				() => {
@@ -91,65 +107,22 @@ class Canvas extends React.Component {
 		});
 	}
 
-	drawing(e) {
-		//if the pen is down in the canvas, draw
-
-		if (this.state.pen === 'down' && this.props.canStartDrawing) {
-			if (this.props.timerDone) {
-				if (this.props.isInHomePage) {
-					this.props.setTimer({ showTimer: true, timer: 30 });
-					this.props.setTimerDone(false);
-				} else {
-					this.props.setHasUserDrawnOnCanvas(true);
-				}
-				this.setState({
-					fadeOut: true
-				});
-			}
-
-			this.ctx.beginPath();
-			this.ctx.lineWidth = this.state.lineWidth;
-			this.ctx.lineCap = 'round';
-
-			this.ctx.moveTo(this.state.penCoords[0], this.state.penCoords[1]); //move to old position
-			this.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY); //draw to new position
-			this.ctx.stroke();
-
-			this.setState({
-				//save new position
-				penCoords: [ e.nativeEvent.offsetX, e.nativeEvent.offsetY ]
-			});
-		}
-	}
-
-	penDown(e) {
-		//mouse is down on the canvas
-		this.setState({
-			pen: 'down',
-			penCoords: [ e.nativeEvent.offsetX, e.nativeEvent.offsetY ]
-		});
-	}
-
-	penUp() {
-		//mouse is up on the canvas
-		this.setState({
-			pen: 'up'
-		});
-	}
 
 	reset() {
 		//clears it to all white, resets state to original
-		let lineWidth = 1.7 * this.state.width / 800;
+		let ratio = 700;
+		if (this.state.width < 500) {
+			ratio = 1800;
+		}
+		let lineWidth = 1.7 * this.state.width / ratio;
 		this.setState({
-			mode: 'draw',
-			pen: 'up',
 			lineWidth: lineWidth,
-			penColor: 'black'
 		});
 		if (this.refs.canvas) {
 			this.ctx = this.refs.canvas.getContext('2d');
 			this.ctx.fillStyle = 'white';
 			this.ctx.fillRect(0, 0, this.state.width, this.state.height);
+			this.initCanvas();
 		}
 	}
 	retryDrawing() {
@@ -158,8 +131,152 @@ class Canvas extends React.Component {
 			isDrawn: false
 		});
 	}
+
+
+	/****************
+	 * New stuff
+	 ****************/
+	initCanvas() {
+		console.log("this.refs.canvas.current")
+		console.log(this.refs.canvas)
+
+		this.setState({
+			canvas: this.refs.canvas
+		});
+		this.refs.canvas.addEventListener(
+			"mousedown",
+			this.onMouseDown,
+			false
+		);
+		this.refs.canvas.addEventListener("mouseup", this.onMouseUp, false);
+		this.refs.canvas.addEventListener("mouseout", this.onMouseUp, false);
+		this.refs.canvas.addEventListener(
+			"mousemove",
+			this.throttle(this.onMouseMove, 5),
+			false
+		);
+
+		this.refs.canvas.addEventListener(
+			"touchstart",
+			this.onMouseDown,
+			false
+		);
+
+		this.refs.canvas.addEventListener(
+			"touchmove",
+			this.throttle(this.onTouchMove, 5),
+			false
+		);
+
+		this.refs.canvas.addEventListener("touchend", this.onMouseUp, false);
+	}
+	componentDidMount() {
+		setTimeout(() => {
+			this.setCanvasSize();
+			this.initCanvas();
+		}, 2);
+	}
+	drawLine = (x0, y0, x1, y1, color, emit, force) => {
+		if (this.props.canStartDrawing) {
+			if (this.props.timerDone) {
+				if (this.props.isInHomePage) {
+					this.props.setTimer({ showTimer: true, timer: 8 });
+					this.props.setTimerDone(false);
+				} else {
+					this.props.setHasUserDrawnOnCanvas(true);
+				}
+				this.setState({
+					fadeOut: true
+				});
+			}
+		}
+		let context = this.state.canvas.getContext("2d");
+		context.beginPath();
+		context.moveTo(x0, y0);
+		context.lineTo(x1, y1);
+		context.strokeStyle = color;
+		context.lineWidth = this.state.lineWidth;
+		if (force) {
+			context.lineWidth = this.state.lineWidth * (force * (force + 3.75));
+		}
+		context.stroke();
+		context.closePath();
+
+		if (!emit) {
+			return;
+		}
+	};
+
+	onMouseDown = e => {
+		e.preventDefault();
+		this.setState(() => {
+			return {
+				currentX: e.clientX,
+				currentY: e.clientY,
+				drawing: true
+			};
+		});
+	};
+
+	onMouseUp = e => {
+		this.setState(() => {
+			return {
+				drawing: false,
+				currentX: e.clientX,
+				currentY: e.clientY
+			};
+		});
+	};
+
+	onMouseMove = e => {
+		if (!this.state.drawing) {
+			return;
+		}
+
+		this.setState(() => {
+			return {
+				currentX: e.clientX,
+				currentY: e.clientY
+			};
+		}, this.drawLine(this.state.currentX - this.refs.canvas.getBoundingClientRect().left, this.state.currentY - this.refs.canvas.getBoundingClientRect().top, e.clientX - this.refs.canvas.getBoundingClientRect().left, e.clientY - this.refs.canvas.getBoundingClientRect().top, this.state.currentColor, true));
+	};
+
+	onTouchMove = e => {
+		e.preventDefault();
+		if (!this.state.drawing) {
+			return;
+		}
+		this.setState(() => {
+			this.drawLine(
+				this.state.currentX - this.refs.canvas.getBoundingClientRect().left,
+				this.state.currentY - this.refs.canvas.getBoundingClientRect().top,
+				e.touches[0].clientX - this.refs.canvas.getBoundingClientRect().left,
+				e.touches[0].clientY - this.refs.canvas.getBoundingClientRect().top,
+				this.state.currentColor,
+				true,
+				e.touches[0].force
+			);
+			return {
+				currentX: e.touches[0].clientX,
+				currentY: e.touches[0].clientY
+			};
+		});
+	};
+
+
+	throttle = (callback, delay) => {
+		let previousCall = new Date().getTime();
+		return function () {
+			let time = new Date().getTime();
+
+			if (time - previousCall >= delay) {
+				previousCall = time;
+				callback.apply(null, arguments);
+			}
+		};
+	};
 	render() {
-		const { fadeOut, width, height, isSizeSet, countDown, competeTextHideClass, moveStartTextClass } = this.state;
+		const { fadeOut, width, height, imgWidth, imgHeight, isSizeSet, countDown, competeTextHideClass, moveStartTextClass } = this.state;
 		const { isCompeting } = this.props;
 		let side = this.props.leftHand ? 'canvas_left_hand' : '';
 		console.log(width);
@@ -175,8 +292,8 @@ class Canvas extends React.Component {
 								fadeOut ? (
 									'canvas__overay canvas__overay--fadeout'
 								) : (
-									'canvas__overay canvas__overay--fadein '
-								)
+										'canvas__overay canvas__overay--fadein '
+									)
 							}
 							style={{
 								width: `${width}px`,
@@ -254,8 +371,8 @@ class Canvas extends React.Component {
 									!this.props.activeModel.isDrawn ? (
 										'canvas__blocker canvas__blocker--fadeout'
 									) : (
-										'canvas__blocker canvas__blocker--fadein '
-									)
+											'canvas__blocker canvas__blocker--fadein '
+										)
 								}
 								style={{
 									width: `${width}px`,
@@ -303,34 +420,34 @@ class Canvas extends React.Component {
 										<img
 											className="userscore__model"
 											style={{
-												width: `${width}px`,
-												height: `${height}px`
+												width: `${imgWidth}px`,
+												height: `${imgHeight}px`,
 											}}
 											src={require("../../../img/compete/still-life/geometrical5.png")}
 										/>
 									) : (
-										<img
-											className="userscore__model"
-											style={{
-												width: `${width}px`,
-												height: `${height}px`
-											}}
-											src={require("../../../img/compete/anatomy/woman-figure-8.png")}
-										/>
-									) : (
-										<React.Fragment>
-											{this.props.model.model && (
-												<img
-													className="userscore__model"
-													style={{
-														width: `${width}px`,
-														height: `${height}px`
-													}}
-													src={require(`../../../img${this.props.imgPath}${this.props.model.model}.png`)}
-												/>
-											)}
-										</React.Fragment>
-									)}
+											<img
+												className="userscore__model"
+												style={{
+													width: `${imgWidth}px`,
+													height: `${imgHeight}px`,
+												}}
+												src={require("../../../img/compete/anatomy/woman-figure-8.png")}
+											/>
+										) : (
+											<React.Fragment>
+												{this.props.model.model && (
+													<img
+														className="userscore__model"
+														style={{
+															width: `${imgWidth}px`,
+															height: `${imgHeight}px`,
+														}}
+														src={require(`../../../img${this.props.imgPath}${this.props.model.model}.png`)}
+													/>
+												)}
+											</React.Fragment>
+										)}
 									<span className="userscore_score">
 										Score:<span className="userscore_score_score">
 											{' '}
@@ -339,22 +456,22 @@ class Canvas extends React.Component {
 									</span>
 								</React.Fragment>
 							) : (
-								<span
-									style={{
-										position: 'absolute',
-										width: '400px',
-										textAlign: 'center',
-										top: `${height / 2 - 50}px`,
-										left: `${width / 2 - 200}px`,
-										color: 'white',
-										fontSize: '28px'
-									}}
-								>
-									Nothing was drawn on the canvas
-								</span>
-							)}
+									<span
+										style={{
+											position: 'absolute',
+											width: '400px',
+											textAlign: 'center',
+											top: `${height / 2 - 50}px`,
+											left: `${width / 2 - 200}px`,
+											color: 'white',
+											fontSize: '28px'
+										}}
+									>
+										Nothing was drawn on the canvas
+									</span>
+								)}
 						</span>
-
+						{/* 
 						<canvas
 							id="canvas__drawing"
 							className="canvas__canvas"
@@ -377,9 +494,19 @@ class Canvas extends React.Component {
 								e.preventDefault();
 								this.penUp(e);
 							}}
+						/> */}
+						<canvas
+							id="canvas__drawing"
+							style={styles.canvas}
+							className="canvas__canvas"
+
+							height={`${height}px`}
+							width={`${width}px`}
+							ref="canvas"
 						/>
 					</div>
 				)}
+
 			</React.Fragment>
 		);
 	}
@@ -415,15 +542,14 @@ const mapDispatchToProps = (dispatch) => {
 		invokeScore: (payload) => dispatch(invokeScore(payload)),
 		setImageProcessing: (payload) => dispatch(setImageProcessing(payload)),
 		setTimerDone: (payload) => dispatch(setTimerDone(payload)),
-		setActiveModel: (payload) => dispatch(setActiveModel(payload))
-		};
+		setActiveModel: (payload) => dispatch(setActiveModel(payload)),
+	};
 };
 const mapSizesToProps = ({ width }) => ({
 	isMobile: width < 768,
 });
 
 const first = connect(mapStateToProps, mapDispatchToProps)(Canvas);
-
 export default Sizes(mapSizesToProps)(first)
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -15,6 +15,8 @@ class DrawingModel extends Component {
 			isSizeSet: false,
 			width: null,
 			height: null,
+			imgWidth: null,
+			imgHeight: null,
 			usersScoreFadeClass: ''
 		};
 		this.modelSelect = React.createRef();
@@ -97,38 +99,37 @@ class DrawingModel extends Component {
 		}
 	};
 	setModelSize() {
-		const screenSize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		const screenSize = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
 		let width;
 		let height;
-		if (screenSize > 1850) {
-			const margin = Math.floor((screenSize - 1800) / 3) - 2;
-			width = 900;
-			height = 675;
-			if (this.props.leftHand) {
-				styles.canvas = {
-					...styles.canvas,
-					marginRight: margin + 'px',
-					marginLeft: 0
-				};
-			} else {
-				styles.canvas = {
-					...styles.canvas,
-					marginLeft: margin + 'px',
-					marginRight: 0
-				};
-			}
+		if (screenSize <= 900) {
+			width = screenSize;
+			height = (window.innerHeight / 2);
 		} else {
-			width = Math.floor(screenSize / 2 - 9);
-			height = Math.floor(width / 800 * 600);
+			width = Math.floor(screenSize / 2);
+			height = window.innerHeight;
 			styles.model = {
 				...styles.model,
 				marginLeft: '0'
 			};
 		}
+		const imgRatio = 800 / 600;
+		let imgWidth;
+		let imgHeight;
+		if ((width / height) <= imgRatio) {
+			imgWidth = width;
+			imgHeight = imgWidth / imgRatio;
+		} else {
+			imgHeight = height;
+			imgWidth = imgHeight * imgRatio;
+		}
+
 		this.setState({ isSizeSet: false }, () => {
 			this.setState({
-				width: width,
-				height: height,
+				width,
+				height,
+				imgWidth,
+				imgHeight,
 				isSizeSet: true
 			});
 		});
@@ -146,7 +147,7 @@ class DrawingModel extends Component {
 		});
 	}
 	render() {
-		const { width, height, isSizeSet, usersScoreFadeClass } = this.state;
+		const { width, height, isSizeSet, usersScoreFadeClass, imgWidth, imgHeight } = this.state;
 		const { model, side, compete, showUserScores, playingUsers, user } = this.props;
 		const userScoreOverview = userScoreOverview;
 		let imgPath = '';
@@ -178,7 +179,6 @@ class DrawingModel extends Component {
 								<div className="model-wrapper"
 									style={{
 										...styles.model,
-										display: 'inline-block',
 										width: `${width}px`,
 										height: `${height}px`,
 										zIndex: '3',
@@ -210,15 +210,15 @@ class DrawingModel extends Component {
 									{this.props.activeModel && this.props.activeModel.model === 'stillLife' ? (
 										<img
 											src={require("../../../img/compete/still-life/geometrical5.png")}
-											width={`${width}px`}
-											height={`${height}px`}
+											width={`${imgWidth}px`}
+											height={`${imgHeight}px`}
 											className={'drawing-model ' + this.props.side}
 										/>
 									) : (
 											<img
 												src={require("../../../img/compete/anatomy/woman-figure-8.png")}
-												width={`${width}px`}
-												height={`${height}px`}
+												width={`${imgWidth}px`}
+												height={`${imgHeight}px`}
 												className={'drawing-model ' + this.props.side}
 											/>
 										)}

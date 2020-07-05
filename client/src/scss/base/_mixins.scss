@@ -27,7 +27,11 @@
 }
 
 
-
+@mixin ipad-pro {
+	@media (max-width: 900px) {
+		@content;
+	}
+}
 
 @mixin x-small-screen {
 	@media (max-width: 800px) {

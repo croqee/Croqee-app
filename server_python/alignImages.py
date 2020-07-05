@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from scaleInnerContents import scaleInnerContents
 from distanceMeasurment import HausdorffDist
 
-def alignImages(img, target, tightness=3 ,rescale_size=(150,200), num_scales=16, min_scale=0.8, max_scale=1.6):
+def alignImages(img, target, userCanvasWidth, userCanvasHeight, rescale_size, tightness=3, num_scales=16, min_scale=0.8, max_scale=1.6):
   '''
     img, target: some images in BGR or grayscale with size (600,800)
     tightness: the sigma of the blurring:
@@ -28,10 +28,12 @@ def alignImages(img, target, tightness=3 ,rescale_size=(150,200), num_scales=16,
     img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
   if len(target.shape)==3:
     target = cv.cvtColor(target,cv.COLOR_BGR2GRAY)
-  #assert correct image shape and rescale_size correctness
-  assert img.shape==target.shape==(600,800)
-  assert 600/rescale_size[0]==800/rescale_size[1] and rescale_size[0]%2==0 and rescale_size[1]%2==0
-  #if nothing is in the image: just return it
+  # #assert correct image shape and rescale_size correctness
+  print("rescale sizeeee")
+  print(rescale_size[::-1])
+  # assert img.shape==target.shape==(userCanvasHeight,userCanvasWidth)
+  # assert userCanvasHeight/rescale_size[0]==userCanvasWidth/rescale_size[1] and rescale_size[0]%2==0 and rescale_size[1]%2==0
+  # #if nothing is in the image: just return it
   if np.all(img==0):
     return img
 
@@ -45,7 +47,7 @@ def alignImages(img, target, tightness=3 ,rescale_size=(150,200), num_scales=16,
   #pad images with zeros half the shape on each side to prevent 'over the edge'-fitting and cropping after rescaling
   n,m = rescale_size[0]//2, rescale_size[1]//2
   pad_shape = ((n,n),(m,m))
-  rescale_factor = 600/rescale_size[0]
+  rescale_factor = userCanvasHeight/rescale_size[0]
   img = np.pad(255-img,pad_shape,mode='constant').astype(np.float32)
   target = np.pad(255-target,pad_shape,mode='constant').astype(np.float32)
 
@@ -76,10 +78,10 @@ def alignImages(img, target, tightness=3 ,rescale_size=(150,200), num_scales=16,
   #scale the shift back to be used for the original iamge
   sx, sy = sx*rescale_factor, sy*rescale_factor
   #for negative shift, the shift value has to be 'looped around'
-  if sx>600:sx-=1200
-  if sy>800:sy-=1600
+  if sx>userCanvasHeight:sx-=(userCanvasHeight*2)
+  if sy>userCanvasWidth:sy-=(userCanvasWidth*2)
   #apply the transformation to the original image with compensation for the scaling in the shift value
-  M = np.float32([[s,0,-sy+400*(s-1)],[0,s,-sx+300*(s-1)]])
+  M = np.float32([[s,0,-sy+(userCanvasWidth/2)*(s-1)],[0,s,-sx+(userCanvasHeight/2)*(s-1)]])
   out = cv.warpAffine(orig_img,M,orig_img.shape[::-1],borderValue=255)
   return out
 
