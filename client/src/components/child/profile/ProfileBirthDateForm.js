@@ -8,9 +8,68 @@ import axios from "axios";
 import config from "../../../modules/config";
 import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import { theme } from "../MuiTheme";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { TextField, Typography } from "@material-ui/core";
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiTypography: {
+      colorPrimary: {
+        color: "#ff3c00"
+      }
+    },
+
+    MuiButton: {
+      outlined: {
+        color: "#ff3c00",
+        margin: "1.5rem 0"
+      },
+      textPrimary: {
+        color: "#fff",
+        fontWeight: "600",
+        "&:hover": {
+          backgroundColor: "#4a4b4b",
+          borderRadius: "0"
+        }
+      }
+    },
+    MuiPaper: {
+      elevation24: {
+        boxShadow: "none"
+      },
+      rounded: {
+        borderRadius: "0"
+      }
+    },
+    MuiPickersYear: {
+      root: {
+        "&:focus": {
+          color: "#ff3c00"
+        }
+      }
+    },
+    MuiPickersDay: {
+      container: {
+        borderRadius: "0"
+      },
+      borderRadius: "0",
+      daySelected: {
+        backgroundColor: "#ff3c00",
+        "&:hover": {
+          backgroundColor: "#ff3c00",
+          color: "#fff"
+        }
+      },
+      current: {
+        color: "#ff3c00"
+      }
+    }
+  },
+  palette: {
+    type: "dark",
+    textColor: "#fd5f00"
+  }
+});
 
 function ProfileBirthDateForm(props) {
   const [selectedDate, setSelectedDate] = React.useState(new Date());

@@ -1,5 +1,4 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { red } from "@material-ui/core/colors";
 
 export const theme = createMuiTheme({
   overrides: {
@@ -88,29 +87,6 @@ export const theme = createMuiTheme({
       },
       rounded: {
         borderRadius: "0"
-      }
-    },
-    MuiPickersYear: {
-      root: {
-        "&:focus": {
-          color: "#ff3c00"
-        }
-      }
-    },
-    MuiPickersDay: {
-      container: {
-        borderRadius: "0"
-      },
-      borderRadius: "0",
-      daySelected: {
-        backgroundColor: "#ff3c00",
-        "&:hover": {
-          backgroundColor: "#ff3c00",
-          color: "#fff"
-        }
-      },
-      current: {
-        color: "#ff3c00"
       }
     }
   },
