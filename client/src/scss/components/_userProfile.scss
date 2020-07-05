@@ -1,6 +1,12 @@
+.container__userProfile {
+  display: flex;
+}
 .userProfile {
+  text-align: left;
+  padding: 1rem;
   @media (min-width: $brk-tablet) {
-    width: 50%;
+    min-width: 300px;
+    max-width: 600px;
     margin: 2rem auto;
   }
 }

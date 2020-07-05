@@ -8,7 +8,7 @@ import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
 import ProfileCityForm from "./ProfileCityForm";
 import ProfileImgForm from "./ProfileImgForm";
-import { Divider } from "@material-ui/core";
+import { Divider, Typography } from "@material-ui/core";
 
 const ProfilePage = props => {
   const [state, setState] = useState({
@@ -130,7 +130,9 @@ const ProfilePage = props => {
         <div className="profile__userInfo">
           <span>Email</span>
           <div className="profile__userInfo__container">
-            <p>{props.user.email}</p>
+            <Typography variant="body2" style={{ fontSize: "1rem" }}>
+              {props.user.email}
+            </Typography>
           </div>
         </div>
         <ProfileCityForm

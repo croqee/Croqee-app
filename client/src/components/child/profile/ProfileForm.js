@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { theme } from "../MuiTheme";
+import { Typography } from "@material-ui/core";
 
 export default function ProfileForm({
   onchange,
@@ -43,7 +44,6 @@ export default function ProfileForm({
                   helperText={
                     _errors[`${name}`] !== undefined && _errors[`${name}`]
                   }
-                  // pattern={name !== "website" && `https://${name}.com/.*`}
                   defaultValue={state}
                   placeholder={
                     state === undefined || "" ? `https://${name}.com/` : ""
@@ -59,13 +59,15 @@ export default function ProfileForm({
             </form>
           ) : (
             <Fragment>
-              <p>
+              <Typography variant="body2" style={{ fontSize: "1rem" }}>
                 {userProfileData ? (
-                  <a href={userProfileData}>{userProfileData}</a>
+                  <a href={userProfileData} className="profile__links__data">
+                    {userProfileData} <span></span>
+                  </a>
                 ) : (
                   `Link your ${name} account`
                 )}
-              </p>
+              </Typography>
 
               <a
                 onClick={() => {
