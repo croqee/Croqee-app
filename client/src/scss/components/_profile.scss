@@ -58,7 +58,7 @@
   }
 
   &__userInfo {
-    margin-top: 2rem;
+    margin-top: 1rem;
     & > span {
       color: white;
       font-size: $sm-font;
@@ -74,7 +74,7 @@
         margin: 0;
       }
       a {
-        margin: 0 1rem;
+        //margin: 0 1rem;
         cursor: pointer;
         user-select: none;
       }
@@ -112,6 +112,30 @@
     > p {
       font-size: $sm-font;
       color: white;
+    }
+    &__data {
+      color: unset;
+      text-decoration: none;
+      & > span {
+        width: 0;
+        height: 1px;
+        display: block;
+        border-bottom: 1px solid $orange;
+        transition: width 0.3s ease;
+        position: relative;
+      }
+      &:hover {
+        span {
+          width: 100%;
+        }
+      }
+    }
+    &__icons {
+      color: #b8b8b8;
+      margin: 0.5rem;
+      &:hover {
+        color: $orange;
+      }
     }
   }
 }

@@ -3,12 +3,10 @@ import axios from "axios";
 import config from "../../../modules/config";
 import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
+import { Chip, Button, Avatar } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import ProfileAvatar from "./ProfileAvatar";
@@ -150,6 +148,7 @@ function ProfileImgForm(props) {
               ) : (
                 <Avatar className={classes.large} alt="profile image" />
               )}
+
               <a
                 className="profile__img-name-wrapper__img-link"
                 onClick={() => {

@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../MuiTheme";
+import { TextField, Typography } from "@material-ui/core";
 
 function ProfileBirthDateForm(props) {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
@@ -65,11 +66,11 @@ function ProfileBirthDateForm(props) {
             </form>
           ) : (
             <Fragment>
-              <p>
+              <Typography variant="body2" style={{ fontSize: "1rem" }}>
                 {props.user.birthDate
                   ? props.user.birthDate.substring(0, 10)
                   : `Link your ${props.name} account`}
-              </p>
+              </Typography>
 
               <a
                 onClick={() => {
