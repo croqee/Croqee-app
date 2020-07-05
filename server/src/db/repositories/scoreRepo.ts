@@ -46,57 +46,59 @@ exports.updateUserScore = function (_userId: string, _modelId: string, _score: n
 };
 
 exports.getUsersTotalScore = function (user: any, callback: any) {
-	getTotalScores((totalScores: number) => {
-		Score.aggregate([
-			{ $match: {} },
-			{ $group: { _id: '$userId', total: { $sum: '$score' } } },
-			{
-				$sort: { total: -1 }
-			}
-		])
-			.exec()
-			.then((res: any) => {
-				if (res) {
-					let userFoundend: boolean = false;
-					let finalResults: any = [];
-					let data: iuserScoresData = {
-						totalScores,
-						userRank: null,
-						userFounded: false,
-						data: []
-					};
-					let counter = 0;
-					const iteration = res.length < 10 ? res.length : 10;
-					for (let i = 0; i < iteration; i++) {
-						if (res[i]) {
-							finalResults[i] = res[i];
-							User.findOne({ _id: finalResults[i]._id }).then((res2: any) => {
-								if (res2) {
-									const userInfo: iUserInfo = {
-										email: res2.email,
-										name: res2.name
-									};
-									finalResults[i].user = userInfo;
-									finalResults[i].rank = i + 1;
-									if (user.email === res2.email) {
-										userFoundend = true;
-										data.userRank = i + 1;
-										data.userFounded = true;
+	if (user) {
+		getTotalScores((totalScores: number) => {
+			Score.aggregate([
+				{ $match: {} },
+				{ $group: { _id: '$userId', total: { $sum: '$score' } } },
+				{
+					$sort: { total: -1 }
+				}
+			])
+				.exec()
+				.then((res: any) => {
+					if (res) {
+						let userFoundend: boolean = false;
+						let finalResults: any = [];
+						let data: iuserScoresData = {
+							totalScores,
+							userRank: null,
+							userFounded: false,
+							data: []
+						};
+						let counter = 0;
+						const iteration = res.length < 10 ? res.length : 10;
+						for (let i = 0; i < iteration; i++) {
+							if (res[i]) {
+								finalResults[i] = res[i];
+								User.findOne({ _id: finalResults[i]._id }).then((res2: any) => {
+									if (res2) {
+										const userInfo: iUserInfo = {
+											email: res2.email,
+											name: res2.name
+										};
+										finalResults[i].user = userInfo;
+										finalResults[i].rank = i + 1;
+										if (user.email === res2.email) {
+											userFoundend = true;
+											data.userRank = i + 1;
+											data.userFounded = true;
+										}
+										counter++;
+										if (counter === iteration) {
+											getUserScorePosition(data, userFoundend, res, finalResults, user, (data: any) => {
+												callback(data);
+											});
+											return;
+										}
 									}
-									counter++;
-									if (counter === iteration) {
-										getUserScorePosition(data, userFoundend, res, finalResults, user, (data: any) => {
-											callback(data);
-										});
-										return;
-									}
-								}
-							}).catch((err: any) => console.log(err));
+								}).catch((err: any) => console.log(err));
+							}
 						}
 					}
-				}
-			}).catch((err: any) => console.log(err));
-	});
+				}).catch((err: any) => console.log(err));
+		});
+	}
 };
 let getUserScorePosition = function (
 	data: iuserScoresData,
