@@ -27,7 +27,7 @@ class HomePage extends React.Component {
 			const dataURL = canvas.toDataURL('image/jpeg', 0.8).replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 			this.props.setTimer({ showTimer: false, timer: 30 });
 			const model = this.props.activeModel.model === "stillLife" ? "geometrical5" : "woman-figure-8";
-			axios.post('/send_drawing', { dataURL: dataURL, model: model }).then((response) => {
+			axios.post('/send_drawing', { dataURL: dataURL, model: model, canvasWidth: this.props.canvasWidth, canvasHeight: this.props.canvasHeight }).then((response) => {
 				let score = response.data.score;
 				this.setState({ baseURL: 'data:image/png;base64, ' + response.data.img });
 				score = score || 0;
@@ -64,7 +64,11 @@ class HomePage extends React.Component {
 		return (
 			<div>
 				<div className="croqee-video-section">
-					<span className="croqee-video-section__title">Video goes here</span>
+					<span className="croqee-video-section__title">This is just a sample video</span>
+					<video autoPlay muted loop class="croqee-video-section__video">
+						<source src={require("../../../videos/drawing.mp4")} type="video/mp4" />
+							Your browser does not support HTML5 video.
+                             </video>
 				</div>
 
 				<div className={`drawing-environment ${side}`}>
@@ -102,7 +106,9 @@ const mapStateToProps = (state) => {
 		leftHand,
 		timerDone,
 		startImageProcessing,
-		activeModel
+		activeModel, 
+		canvasWidth,
+		canvasHeight
 	} = state;
 	return {
 		events,
@@ -113,7 +119,9 @@ const mapStateToProps = (state) => {
 		leftHand,
 		timerDone,
 		startImageProcessing,
-		activeModel
+		activeModel,
+		canvasWidth,
+		canvasHeight
 	};
 };
 const mapDispatchToProps = (dispatch) => {

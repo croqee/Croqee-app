@@ -1,30 +1,49 @@
 $showModelsDuration: 0.7s;
 @keyframes move-right {
-    0% { right: 127px;}
-    100%{ right: 0;}
+	0% {
+		right: 127px;
+	}
+	100% {
+		right: 0;
+	}
 }
 @keyframes move-right-from-right {
-    0% { left: 0;}
-    100%{ left: 127px;}
+	0% {
+		left: 0;
+	}
+	100% {
+		left: 127px;
+	}
 }
 @keyframes move-left {
-    0% { right: 0;}
-    100%{ right: 127px;}
+	0% {
+		right: 0;
+	}
+	100% {
+		right: 127px;
+	}
 }
 @keyframes move-left-from-right {
-    0% { left: 127px;}
-    100%{ left: 0;}
+	0% {
+		left: 127px;
+	}
+	100% {
+		left: 0;
+	}
 }
-.model-wrapper{
+.model-wrapper {
 	position: relative;
+	background-color: #e9e9e9;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .drawing-model {
-	position: relative;
+	margin: auto;
 	@include x-small-screen() {
 		float: none;
 		margin: auto;
 		display: block;
-		margin-top: 5px;
 	}
 	&.model_left_hand {
 		float: right;
@@ -33,48 +52,49 @@ $showModelsDuration: 0.7s;
 .drawing-model__select {
 	position: relative;
 	width: 117px;
-	right:127px;
+	right: 127px;
 	height: 236px;
 	margin-bottom: -249px;
-    padding-left: 11px;
-    padding-top: 13px;
-    z-index: 2;
-    cursor: pointer;
+	padding-left: 11px;
+	padding-top: 13px;
+	z-index: 2;
+	cursor: pointer;
 	background-color: #b1b8b8;
-	&--move-right{
-		animation:linear;
+
+	&--move-right {
+		animation: linear;
 		animation-name: move-right;
 		animation-duration: $showModelsDuration;
 		right: 0;
 	}
-	&--move-left{
-		animation:linear;
+	&--move-left {
+		animation: linear;
 		animation-name: move-left;
 		animation-duration: $showModelsDuration;
 	}
-	&--right-float{
-		float:right;
-		&--move-right{
-			animation:linear;
+	&--right-float {
+		float: right;
+		&--move-right {
+			animation: linear;
 			animation-name: move-right-from-right;
 			animation-duration: $showModelsDuration;
 			left: 127px;
 		}
-		&--move-left{
-			animation:linear;
+		&--move-left {
+			animation: linear;
 			animation-name: move-left-from-right;
 			animation-duration: $showModelsDuration;
-			left:0;
+			left: 0;
 		}
 	}
-	span{
+	span {
 		width: 100px;
 		height: 100px;
 		display: inline-block;
 		margin-bottom: 10px;
 		position: relative;
 		right: 6px;
-		&:hover{
+		&:hover {
 			opacity: 1;
 		}
 	}
@@ -84,11 +104,10 @@ $showModelsDuration: 0.7s;
 		background-position-x: -19px;
 		opacity: 0.5;
 		border: 2px solid white;
-		&--active{
+		&--active {
 			border: 2px solid #ff5200;
 			opacity: 1;
 		}
-
 	}
 	&__anatomy {
 		background-image: url("https://cdn.discordapp.com/attachments/618340486083641354/701147023490940998/Woman-figure-8.png");
@@ -96,7 +115,7 @@ $showModelsDuration: 0.7s;
 		background-position: -30px -11px;
 		opacity: 0.5;
 		border: 2px solid white;
-		&--active{
+		&--active {
 			border: 2px solid #ff5200;
 			opacity: 1;
 		}
@@ -160,7 +179,7 @@ $showModelsDuration: 0.7s;
 	body {
 		background: -webkit-linear-gradient(left, #25c481, #25b7c4);
 		background: linear-gradient(to right, #25c481, #25b7c4);
-		font-family: 'Hind', sans-serif;
+		font-family: "Hind", sans-serif;
 	}
 	section {
 		margin: 50px;

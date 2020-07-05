@@ -4,6 +4,9 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    @include ipad-pro{
+        flex-direction: column;
+    }
     &.model_left_hand{
         flex-direction: row-reverse;
     }

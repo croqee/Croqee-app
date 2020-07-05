@@ -14,7 +14,8 @@ import {
 	SET_ACTIVE_MODEL,
 	SET_ACTIVE_MODEL_DRAWN,
 	GET_USERS_SCORE_ASYNC,
-	GET_SCORED_MODELS_ASYNC
+	GET_SCORED_MODELS_ASYNC,
+	SET_CANVAS_WIDTH_AND_HEIGHT
 } from '../actions/action-types';
 const initialState = {
 	user: {},
@@ -33,7 +34,7 @@ const initialState = {
 		isDrawn: false
 	},
 	usersScore: [],
-	scoredModels: []
+	scoredModels: [],
 };
 
 function rootReducer(state = initialState, action) {

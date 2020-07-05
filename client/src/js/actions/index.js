@@ -16,7 +16,7 @@ import {
   SET_ACTIVE_MODEL,
   SET_ACTIVE_MODEL_DRAWN,
   GET_USERS_SCORE_ASYNC,
-  GET_SCORED_MODELS_ASYNC
+  GET_SCORED_MODELS_ASYNC,
 } from "./action-types";
 import Auth from "../../modules/Auth";
 
@@ -136,6 +136,7 @@ export function getUsersScore() {
 function getScoredModelsAsync(payload) {
   return { type: GET_SCORED_MODELS_ASYNC, scoredModels: payload };
 }
+
 export function getScoredModels() {
   return dispatch => {
     axios
@@ -150,3 +151,4 @@ export function getScoredModels() {
       });
   };
 }
+

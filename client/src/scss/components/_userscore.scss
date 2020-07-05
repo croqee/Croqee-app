@@ -2,45 +2,45 @@
 	list-style-type: none;
 	user-select: none;
 	cursor: crosshair;
-	display: block;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	visibility: hidden;
 	font-size: 40px;
 	color: white;
 	opacity: 0;
-	transition: opacity .5s;
+	transition: opacity 0.5s;
 	z-index: 1000;
 	position: relative;
 	background-color: $dark-grey;
 	&.userscore--show {
 		visibility: visible;
 		opacity: 1;
-    }
-    &.userscore--hide {
+	}
+	&.userscore--hide {
 		visibility: visible;
 		opacity: 0;
 	}
-	.userscore_score {
+	&_score {
 		margin: center;
 		position: absolute;
 		top: 10px;
 		left: 20px;
-        z-index: 1001;
-        color: $dark-grey;
-        .userscore_score_score {
-            color: $orange;
-        }
+		z-index: 1001;
+		color: $dark-grey;
+		.userscore_score_score {
+			color: $orange;
+		}
 	}
-	.userscore__drawing {
+	&__drawing {
 		opacity: 0.9;
 		position: absolute;
 		left: 0px;
 		top: 0px;
 	}
-	.userscore__model {
+	&__model {
 		opacity: 0.3;
-		position: absolute;
-		left: 0px;
-		top: 0px;
 		z-index: 200;
+		margin: auto;
 	}
 }

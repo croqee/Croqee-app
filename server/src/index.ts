@@ -62,7 +62,9 @@ getUsersTotalScore();
 app.post("/send_drawing", (req, res, next) => {
   let param = {
     dataURL: req.body.dataURL,
-    model: req.body.model
+    model: req.body.model,
+    canvasWidth: req.body.canvasWidth,
+    canvasHeight: req.body.canvasHeight
   };
   calculateScore(param, function(_res: any) {
     const result = JSON.parse(_res);
