@@ -1,108 +1,108 @@
-import React, { Component, Fragment } from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { Divider } from "@material-ui/core";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import { theme } from "../../child/MuiTheme";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import axios from "axios";
-import config from "../../../modules/config";
-import Chip from "@material-ui/core/Chip";
-import DoneIcon from "@material-ui/icons/Done";
-import CloseIcon from "@material-ui/icons/Close";
-import Auth from "../../../modules/Auth";
-import { connect } from "react-redux";
-import { authenticate, setUser } from "../../../js/actions";
+import React, { Component, Fragment } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { Divider } from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { theme } from '../../child/MuiTheme';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import axios from 'axios';
+import config from '../../../modules/config';
+import Chip from '@material-ui/core/Chip';
+import DoneIcon from '@material-ui/icons/Done';
+import CloseIcon from '@material-ui/icons/Close';
+import Auth from '../../../modules/Auth';
+import { connect } from 'react-redux';
+import { authenticate, setUser } from '../../../js/actions';
 
 class Password extends Component {
   constructor() {
     super();
     this.state = {
       radioValue: null,
-      helperText: "",
+      helperText: '',
       isPasswordNull: true,
-      msg: "",
-      err: "",
-      deleteError: "",
+      msg: '',
+      err: '',
+      deleteError: '',
       password: {
-        currentPassword: "",
-        newPassword: "",
-        repeatNewPassword: ""
+        currentPassword: '',
+        newPassword: '',
+        repeatNewPassword: '',
       },
-      _errors: ""
+      _errors: '',
     };
   }
   //Check if the password is null or not (if it's null it means that user does not have any local account registered)
   componentDidMount() {
     let athorizedHeader = config.AuthorizationHeader();
     axios
-      .get("/api/password", athorizedHeader)
-      .then(res => {
+      .get('/api/password', athorizedHeader)
+      .then((res) => {
         this.setState({
-          isPasswordNull: res.data
+          isPasswordNull: res.data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
 
-  onchange = e => {
+  onchange = (e) => {
     let input = e.target;
     const isValid = input.checkValidity();
-    this.setState(prevState => ({
-      msg: "",
-      err: "",
+    this.setState((prevState) => ({
+      msg: '',
+      err: '',
       password: {
         ...prevState.password,
-        [input.name]: input.value
-      }
+        [input.name]: input.value,
+      },
     }));
     if (!isValid) {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         _errors: {
           ...prevState._errors,
-          [input.name]: input.validationMessage
-        }
+          [input.name]: input.validationMessage,
+        },
       }));
     } else {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
         _errors: {
           ...prevState._errors,
-          [input.name]: ""
-        }
+          [input.name]: '',
+        },
       }));
     }
   };
-  handleRadioChange = value => {
+  handleRadioChange = (value) => {
     this.setState({
-      radioValue: value
+      radioValue: value,
     });
   };
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     let athorizedHeader = config.AuthorizationHeader();
     axios
-      .delete("/api/account", athorizedHeader)
-      .then(res => {
+      .delete('/api/account', athorizedHeader)
+      .then((res) => {
         Auth.deauthenticateUser();
         this.props.authenticate(false);
         this.props.setUser({});
-        this.props.history.push("/");
+        this.props.history.push('/');
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
-          deleteError: err
+          deleteError: err,
         });
       });
   };
 
-  handleChangePassword = e => {
+  handleChangePassword = (e) => {
     e.preventDefault();
     const form = e.target;
     const isValid = form.checkValidity();
@@ -115,7 +115,7 @@ class Password extends Component {
       {}
     );
     this.setState({
-      _errors: validationMessages
+      _errors: validationMessages,
     });
 
     if (isValid) {
@@ -126,43 +126,43 @@ class Password extends Component {
       ) {
         this.setState({
           _errors: {
-            newPassword: "Passwords do not match.",
-            repeatNewPass: "Passwords do not match."
-          }
+            newPassword: 'Passwords do not match.',
+            repeatNewPass: 'Passwords do not match.',
+          },
         });
       } else {
         //check if the length of the pass is more than 8
         if (this.state.password.newPassword.length < 8) {
           this.setState({
             _errors: {
-              newPassword: "Password must be at least 8 caracters.",
-              repeatNewPass: "Password must be at least 8 caracters."
-            }
+              newPassword: 'Password must be at least 8 caracters.',
+              repeatNewPass: 'Password must be at least 8 caracters.',
+            },
           });
         } else {
           //update password
           let athorizedHeader = config.AuthorizationHeader();
           let passwordObj = {
             currentPassword: this.state.password.currentPassword,
-            newPassword: this.state.password.newPassword
+            newPassword: this.state.password.newPassword,
           };
           axios
-            .post("/api/password", passwordObj, athorizedHeader)
-            .then(res => {
+            .post('/api/password', passwordObj, athorizedHeader)
+            .then((res) => {
               if (res.status === 200) {
                 this.setState({
-                  msg: "Updated",
+                  msg: 'Updated',
                   password: {
-                    currentPassword: "",
-                    newPassword: "",
-                    confirmPassword: ""
-                  }
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                  },
                 });
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.setState({
-                err: err
+                err: err,
               });
             });
         }
@@ -174,30 +174,30 @@ class Password extends Component {
     return (
       <Fragment>
         <MuiThemeProvider theme={theme}>
-          <div className="security">
+          <div className='security'>
             <h2>Password and Security</h2>
-            <Divider light="true" />
+            <Divider light='true' />
 
             <h3>Change Password</h3>
-            {this.state.msg !== "" && (
+            {this.state.msg !== '' && (
               <Chip
-                size="medium"
+                size='medium'
                 label={this.state.msg}
                 disabled
                 icon={<DoneIcon />}
-                color="#00FF00"
-                style={{ color: "#00FF00", width: "260px", margin: "1rem 0" }}
-                variant="outlined"
+                color='#00FF00'
+                style={{ color: '#00FF00', width: '260px', margin: '1rem 0' }}
+                variant='outlined'
               />
             )}
-            {this.state.err !== "" && (
+            {this.state.err !== '' && (
               <Chip
-                size="medium"
+                size='medium'
                 label={this.state.err}
                 disabled
                 icon={<CloseIcon />}
-                style={{ color: "#FF0000", width: "260px", margin: "1rem 0" }}
-                variant="outlined"
+                style={{ color: '#FF0000', width: '260px', margin: '1rem 0' }}
+                variant='outlined'
               />
             )}
             {this.state.isPasswordNull && (
@@ -209,18 +209,18 @@ class Password extends Component {
 
             <form
               noValidate
-              className="security__change_password"
+              className='security__change_password'
               onSubmit={this.handleChangePassword}
             >
               <TextField
                 required
                 light
-                type="password"
-                className="security__change_password__field"
+                type='password'
+                className='security__change_password__field'
                 onChange={this.onchange}
-                name="currentPassword"
-                id="filled-error"
-                placeholder="Your Current Password"
+                name='currentPassword'
+                id='filled-error'
+                placeholder='Your Current Password'
                 disabled={this.state.isPasswordNull}
                 error={Boolean(Object.keys(this.state._errors).length !== 0)}
                 helperText={
@@ -230,13 +230,12 @@ class Password extends Component {
               />
               <TextField
                 required
-                type="password"
-                className="security__change_password__field"
-                type="password"
+                type='password'
+                className='security__change_password__field'
                 onChange={this.onchange}
-                name="newPassword"
-                id="filled-error"
-                placeholder="Your New Password"
+                name='newPassword'
+                id='filled-error'
+                placeholder='Your New Password'
                 disabled={this.state.isPasswordNull}
                 error={Boolean(Object.keys(this.state._errors).length !== 0)}
                 helperText={
@@ -246,12 +245,12 @@ class Password extends Component {
               />
               <TextField
                 required
-                type="password"
-                className="security__change_password__field"
+                type='password'
+                className='security__change_password__field'
                 onChange={this.onchange}
-                name="repeatNewPassword"
-                id="filled-error"
-                placeholder="Confrim Your New Password"
+                name='repeatNewPassword'
+                id='filled-error'
+                placeholder='Confrim Your New Password'
                 disabled={this.state.isPasswordNull}
                 error={Boolean(Object.keys(this.state._errors).length !== 0)}
                 helperText={
@@ -261,47 +260,47 @@ class Password extends Component {
               />
 
               <Button
-                type="submit"
-                variant="outlined"
+                type='submit'
+                variant='outlined'
                 disabled={this.state.isPasswordNull || this.state.error}
               >
                 Update Password
               </Button>
             </form>
             <Divider light />
-            <div className="security__change_password">
+            <div className='security__change_password'>
               <h3>Delete Account</h3>
-              {this.state.deleteError !== "" && (
+              {this.state.deleteError !== '' && (
                 <Chip
-                  size="medium"
+                  size='medium'
                   label={this.state.deleteError}
                   disabled
                   icon={<CloseIcon />}
-                  style={{ color: "#FF0000", width: "260px", margin: "1rem 0" }}
-                  variant="outlined"
+                  style={{ color: '#FF0000', width: '260px', margin: '1rem 0' }}
+                  variant='outlined'
                 />
               )}
               <form onSubmit={this.handleSubmit}>
-                <FormControl component="fieldset" error={this.state.error}>
+                <FormControl component='fieldset' error={this.state.error}>
                   <span>
                     By deleting your accout you will also delete all the data
                     that is assosiated with your account and this action can not
                     be undone. Are your sure you want to delete your account?
                   </span>
                   <RadioGroup
-                    aria-label="delete account"
-                    name="delete account"
+                    aria-label='delete account'
+                    name='delete account'
                     onChange={this.handleRadioChange}
                   >
                     <FormControlLabel
-                      value="yes"
+                      value='yes'
                       control={<Radio />}
-                      label="Yes, I am."
+                      label='Yes, I am.'
                     />
                   </RadioGroup>
                   <Button
-                    type="submit"
-                    variant="outlined"
+                    type='submit'
+                    variant='outlined'
                     disabled={Boolean(this.state.radioValue === null)}
                   >
                     Delete My Account
@@ -315,10 +314,10 @@ class Password extends Component {
     );
   }
 }
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    authenticate: payload => dispatch(authenticate(payload)),
-    setUser: payload => dispatch(setUser(payload))
+    authenticate: (payload) => dispatch(authenticate(payload)),
+    setUser: (payload) => dispatch(setUser(payload)),
   };
 };
 
