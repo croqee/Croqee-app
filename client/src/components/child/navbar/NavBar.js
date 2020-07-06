@@ -67,7 +67,7 @@ class NavBar extends React.Component {
               to="/account/profile"
               style={activePage.indexOf("/account") !== -1 ? styles.orange : {}}
             >
-              Hello {this.props.user.name}
+              {this.props.user.name}
             </Link>
             {/* <span className="nav-links_seperator"/> */}
             <Link
