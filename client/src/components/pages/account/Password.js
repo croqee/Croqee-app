@@ -26,7 +26,7 @@ class Password extends Component {
       helperText: "",
       isPasswordNull: true,
       msg: "",
-      err: "",
+      passwordError: "",
       deleteError: "",
       password: {
         currentPassword: "",
@@ -161,8 +161,9 @@ class Password extends Component {
               }
             })
             .catch(err => {
+              console.log(err);
               this.setState({
-                err: err
+                passwordError: err.response.data.error
               });
             });
         }
@@ -190,10 +191,10 @@ class Password extends Component {
                 variant="outlined"
               />
             )}
-            {this.state.err !== "" && (
+            {this.state.passwordError !== "" && (
               <Chip
                 size="medium"
-                label={this.state.err}
+                label={this.state.passwordError}
                 disabled
                 icon={<CloseIcon />}
                 style={{ color: "#FF0000", width: "260px", margin: "1rem 0" }}
