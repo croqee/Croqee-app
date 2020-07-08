@@ -14,6 +14,8 @@ import HomePage from "./components/pages/homepage/HomePage";
 import UserProfile from "./components/pages/userProfile/UserProfile";
 import Password from "./components/pages/account/Password";
 import ProfilePage from "./components/child/profile/ProfilePage";
+import ForgotPassword from "./components/child/account/ForgotPassword";
+import ResetPass from "./components/child/account/ResetPass";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -66,8 +68,13 @@ class App extends Component {
             <GlobalRoute exact path="/" component={HomePage} />
             <LoggedOutRoute path="/signup" component={SignUpPage} />
             <LoggedOutRoute path="/login" component={LoginPage} />
+            <LoggedOutRoute
+              path="/forgotpassword/link"
+              component={ForgotPassword}
+            />
             <PrivateRoute path="/logout" component={LogoutFunction} />
             <PrivateRoute path="/account" component={Account} />
+            <LoggedOutRoute path="/reset" component={ResetPass} />
             <PrivateRoute path="/account/profile" component={ProfilePage} />
             <PrivateRoute path="/account/password" component={Password} />
             <PrivateRoute path="/competes" component={ClubsPage} />

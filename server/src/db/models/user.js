@@ -37,7 +37,9 @@ const UserSchema = new mongoose.Schema({
   behance: String,
   instagram: String,
   facebook: String,
-  website: String
+  website: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: String
 });
 
 /**

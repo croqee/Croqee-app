@@ -1,22 +1,19 @@
-import React, { Component, Fragment } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { Divider } from '@material-ui/core';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import { theme } from '../../child/MuiTheme';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import axios from 'axios';
-import config from '../../../modules/config';
-import Chip from '@material-ui/core/Chip';
-import DoneIcon from '@material-ui/icons/Done';
-import CloseIcon from '@material-ui/icons/Close';
-import Auth from '../../../modules/Auth';
-import { connect } from 'react-redux';
-import { authenticate, setUser } from '../../../js/actions';
+import React, { Component, Fragment } from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { Divider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { theme } from "../../child/MuiTheme";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import axios from "axios";
+import config from "../../../modules/config";
+import Chip from "@material-ui/core/Chip";
+import DoneIcon from "@material-ui/icons/Done";
+import CloseIcon from "@material-ui/icons/Close";
+import Auth from "../../../modules/Auth";
+import { connect } from "react-redux";
+import { authenticate, setUser } from "../../../js/actions";
+import DeleteAccount from "../../child/account/DeleteAccount";
 
 class Password extends Component {
   constructor() {
@@ -26,7 +23,7 @@ class Password extends Component {
       helperText: '',
       isPasswordNull: true,
       msg: '',
-      err: '',
+      passwordError: '',
       deleteError: '',
       password: {
         currentPassword: '',
@@ -46,7 +43,8 @@ class Password extends Component {
           isPasswordNull: res.data,
         });
       })
-      .catch((err) => {
+      .catch(err => {
+        ///****** in case of error, it should be logged that something went wrong
         console.log(err);
       });
   }
@@ -79,12 +77,12 @@ class Password extends Component {
       }));
     }
   };
-  handleRadioChange = (value) => {
+  handleRadioChange = () => {
     this.setState({
-      radioValue: value,
+      radioValue: "yes"
     });
   };
-  handleSubmit = (e) => {
+  deleteHandleSubmit = e => {
     e.preventDefault();
     let athorizedHeader = config.AuthorizationHeader();
     axios
@@ -162,7 +160,7 @@ class Password extends Component {
             })
             .catch((err) => {
               this.setState({
-                err: err,
+                passwordError: err.response.data.error
               });
             });
         }
@@ -185,15 +183,14 @@ class Password extends Component {
                 label={this.state.msg}
                 disabled
                 icon={<DoneIcon />}
-                color='#00FF00'
-                style={{ color: '#00FF00', width: '260px', margin: '1rem 0' }}
-                variant='outlined'
+                style={{ color: "#00FF00", width: "260px", margin: "1rem 0" }}
+                variant="outlined"
               />
             )}
-            {this.state.err !== '' && (
+            {this.state.passwordError !== "" && (
               <Chip
-                size='medium'
-                label={this.state.err}
+                size="medium"
+                label={this.state.passwordError}
                 disabled
                 icon={<CloseIcon />}
                 style={{ color: '#FF0000', width: '260px', margin: '1rem 0' }}
@@ -258,7 +255,6 @@ class Password extends Component {
                   this.state._errors.repeatNewPassword
                 }
               />
-
               <Button
                 type='submit'
                 variant='outlined'
@@ -267,47 +263,15 @@ class Password extends Component {
                 Update Password
               </Button>
             </form>
+
             <Divider light />
-            <div className='security__change_password'>
-              <h3>Delete Account</h3>
-              {this.state.deleteError !== '' && (
-                <Chip
-                  size='medium'
-                  label={this.state.deleteError}
-                  disabled
-                  icon={<CloseIcon />}
-                  style={{ color: '#FF0000', width: '260px', margin: '1rem 0' }}
-                  variant='outlined'
-                />
-              )}
-              <form onSubmit={this.handleSubmit}>
-                <FormControl component='fieldset' error={this.state.error}>
-                  <span>
-                    By deleting your accout you will also delete all the data
-                    that is assosiated with your account and this action can not
-                    be undone. Are your sure you want to delete your account?
-                  </span>
-                  <RadioGroup
-                    aria-label='delete account'
-                    name='delete account'
-                    onChange={this.handleRadioChange}
-                  >
-                    <FormControlLabel
-                      value='yes'
-                      control={<Radio />}
-                      label='Yes, I am.'
-                    />
-                  </RadioGroup>
-                  <Button
-                    type='submit'
-                    variant='outlined'
-                    disabled={Boolean(this.state.radioValue === null)}
-                  >
-                    Delete My Account
-                  </Button>
-                </FormControl>
-              </form>
-            </div>
+            <DeleteAccount
+              deleteError={this.state.deleteError}
+              handleSubmit={this.deleteHandleSubmit}
+              error={this.state.error}
+              handleRadioChange={this.handleRadioChange}
+              radioValue={this.state.radioValue}
+            />
           </div>
         </MuiThemeProvider>
       </Fragment>

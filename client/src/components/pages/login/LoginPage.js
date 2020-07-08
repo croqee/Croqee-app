@@ -188,9 +188,15 @@ class LoginPage extends React.Component {
           /> */}
             </div>
           </Card>
-          <Typography variant="caption" display="block" gutterBottom>
-            Don't have an account? <Link to={"/signup"}>Create one</Link>.
-          </Typography>
+          <div style={{ textAlign: "left", margin: "auto", width: "250px" }}>
+            <Typography variant="caption" display="block">
+              Don't have an account? <Link to={"/signup"}>Create one</Link>.
+            </Typography>
+            <Typography variant="caption" display="block" gutterBottom>
+              Forgot password?{" "}
+              <Link to={"/forgotpassword/link"}>Send link</Link>.
+            </Typography>
+          </div>
         </MuiThemeProvider>
       </React.Fragment>
     );
