@@ -10,7 +10,7 @@ class HandSide extends Component {
     };
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.timerDone != this.props.timerDone) {
+    if (prevProps.timerDone !== this.props.timerDone) {
       if (this.props.timerDone) {
         this.setState({
           handSideStatusClass: 'hand-side--fade-in',
@@ -37,7 +37,7 @@ class HandSide extends Component {
           type='radio'
           defaultChecked={leftHand}
         />
-        <label for='toggle-off' className='btn'>
+        <label htmlFor='toggle-off' className='btn'>
           Left hand
         </label>
         <input
@@ -49,7 +49,7 @@ class HandSide extends Component {
           type='radio'
           defaultChecked={!leftHand}
         />
-        <label for='toggle-on' className='btn'>
+        <label htmlFor='toggle-on' className='btn'>
           Right hand
         </label>
       </div>

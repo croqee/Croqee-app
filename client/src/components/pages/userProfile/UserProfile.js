@@ -1,20 +1,20 @@
-import React, { Fragment, Component } from "react";
-import { connect } from "react-redux";
-import { getUsersScore, getScoredModels } from "../../../js/actions";
-import "@fortawesome/fontawesome-free/css/all.css";
-import "@fortawesome/fontawesome-free/js/all.js";
-import axios from "axios";
-import config from "../../../modules/config";
-import ProfileAvatar from "../../child/profile/ProfileAvatar";
-import { Typography } from "@material-ui/core";
+import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
+import { getUsersScore, getScoredModels } from '../../../js/actions';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+import axios from 'axios';
+import config from '../../../modules/config';
+import ProfileAvatar from '../../child/profile/ProfileAvatar';
+import { Typography } from '@material-ui/core';
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userRank: "",
-      userScore: "",
-      userInfo: {}
+      userRank: '',
+      userScore: '',
+      userInfo: {},
     };
     this.props.getUsersScore(1);
   }
@@ -23,13 +23,13 @@ class UserProfile extends Component {
     const paramsId = this.props.location.pathname.substring(13);
     let athorizedHeader = config.AuthorizationHeader();
     axios
-      .get("/api/user/" + paramsId, athorizedHeader)
-      .then(res => {
+      .get('/api/user/' + paramsId, athorizedHeader)
+      .then((res) => {
         this.setState({
-          userInfo: res.data
+          userInfo: res.data,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
   componentDidUpdate(prevProps) {
     if (this.props.usersScore !== prevProps.usersScore) {
@@ -38,7 +38,7 @@ class UserProfile extends Component {
         if (user._id === paramsId) {
           this.setState({
             userRank: user.rank,
-            userScore: user.total
+            userScore: user.total,
           });
         }
       });
@@ -49,84 +49,84 @@ class UserProfile extends Component {
     return (
       <Fragment>
         {userInfo && (
-          <div className="userProfile">
-            <div className="profile__img-name-wrapper">
-              <div className="profile__img-name-wrapper__img">
+          <div className='userProfile'>
+            <div className='profile__img-name-wrapper'>
+              <div className='profile__img-name-wrapper__img'>
                 <ProfileAvatar
                   imageSrc={`http://localhost:8080/${encodeURI(
                     userInfo.imageData
                   )}`}
                 />
               </div>
-              <div className="profile__img-name-wrapper__name">
+              <div className='profile__img-name-wrapper__name'>
                 <span>Name</span>
                 <h1>{userInfo.name}</h1>
               </div>
             </div>
-            <div className="profile__ranking">
+            <div className='profile__ranking'>
               <h2>
                 Rank #
-                <span className="profile__ranking__highlight">{userRank}</span>
+                <span className='profile__ranking__highlight'>{userRank}</span>
               </h2>
               <h2>
-                Score{" "}
-                <span className="profile__ranking__highlight">{userScore}</span>
+                Score{' '}
+                <span className='profile__ranking__highlight'>{userScore}</span>
               </h2>
             </div>
-            <div className="profile__userInfo">
+            <div className='profile__userInfo'>
               <span>Email</span>
-              <div className="profile__userInfo__container">
-                <Typography variant="body2" style={{ fontSize: "1rem" }}>
+              <div className='profile__userInfo__container'>
+                <Typography variant='body2' style={{ fontSize: '1rem' }}>
                   {userInfo.email}
                 </Typography>
               </div>
             </div>
-            <div className="profile__userInfo">
+            <div className='profile__userInfo'>
               <span>Location</span>
-              <div className="profile__userInfo__container">
-                <Typography variant="body2" style={{ fontSize: "1rem" }}>
-                  {userInfo.city ? userInfo.city : "Unspecified"}
+              <div className='profile__userInfo__container'>
+                <Typography variant='body2' style={{ fontSize: '1rem' }}>
+                  {userInfo.city ? userInfo.city : 'Unspecified'}
                 </Typography>
               </div>
             </div>
-            <div className="profile__userInfo">
+            <div className='profile__userInfo'>
               <span>Birthdate</span>
-              <div className="profile__userInfo__container">
-                <Typography variant="body2" style={{ fontSize: "1rem" }}>
+              <div className='profile__userInfo__container'>
+                <Typography variant='body2' style={{ fontSize: '1rem' }}>
                   {userInfo.birthDate
                     ? userInfo.birthDate.substring(0, 10)
-                    : "Unspecified."}
+                    : 'Unspecified.'}
                 </Typography>
               </div>
             </div>
-            <div className="profile__links">
+            <div className='profile__links'>
               <p>Links</p>
             </div>
             {userInfo.behance !== undefined && (
-              <a href={userInfo.behance} className="profile__links__icons">
-                <i className={"fab fa-2x fa-behance "} />
+              <a href={userInfo.behance} className='profile__links__icons'>
+                <i className={'fab fa-2x fa-behance '} />
               </a>
             )}
             {userInfo.facebook !== undefined && (
-              <a href={userInfo.facebook} className="profile__links__icons">
+              <a href={userInfo.facebook} className='profile__links__icons'>
                 <i
-                  className={"fab fa-2x fa-facebook"}
+                  className={'fab fa-2x fa-facebook'}
                   // style={{ color: "#b8b8b8", margin: "1rem" }}
                 />
               </a>
             )}
             {userInfo.instagram !== undefined && (
-              <a href={userInfo.instagram} className="profile__links__icons">
+              <a href={userInfo.instagram} className='profile__links__icons'>
                 <i
-                  className={"fab fa-2x fa-instagram"}
+                  className={'fab fa-2x fa-instagram'}
                   //style={{ color: "#b8b8b8", margin: "1rem" }}
                 />
               </a>
             )}
             {userInfo.website !== undefined && (
-              <a href={userInfo.website} className="profile__links__icons">
+              <a href={userInfo.website} className='profile__links__icons'>
                 <i
-                  className={"far fa-2x fa-user-circle"}
+                  className={'far fa-2x fa-user-circle'}
                   // style={{ color: "#b8b8b8", margin: "1rem" }}
                 />
               </a>
@@ -137,14 +137,14 @@ class UserProfile extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { usersScore, user } = state;
   return { usersScore, user };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersScore: page => dispatch(getUsersScore(page)),
-    getScoredModels: () => dispatch(getScoredModels())
+    getUsersScore: (page) => dispatch(getUsersScore(page)),
+    getScoredModels: () => dispatch(getScoredModels()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
