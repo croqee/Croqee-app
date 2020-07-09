@@ -344,7 +344,6 @@ router.post("/account", (req, res) => {
   if (parsedBody.email === "") {
     res.status(400).send("email required");
   }
-
   User.findOne({
     email: parsedBody.email
   }).then(user => {
@@ -353,19 +352,14 @@ router.post("/account", (req, res) => {
       res.status(403).send("email not in db");
     } else {
       const token = crypto.randomBytes(20).toString("hex");
-
       const expiryTime = Date.now() + 360000;
       user.resetPasswordToken = token;
       user.resetPasswordExpires = expiryTime;
-
-      user.save(function(err, obj) {
+      user.save(function(err) {
         if (err) {
-          console.log("there was an error");
-        } else {
-          console.log(obj);
-        }
+          return res.status(500).json({error: err})
+        } 
       });
-
       const transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
@@ -373,7 +367,6 @@ router.post("/account", (req, res) => {
           pass: "bncmztxpzyqefavk"
         }
       });
-
       const mailOptions = {
         from: "croqee@gmail.com",
         to: `${user.email}`,
@@ -387,9 +380,8 @@ router.post("/account", (req, res) => {
 
       transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
-          console.error("there was an error: ", err);
+          res.status(500).json({error: err});
         } else {
-          console.log("here is the res: ", response);
           res.status(200).json("recovery email sent");
         }
       });
@@ -397,14 +389,12 @@ router.post("/account", (req, res) => {
   });
 });
 
-router.get("/reset", (req, res, next) => {
-  console.log(req.query.resetPasswordToken);
+router.get("/reset-token-check", (req, res, next) => {
   User.findOne({
     resetPasswordToken: req.query.resetPasswordToken,
     resetPasswordExpires: { $gt: Date.now() }
   }).then(user => {
     if (!user) {
-      console.log("password reset link is invalid or has expired");
       res.status(400).json("password reset link is invalid or has expired");
     } else {
       res.status(200).send({
@@ -423,11 +413,11 @@ let myBodyParser = body => {
   return reqBody;
 };
 
-router.put("/resetPass", (req, res) => {
+router.put("/reset-pass", (req, res) => {
   req.body = myBodyParser(req.body);
-  console.log(req.body);
   User.findOne({
     resetPasswordToken: req.body.resetPasswordToken,
+    resetPasswordExpires: { $gt: Date.now() },
     email: req.body.email
   }).then(user => {
     if (!user) {
@@ -438,10 +428,8 @@ router.put("/resetPass", (req, res) => {
       user.resetPasswordExpires = undefined;
       user.save(function(err, obj) {
         if (err) {
-          console.log("there was an error");
-          // res.status(200).json({ data: req });
+          res.status(500).end();
         } else {
-          console.log(obj);
           res.status(200).send({
             message: "password successfully updated"
           });
