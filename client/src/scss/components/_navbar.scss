@@ -62,7 +62,7 @@
   }
   &-text {
     text-align: center;
-    font-size: 16px;
+    font-size: $sm-font;
     line-height: 80px;
     color: white;
     transition: all 0.3s ease;
@@ -75,13 +75,14 @@
 
 .nav > .nav-links > a {
   display: inline-block;
-  padding: 24px 20px;
+  padding: 24px 1.1rem;
   text-decoration: none;
   color: white;
-  margin-right: 13px;
-  font-size: 22px;
+  margin-right: 5px;
+  font-size: $sm-font;
+
   &:hover {
-    color: white;
+    color: $orange;
   }
 }
 
@@ -197,7 +198,7 @@
   }
 
   .nav > .nav-links {
-    position: fixed;
+    position: absolute;
     overflow-y: hidden;
     top: 0;
     right: 0;
@@ -235,7 +236,7 @@
     transition: width 0.2s ease 0s;
     height: 100vh;
     position: fixed;
-    overflow-y: inherit;
+    overflow-y: hidden;
     z-index: 500;
     padding: 4.625rem 5rem 3rem 0rem;
   }

@@ -11,6 +11,7 @@ import {
 import logo from "../../../img/logo.svg";
 import { connect } from "react-redux";
 import { getUser, setPageToNavigateAfterLogin } from "../../../js/actions";
+import NavbarContact from "./NavbarContact";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 
@@ -32,11 +33,21 @@ class NavBar extends React.Component {
     }
   }
 
+  lockBgScroll = () => {
+    if (document.body.scroll !== "no") {
+      document.documentElement.style.overflow = "hidden";
+      document.body.scroll = "no";
+    } else {
+      document.documentElement.style.overflow = "scroll";
+      document.body.scroll = "yes";
+    }
+  };
+
   render() {
     const { activePage } = this.state;
     let styles = {
       orange: {
-        color: "#ff5200",
+        color: "#ff3c00",
         fontWeight: 600
       }
     };
@@ -47,7 +58,7 @@ class NavBar extends React.Component {
           <img src={logo} id="logo" alt="Croqee logo" className="nav-title" />
           <span style={{ fontSize: "0rem" }}>Croqee</span>
         </h1>
-        <button type="button" class="hamburger ">
+        <button type="button" className="hamburger" onClick={this.lockBgScroll}>
           <label htmlFor="nav-check">
             <span className="hamburger-box">
               <span className="hamburger-inner"></span>
@@ -87,15 +98,17 @@ class NavBar extends React.Component {
             <Link className="nav-link" to="/LogOut">
               Log out
             </Link>
-            <div className="nav-contact">
-              <p>info@crooqi.com</p>
-              <p>+45 888 665 554</p>
-            </div>
-            <div className="nav-contact-icons">
-              <i fa-5x className="fab fa-instagram"></i>
-              <i fa-5x className="fab fa-facebook-f"></i>
-              <i fa-5x className="fab fa-youtube"></i>
-            </div>
+            <button className="nav-links-btn">
+              <span className="nav-links-btn-text">
+                Draw and compete
+                <i
+                  fa-5x
+                  style={{ marginLeft: "0.5rem" }}
+                  className="fas fa-arrow-right"
+                ></i>
+              </span>
+            </button>
+            <NavbarContact />
           </div>
         ) : (
           <div className="nav-links">
@@ -122,19 +135,15 @@ class NavBar extends React.Component {
               Login
             </Link>
             <button className="nav-links-btn">
-              <span className="nav-links-btn-text">Draw and compete</span>
+              <span className="nav-links-btn-text">
+                Draw and compete{" "}
+                <i
+                  style={{ marginLeft: "0.5rem" }}
+                  className="fas fa-arrow-right"
+                ></i>
+              </span>
             </button>
-
-            <div className="nav-contact">
-              <p>info@crooqi.com</p>
-              <p>+45 888 665 554</p>
-            </div>
-            <div className="nav-contact-icons">
-              <i fa-5x size="7x" className="fab fa-instagram"></i>
-              <i fa-5x className="fab fa-facebook-f"></i>
-              <i fa-5x className="fab fa-youtube"></i>
-              <i fa-5x className="fab fa-twitter"></i>
-            </div>
+            <NavbarContact />
           </div>
         )}
       </div>
