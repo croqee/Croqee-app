@@ -55,7 +55,12 @@ class NavBar extends React.Component {
       <div className="nav">
         <input type="checkbox" id="nav-check" />
         <h1 className="nav-header">
-          <img src={logo} id="logo" alt="Croqee logo" className="nav-title" />
+          <img
+            src={logo}
+            id="logo"
+            alt="Croqee logo"
+            className="nav-header-title"
+          />
           <span style={{ fontSize: "0rem" }}>Croqee</span>
         </h1>
         <button type="button" className="hamburger" onClick={this.lockBgScroll}>

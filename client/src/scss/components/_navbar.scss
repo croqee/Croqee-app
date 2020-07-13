@@ -10,122 +10,115 @@
   top: 0;
   width: 100%;
   height: 80px;
-}
-.nav-links_seperator {
-  border-left: 2px solid black;
-  margin-right: 10px;
-}
-
-.nav > .nav-header {
-  display: inline;
-}
-
-.nav > .nav-header > .nav-title {
-  display: inline-block;
-  font-size: 22px;
-  color: $light-grey;
-  padding-top: 29px;
-  float: left;
-  position: relative;
-  left: 70px;
-}
-
-.nav > .nav-btn {
-  display: none;
-}
-
-.nav > .nav-links {
-  display: inline;
-  float: right;
-  font-size: 18px;
-  position: relative;
-}
-.nav-links-btn {
-  height: 80px;
-  width: 260px;
-  font-weight: 800;
-  text-decoration: none;
-  letter-spacing: 0.09em;
-  outline: none;
-  user-select: none;
-  display: inline-block;
-  text-transform: uppercase;
-  font-weight: bold;
-  position: relative;
-  border: none;
-  background: linear-gradient(to right, white 50%, $orange 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
-  transition: all 0.25s ease;
-  &:hover {
-    background-position: left bottom;
+  &-links_seperator {
+    border-left: 2px solid black;
+    margin-right: 10px;
   }
-  &-text {
-    text-align: center;
-    font-size: $sm-font;
-    line-height: 80px;
-    color: white;
-    transition: all 0.3s ease;
-    display: block;
-    &:hover {
-      color: $orange;
+  &-header {
+    display: inline;
+    &-title {
+      display: inline-block;
+      padding-top: 29px;
+      float: left;
+      position: relative;
+      left: 30px;
+    }
+  }
+  &-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+    position: relative;
+    & > a {
+      display: inline-block;
+      padding: 24px 1.1rem;
+      text-decoration: none;
+      color: white;
+      margin-right: 5px;
+      font-size: $sm-font;
+      &:hover {
+        color: $orange;
+      }
+    }
+    &-btn {
+      height: 80px;
+      width: 260px;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 0.09em;
+      outline: none;
+      user-select: none;
+      display: inline-block;
+      text-transform: uppercase;
+      font-weight: bold;
+      position: relative;
+      border: none;
+      background: linear-gradient(to right, white 50%, $orange 50%);
+      background-size: 200% 100%;
+      background-position: right bottom;
+      transition: all 0.25s ease;
+      &:hover {
+        background-position: left bottom;
+      }
+      &-text {
+        text-align: center;
+        font-size: $sm-font;
+        line-height: 80px;
+        color: white;
+        transition: all 0.3s ease;
+        display: block;
+        &:hover {
+          color: $orange;
+        }
+      }
+    }
+  }
+  &-contact {
+    display: none;
+    &-icons {
+      display: none;
     }
   }
 }
-
-.nav > .nav-links > a {
-  display: inline-block;
-  padding: 24px 1.1rem;
-  text-decoration: none;
-  color: white;
-  margin-right: 5px;
-  font-size: $sm-font;
-
-  &:hover {
-    color: $orange;
-  }
-}
-
 .nav > #nav-check {
   display: none;
 }
-
 .hamburger {
   display: none;
   margin-left: auto;
   margin-right: 0;
   z-index: 600;
   padding: 25px 15px;
-}
-.hamburger-box {
-  width: 31px;
-  height: 16px;
-  display: inline-block;
-  position: relative;
-  padding: 25px;
-}
-.hamburger-inner {
-  top: 1px;
-  -webkit-transition-duration: 0.4s;
-  -o-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  -o-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.hamburger-inner:before {
-  top: 7px;
-  transition: opacity 0.15s 0.4s ease;
-}
-.hamburger-inner:after {
-  top: 14px;
-  -webkit-transition: -webkit-transform 0.4s
-    cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  -o-transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-    -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  &-box {
+    width: 31px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    padding: 25px;
+  }
+  &-inner {
+    top: 1px;
+    -webkit-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -o-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    &:before {
+      top: 7px;
+      transition: opacity 0.15s 0.4s ease;
+    }
+    &:after {
+      top: 14px;
+      -webkit-transition: -webkit-transform 0.4s
+        cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      -o-transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+  }
 }
 
 .hamburger-inner:before,
@@ -155,73 +148,57 @@
   transition-timing-function: ease;
 }
 
-.nav-contact {
-  display: none;
-}
-.nav-contact-icons {
-  display: none;
-}
-
 @media (max-width: 1100px) {
-  .hamburger {
-    display: block;
-    cursor: pointer;
-    outline: 0;
-    font: inherit;
-    color: inherit;
-    text-transform: none;
-    background-color: transparent;
-    border: 0;
-    margin: 0 auto 0;
-    overflow: visible;
-    display: inline-block;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-  }
-
-  .nav > .nav-btn {
-    display: inline-block;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-  }
-  .nav > .nav-btn > label {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  .nav > .nav-btn > label:hover,
-  .nav #nav-check:checked ~ .nav-btn > label {
-    cursor: pointer;
-  }
-
-  .nav > .nav-links {
-    position: absolute;
-    overflow-y: hidden;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    background: white;
-    width: 0;
-    transition: width 0.2s ease 0s;
-    text-align: left;
-  }
-  .nav-links-btn {
-    margin: 1rem 2rem;
-  }
-
-  .nav > .nav-links > a {
-    display: block;
-    width: 100%;
-    position: relative;
-    color: $dark-grey;
-    padding: 1rem 2rem;
-    font-size: $lg-font;
-    font-weight: 100;
-    &:hover {
-      color: $orange;
+  .nav {
+    &-links {
+      position: absolute;
+      overflow-y: hidden;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      background: white;
+      width: 0;
+      transition: width 0.2s ease 0s;
+      text-align: left;
+      & > a {
+        display: block;
+        width: 100%;
+        position: relative;
+        color: $dark-grey;
+        padding: 1rem 2rem;
+        font-size: $lg-font;
+        font-weight: 100;
+        &:hover {
+          color: $orange;
+        }
+      }
+      &-btn {
+        margin: 1rem 2rem;
+      }
+    }
+    &-contact {
+      display: block;
+      margin: 2rem 2rem;
+      & > p {
+        color: black;
+        font-size: $md-font;
+      }
+      &-icons {
+        display: block;
+        margin: 4rem 2rem;
+        & > :first-child {
+          padding-left: 0;
+        }
+        & > svg {
+          font-size: $lg-font;
+          padding: 0 1rem;
+          fill: $orange;
+          color: $orange;
+          & > svg:first-child {
+            padding-left: 0;
+          }
+        }
+      }
     }
   }
 
@@ -239,6 +216,23 @@
     overflow-y: hidden;
     z-index: 500;
     padding: 4.625rem 5rem 3rem 0rem;
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    outline: 0;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0 auto 0;
+    overflow: visible;
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
   }
   .nav > #nav-check:checked ~ .hamburger .hamburger-inner:after {
     background-color: black;
@@ -265,30 +259,5 @@
   .nav > #nav-check:checked ~ .hamburger .hamburger-inner:before {
     transition-delay: 0s;
     opacity: 0;
-  }
-
-  .nav-contact {
-    display: block;
-    margin: 2rem 2rem;
-    & > p {
-      color: black;
-      font-size: $md-font;
-    }
-  }
-  .nav-contact-icons {
-    display: block;
-    margin: 4rem 2rem;
-    & > :first-child {
-      padding-left: 0;
-    }
-    & > svg {
-      font-size: $lg-font;
-      padding: 0 1rem;
-      fill: $orange;
-      color: $orange;
-      & > svg:first-child {
-        padding-left: 0;
-      }
-    }
   }
 }
