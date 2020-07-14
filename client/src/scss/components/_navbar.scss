@@ -165,8 +165,8 @@
         width: 100%;
         position: relative;
         color: $dark-grey;
-        padding: 1rem 2rem;
-        font-size: $lg-font;
+        padding: 0.25rem 2rem;
+        font-size: $md-font;
         font-weight: 100;
         &:hover {
           color: $orange;
@@ -178,14 +178,14 @@
     }
     &-contact {
       display: block;
-      margin: 2rem 2rem;
+      margin: 1rem 2rem;
       & > p {
         color: black;
         font-size: $md-font;
       }
       &-icons {
         display: block;
-        margin: 4rem 2rem;
+        margin: 2rem 2rem;
         & > :first-child {
           padding-left: 0;
         }
