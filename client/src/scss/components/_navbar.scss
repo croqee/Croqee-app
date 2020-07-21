@@ -1,16 +1,16 @@
 #logo {
-  width: 200px;
+  width: 50px;
   position: relative;
   bottom: 7px;
 }
 .nav {
   background-color: transparent;
   z-index: 300;
-  position: absolute;
   top: 0;
   width: 100%;
   height: 80px;
-  &-links_seperator {
+  background: no-repeat;
+   &-links_seperator {
     border-left: 2px solid black;
     margin-right: 10px;
   }
@@ -31,18 +31,19 @@
     position: relative;
     & > a {
       display: inline-block;
-      padding: 24px 1.1rem;
+      padding: 12px 1.1rem;
       text-decoration: none;
       color: white;
       margin-right: 5px;
       font-size: $sm-font;
+      line-height: 2.5em;
       &:hover {
         color: $orange;
       }
     }
     &-btn {
-      height: 80px;
-      width: 260px;
+      height: 70px;
+      width: 240px;
       font-weight: 800;
       text-decoration: none;
       letter-spacing: 0.09em;
@@ -57,13 +58,14 @@
       background-size: 200% 100%;
       background-position: right bottom;
       transition: all 0.25s ease;
+      cursor: pointer;
       &:hover {
         background-position: left bottom;
       }
       &-text {
         text-align: center;
         font-size: $sm-font;
-        line-height: 80px;
+        line-height: 70px;
         color: white;
         transition: all 0.3s ease;
         display: block;
@@ -76,6 +78,9 @@
   &-contact {
     display: none;
     &-icons {
+      display: none;
+    }
+    &-links {
       display: none;
     }
   }
@@ -179,13 +184,19 @@
     &-contact {
       display: block;
       margin: 1rem 2rem;
+      position: absolute;
+      bottom: 30%;
       & > p {
         color: black;
-        font-size: $md-font;
+        font-size: $sm-font;
+        font-weight: lighter;
+        line-height: 1rem;
       }
       &-icons {
         display: block;
         margin: 2rem 2rem;
+        position: absolute;
+        bottom: 18%;
         & > :first-child {
           padding-left: 0;
         }
@@ -199,6 +210,27 @@
           }
         }
       }
+      &-links {
+        display: block;
+        margin: 2rem 2rem;
+        position: absolute;
+        bottom: 10%;
+        & > :first-child {
+          padding-left: 0;
+        }
+        & > a {
+          color: $dark-grey;
+          text-decoration: none;
+          margin-right: 0.5rem;
+          font-size: $xs-font;
+          &:hover {
+            text-decoration: underline;
+          }
+          & > a:last-child {
+            margin-right: 0;
+          }
+        }
+      }
     }
   }
 
@@ -209,13 +241,13 @@
     transition: width 1s ease 0s;
   }
   .nav > #nav-check:checked ~ .nav-links {
-    width: 80%;
+    width: 95%;
     transition: width 0.2s ease 0s;
     height: 100vh;
     position: fixed;
     overflow-y: hidden;
     z-index: 500;
-    padding: 4.625rem 5rem 3rem 0rem;
+    padding: 4.625rem 1rem 3rem 0rem;
   }
 
   .hamburger {

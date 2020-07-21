@@ -8,7 +8,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import logo from "../../../img/logo.svg";
+import logo from "../../../img/croqee vert.svg";
 import { connect } from "react-redux";
 import { getUser, setPageToNavigateAfterLogin } from "../../../js/actions";
 import NavbarContact from "./NavbarContact";
@@ -19,7 +19,8 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePage: this.props.history.location.pathname
+      activePage: this.props.history.location.pathname,
+      isChecked: props.isChecked || false
     };
   }
   componentDidMount() {
@@ -29,6 +30,14 @@ class NavBar extends React.Component {
     if (prevProps != this.props) {
       this.setState({
         activePage: this.props.history.location.pathname
+      });
+    }
+    if (
+      this.props.location.pathname !== prevProps.location.pathname &&
+      this.state.isChecked
+    ) {
+      this.setState({
+        isChecked: !this.state.isChecked
       });
     }
   }
@@ -43,6 +52,9 @@ class NavBar extends React.Component {
     }
   };
 
+  checkBoxHandler = e => {
+    this.setState({ isChecked: !this.state.isChecked });
+  };
   render() {
     const { activePage } = this.state;
     let styles = {
@@ -53,7 +65,13 @@ class NavBar extends React.Component {
     };
     return (
       <div className="nav">
-        <input type="checkbox" id="nav-check" />
+        <input
+          type="checkbox"
+          id="nav-check"
+          checked={this.state.isChecked}
+          value={this.state.isChecked}
+          onChange={this.checkBoxHandler}
+        />
         <h1 className="nav-header">
           <img
             src={logo}
@@ -88,13 +106,6 @@ class NavBar extends React.Component {
             </Link>
             <Link
               className="nav-link"
-              to="/competes"
-              style={activePage.includes("/compete") ? styles.orange : {}}
-            >
-              Compete
-            </Link>
-            <Link
-              className="nav-link"
               to="/leaderboard"
               style={activePage == "/leaderboard" ? styles.orange : {}}
             >
@@ -103,7 +114,12 @@ class NavBar extends React.Component {
             <Link className="nav-link" to="/LogOut">
               Log out
             </Link>
-            <button className="nav-links-btn">
+            <button
+              className="nav-links-btn"
+              onClick={() => {
+                this.props.history.push("/compete");
+              }}
+            >
               <span className="nav-links-btn-text">
                 Draw and compete
                 <i
@@ -139,15 +155,7 @@ class NavBar extends React.Component {
             >
               Login
             </Link>
-            <button className="nav-links-btn">
-              <span className="nav-links-btn-text">
-                Draw and compete{" "}
-                <i
-                  style={{ marginLeft: "0.5rem" }}
-                  className="fas fa-arrow-right"
-                ></i>
-              </span>
-            </button>
+
             <NavbarContact />
           </div>
         )}
