@@ -8,7 +8,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import logo from "../../../img/croqee vert.svg";
+import logo from "../../../img/logo-vw.svg";
 import { connect } from "react-redux";
 import { getUser, setPageToNavigateAfterLogin } from "../../../js/actions";
 import NavbarContact from "./NavbarContact";
