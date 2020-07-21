@@ -9,6 +9,7 @@ interface iUserScore {
 interface iUserInfo {
 	email: String;
 	name: string;
+	img: any;
 }
 interface iuserScoresData {
 	totalScores: number;
@@ -75,7 +76,8 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
 									if (res2) {
 										const userInfo: iUserInfo = {
 											email: res2.email,
-											name: res2.name
+											name: res2.name,
+											img: res2.img
 										};
 										finalResults[i].user = userInfo;
 										finalResults[i].rank = i + 1;
@@ -120,7 +122,8 @@ let getUserScorePosition = function (
 				if (res2) {
 					const userInfo: iUserInfo = {
 						email: res2.email,
-						name: res2.name
+						name: res2.name,
+						img: res2.img
 					};
 
 					res[_index].user = userInfo;

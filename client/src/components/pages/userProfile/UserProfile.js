@@ -7,6 +7,7 @@ import axios from 'axios';
 import config from '../../../modules/config';
 import ProfileAvatar from '../../child/profile/ProfileAvatar';
 import { Typography } from '@material-ui/core';
+import default_image from '../../../img/default-image.png';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -53,9 +54,7 @@ class UserProfile extends Component {
             <div className='profile__img-name-wrapper'>
               <div className='profile__img-name-wrapper__img'>
                 <ProfileAvatar
-                  imageSrc={`http://localhost:8080/${encodeURI(
-                    userInfo.imageData
-                  )}`}
+                  imageSrc={userInfo.image_data ? `/user-image/user-image/${userInfo.image_data}` : default_image}
                 />
               </div>
               <div className='profile__img-name-wrapper__name'>
@@ -111,7 +110,7 @@ class UserProfile extends Component {
               <a href={userInfo.facebook} className='profile__links__icons'>
                 <i
                   className={'fab fa-2x fa-facebook'}
-                  // style={{ color: "#b8b8b8", margin: "1rem" }}
+                // style={{ color: "#b8b8b8", margin: "1rem" }}
                 />
               </a>
             )}
@@ -119,7 +118,7 @@ class UserProfile extends Component {
               <a href={userInfo.instagram} className='profile__links__icons'>
                 <i
                   className={'fab fa-2x fa-instagram'}
-                  //style={{ color: "#b8b8b8", margin: "1rem" }}
+                //style={{ color: "#b8b8b8", margin: "1rem" }}
                 />
               </a>
             )}
@@ -127,7 +126,7 @@ class UserProfile extends Component {
               <a href={userInfo.website} className='profile__links__icons'>
                 <i
                   className={'far fa-2x fa-user-circle'}
-                  // style={{ color: "#b8b8b8", margin: "1rem" }}
+                // style={{ color: "#b8b8b8", margin: "1rem" }}
                 />
               </a>
             )}

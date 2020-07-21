@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const ImageSchema = new mongoose.Schema({
-  imageName: {
-    type: String,
-    default: "none"
-  },
-  imageData: {
+  image_data: {
     type: String
   }
 });
