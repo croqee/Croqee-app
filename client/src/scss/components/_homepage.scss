@@ -1,48 +1,83 @@
 .croqee-video-section {
-  width: 100%;
-  height: 60vh;
-  opacity: 0.3;
-  position: relative;
-  overflow: hidden;
-  margin-top: 0;
-  bottom: 4px;
-  margin-bottom: -4px; // butchering stuff that needs to change
-  //display: flex;
+  min-height: calc(var(--vh, 1vh) * 80);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(rgba(93, 94, 94, 0.05)),
+      color-stop(38%, rgba(93, 94, 94, 0.05)),
+      color-stop(79%, rgba(35, 35, 35, 0.58)),
+      to(#000)
+    );
+    background-image: -o-linear-gradient(
+      top,
+      rgba(93, 94, 94, 0.5) 0%,
+      rgba(93, 94, 94, 0.05) 38%,
+      rgba(35, 35, 35, 0.58) 79%,
+      #000 100%
+    );
+    background-image: linear-gradient(
+      180deg,
+      rgba(93, 94, 94, 0.5) 0%,
+      rgba(93, 94, 94, 0.05) 38%,
+      rgba(35, 35, 35, 0.58) 79%,
+      #000 100%
+    );
+    z-index: -1;
+  }
+
   &__title {
     margin: auto;
-    // display: block;
-    // position: relative;
-    // top: 250px;
-    font-size: 26px;
+    text-align: left;
+    font-size: $md-font;
     clear: both;
-    z-index: 3;
-    color: black;
-    font-weight: 600;
-    font-size: 40px;
+    z-index: -2;
+    color: white;
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
-    height: 62px;
-  }
-  &__video {
-    width: 100%;
-    //position: absolute;
-    left: 0;
-    bottom: -100px;
-    right: 0;
-    @for $i from 1 through 10 {
-      @media screen and (max-width: (10 - $i) * 140px) {
-        width: $i * 100%;
-      }
+    &-main {
+      padding: 1em 0 0 1em;
+      margin-bottom: 0;
+      margin-top: 7em;
+      line-height: 50px;
+    }
+    &-caption {
+      padding: 0;
+      color: white;
+      padding: 1em;
+      margin: 1em;
+      font-size: $sm-font;
+    }
+    @media (max-width: 1100px) {
+      font-size: $sm-font;
+      text-align: center;
     }
   }
-  //         mask-image: -webkit-gradient(linear, left top, right bottom,
-  //         color-stop(0.00,  rgb(255, 0, 0)),
-  //         color-stop(0.35,  rgb(255, 0, 0)),
-  //         color-stop(0.50,  rgba(0,0,0,0)),
-  //         color-stop(0.65,  rgba(0,0,0,0)),
-  //         color-stop(1.00,  rgba(0,0,0,0)));
-  // }
+  &__video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -3;
+    opacity: 0.5;
+  }
 }
