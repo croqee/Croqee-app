@@ -36,8 +36,7 @@ router.get("/user/:id", (req, res) => {
         website: user.website
       };
       if (user.img) {
-        editeduser.imageName = user.img.imageName;
-        editeduser.imageName = user.img.imageData;
+        editeduser.image_data = user.img.image_data;
       }
       res.status(200).json(editeduser);
     } else if (err) {

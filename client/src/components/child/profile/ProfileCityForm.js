@@ -9,7 +9,7 @@ import { theme } from "../MuiTheme";
 import PlacesAutocomplete from "react-places-autocomplete";
 
 function ProfileCityForm(props) {
-  const [address, setAdress] = useState();
+  const [address, setAdress] = useState('');
   const handleChange = address => {
     setAdress(address);
   };
@@ -52,38 +52,38 @@ function ProfileCityForm(props) {
                   getSuggestionItemProps,
                   loading
                 }) => (
-                  <div>
-                    <MuiThemeProvider theme={theme}>
-                      <TextField
-                        defaultValue={props.user.city}
-                        fullWidth
-                        id="location"
-                        {...getInputProps({
-                          placeholder: "Search Your Location ...",
-                          className: "location-search-input"
-                        })}
-                      />
-                    </MuiThemeProvider>
-                    <div className="autocomplete-dropdown-container">
-                      {loading && <div>Loading...</div>}
-                      {suggestions.map(suggestion => {
-                        const className = suggestion.active
-                          ? "suggestion-item--active"
-                          : "suggestion-item";
+                    <div>
+                      <MuiThemeProvider theme={theme}>
+                        <TextField
+                          defaultValue={props.user.city}
+                          fullWidth
+                          id="location"
+                          {...getInputProps({
+                            placeholder: "Search Your Location ...",
+                            className: "location-search-input"
+                          })}
+                        />
+                      </MuiThemeProvider>
+                      <div className="autocomplete-dropdown-container">
+                        {loading && <div>Loading...</div>}
+                        {suggestions.map(suggestion => {
+                          const className = suggestion.active
+                            ? "suggestion-item--active"
+                            : "suggestion-item";
 
-                        return (
-                          <div
-                            {...getSuggestionItemProps(suggestion, {
-                              className
-                            })}
-                          >
-                            <span>{suggestion.description}</span>
-                          </div>
-                        );
-                      })}
+                          return (
+                            <div
+                              {...getSuggestionItemProps(suggestion, {
+                                className
+                              })}
+                            >
+                              <span>{suggestion.description}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </PlacesAutocomplete>
 
               <button
@@ -94,22 +94,22 @@ function ProfileCityForm(props) {
               </button>
             </form>
           ) : (
-            <Fragment>
-              <Typography variant="body2" style={{ fontSize: "1rem" }}>
-                {props.user.city
-                  ? props.user.city
-                  : `Link your ${props.name} account`}
-              </Typography>
+              <Fragment>
+                <Typography variant="body2" style={{ fontSize: "1rem" }}>
+                  {props.user.city
+                    ? props.user.city
+                    : `Link your ${props.name} account`}
+                </Typography>
 
-              <a
-                onClick={() => {
-                  props.setToggleState(props.name, true);
-                }}
-              >
-                Edit
+                <a
+                  onClick={() => {
+                    props.setToggleState(props.name, true);
+                  }}
+                >
+                  Edit
               </a>
-            </Fragment>
-          )}
+              </Fragment>
+            )}
         </div>
       </div>
     </Fragment>
