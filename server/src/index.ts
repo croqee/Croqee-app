@@ -47,11 +47,15 @@ const authRoutes = require("./routes/auth");
 const apiRoutes = require("./routes/api");
 const scoreRoutes = require("./routes/score");
 const ImageRouter = require("./routes/images");
+const userImage = require("./routes/user-image");
+
 
 app.use("/auth", authRoutes);
 app.use("/api", apiRoutes);
 app.use("/score", scoreRoutes);
 app.use("/images", ImageRouter);
+app.use("/user-image", userImage);
+
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -66,7 +70,7 @@ app.post("/send_drawing", (req, res, next) => {
     canvasWidth: req.body.canvasWidth,
     canvasHeight: req.body.canvasHeight
   };
-  calculateScore(param, function(_res: any) {
+  calculateScore(param, function (_res: any) {
     const result = JSON.parse(_res);
     res.json({
       score: Math.floor(result.score),
@@ -94,7 +98,7 @@ app.use((error: any, req: any, res: any, next: any) => {
 const server = http.createServer(app);
 
 const calculateScore = (param: any, cb: Function) => {
-  socketClient.emit("calculate_score", param, function(res: any) {
+  socketClient.emit("calculate_score", param, function (res: any) {
     cb(res);
   });
 };

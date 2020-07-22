@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import config from "../../../modules/config";
 import { connect } from "react-redux";
@@ -10,6 +10,8 @@ import { Chip, Button, Avatar } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import ProfileAvatar from "./ProfileAvatar";
+import imageCompression from 'browser-image-compression';
+import default_image from '../../../img/default-image.png';
 
 export const theme = createMuiTheme({
   overrides: {
@@ -58,6 +60,7 @@ const useStyles = makeStyles(theme => ({
 function ProfileImgForm(props) {
   const classes = useStyles();
   const [image, setImage] = useState("");
+  const [userImage, setuserImage] = useState("");
   const [imagePath, setImagePath] = useState("");
   const [message, setMessage] = useState({
     success: null,
@@ -66,16 +69,29 @@ function ProfileImgForm(props) {
     color: ""
   });
 
-  const onChangeUpload = e => {
+  const getUserImage = (e) => {
+    setuserImage("/user-image/user-image/" + e.image_data)
+  }
+
+  const onChangeUpload = async (e) => {
     setImagePath(URL.createObjectURL(e.target.files[0]));
-    setImage(e.target.files[0]);
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 250,
+      useWebWorker: true,
+      file: 'File'
+    }
+    try {
+      const compressedFile = await imageCompression(e.target.files[0], options);
+      setImage(compressedFile);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const uploadImage = () => {
     const imageFormObj = new FormData();
-    imageFormObj.append("imageName", "multer-image-" + Date.now());
-    imageFormObj.append("imageData", image);
-
+    imageFormObj.append("image_data", image);
     const athorizedHeader = config.AuthorizationHeader();
     axios
       .post(
@@ -104,6 +120,11 @@ function ProfileImgForm(props) {
         });
       });
   };
+  useEffect(() => {
+    if (props.user && props.user.img) {
+      getUserImage(props.user.img)
+    }
+  }, [props.image]);
 
   return (
     <Fragment>
@@ -124,8 +145,8 @@ function ProfileImgForm(props) {
                     <AddAPhotoIcon />
                   </Avatar>
                 ) : (
-                  <ProfileAvatar imageSrc={imagePath} />
-                )}
+                    <ProfileAvatar imageSrc={imagePath} />
+                  )}
               </label>
               <Button
                 className="profile__img-name-wrapper__img-link"
@@ -136,29 +157,27 @@ function ProfileImgForm(props) {
               </Button>
             </Fragment>
           ) : (
-            <Fragment>
-              {props.image ? (
-                <Avatar
-                  className={classes.large}
-                  src={`http://localhost:8080/${encodeURI(
-                    props.image.imageData
-                  )}`}
-                  alt="profile image"
-                />
-              ) : (
-                <Avatar className={classes.large} alt="profile image" />
-              )}
+              <Fragment>
+                {props.image ? (
+                  <Avatar
+                    className={classes.large}
+                    src={userImage}
+                    alt="profile image"
+                  />
+                ) : (
+                    <Avatar className={classes.large} src={default_image} alt="profile image" />
+                  )}
 
-              <a
-                className="profile__img-name-wrapper__img-link"
-                onClick={() => {
-                  props.setToggleState(props.name, true);
-                }}
-              >
-                Change
+                <a
+                  className="profile__img-name-wrapper__img-link"
+                  onClick={() => {
+                    props.setToggleState(props.name, true);
+                  }}
+                >
+                  Change
               </a>
-            </Fragment>
-          )}
+              </Fragment>
+            )}
           {message.success !== null && (
             <Chip
               size="small"

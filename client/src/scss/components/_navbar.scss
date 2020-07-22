@@ -1,118 +1,295 @@
-
-#logo{
-  width: 200px;
+#logo {
+  width: 50px;
   position: relative;
   bottom: 7px;
 }
 .nav {
-  height: 80px;
+  background-color: transparent;
+  z-index: 300;
+  top: 0;
   width: 100%;
-  background-color: black;
-  position: relative;
-  z-index: 2;
-}
-.nav-links_seperator{
-  border-left: 2px solid black;
-  margin-right: 10px;
-}
-
-.nav > .nav-header {
-  display: inline;
-}
-
-.nav > .nav-header > .nav-title {
-  display: inline-block;
-  font-size: 22px;
-  color:$light-grey;
-  padding-top: 29px;
-  float: left;
-  position: relative;
-  left: 70px;
-}
-
-.nav > .nav-btn {
-  display: none;
-}
-
-.nav > .nav-links {
-  display: inline;
-  float: right;
-  font-size: 18px;
-  position: relative;
-  right: 60px;
-}
-
-.nav > .nav-links > a {
-  display: inline-block;
-  padding: 24px 10px;
-  text-decoration: none;
-  color:$light-grey;
-  margin-right: 13px;
-  font-size: 22px;
-  &:hover{
-    color:white;
+  height: 80px;
+  background: no-repeat;
+   &-links_seperator {
+    border-left: 2px solid black;
+    margin-right: 10px;
+  }
+  &-header {
+    display: inline;
+    &-title {
+      display: inline-block;
+      padding-top: 29px;
+      float: left;
+      position: relative;
+      left: 30px;
+    }
+  }
+  &-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+    position: relative;
+    & > a {
+      display: inline-block;
+      padding: 12px 1.1rem;
+      text-decoration: none;
+      color: white;
+      margin-right: 5px;
+      font-size: $sm-font;
+      line-height: 2.5em;
+      &:hover {
+        color: $orange;
+      }
+    }
+    &-btn {
+      height: 70px;
+      width: 240px;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 0.09em;
+      outline: none;
+      user-select: none;
+      display: inline-block;
+      text-transform: uppercase;
+      font-weight: bold;
+      position: relative;
+      border: none;
+      background: linear-gradient(to right, white 50%, $orange 50%);
+      background-size: 200% 100%;
+      background-position: right bottom;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      &:hover {
+        background-position: left bottom;
+      }
+      &-text {
+        text-align: center;
+        font-size: $sm-font;
+        line-height: 70px;
+        color: white;
+        transition: all 0.3s ease;
+        display: block;
+        &:hover {
+          color: $orange;
+        }
+      }
+    }
+  }
+  &-contact {
+    display: none;
+    &-icons {
+      display: none;
+    }
+    &-links {
+      display: none;
+    }
   }
 }
-
-
 .nav > #nav-check {
   display: none;
 }
-
-@media (max-width:1100px) {
-
-.nav > .nav-links > a {
-
-  color: #ffffff;
-
+.hamburger {
+  display: none;
+  margin-left: auto;
+  margin-right: 0;
+  z-index: 600;
+  padding: 25px 15px;
+  &-box {
+    width: 31px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    padding: 25px;
+  }
+  &-inner {
+    top: 1px;
+    -webkit-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -o-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    &:before {
+      top: 7px;
+      transition: opacity 0.15s 0.4s ease;
+    }
+    &:after {
+      top: 14px;
+      -webkit-transition: -webkit-transform 0.4s
+        cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      -o-transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+  }
 }
-  .nav > .nav-btn {
+
+.hamburger-inner:before,
+.hamburger-inner:after {
+  content: "";
+  display: block;
+}
+
+.hamburger-inner,
+.hamburger-inner:before,
+.hamburger-inner:after {
+  width: 31px;
+  height: 2px;
+  background-color: white;
+  border-radius: 0;
+  position: absolute;
+  -webkit-transition-property: -webkit-transform;
+  transition-property: -webkit-transform;
+  -o-transition-property: transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform;
+  -webkit-transition-duration: 0.15s;
+  -o-transition-duration: 0.15s;
+  transition-duration: 0.15s;
+  -webkit-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+@media (max-width: 1100px) {
+  .nav {
+    &-links {
+      position: absolute;
+      overflow-y: hidden;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      background: white;
+      width: 0;
+      transition: width 0.2s ease 0s;
+      text-align: left;
+      & > a {
+        display: block;
+        width: 100%;
+        position: relative;
+        color: $dark-grey;
+        padding: 0.25rem 2rem;
+        font-size: $md-font;
+        font-weight: 100;
+        &:hover {
+          color: $orange;
+        }
+      }
+      &-btn {
+        margin: 1rem 2rem;
+      }
+    }
+    &-contact {
+      display: block;
+      margin: 1rem 2rem;
+      position: absolute;
+      bottom: 30%;
+      & > p {
+        color: black;
+        font-size: $sm-font;
+        font-weight: lighter;
+        line-height: 1rem;
+      }
+      &-icons {
+        display: block;
+        margin: 2rem 2rem;
+        position: absolute;
+        bottom: 18%;
+        & > :first-child {
+          padding-left: 0;
+        }
+        & > svg {
+          font-size: $lg-font;
+          padding: 0 1rem;
+          fill: $orange;
+          color: $orange;
+          & > svg:first-child {
+            padding-left: 0;
+          }
+        }
+      }
+      &-links {
+        display: block;
+        margin: 2rem 2rem;
+        position: absolute;
+        bottom: 10%;
+        & > :first-child {
+          padding-left: 0;
+        }
+        & > a {
+          color: $dark-grey;
+          text-decoration: none;
+          margin-right: 0.5rem;
+          font-size: $xs-font;
+          &:hover {
+            text-decoration: underline;
+          }
+          & > a:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .nav > #nav-check:not(:checked) ~ .nav-links {
+    height: 0vh;
+    width: 0%;
+    overflow-y: hidden;
+    transition: width 1s ease 0s;
+  }
+  .nav > #nav-check:checked ~ .nav-links {
+    width: 95%;
+    transition: width 0.2s ease 0s;
+    height: 100vh;
+    position: fixed;
+    overflow-y: hidden;
+    z-index: 500;
+    padding: 4.625rem 1rem 3rem 0rem;
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    outline: 0;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0 auto 0;
+    overflow: visible;
     display: inline-block;
     position: absolute;
     right: 0px;
     top: 0px;
   }
-  .nav > .nav-btn > label {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    padding: 13px;
-    position: relative;
-    top: 13px;
+  .nav > #nav-check:checked ~ .hamburger .hamburger-inner:after {
+    background-color: black;
   }
-  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-    cursor: pointer;
-    // background-color: rgba(0, 0, 0, 0.3);
+  .nav > #nav-check:checked ~ .hamburger .hamburger-inner {
+    background-color: black;
   }
-  .nav > .nav-btn > label > span {
-    display: block;
-    width: 25px;
-    height: 10px;
-    border-top: 2px solid #fff;
+  .nav > #nav-check:checked ~ .hamburger .hamburger-inner:after {
+    -webkit-transform: translate3d(0, -14px, 0) rotate(-270deg);
+    transform: translate3d(0, -14px, 0) rotate(-270deg);
+    -webkit-transition-delay: 0.1s;
+    -o-transition-delay: 0.1s;
+    transition-delay: 0.1s;
   }
-  .nav > .nav-links {
-    position: absolute;
-    display: block;
-    width: 100%;
-    background-color: #333;
-    height: 0px;
-    transition: all 0.3s ease-in;
-    overflow-y: hidden;
-    top: 50px;
-    left: 0px;
-    position: relative;
-    top: 0;
+
+  .nav > #nav-check:checked ~ .hamburger .hamburger-inner {
+    -webkit-transform: translate3d(0, 7px, 0) rotate(135deg);
+    transform: translate3d(0, 7px, 0) rotate(135deg);
+    -webkit-transition-delay: 0.1s;
+    -o-transition-delay: 0.1s;
+    transition-delay: 0.1s;
   }
-  .nav > .nav-links > a {
-    display: block;
-    width: 100%;
-  }
-  .nav > #nav-check:not(:checked) ~ .nav-links {
-    height: 0px;
-  }
-  .nav > #nav-check:checked ~ .nav-links {
-    height: auto;
-    overflow-y: inherit;
-    z-index: 1000;
+
+  .nav > #nav-check:checked ~ .hamburger .hamburger-inner:before {
+    transition-delay: 0s;
+    opacity: 0;
   }
 }

@@ -33,11 +33,10 @@ router.get("/user/:id", (req, res) => {
         behance: user.behance,
         instagram: user.instagram,
         facebook: user.facebook,
-        website: user.website,
+        website: user.website
       };
       if (user.img) {
-        editeduser.imageName = user.img.imageName;
-        editeduser.imageName = user.img.imageData;
+        editeduser.image_data = user.img.image_data;
       }
       res.status(200).json(editeduser);
     } else if (err) {
@@ -144,7 +143,7 @@ router.post("/password", (req, res, next) => {
 
         if (!isMatch) {
           const error = new Error("Incorrect password");
-          res.status(400).json(error);
+          res.status(400).json({ error: "Incorrect Password" });
         }
 
         if (isMatch) {
