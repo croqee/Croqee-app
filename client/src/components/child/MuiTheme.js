@@ -72,7 +72,8 @@ export const theme = createMuiTheme({
     },
     MuiCard: {
       root: {
-        paddingBottom: "2rem"
+        paddingBottom: "2rem",
+        margin: "50px auto 0"
       }
     },
     MuiPaper: {

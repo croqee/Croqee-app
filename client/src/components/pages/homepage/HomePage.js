@@ -1,54 +1,53 @@
-import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import Canvas from '../../child/canvas/Canvas';
+import React, { Fragment } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import Canvas from "../../child/canvas/Canvas";
 import {
   getUser,
   setTimer,
   setImageProcessing,
   invokeScore,
-  setPageToNavigateAfterLogin,
-} from '../../../js/actions';
-import Timer from '../../child/timer/Timer';
-import HandSide from '../../child/handside/HandSide';
-import DrawingModel from '../../child/model/DrawingModel';
-import PropTypes from 'prop-types';
+  setPageToNavigateAfterLogin
+} from "../../../js/actions";
+import Timer from "../../child/timer/Timer";
+import HandSide from "../../child/handside/HandSide";
+import DrawingModel from "../../child/model/DrawingModel";
+import PropTypes from "prop-types";
 
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      baseURL: '',
-      shouldResetCanvas: false,
+      baseURL: "",
+      shouldResetCanvas: false
     };
   }
   componentDidMount() {
     this.props.getUser();
   }
   sendDrawing() {
-    var canvas = document.getElementById('canvas__drawing');
-
+    var canvas = document.getElementById("canvas__drawing");
     if (canvas) {
       this.props.setImageProcessing(true);
       const dataURL = canvas
-        .toDataURL('image/jpeg', 0.8)
-        .replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+        .toDataURL("image/jpeg", 0.8)
+        .replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
       this.props.setTimer({ showTimer: false, timer: 30 });
       const model =
-        this.props.activeModel.model === 'stillLife'
-          ? 'geometrical5'
-          : 'woman-figure-8';
+        this.props.activeModel.model === "stillLife"
+          ? "geometrical5"
+          : "woman-figure-8";
       axios
-        .post('/send_drawing', {
+        .post("/send_drawing", {
           dataURL: dataURL,
           model: model,
           canvasWidth: this.props.canvasWidth,
-          canvasHeight: this.props.canvasHeight,
+          canvasHeight: this.props.canvasHeight
         })
-        .then((response) => {
+        .then(response => {
           let score = response.data.score;
           this.setState({
-            baseURL: 'data:image/png;base64, ' + response.data.img,
+            baseURL: "data:image/png;base64, " + response.data.img
           });
           score = score || 0;
           this.props.setImageProcessing(false);
@@ -65,32 +64,38 @@ class HomePage extends React.Component {
       }
     }
   }
-  setBaseUrl = (baseURL) => {
+  setBaseUrl = baseURL => {
     this.setState({ baseURL: baseURL });
   };
-  setShouldResetCanvas = (bool) => {
+  setShouldResetCanvas = bool => {
     this.setState({
-      shouldResetCanvas: bool,
+      shouldResetCanvas: bool
     });
   };
   navigateToClubPage = () => {
-    this.props.setPageToNavigateAfterLogin('/competes');
-    this.props.history.push('/competes');
+    this.props.setPageToNavigateAfterLogin("/competes");
+    this.props.history.push("/competes");
   };
   render() {
     let { baseURL, shouldResetCanvas } = this.state;
     let { user } = this.props;
-    let side = this.props.leftHand ? 'model_left_hand' : '';
+    let side = this.props.leftHand ? "model_left_hand" : "";
     return (
-      <div>
-        <div className='croqee-video-section'>
-          <span className='croqee-video-section__title'>
-            This is just a sample video
-          </span>
-          <video autoPlay muted loop className='croqee-video-section__video'>
+      <Fragment>
+        <div className="croqee-video-section">
+          <div className="croqee-video-section__title">
+            <h1 className="croqee-video-section__title-main">
+              Draw, compete <br></br>improve your techniques
+            </h1>
+            <span className="croqee-video-section__title-caption">
+              This section is filled with sample content.
+            </span>
+          </div>
+
+          <video autoPlay muted loop className="croqee-video-section__video">
             <source
-              src={require('../../../videos/drawing.mp4')}
-              type='video/mp4'
+              src={require("../../../videos/drawing.mp4")}
+              type="video/mp4"
             />
             Your browser does not support HTML5 video.
           </video>
@@ -111,20 +116,20 @@ class HomePage extends React.Component {
         </div>
         <HandSide />
 
-        <div id='home_bottom'>
-          <img id='home_bottom_triangle' src='/triangle.png' />
+        <div id="home_bottom">
+          <img id="home_bottom_triangle" src="/triangle.png" />
           <button
             onClick={() => this.navigateToClubPage()}
-            id='home_bottom_button'
+            id="home_bottom_button"
           >
             Compete with others
           </button>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     events,
     user,
@@ -136,7 +141,7 @@ const mapStateToProps = (state) => {
     startImageProcessing,
     activeModel,
     canvasWidth,
-    canvasHeight,
+    canvasHeight
   } = state;
   return {
     events,
@@ -149,17 +154,17 @@ const mapStateToProps = (state) => {
     startImageProcessing,
     activeModel,
     canvasWidth,
-    canvasHeight,
+    canvasHeight
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     getUser: () => dispatch(getUser()),
-    setTimer: (payload) => dispatch(setTimer(payload)),
-    setImageProcessing: (payload) => dispatch(setImageProcessing(payload)),
-    invokeScore: (payload) => dispatch(invokeScore(payload)),
-    setPageToNavigateAfterLogin: (payload) =>
-      dispatch(setPageToNavigateAfterLogin(payload)),
+    setTimer: payload => dispatch(setTimer(payload)),
+    setImageProcessing: payload => dispatch(setImageProcessing(payload)),
+    invokeScore: payload => dispatch(invokeScore(payload)),
+    setPageToNavigateAfterLogin: payload =>
+      dispatch(setPageToNavigateAfterLogin(payload))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
