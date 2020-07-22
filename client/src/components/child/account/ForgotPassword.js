@@ -18,7 +18,6 @@ export default function ForgotPassword() {
   };
   const onSubmit = e => {
     e.preventDefault();
-
     const form = e.target;
     const isValid = form.checkValidity();
     const formData = new FormData(form);
@@ -76,7 +75,7 @@ export default function ForgotPassword() {
               helperText={errors}
             />
             <Button variant="outlined" disabled={isLoading} type="submit">
-              {isLoading ? "Loading..." : "Send Link"}
+              {isLoading ? "Sending..." : "Send Link"}
             </Button>
           </form>
         </div>

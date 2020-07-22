@@ -20,7 +20,7 @@ export default function ResetPass(props) {
     const str = props.location.pathname.toString();
     const newPath = str.split("/").pop();
     axios
-      .get("/auth/reset", {
+      .get("/auth/reset-token-check", {
         params: {
           resetPasswordToken: newPath
         }
@@ -86,7 +86,7 @@ export default function ResetPass(props) {
             password: password.newPass
           };
           axios
-            .put("/auth/resetPass", body, athorizedHeader)
+            .put("/auth/reset-pass", body, athorizedHeader)
             .then(res => {
               if (res.status === 200) {
                 setMsg(res.data.message);
