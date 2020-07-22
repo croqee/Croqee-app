@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const ImageSchema = new mongoose.Schema({
-    imageName: {
-        type: String,
-        default: "none"
-    },
-    imageData: {
+    image_data: {
         type: String
     }
 });
@@ -35,7 +31,9 @@ const UserSchema = new mongoose.Schema({
     behance: String,
     instagram: String,
     facebook: String,
-    website: String
+    website: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: String
 });
 /**
  * Compare the passed password with the value in the database. A model method.

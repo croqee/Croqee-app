@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 const graph = require("fbgraph");
 const router = new express.Router();
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 let croqeeBodyParser = body => {
     var reqBody = {};
     for (var key in body) {
@@ -299,7 +301,105 @@ router.post("/facebookauth", (req, res) => {
                 }
             });
         }
+    });
+});
+//forgot password get link
+router.post("/account", (req, res) => {
+    const parsedBody = croqeeBodyParser(req.body);
+    if (parsedBody.email === "") {
+        res.status(400).send("email required");
+    }
+    User.findOne({
+        email: parsedBody.email
+    }).then(user => {
+        // console.log("to check the email:" + user.email);
+        if (user === null) {
+            res.status(403).send("email not in db");
+        }
         else {
+            const token = crypto.randomBytes(20).toString("hex");
+            const expiryTime = Date.now() + 360000;
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = expiryTime;
+            user.save(function (err) {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+            });
+            const transporter = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: "croqee@gmail.com",
+                    pass: "bncmztxpzyqefavk"
+                }
+            });
+            const mailOptions = {
+                from: "croqee@gmail.com",
+                to: `${user.email}`,
+                subject: "Link To Reset Password",
+                text: "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+                    "Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n" +
+                    `http://localhost:3000/reset/${token}\n\n` +
+                    "If you did not request this, please ignore this email and your password will remain unchanged.\n"
+            };
+            transporter.sendMail(mailOptions, (err, response) => {
+                if (err) {
+                    res.status(500).json({ error: err });
+                }
+                else {
+                    res.status(200).json("recovery email sent");
+                }
+            });
+        }
+    });
+});
+router.get("/reset-token-check", (req, res, next) => {
+    User.findOne({
+        resetPasswordToken: req.query.resetPasswordToken,
+        resetPasswordExpires: { $gt: Date.now() }
+    }).then(user => {
+        if (!user) {
+            res.status(400).json("password reset link is invalid or has expired");
+        }
+        else {
+            res.status(200).send({
+                email: user.email,
+                message: "password reset link a-ok"
+            });
+        }
+    });
+});
+let myBodyParser = body => {
+    var reqBody = {};
+    for (var key in body) {
+        reqBody = JSON.parse(key);
+    }
+    return reqBody;
+};
+router.put("/reset-pass", (req, res) => {
+    req.body = myBodyParser(req.body);
+    User.findOne({
+        resetPasswordToken: req.body.resetPasswordToken,
+        resetPasswordExpires: { $gt: Date.now() },
+        email: req.body.email
+    }).then(user => {
+        if (!user) {
+            res.status(400).json("password reset link is invalid or has expired");
+        }
+        else {
+            user.password = req.body.password;
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpires = undefined;
+            user.save(function (err, obj) {
+                if (err) {
+                    res.status(500).end();
+                }
+                else {
+                    res.status(200).send({
+                        message: "password successfully updated"
+                    });
+                }
+            });
         }
     });
 });

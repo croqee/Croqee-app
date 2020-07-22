@@ -59,7 +59,8 @@ exports.getUsersTotalScore = function (user, callback) {
                                 if (res2) {
                                     const userInfo = {
                                         email: res2.email,
-                                        name: res2.name
+                                        name: res2.name,
+                                        img: res2.img
                                     };
                                     finalResults[i].user = userInfo;
                                     finalResults[i].rank = i + 1;
@@ -97,7 +98,8 @@ let getUserScorePosition = function (data, userFoundend, res, finalResults, user
                 if (res2) {
                     const userInfo = {
                         email: res2.email,
-                        name: res2.name
+                        name: res2.name,
+                        img: res2.img
                     };
                     res[_index].user = userInfo;
                     res[_index].rank = _index + 1;

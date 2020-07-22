@@ -2,13 +2,35 @@ const express = require("express");
 const User = require("mongoose").model("User");
 const ImageRouter = new express.Router();
 const multer = require("multer");
-const fs = require("fs");
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./uploads/");
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname);
+const path = require("path");
+const mongoose = require("mongoose");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const crypto = require("crypto");
+const config = require("../config");
+//create mongo connection
+const conn = mongoose.createConnection(config.dbUri, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });
+let gfs;
+conn.once('open', () => {
+    gfs = Grid(conn.db, mongoose.mongo);
+    gfs.collection('images');
+});
+const storage = new GridFsStorage({
+    url: config.dbUri,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'images'
+                };
+                resolve(fileInfo);
+            });
+        });
     }
 });
 const fileFilter = (req, file, cb) => {
@@ -22,32 +44,26 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 5
+        fileSize: 250 * 250
     },
     fileFilter: fileFilter
 });
-ImageRouter.route("/uploaduserimg/:id").post(upload.single("imageData"), (req, res, next) => {
+ImageRouter.route("/uploaduserimg/:id").post(upload.single("image_data"), (req, res, next) => {
     const userId = req.params.id;
     let obj = {
         img: {
-            imageName: req.body.imageName,
-            imageData: req.file.path
+            image_data: req.file.filename
         }
     };
-    console.log(req.body.imageName);
-    console.log(obj);
-    console.log(req.user);
     if (req.user.img && req.user.img.imageName !== "none") {
-        console.log("not none");
-        fs.unlink(req.user.img.imageData, function (err) {
+        console.log('re.user.imag', req.user.img);
+        gfs.remove({ filename: req.user.img.image_data, root: 'images' }, (err, gridStore) => {
             if (err) {
-                console.log(err);
+                return res.status(404).json({ err: err });
             }
         });
     }
-    console.log("next");
     User.findOneAndUpdate({ _id: userId }, obj, err => {
-        console.log("saving");
         if (err) {
             console.log(err);
             res.status(400).json(err);
