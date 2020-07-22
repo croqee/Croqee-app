@@ -1,7 +1,7 @@
 #logo {
-  width: 50px;
+  width: 55px;
   position: relative;
-  bottom: 7px;
+  bottom: 15px;
 }
 .nav {
   background-color: transparent;
@@ -10,7 +10,7 @@
   width: 100%;
   height: 80px;
   background: no-repeat;
-   &-links_seperator {
+  &-links_seperator {
     border-left: 2px solid black;
     margin-right: 10px;
   }
@@ -21,7 +21,7 @@
       padding-top: 29px;
       float: left;
       position: relative;
-      left: 30px;
+      left: 20px;
     }
   }
   &-links {
