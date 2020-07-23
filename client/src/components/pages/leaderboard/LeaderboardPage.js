@@ -84,7 +84,7 @@ class LeaderboardPage extends React.Component {
                       {score.rank}
                     </span>
                     <span className='leaderboard__scores__row__img'>
-                      {score.user.img ? (<Avatar src={"/user-image/user-image/" + score.user.img.image_data} alt="profile image" />) : (<Avatar src={default_image}  alt="profile image" />)}
+                      {score.user.img ? (<Avatar src={"/user-image/" + score.user.img.image_data} alt="profile image" />) : (<Avatar src={default_image}  alt="profile image" />)}
                     </span>
                     <span className='leaderboard__scores__row__user'>
                       {score.user && score.user.name}
