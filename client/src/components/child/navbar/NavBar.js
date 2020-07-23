@@ -117,7 +117,7 @@ class NavBar extends React.Component {
             <button
               className="nav-links-btn"
               onClick={() => {
-                this.props.history.push("/compete");
+                this.props.history.push("/competes");
               }}
             >
               <span className="nav-links-btn-text">
