@@ -110,14 +110,16 @@ class LoginPage extends React.Component {
       .post("auth/googleauth", { googleCode: response.code })
       .then(res => {
         const { token, user } = res.data;
-        this.props.setUser(user);
-        this.setState({
-          errors: {}
-        });
-        Auth.authenticateUser(token);
-        this.props.getUser();
-        this.props.history.push(this.props.pageToNavigateAfterLogin);
-        return this.props.setPageToNavigateAfterLogin("/");
+        if (token) {
+          this.props.setUser(user);
+          this.setState({
+            errors: {}
+          });
+          Auth.authenticateUser(token);
+          this.props.getUser();
+          this.props.history.push(this.props.pageToNavigateAfterLogin);
+          return this.props.setPageToNavigateAfterLogin("/");
+        }
       })
       .catch(err => console.log(err));
   };
