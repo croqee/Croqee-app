@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  position: relative;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.page-content {
+  min-height: 100vh;
 }
 
 .App-logo {
