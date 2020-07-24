@@ -14,14 +14,14 @@ conn.once('open', () => {
 })
 
 
-ImageRouter.route("/user-image/:filename").get((req, res) => {
+ImageRouter.route("/:filename").get((req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     if (!file || file.length === 0 || err) {
       return res.status(404).json({
         err: err
       });
     }
-    if (file.contentType === 'image/jpeg' || file.contentType === 'img/png') {
+    if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
       const readstream = gfs.createReadStream({ filename: file.filename });
       readstream.pipe(res);
 
