@@ -50,6 +50,9 @@ app.use("/user-image", userImage);
 app.use(logger("dev"));
 app.use(body_parser_1.default.json());
 app.use(express.static(path_1.default.join(__dirname, "../../client/build")));
+app.get('/*', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname, '../../client/build', 'index.html'));
+});
 getUsersTotalScore();
 app.post("/send_drawing", (req, res, next) => {
     let param = {
