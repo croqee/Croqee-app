@@ -70,7 +70,7 @@ function ProfileImgForm(props) {
   });
 
   const getUserImage = (e) => {
-    setuserImage("/user-image/user-image/" + e.image_data)
+    setuserImage("/user-image/" + e.image_data)
   }
 
   const onChangeUpload = async (e) => {

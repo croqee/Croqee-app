@@ -16,6 +16,10 @@ import Password from "./components/pages/account/Password";
 import ProfilePage from "./components/child/profile/ProfilePage";
 import ForgotPassword from "./components/child/account/ForgotPassword";
 import ResetPass from "./components/child/account/ResetPass";
+import Footer from "./components/child/footer/Footer";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import { height } from "@material-ui/system";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -64,7 +68,12 @@ class App extends Component {
       <div className="App">
         <Router>
           <GlobalRoute component={NavBar} />
-          <div>
+
+          <div
+            maxWidth={false}
+            style={{ paddingBottom: "5rem" }}
+            className="page-content"
+          >
             <GlobalRoute exact path="/" component={HomePage} />
             <LoggedOutRoute path="/signup" component={SignUpPage} />
             <LoggedOutRoute path="/login" component={LoginPage} />
@@ -82,6 +91,7 @@ class App extends Component {
             <PrivateRoute path="/leaderboard" component={LeaderboardPage} />
             <PrivateRoute path="/userprofile/:id" component={UserProfile} />
           </div>
+          <GlobalRoute component={Footer} />
         </Router>
       </div>
     );

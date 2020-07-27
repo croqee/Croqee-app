@@ -54,7 +54,7 @@ class UserProfile extends Component {
             <div className='profile__img-name-wrapper'>
               <div className='profile__img-name-wrapper__img'>
                 <ProfileAvatar
-                  imageSrc={userInfo.image_data ? `/user-image/user-image/${userInfo.image_data}` : default_image}
+                  imageSrc={userInfo.image_data ? `/user-image/${userInfo.image_data}` : default_image}
                 />
               </div>
               <div className='profile__img-name-wrapper__name'>
