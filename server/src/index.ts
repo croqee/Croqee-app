@@ -60,6 +60,9 @@ app.use("/user-image", userImage);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../../client/build")));
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+});
 
 getUsersTotalScore();
 
