@@ -1,4 +1,4 @@
-import React, { PropTypes } from "react";
+import React from "react";
 import SignUpForm from "./SignUpForm.js";
 import Auth from "../../../modules/Auth";
 import { Link } from "react-router-dom";
@@ -114,7 +114,7 @@ class SignUpPage extends React.Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Card variant="outlined" square dark>
+        <Card variant="outlined" square>
           <SignUpForm
             onSubmit={this.processForm}
             onChange={this.changeUser}
@@ -128,7 +128,7 @@ class SignUpPage extends React.Component {
                 variant="contained"
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
-                startIcon={<i class="fab fa-google"></i>}
+                startIcon={<i className="fab fa-google"></i>}
               >
                 Continue With Google
               </Button>

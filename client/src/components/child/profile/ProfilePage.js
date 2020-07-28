@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import ProfileForm from "./ProfileForm";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -8,7 +8,7 @@ import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
 import ProfileCityForm from "./ProfileCityForm";
 import ProfileImgForm from "./ProfileImgForm";
-import { Divider, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 const ProfilePage = props => {
   const [state, setState] = useState({

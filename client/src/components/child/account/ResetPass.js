@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Card, Divider } from "@material-ui/core";
+import { TextField, Button, Card } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../../child/MuiTheme";
 import axios from "axios";
 import config from "../../../modules/config";
 
 export default function ResetPass(props) {
-  const [successMessage, setsuccessMessage] = useState();
+  const [successMessage] = useState();
   const [msg, setMsg] = useState();
   const [errors, setErrors] = useState();
   const [email, setEmail] = useState();
@@ -16,7 +16,7 @@ export default function ResetPass(props) {
     confirmPass: ""
   });
 
-  useEffect(async () => {
+  useEffect(() => {
     const str = props.location.pathname.toString();
     const newPath = str.split("/").pop();
     axios
@@ -35,7 +35,7 @@ export default function ResetPass(props) {
       .catch(error => {
         setMsg("This link has expired or is invalid. ");
       });
-  }, []);
+  }, [props.location.pathname]);
 
   const onChange = e => {
     let input = e.target;
@@ -106,45 +106,45 @@ export default function ResetPass(props) {
         {msg !== null ? (
           <p>{msg}</p>
         ) : (
-          <div className="container">
-            <form
-              action="/"
-              onSubmit={onSubmit}
-              className="auth_form"
-              noValidate
-            >
-              <h2 className="card-heading"> Provide your password</h2>
-              {successMessage && (
-                <p className="success-message">{successMessage}</p>
-              )}
-              <TextField
-                required
-                label="password"
-                id="password"
-                name="newPass"
-                type="password"
-                onChange={onChange}
-                placeholder="Your password"
-                error={Boolean(errors !== undefined)}
-                helperText={errors && errors.newPass}
-              />
-              <TextField
-                required
-                label="Repeat Password"
-                id="password"
-                name="confirmPass"
-                type="password"
-                onChange={onChange}
-                placeholder="Your password"
-                error={Boolean(errors !== undefined)}
-                helperText={errors && errors.confirmPass}
-              />
-              <Button variant="outlined" type="submit">
-                Update Password
+            <div className="container">
+              <form
+                action="/"
+                onSubmit={onSubmit}
+                className="auth_form"
+                noValidate
+              >
+                <h2 className="card-heading"> Provide your password</h2>
+                {successMessage && (
+                  <p className="success-message">{successMessage}</p>
+                )}
+                <TextField
+                  required
+                  label="password"
+                  id="password"
+                  name="newPass"
+                  type="password"
+                  onChange={onChange}
+                  placeholder="Your password"
+                  error={Boolean(errors !== undefined)}
+                  helperText={errors && errors.newPass}
+                />
+                <TextField
+                  required
+                  label="Repeat Password"
+                  id="password"
+                  name="confirmPass"
+                  type="password"
+                  onChange={onChange}
+                  placeholder="Your password"
+                  error={Boolean(errors !== undefined)}
+                  helperText={errors && errors.confirmPass}
+                />
+                <Button variant="outlined" type="submit">
+                  Update Password
               </Button>
-            </form>
-          </div>
-        )}
+              </form>
+            </div>
+          )}
       </Card>
     </MuiThemeProvider>
   );

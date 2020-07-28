@@ -1,4 +1,4 @@
-import React, { Fragment, useStyles } from "react";
+import React, { Fragment } from "react";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -9,7 +9,7 @@ import config from "../../../modules/config";
 import { connect } from "react-redux";
 import { getUser } from "../../../js/actions";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { TextField, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 const theme = createMuiTheme({
   overrides: {
@@ -124,22 +124,22 @@ function ProfileBirthDateForm(props) {
               </button>
             </form>
           ) : (
-            <Fragment>
-              <Typography variant="body2" style={{ fontSize: "1rem" }}>
-                {props.user.birthDate
-                  ? props.user.birthDate.substring(0, 10)
-                  : `Link your ${props.name} account`}
-              </Typography>
+              <Fragment>
+                <Typography variant="body2" style={{ fontSize: "1rem" }}>
+                  {props.user.birthDate
+                    ? props.user.birthDate.substring(0, 10)
+                    : `Link your ${props.name} account`}
+                </Typography>
 
-              <a
-                onClick={() => {
-                  props.setToggleState(props.name, true);
-                }}
-              >
-                Edit
+                <a
+                  onClick={() => {
+                    props.setToggleState(props.name, true);
+                  }}
+                >
+                  Edit
               </a>
-            </Fragment>
-          )}
+              </Fragment>
+            )}
         </div>
       </div>
     </Fragment>
