@@ -12,7 +12,7 @@ import {
 import Timer from "../../child/timer/Timer";
 import HandSide from "../../child/handside/HandSide";
 import DrawingModel from "../../child/model/DrawingModel";
-import PropTypes from "prop-types";
+
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -78,7 +78,6 @@ class HomePage extends React.Component {
   };
   render() {
     let { baseURL, shouldResetCanvas } = this.state;
-    let { user } = this.props;
     let side = this.props.leftHand ? "model_left_hand" : "";
     return (
       <Fragment>
@@ -117,7 +116,7 @@ class HomePage extends React.Component {
         <HandSide />
 
         <div id="home_bottom">
-          <img id="home_bottom_triangle" src="/triangle.png" />
+          <img id="home_bottom_triangle" src="/triangle.png" alt="home-btn" />
           <button
             onClick={() => this.navigateToClubPage()}
             id="home_bottom_button"

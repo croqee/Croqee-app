@@ -8,7 +8,7 @@ class Timer extends Component {
 		this.state = {
 			timerColor: 'timer_orange',
 		};
-	
+
 	}
 	componentDidMount() {
 		this.processIntrupted = false
@@ -22,7 +22,7 @@ class Timer extends Component {
 		this.draw();
 
 	}
-	componentWillUnmount(){
+	componentWillUnmount() {
 		this.processIntrupted = true;
 	}
 	draw = () => {
@@ -54,7 +54,7 @@ class Timer extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<svg className={`timer`} width="100" height="100" viewbox="0 0 150 150">
+				<svg className={`timer`} width="100" height="100" viewbox="0 0 150 150" >
 					<path
 						id="loader"
 						className={this.state.timerColor}

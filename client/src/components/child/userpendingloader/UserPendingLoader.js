@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function UserPendingLoader({caption}) {
+export default function UserPendingLoader({ caption }) {
 	return (
-		<main class="userpendingloader">
-				<span class="userpendingloader__loader"> </span> 
-				<span class="userpendingloader__caption">{caption}</span>
+		<main className="userpendingloader">
+			<span className="userpendingloader__loader"> </span>
+			<span className="userpendingloader__caption">{caption}</span>
 		</main>
 	);
 }
