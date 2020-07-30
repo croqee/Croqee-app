@@ -1,9 +1,12 @@
+import {error} from "shelljs";
 const Score = require('mongoose').model('Score');
 const User = require('mongoose').model('User');
+const UsersWithScores = require('mongoose').model('UsersWithScores')
 
 interface iUserScore {
-	user: string;
+	modelId: string;
 	score: number;
+	date: Date;
 }
 
 interface iUserInfo {
@@ -17,11 +20,44 @@ interface iuserScoresData {
 	userFounded: boolean;
 	data: [];
 }
+
+
 exports.updateUserScore = function (_userId: string, _modelId: string, _score: number) {
+	UsersWithScores.findOne({
+	_id: _userId,
+}).then((user: any) => {
+const useScoresArr = user.scores;
+// console.log(user.scores);
+	if(user.scores){
+		const existingScore = useScoresArr.filter((s:iUserScore) => s.modelId ===_modelId)[0];
+		let scoreIndex: Number;
+		const existingScoreArr = useScoresArr.forEach((s:Object, index:Number)=>{
+			if(s.modelId ===_modelId){
+				scoreIndex = index;
+			}
+		});
+		console.log(existingScoreArr)
+		console.log(existingScore);
+		if (existingScore.score < _score){
+			existingScore.score = _score;
+			existingScore.date = new Date;
+			existingScore.save(function (err: any) {
+				if (err) {
+					console.error('ERROR!');
+				}
+			});
+		}
+
+	}
+}).catch((err : any) => console.log(err));
+
+
+
 	Score.findOne({
 		userId: _userId,
 		modelId: _modelId
 	}).then((userScore: any) => {
+		// console.log(userScore);
 		if (userScore && userScore.score < _score) {
 			userScore.score = _score;
 			userScore.date = new Date();
@@ -44,6 +80,29 @@ exports.updateUserScore = function (_userId: string, _modelId: string, _score: n
 			});
 		}
 	}).catch();
+
+	/*
+	get-the-user-scores(model-id, score){
+ user = UserWithScores.find(user.id)
+
+ the-target-model-is-scored =  user.scores.find(model-id)
+ if (!the-target-model-is-scored){
+  _userScore.id = modelId
+  _userScore.score = score;
+  _userScore.date = newDate();
+  user.totalScore += score;
+  user.save();
+ }
+ else if (current-score > the-target-model-is-scored.score) {
+  _userScore.score = score;
+  _userScore.date = newDate();
+  user.totalScore += (score - the-target-model-is-scored.score);
+  user.save();
+ }
+}
+
+	*/
+
 };
 
 exports.getUsersTotalScore = function (user: any, callback: any) {

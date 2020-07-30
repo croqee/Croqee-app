@@ -13,7 +13,9 @@ class LeaderboardPage extends React.Component {
     this.props.getUsersScore(1);
     this.props.getScoredModels();
   }
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.usersScore.totalScores);
+  }
   componentDidUpdate(prevProps) {
     if (prevProps.usersScore !== this.props.usersScore) {
       let overAllPercentage = Math.round(

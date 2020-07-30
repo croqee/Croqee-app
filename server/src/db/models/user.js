@@ -2,10 +2,58 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const ImageSchema = new mongoose.Schema({
-  image_data: {
+  imageName: {
+    type: String,
+    default: "none"
+  },
+  imageData: {
     type: String
   }
 });
+
+const ScoresWithinUsers = new mongoose.Schema({
+  _id: String,
+  userId: String,
+  modelId: String,
+  score: Number,
+  date: Date,
+  __v:Number
+});
+
+
+// define the user with score
+const UsersWithSchema = new mongoose.Schema({
+  _id:String,
+  email: {
+    type: String,
+    index: { unique: true }
+  },
+  password: String,
+  name: String,
+  googleId: {
+    type: String,
+    index: { unique: true }
+  },
+  fbId: {
+    type: String,
+    index: { unique: true }
+  },
+  birthDate: {
+    type: Date
+  },
+  city: {
+    type: String
+  },
+  img: ImageSchema,
+  behance: String,
+
+  instagram: String,
+  facebook: String,
+  website: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: String,
+  scores: [ScoresWithinUsers]
+},{ collection : 'UsersWithScores' });
 
 // define the User model schema
 const UserSchema = new mongoose.Schema({
@@ -31,11 +79,13 @@ const UserSchema = new mongoose.Schema({
   },
   img: ImageSchema,
   behance: String,
+
   instagram: String,
   facebook: String,
   website: String,
   resetPasswordToken: String,
-  resetPasswordExpires: String
+  resetPasswordExpires: String,
+  scores: [ScoresWithinUsers]
 });
 
 /**
@@ -45,8 +95,8 @@ const UserSchema = new mongoose.Schema({
  * @returns {object} callback
  */
 UserSchema.methods.comparePassword = function comparePassword(
-  password,
-  callback
+    password,
+    callback
 ) {
   bcrypt.compare(password, this.password, callback);
 };
@@ -79,3 +129,10 @@ UserSchema.pre("save", function saveHook(next) {
 });
 module.exports = mongoose.model("ImageSchema", ImageSchema);
 module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("UsersWithScores", UsersWithSchema);
+
+// const  UsersWithSchema = mongoose.model('UsersWithScores', UserSchema);
+// module.exports.UsersWithSchema = UsersWithSchema;
+// module.exports = mongoose.model("UsersWithScores", UsersWithSchema);
+
+
