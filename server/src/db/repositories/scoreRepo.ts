@@ -1,4 +1,5 @@
 import {error} from "shelljs";
+import Any = jasmine.Any;
 const Score = require('mongoose').model('Score');
 const User = require('mongoose').model('User');
 const UsersWithScores = require('mongoose').model('UsersWithScores')
@@ -26,27 +27,39 @@ exports.updateUserScore = function (_userId: string, _modelId: string, _score: n
 	UsersWithScores.findOne({
 	_id: _userId,
 }).then((user: any) => {
-const useScoresArr = user.scores;
-// console.log(user.scores);
-	if(user.scores){
-		const existingScore = useScoresArr.filter((s:iUserScore) => s.modelId ===_modelId)[0];
+
+const userScoresArr = user.scores;
+
+	if(userScoresArr.length > 0){
+
 		let scoreIndex: Number;
-		const existingScoreArr = useScoresArr.forEach((s:Object, index:Number)=>{
-			if(s.modelId ===_modelId){
-				scoreIndex = index;
-			}
-		});
-		console.log(existingScoreArr)
-		console.log(existingScore);
-		if (existingScore.score < _score){
-			existingScore.score = _score;
-			existingScore.date = new Date;
-			existingScore.save(function (err: any) {
+		userScoresArr.forEach((s:iUserScore, index:Number)=> s.modelId ===_modelId ? scoreIndex = index:null);
+		let existingScoreArr =  userScoresArr[scoreIndex.toString()];
+
+		if (existingScoreArr.score < _score){
+			existingScoreArr.score = _score;
+			existingScoreArr.date = new Date;
+			user.scores[scoreIndex.toString()] = existingScoreArr;
+			user.save(function (err: any) {
 				if (err) {
 					console.error('ERROR!');
 				}
 			});
 		}
+		 console.log(user.scores);
+	} else if( userScoresArr.length > 0 || !userScoresArr) {
+		const _userScore = new Score({
+			userId: _userId,
+			modelId: _modelId,
+			score: _score,
+			date: new Date()
+		});
+		// _userScore.save(function (err: any) {
+		// 	if (err) {
+		// 		console.error('ERROR!');
+		// 	}
+		// });
+
 
 	}
 }).catch((err : any) => console.log(err));
