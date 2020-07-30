@@ -1,16 +1,8 @@
 import React from "react";
-import Auth from "../../../modules/Auth";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../../img/logo-vw.svg";
 import { connect } from "react-redux";
-import { getUser, setPageToNavigateAfterLogin } from "../../../js/actions";
+import { getUser } from "../../../js/actions";
 import NavbarContact from "./NavbarContact";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
@@ -27,7 +19,7 @@ class NavBar extends React.Component {
     this.props.getUser();
   }
   componentDidUpdate(prevProps) {
-    if (prevProps != this.props) {
+    if (prevProps !== this.props) {
       this.setState({
         activePage: this.props.history.location.pathname
       });
@@ -93,7 +85,7 @@ class NavBar extends React.Component {
             <Link
               className="nav-link"
               to="/"
-              style={activePage == "/" ? styles.orange : {}}
+              style={activePage === "/" ? styles.orange : {}}
             >
               Home
             </Link>
@@ -107,7 +99,7 @@ class NavBar extends React.Component {
             <Link
               className="nav-link"
               to="/leaderboard"
-              style={activePage == "/leaderboard" ? styles.orange : {}}
+              style={activePage === "/leaderboard" ? styles.orange : {}}
             >
               Leaderboard
             </Link>
@@ -123,7 +115,6 @@ class NavBar extends React.Component {
               <span className="nav-links-btn-text">
                 Draw and compete
                 <i
-                  fa-5x
                   style={{ marginLeft: "0.5rem" }}
                   className="fas fa-arrow-right"
                 ></i>
@@ -132,33 +123,33 @@ class NavBar extends React.Component {
             <NavbarContact />
           </div>
         ) : (
-          <div className="nav-links">
-            <Link
-              className="nav-link"
-              to="/"
-              style={activePage == "/" ? styles.orange : {}}
-            >
-              Home
+            <div className="nav-links">
+              <Link
+                className="nav-link"
+                to="/"
+                style={activePage === "/" ? styles.orange : {}}
+              >
+                Home
             </Link>
 
-            <Link
-              className="nav-link"
-              to="/signup"
-              style={activePage == "/signup" ? styles.orange : {}}
-            >
-              Sign up
+              <Link
+                className="nav-link"
+                to="/signup"
+                style={activePage === "/signup" ? styles.orange : {}}
+              >
+                Sign up
             </Link>
-            <Link
-              className="nav-link"
-              to="/login"
-              style={activePage == "/login" ? styles.orange : {}}
-            >
-              Login
+              <Link
+                className="nav-link"
+                to="/login"
+                style={activePage === "/login" ? styles.orange : {}}
+              >
+                Login
             </Link>
 
-            <NavbarContact />
-          </div>
-        )}
+              <NavbarContact />
+            </div>
+          )}
       </div>
     );
   }

@@ -1,13 +1,10 @@
 import React from 'react';
 import Auth from '../../../modules/Auth';
-import {connect} from "react-redux"
-import { authenticate,setUser } from '../../../js/actions';
+import { connect } from "react-redux"
+import { authenticate, setUser } from '../../../js/actions';
 
 class LogoutFunction extends React.Component {
-  constructor(props) {
-    super(props);
 
-  }
   componentDidMount() {
     // deauthenticate user
     Auth.deauthenticateUser();
@@ -27,11 +24,11 @@ class LogoutFunction extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => {
-	return {
+  return {
     authenticate: (payload) => dispatch(authenticate(payload)),
     setUser: (payload) => dispatch(setUser(payload))
-	  };
-  }
+  };
+}
 
 
 export default connect(null, mapDispatchToProps)(LogoutFunction);

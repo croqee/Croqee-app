@@ -35,7 +35,7 @@ class UserProfile extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.usersScore !== prevProps.usersScore) {
       const paramsId = this.props.location.pathname.substring(13);
-      this.props.usersScore.data.map((user, i) => {
+      this.props.usersScore.data.forEach((user) => {
         if (user._id === paramsId) {
           this.setState({
             userRank: user.rank,
@@ -88,7 +88,7 @@ class UserProfile extends Component {
                 </Typography>
               </div>
             </div>
-            <div className='profile__userInfo'>
+            {/* <div className='profile__userInfo'>
               <span>Birthdate</span>
               <div className='profile__userInfo__container'>
                 <Typography variant='body2' style={{ fontSize: '1rem' }}>
@@ -97,7 +97,7 @@ class UserProfile extends Component {
                     : 'Unspecified.'}
                 </Typography>
               </div>
-            </div>
+            </div> */}
             <div className='profile__links'>
               <p>Links</p>
             </div>

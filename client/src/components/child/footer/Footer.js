@@ -2,7 +2,7 @@ import React from "react";
 import Links from "../navbar/Links";
 import Social from "../navbar/Social";
 import ContactInfo from "../navbar/ContactInfo";
-import { TextField } from "@material-ui/core";
+
 
 export default function Footer() {
   return (
@@ -30,7 +30,7 @@ export default function Footer() {
           </small>
         </div>
         <div className="footer-top-contact">
-          <img src={require("../../../img/logo-vw.svg")} />
+          <img src={require("../../../img/logo-vw.svg")} alt='logo' />
           <ContactInfo />
         </div>
 

@@ -164,14 +164,12 @@ class DrawingModel extends Component {
     } = this.state;
     const {
       model,
-      side,
       compete,
       showUserScores,
       playingUsers,
       user,
     } = this.props;
     //const userScoreOverview = userScoreOverview;
-    let imgPath = '';
     return (
       <React.Fragment>
         {isSizeSet && (
@@ -208,62 +206,62 @@ class DrawingModel extends Component {
                 )}
               </React.Fragment>
             ) : (
-              <React.Fragment>
-                <div
-                  className={`drawing-model__select ${this.state.modelSelectClass} ${this.state.modelSelectClassRightFloat}`}
-                  style={{
-                    top: `${(height - 236) / 2 - 15}px`,
-                  }}
-                >
-                  <span
-                    className={`drawing-model__select__still-life ${
-                      this.props.activeModel.model === 'stillLife' &&
-                      'drawing-model__select__still-life--active'
-                    }`}
-                    onClick={() => {
-                      this.setModelToStillLife();
+                <React.Fragment>
+                  <div
+                    className={`drawing-model__select ${this.state.modelSelectClass} ${this.state.modelSelectClassRightFloat}`}
+                    style={{
+                      top: `${(height - 236) / 2 - 15}px`,
                     }}
-                  />
-                  <span
-                    className={`drawing-model__select__anatomy ${
-                      this.props.activeModel.model === 'anatomy' &&
-                      'drawing-model__select__anatomy--active'
-                    }`}
-                    onClick={() => {
-                      this.setModelToAnatomy();
-                    }}
-                  />
-                </div>
-                {this.props.activeModel &&
-                this.props.activeModel.model === 'stillLife' ? (
-                  <img
-                    alt=''
-                    src={require('../../../img/compete/still-life/geometrical5.png')}
-                    width={`${imgWidth}px`}
-                    height={`${imgHeight}px`}
-                    className={'drawing-model ' + this.props.side}
-                  />
-                ) : (
-                  <img
-                    alt=''
-                    src={require('../../../img/compete/anatomy/woman-figure-8.png')}
-                    width={`${imgWidth}px`}
-                    height={`${imgHeight}px`}
-                    className={'drawing-model ' + this.props.side}
-                  />
-                )}
-                {showUserScores && (
-                  <UserScoreOverview
-                    usersScoreFadeClass={usersScoreFadeClass}
-                    styles={styles}
-                    width={width}
-                    height={height}
-                    playingUsers={playingUsers}
-                    user={user}
-                  />
-                )}
-              </React.Fragment>
-            )}
+                  >
+                    <span
+                      className={`drawing-model__select__still-life ${
+                        this.props.activeModel.model === 'stillLife' &&
+                        'drawing-model__select__still-life--active'
+                        }`}
+                      onClick={() => {
+                        this.setModelToStillLife();
+                      }}
+                    />
+                    <span
+                      className={`drawing-model__select__anatomy ${
+                        this.props.activeModel.model === 'anatomy' &&
+                        'drawing-model__select__anatomy--active'
+                        }`}
+                      onClick={() => {
+                        this.setModelToAnatomy();
+                      }}
+                    />
+                  </div>
+                  {this.props.activeModel &&
+                    this.props.activeModel.model === 'stillLife' ? (
+                      <img
+                        alt=''
+                        src={require('../../../img/compete/still-life/geometrical5.png')}
+                        width={`${imgWidth}px`}
+                        height={`${imgHeight}px`}
+                        className={'drawing-model ' + this.props.side}
+                      />
+                    ) : (
+                      <img
+                        alt=''
+                        src={require('../../../img/compete/anatomy/woman-figure-8.png')}
+                        width={`${imgWidth}px`}
+                        height={`${imgHeight}px`}
+                        className={'drawing-model ' + this.props.side}
+                      />
+                    )}
+                  {showUserScores && (
+                    <UserScoreOverview
+                      usersScoreFadeClass={usersScoreFadeClass}
+                      styles={styles}
+                      width={width}
+                      height={height}
+                      playingUsers={playingUsers}
+                      user={user}
+                    />
+                  )}
+                </React.Fragment>
+              )}
           </div>
         )}
       </React.Fragment>

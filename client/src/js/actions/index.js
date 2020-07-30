@@ -37,7 +37,6 @@ export function getUser() {
 
 //Set User
 export function setUser(payload) {
-  console.log(payload);
   return { type: SET_USER, user: payload };
 }
 export function authenticate(payload) {
@@ -126,7 +125,6 @@ export function getUsersScore() {
       })
       .then(response => {
         const usersScore = response.data.usersScore;
-        console.log(usersScore);
         dispatch(getUsersScoreAsync(usersScore));
       });
   };
