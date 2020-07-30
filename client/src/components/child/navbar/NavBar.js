@@ -6,6 +6,7 @@ import { getUser } from "../../../js/actions";
 import NavbarContact from "./NavbarContact";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import ActionBtnNav from "./ActionBtnNav";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -102,20 +103,19 @@ class NavBar extends React.Component {
             <Link className="nav-link" to="/LogOut">
               Log out
             </Link>
-            <button
-              className="nav-links-btn"
-              onClick={() => {
+
+            <ActionBtnNav
+              onclick={() => {
                 this.props.history.push("/competes");
               }}
-            >
-              <span className="nav-links-btn-text">
-                Draw and compete
+              endIcon={
                 <i
                   style={{ marginLeft: "0.5rem" }}
                   className="fas fa-arrow-right"
                 ></i>
-              </span>
-            </button>
+              }
+              btnText={" Draw and compete"}
+            />
             <NavbarContact />
           </div>
         ) : (
