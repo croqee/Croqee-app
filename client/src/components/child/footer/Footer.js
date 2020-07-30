@@ -3,7 +3,6 @@ import Links from "../navbar/Links";
 import Social from "../navbar/Social";
 import ContactInfo from "../navbar/ContactInfo";
 import { TextField } from "@material-ui/core";
-//import { theme } from "../MuiTheme";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import ActionBtnNav from "../navbar/ActionBtnNav";
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -37,6 +36,7 @@ export const theme = createMuiTheme({
   }
 });
 
+
 export default function Footer() {
   return (
     <footer
@@ -66,7 +66,7 @@ export default function Footer() {
           </small>
         </div>
         <div className="footer-top-contact">
-          <img src={require("../../../img/logo-vw.svg")} />
+          <img src={require("../../../img/logo-vw.svg")} alt='logo' />
           <ContactInfo />
         </div>
 

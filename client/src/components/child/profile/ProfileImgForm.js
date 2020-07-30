@@ -124,7 +124,7 @@ function ProfileImgForm(props) {
     if (props.user && props.user.img) {
       getUserImage(props.user.img)
     }
-  }, [props.image]);
+  }, [props.image, props.user]);
 
   return (
     <Fragment>
