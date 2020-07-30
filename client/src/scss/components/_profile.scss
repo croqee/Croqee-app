@@ -4,7 +4,6 @@
   @media (min-width: $brk-tablet) {
     float: left;
     width: 60%;
-    // padding: 0rem 6rem;
   }
   &__ranking {
     display: flex;
@@ -74,7 +73,6 @@
         margin: 0;
       }
       a {
-        //margin: 0 1rem;
         cursor: pointer;
         user-select: none;
       }
