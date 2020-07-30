@@ -12,13 +12,13 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       activePage: this.props.history.location.pathname,
-      isChecked: props.isChecked || false
+      isChecked: false
     };
   }
   componentDidMount() {
     this.props.getUser();
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps !== this.props) {
       this.setState({
         activePage: this.props.history.location.pathname
@@ -32,17 +32,13 @@ class NavBar extends React.Component {
         isChecked: !this.state.isChecked
       });
     }
-  }
 
-  lockBgScroll = () => {
-    if (document.body.scroll !== "no") {
-      document.documentElement.style.overflow = "hidden";
-      document.body.scroll = "no";
-    } else {
+    if (!this.state.isChecked) {
       document.documentElement.style.overflow = "scroll";
-      document.body.scroll = "yes";
+    } else {
+      document.documentElement.style.overflow = "hidden";
     }
-  };
+  }
 
   checkBoxHandler = e => {
     this.setState({ isChecked: !this.state.isChecked });
@@ -123,33 +119,33 @@ class NavBar extends React.Component {
             <NavbarContact />
           </div>
         ) : (
-            <div className="nav-links">
-              <Link
-                className="nav-link"
-                to="/"
-                style={activePage === "/" ? styles.orange : {}}
-              >
-                Home
+          <div className="nav-links">
+            <Link
+              className="nav-link"
+              to="/"
+              style={activePage === "/" ? styles.orange : {}}
+            >
+              Home
             </Link>
 
-              <Link
-                className="nav-link"
-                to="/signup"
-                style={activePage === "/signup" ? styles.orange : {}}
-              >
-                Sign up
+            <Link
+              className="nav-link"
+              to="/signup"
+              style={activePage === "/signup" ? styles.orange : {}}
+            >
+              Sign up
             </Link>
-              <Link
-                className="nav-link"
-                to="/login"
-                style={activePage === "/login" ? styles.orange : {}}
-              >
-                Login
+            <Link
+              className="nav-link"
+              to="/login"
+              style={activePage === "/login" ? styles.orange : {}}
+            >
+              Login
             </Link>
 
-              <NavbarContact />
-            </div>
-          )}
+            <NavbarContact />
+          </div>
+        )}
       </div>
     );
   }
