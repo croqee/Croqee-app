@@ -1,6 +1,11 @@
 .account {
   @media (min-width: $brk-tablet) {
     float: left;
+    padding: 3rem 3rem 0 0;
+  }
+  @media (min-width: $brk-desktop) {
+    float: left;
+    padding: 5rem 5rem 0 3rem;
   }
 
   &__sideNav {
