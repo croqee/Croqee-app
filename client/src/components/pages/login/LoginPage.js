@@ -12,8 +12,8 @@ import {
 } from "../../../js/actions";
 import { GoogleLogin } from "react-google-login";
 import { googleApiKey } from "../../../clientglobalvariables";
-// import { facebookAppId } from "../../../clientglobalvariables";
-// import FacebookLogin from "react-facebook-login";
+import { facebookAppId } from "../../../clientglobalvariables";
+import FacebookLogin from "react-facebook-login";
 import { Card, Button, Typography } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../../child/MuiTheme";
@@ -149,7 +149,7 @@ class LoginPage extends React.Component {
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
-          <Card variant="outlined" square >
+          <Card variant="outlined" square>
             <LoginForm
               onSubmit={this.processForm}
               onChange={this.changeUser}
@@ -175,18 +175,18 @@ class LoginPage extends React.Component {
               responseType="code"
               accessType="offline"
             />
-            <div>
-              {/* <FacebookLogin
-            appId={facebookAppId}
-            autoLoad={false}
-            size="medium"
-            fields="name,email,id"
-            scope="public_profile, email"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook}
-            textButton="Login to your Facebook"
-            redirectUri="http://localhost:3000"
-          /> */}
+            <div style={{ marginTop: "1rem" }}>
+              <FacebookLogin
+                appId={facebookAppId}
+                autoLoad={false}
+                size="medium"
+                fields="name,email,id"
+                scope="public_profile, email"
+                onClick={this.componentClicked}
+                callback={this.responseFacebook}
+                textButton="Login to your Facebook"
+                redirectUri="http://localhost:3000"
+              />
             </div>
           </Card>
           <div style={{ textAlign: "left", margin: "auto", width: "250px" }}>
