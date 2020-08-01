@@ -102,6 +102,12 @@ $button-size : 28px;
             height: 50px;
             width: 100%;
             display: flex;
+            transition: margin-left 0.2s linear, border-bottom .3s linear;
+                &:hover {
+                    margin-left: 5px;
+                    cursor: pointer;
+                    border-bottom: 1px solid $active-color;
+                  }
             &__rank {
                 margin-top: 8px;
                margin-right:20px;
@@ -118,6 +124,7 @@ $button-size : 28px;
             }
             &__user {
                 margin-top: 8px;
+                
              }
              &__score {
                 margin-top: 8px;
