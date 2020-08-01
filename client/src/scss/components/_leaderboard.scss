@@ -23,14 +23,18 @@ $button-size : 28px;
         width:49%;
         text-align: center;
         // border-right:1px solid $mid-light-grey;
-        height:230px;
+        @media (max-width: 852px){
+            width: 100%;
+        }
     }
     &__right{
         float: right;
         width: 49%;
         text-align: center;
         vertical-align: top;
-        height:230px;
+        @media (max-width: 852px){
+            width: 100%;
+        }
 
     }
 
@@ -49,13 +53,11 @@ $button-size : 28px;
                 font-size: 40px;
             }
             position: relative;
-            right: 8px;
         }
         &__desc{
             margin-top: 20px;
             font-size: 18px;
             position: relative;
-            right: 8px;
         }
     }
     &__topic-percentage {
