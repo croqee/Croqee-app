@@ -2,7 +2,8 @@ import {error} from "shelljs";
 import Any = jasmine.Any;
 const Score = require('mongoose').model('Score');
 const User = require('mongoose').model('User');
-const UsersWithScores = require('mongoose').model('UsersWithScores')
+// const User = require('mongoose').model('UsersWithScores');
+// const UsersWithScores = require('mongoose').model('UsersWithScores')
 
 interface iUserScore {
 	modelId: string;
@@ -24,45 +25,52 @@ interface iuserScoresData {
 
 
 exports.updateUserScore = function (_userId: string, _modelId: string, _score: number) {
-	UsersWithScores.findOne({
+	User.findOne({
 	_id: _userId,
 }).then((user: any) => {
-
+console.log(user);
 const userScoresArr = user.scores;
+
+		userScoresArr.forEach((s:iUserScore, index:number)=> s.modelId ===_modelId ? scoreIndex = index:null);
 
 	if(userScoresArr.length > 0){
 
-		let scoreIndex: Number;
-		userScoresArr.forEach((s:iUserScore, index:Number)=> s.modelId ===_modelId ? scoreIndex = index:null);
-		let existingScoreArr =  userScoresArr[scoreIndex.toString()];
+
+
+		let scoreIndex: number;
+
+		userScoresArr.forEach((s:iUserScore, index:number)=> s.modelId ===_modelId ? scoreIndex = index:null);
+		let existingScoreArr =  userScoresArr[scoreIndex];
 
 		if (existingScoreArr.score < _score){
 			existingScoreArr.score = _score;
 			existingScoreArr.date = new Date;
-			user.scores[scoreIndex.toString()] = existingScoreArr;
+			user.scores[scoreIndex] = existingScoreArr;
 			user.save(function (err: any) {
 				if (err) {
 					console.error('ERROR!');
 				}
 			});
 		}
-		 console.log(user.scores);
-	} else if( userScoresArr.length > 0 || !userScoresArr) {
-		const _userScore = new Score({
+		 console.log(user);
+	} else if( userScoresArr.length === 0 || !userScoresArr) {
+		const _userScore = {
 			userId: _userId,
 			modelId: _modelId,
 			score: _score,
 			date: new Date()
+		};
+		user.scores.push(_userScore);
+		console.log(user.scores);
+		user.save(function (err: any) {
+			if (err) {
+				console.error('ERROR!');
+			}
 		});
-		// _userScore.save(function (err: any) {
-		// 	if (err) {
-		// 		console.error('ERROR!');
-		// 	}
-		// });
-
-
 	}
-}).catch((err : any) => console.log(err));
+	}).catch((err : any) => console.log(err));
+
+
 
 
 
@@ -70,7 +78,7 @@ const userScoresArr = user.scores;
 		userId: _userId,
 		modelId: _modelId
 	}).then((userScore: any) => {
-		// console.log(userScore);
+
 		if (userScore && userScore.score < _score) {
 			userScore.score = _score;
 			userScore.date = new Date();
@@ -238,6 +246,7 @@ let getTotalScores = function (callback: any) {
 			if (res) {
 				callback(res.length);
 			}
+
 		}).catch((err: any) => console.log(err));
 };
 

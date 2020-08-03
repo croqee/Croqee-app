@@ -21,8 +21,9 @@ const ScoresWithinUsers = new mongoose.Schema({
 });
 
 
-// define the user with score
-const UsersWithSchema = new mongoose.Schema({
+// define the user with score(new Schema)
+
+const UserSchema = new mongoose.Schema({
   _id:String,
   email: {
     type: String,
@@ -46,7 +47,6 @@ const UsersWithSchema = new mongoose.Schema({
   },
   img: ImageSchema,
   behance: String,
-
   instagram: String,
   facebook: String,
   website: String,
@@ -56,37 +56,39 @@ const UsersWithSchema = new mongoose.Schema({
 },{ collection : 'UsersWithScores' });
 
 // define the User model schema
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    index: { unique: true }
-  },
-  password: String,
-  name: String,
-  googleId: {
-    type: String,
-    index: { unique: true }
-  },
-  fbId: {
-    type: String,
-    index: { unique: true }
-  },
-  birthDate: {
-    type: Date
-  },
-  city: {
-    type: String
-  },
-  img: ImageSchema,
-  behance: String,
-
-  instagram: String,
-  facebook: String,
-  website: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: String,
-  scores: [ScoresWithinUsers]
-});
+///////////Old Schema
+// const UserSchema = new mongoose.Schema({
+//
+//   email: {
+//     type: String,
+//     index: { unique: true }
+//   },
+//   password: String,
+//   name: String,
+//   googleId: {
+//     type: String,
+//     index: { unique: true }
+//   },
+//   fbId: {
+//     type: String,
+//     index: { unique: true }
+//   },
+//   birthDate: {
+//     type: Date
+//   },
+//   city: {
+//     type: String
+//   },
+//   img: ImageSchema,
+//   behance: String,
+//
+//   instagram: String,
+//   facebook: String,
+//   website: String,
+//   resetPasswordToken: String,
+//   resetPasswordExpires: String,
+//   scores: [ScoresWithinUsers]
+// });
 
 /**
  * Compare the passed password with the value in the database. A model method.
@@ -129,10 +131,9 @@ UserSchema.pre("save", function saveHook(next) {
 });
 module.exports = mongoose.model("ImageSchema", ImageSchema);
 module.exports = mongoose.model("User", UserSchema);
-module.exports = mongoose.model("UsersWithScores", UsersWithSchema);
+// module.exports = mongoose.model("UsersWithScores", UsersWithSchema);
 
 // const  UsersWithSchema = mongoose.model('UsersWithScores', UserSchema);
-// module.exports.UsersWithSchema = UsersWithSchema;
-// module.exports = mongoose.model("UsersWithScores", UsersWithSchema);
+
 
 

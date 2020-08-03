@@ -120,5 +120,5 @@ server.listen(process.env.PORT || 8080);
 //fot test
 const ScoreRepo = require('./db/repositories/scoreRepo');
 
-ScoreRepo.updateUserScore('5f2057ab3be5c50615c38bdb', "geometrical2", 102);
+ScoreRepo.updateUserScore('5f2057ab3be5c50615c38bdb', "geometrical2", 100);
 // '5f2057ab3be5c50615c38bdb'
