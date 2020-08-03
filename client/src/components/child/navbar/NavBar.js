@@ -7,6 +7,12 @@ import NavbarContact from "./NavbarContact";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ActionBtnNav from "./ActionBtnNav";
+import { Avatar } from "@material-ui/core";
+import default_image from '../../../img/default-image.png';
+import { makeStyles } from '@material-ui/core/styles';
+import { theme } from '../profile/ProfileImgForm'
+
+
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -52,6 +58,7 @@ class NavBar extends React.Component {
         fontWeight: 600
       }
     };
+
     return (
       <div className="nav">
         <input
@@ -88,21 +95,48 @@ class NavBar extends React.Component {
             </Link>
             <Link
               className="nav-link"
-              to="/account/profile"
-              style={activePage.indexOf("/account") !== -1 ? styles.orange : {}}
-            >
-              {this.props.user.name}
-            </Link>
-            <Link
-              className="nav-link"
               to="/leaderboard"
               style={activePage === "/leaderboard" ? styles.orange : {}}
             >
               Leaderboard
             </Link>
-            <Link className="nav-link" to="/LogOut">
-              Log out
+            <Link
+              className="nav-link"
+              to="/account/profile"
+              style={activePage.indexOf("/account") !== -1 ? styles.orange : {}}
+            >
+              <div className="profile-nav">
+                <div className="user-img">
+                  {this.props.user.img ? (<Avatar src={"/user-image/" + this.props.user.img.image_data} alt="profile image" />) : (<Avatar src={default_image} alt="profile image" />)}
+                </div>
+                <div className="profile-list">
+                  <div className="user-info">
+                    <div className="user-img medium" >
+                      {this.props.user.img ? (<Avatar src={"/user-image/" + this.props.user.img.image_data} alt="profile image" />) : (<Avatar src={default_image} alt="profile image" />)}
+                    </div>
+                    <div className="user-details">
+                      <ul>
+                        <li style={{ textTransform: 'capitalize', fontSize: '18px' }}>{this.props.user.name}</li>
+                        <li>{this.props.user.email}</li>
+                        <li>score:10</li>
+                      </ul>
+                    </div>
+
+                  </div>
+                  <div className="profile-links">
+                    <ul>
+                      <li><Link to={`/userprofile/${this.props.user._id}`}>Croqee profile</Link></li>
+                      <li><Link to="/account/password">Account Settings</Link></li>
+                      <li><Link to="/account/privacy">Privacy</Link></li>
+                      <li><Link to="/LogOut">Sign Out</Link></li>
+                    </ul>
+
+                  </div>
+
+                </div>
+              </div>
             </Link>
+
 
             <ActionBtnNav
               onclick={() => {
@@ -119,33 +153,33 @@ class NavBar extends React.Component {
             <NavbarContact />
           </div>
         ) : (
-          <div className="nav-links">
-            <Link
-              className="nav-link"
-              to="/"
-              style={activePage === "/" ? styles.orange : {}}
-            >
-              Home
+            <div className="nav-links">
+              <Link
+                className="nav-link"
+                to="/"
+                style={activePage === "/" ? styles.orange : {}}
+              >
+                Home
             </Link>
 
-            <Link
-              className="nav-link"
-              to="/signup"
-              style={activePage === "/signup" ? styles.orange : {}}
-            >
-              Sign up
+              <Link
+                className="nav-link"
+                to="/signup"
+                style={activePage === "/signup" ? styles.orange : {}}
+              >
+                Sign up
             </Link>
-            <Link
-              className="nav-link"
-              to="/login"
-              style={activePage === "/login" ? styles.orange : {}}
-            >
-              Login
+              <Link
+                className="nav-link"
+                to="/login"
+                style={activePage === "/login" ? styles.orange : {}}
+              >
+                Login
             </Link>
 
-            <NavbarContact />
-          </div>
-        )}
+              <NavbarContact />
+            </div>
+          )}
       </div>
     );
   }

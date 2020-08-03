@@ -31,7 +31,7 @@
     position: relative;
     & > a {
       display: inline-block;
-      padding: 12px 1.1rem;
+      padding: 0px 1.1rem;
       text-decoration: none;
       color: white;
       margin-right: 5px;
@@ -85,6 +85,7 @@
     }
   }
 }
+
 .nav > #nav-check {
   display: none;
 }
@@ -290,5 +291,90 @@
   .nav > #nav-check:checked ~ .hamburger .hamburger-inner:before {
     transition-delay: 0s;
     opacity: 0;
+  }
+}
+
+
+
+
+//aryan
+.profile-nav{
+  &:hover{
+    .profile-list{
+      display: block;
+    }
+  }
+}
+.user-img{
+  transform: translateY(21px);
+  padding-right: 15px;
+  >div{
+    width: 55px;
+    height: 55px;
+  }
+  &.medium{ 
+    padding-left:15px;
+    padding-top: 7px ;
+  >div{
+    width: 75px;
+    height: 75px;
+      }
+  }
+}
+.profile-list{
+  display: none;
+  height: 300px;
+  width: 60%;
+  position: absolute;
+  color: $light-grey;
+  top:80px;
+  right: 246px;
+  background-color: #151515;
+  
+  .user-info{
+    display: flex;
+    border-bottom: 1px solid $light-grey;
+    cursor: default;
+  }
+  .user-details{
+    text-align: initial;
+    font-size: 14px;
+    ul {
+      padding:10px 0;
+      li{
+        height: 40px;
+        margin-top: -10px;
+      }
+    }
+  }
+  &:after{
+    content: '';
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    z-index: 100000000;
+    top: -5px;
+    right:50px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 5px solid #151515;
+  }
+}
+.profile-links{
+  ul {
+    margin: 0;
+    padding: 10px 0 10px 20px;
+    li{
+      text-align: left;
+      height: 33px;
+      transition: all .2s ease-in-out;
+      a{
+        color: $light-grey;
+        text-decoration: none;
+      }
+      &:hover{
+        transform: translateX(5px);
+      }
+    }
   }
 }
