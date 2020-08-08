@@ -27,7 +27,7 @@
   &-links {
     display: inline;
     float: right;
-    font-size: 18px;
+    font-size: 1.1rem;
     position: relative;
     & > a {
       display: inline-block;
@@ -37,6 +37,7 @@
       margin-right: 5px;
       font-size: $sm-font;
       line-height: 2.5em;
+      transition: color .15s ease-in-out;
       &:hover {
         color: $orange;
       }
@@ -166,6 +167,7 @@
       width: 0;
       transition: width 0.2s ease 0s;
       text-align: left;
+      
       & > a {
         display: block;
         width: 100%;
@@ -299,6 +301,7 @@
 
 //aryan
 .profile-nav{
+  padding-bottom: 40px;
   &:hover{
     .profile-list{
       display: block;
@@ -323,17 +326,20 @@
 }
 .profile-list{
   display: none;
-  height: 300px;
+  height:  20rem;
   width: 60%;
   position: absolute;
   color: $light-grey;
-  top:80px;
+  z-index: 100;
+  top:84px;
   right: 246px;
-  background-color: #151515;
+  background-color: #151515ef;
+  border-radius: 8px;
+  box-shadow: -1px 0px 10px -1px #000000b5;
   
   .user-info{
     display: flex;
-    border-bottom: 1px solid $light-grey;
+    border-bottom: 1px solid #f43c001c;
     cursor: default;
   }
   .user-details{
@@ -353,27 +359,36 @@
     height: 0px;
     position: absolute;
     z-index: 100000000;
-    top: -5px;
-    right:50px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 5px solid #151515;
+    top: -8px;
+    right:54px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8px solid #f43c001c;
   }
 }
 .profile-links{
   ul {
     margin: 0;
-    padding: 10px 0 10px 20px;
+    padding: 0;
+    
     li{
       text-align: left;
-      height: 33px;
-      transition: all .2s ease-in-out;
+      height: 40px;
+      transition: opacity .2s ease-in-out;
+      padding-left: 20px;
+      &:last-child{
+        border-top: 1px solid #f43c001c;
+        padding-top: 6px;
+      }
       a{
         color: $light-grey;
         text-decoration: none;
+        transition: color .15s ease-in-out;
       }
       &:hover{
-        transform: translateX(5px);
+        a{
+          color: $orange;
+        }
       }
     }
   }
