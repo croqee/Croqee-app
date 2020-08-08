@@ -17,6 +17,7 @@ import ProfilePage from "./components/child/profile/ProfilePage";
 import ForgotPassword from "./components/child/account/ForgotPassword";
 import ResetPass from "./components/child/account/ResetPass";
 import Footer from "./components/child/footer/Footer";
+import { Cookie } from './components/child/cookie/Cookie'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -88,6 +89,7 @@ class App extends Component {
             <PrivateRoute path="/userprofile/:id" component={UserProfile} />
           </div>
           <GlobalRoute component={Footer} />
+          <GlobalRoute component={Cookie} />
         </Router>
       </div>
     );
