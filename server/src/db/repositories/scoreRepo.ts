@@ -1,5 +1,6 @@
 import {error} from "shelljs";
 import Any = jasmine.Any;
+import arrayContaining = jasmine.arrayContaining;
 const Score = require('mongoose').model('Score');
 const User = require('mongoose').model('User');
 // const UsersWithScores = require('mongoose').model('UsersWithScores')
@@ -67,6 +68,90 @@ exports.updateUserScore = function (_userId: string, _modelId: string, _score: n
 };
 
 exports.getUsersTotalScore = function (user: any, callback: any) {
+		// console.log(user);
+
+
+	if(user){
+		let query :string= user._id;
+
+
+
+	User.aggregate([
+		{
+			'$match': {},
+		},
+		{
+			'$unwind':'$scores'
+		},{
+		'$group':{
+				_id: {
+					_id:'$_id',
+					email:'$email',
+					name:'$name',
+					img:'$img',
+				},
+				totalScore:{$sum:"$scores.score"}
+			}
+		},{
+		"$sort":{
+			totalScore: -1
+		  }
+		},
+		{
+		"$match": {
+			"_id._id":query
+		}
+		}
+
+	]).exec()
+		.then((res: any)=>{
+
+			console.log(res);
+
+
+
+			if(res){
+				let userFoundend: boolean = false;
+				let finalResults: any = [];
+				let data: iuserScoresData = {
+					totalScores : res.length,
+					userRank: null,
+					userFounded: false,
+					data: []
+				};
+				if(user){
+					console.log(data.totalScores);
+					console.log(res[3]._id.email);
+					console.log(user.email );
+					let topTen: any = res.splice(0,9);
+					let jaber: any = topTen.filter( (item:any) =>item._id.email === user.email);
+					console.log(jaber);
+					// let topten: any = topTen.filter( (item:any) =>item._id._id === user._id);
+					let topten: any = topTen.findIndex( (item:any) => user._id === item._id._id );
+					console.log(topten);
+
+				}
+
+
+
+
+
+			}
+
+		})
+		.catch((err:any) =>console.log(err));
+
+	}
+
+
+
+};
+
+
+
+
+
+exports._getUsersTotalScore = function (user: any, callback: any) {
 	if (user) {
 		getTotalScores((totalScores: number) => {
 			Score.aggregate([
@@ -78,6 +163,7 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
 			])
 				.exec()
 				.then((res: any) => {
+					// console.log(res);
 					if (res) {
 						let userFoundend: boolean = false;
 						let finalResults: any = [];
@@ -117,6 +203,7 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
 								}).catch((err: any) => console.log(err));
 							}
 						}
+						console.log(finalResults[0]);
 					}
 				}).catch((err: any) => console.log(err));
 		});
