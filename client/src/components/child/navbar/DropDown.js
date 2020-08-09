@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ const DropDown = (props) => {
                     <ul>
                         <li style={{ textTransform: 'capitalize', fontSize: '18px' }}>{props.user.name}</li>
                         <li>{props.user.email}</li>
-                        <li>score:10</li>
+                        <li>score: {props.score.totalScores}</li>
                     </ul>
                 </div>
 
@@ -34,6 +34,6 @@ const DropDown = (props) => {
         </React.Fragment>
     )
 }
-const mapStateToProps = state => ({ user: state.user })
+const mapStateToProps = state => ({ user: state.user, score: state.usersScore })
 
 export default connect(mapStateToProps)(DropDown);
