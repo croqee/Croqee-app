@@ -71,8 +71,9 @@ class LeaderboardPage extends React.Component {
             this.props.usersScore.data &&
             this.props.usersScore.data.map((score, i) => {
               return (
-                <React.Fragment>
+                <React.Fragment key={score._id}>
                   <div
+                    
                     className={`leaderboard__scores__row   ${
                       this.props.user.email === score.user.email &&
                       'leaderboard__scores__row--self'

@@ -1,7 +1,7 @@
-import React, { PropTypes } from "react";
+import React from "react";
 import Auth from "../../../modules/Auth";
 import LoginForm from "./LoginForm.js";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import config from "../../../modules/config";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -127,7 +127,6 @@ class LoginPage extends React.Component {
   responseFacebook = response => {
     //facebook response returns an obj which should be sent to the backend for the code to be extracted
     const code = JSON.parse(atob(response.signedRequest.split(".")[1])).code;
-    console.log(code);
     axios
       .post("auth/facebookauth", { facebookCode: code })
       .then(res => {
@@ -150,7 +149,7 @@ class LoginPage extends React.Component {
     return (
       <React.Fragment>
         <MuiThemeProvider theme={theme}>
-          <Card variant="outlined" square dark>
+          <Card variant="outlined" square>
             <LoginForm
               onSubmit={this.processForm}
               onChange={this.changeUser}
@@ -165,7 +164,7 @@ class LoginPage extends React.Component {
                   variant="contained"
                   onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
-                  startIcon={<i class="fab fa-google"></i>}
+                  startIcon={<i className="fab fa-google"></i>}
                 >
                   Continue With Google
                 </Button>
@@ -176,18 +175,18 @@ class LoginPage extends React.Component {
               responseType="code"
               accessType="offline"
             />
-            <div>
-              {/* <FacebookLogin
-            appId={facebookAppId}
-            autoLoad={false}
-            size="medium"
-            fields="name,email,id"
-            scope="public_profile, email"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook}
-            textButton="Login to your Facebook"
-            redirectUri="http://localhost:3000"
-          /> */}
+            <div style={{ marginTop: "1rem" }}>
+              <FacebookLogin
+                appId={facebookAppId}
+                autoLoad={false}
+                size="medium"
+                fields="name,email,id"
+                scope="public_profile, email"
+                onClick={this.componentClicked}
+                callback={this.responseFacebook}
+                textButton="Login to your Facebook"
+                redirectUri="http://localhost:3000"
+              />
             </div>
           </Card>
           <div style={{ textAlign: "left", margin: "auto", width: "250px" }}>

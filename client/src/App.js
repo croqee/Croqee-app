@@ -17,9 +17,6 @@ import ProfilePage from "./components/child/profile/ProfilePage";
 import ForgotPassword from "./components/child/account/ForgotPassword";
 import ResetPass from "./components/child/account/ResetPass";
 import Footer from "./components/child/footer/Footer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
-import { height } from "@material-ui/system";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -28,15 +25,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       Auth.isUserAuthenticated() ? (
         <Component {...props} {...rest} />
       ) : (
-        <React.Fragment>
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location }
-            }}
-          />
-        </React.Fragment>
-      )
+          <React.Fragment>
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: props.location }
+              }}
+            />
+          </React.Fragment>
+        )
     }
   />
 );
@@ -53,8 +50,8 @@ const LoggedOutRoute = ({ component: Component, ...rest }) => (
           }}
         />
       ) : (
-        <Component {...props} {...rest} />
-      )
+          <Component {...props} {...rest} />
+        )
     }
   />
 );
@@ -70,7 +67,6 @@ class App extends Component {
           <GlobalRoute component={NavBar} />
 
           <div
-            maxWidth={false}
             style={{ paddingBottom: "5rem" }}
             className="page-content"
           >

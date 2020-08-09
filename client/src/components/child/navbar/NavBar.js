@@ -1,33 +1,26 @@
 import React from "react";
-import Auth from "../../../modules/Auth";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../../img/logo-vw.svg";
 import { connect } from "react-redux";
-import { getUser, setPageToNavigateAfterLogin } from "../../../js/actions";
+import { getUser } from "../../../js/actions";
 import NavbarContact from "./NavbarContact";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import ActionBtnNav from "./ActionBtnNav";
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activePage: this.props.history.location.pathname,
-      isChecked: props.isChecked || false
+      isChecked: false
     };
   }
   componentDidMount() {
     this.props.getUser();
   }
-  componentDidUpdate(prevProps) {
-    if (prevProps != this.props) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
       this.setState({
         activePage: this.props.history.location.pathname
       });
@@ -40,17 +33,13 @@ class NavBar extends React.Component {
         isChecked: !this.state.isChecked
       });
     }
-  }
 
-  lockBgScroll = () => {
-    if (document.body.scroll !== "no") {
-      document.documentElement.style.overflow = "hidden";
-      document.body.scroll = "no";
-    } else {
+    if (!this.state.isChecked) {
       document.documentElement.style.overflow = "scroll";
-      document.body.scroll = "yes";
+    } else {
+      document.documentElement.style.overflow = "hidden";
     }
-  };
+  }
 
   checkBoxHandler = e => {
     this.setState({ isChecked: !this.state.isChecked });
@@ -93,7 +82,7 @@ class NavBar extends React.Component {
             <Link
               className="nav-link"
               to="/"
-              style={activePage == "/" ? styles.orange : {}}
+              style={activePage === "/" ? styles.orange : {}}
             >
               Home
             </Link>
@@ -107,28 +96,26 @@ class NavBar extends React.Component {
             <Link
               className="nav-link"
               to="/leaderboard"
-              style={activePage == "/leaderboard" ? styles.orange : {}}
+              style={activePage === "/leaderboard" ? styles.orange : {}}
             >
               Leaderboard
             </Link>
             <Link className="nav-link" to="/LogOut">
               Log out
             </Link>
-            <button
-              className="nav-links-btn"
-              onClick={() => {
+
+            <ActionBtnNav
+              onclick={() => {
                 this.props.history.push("/competes");
               }}
-            >
-              <span className="nav-links-btn-text">
-                Draw and compete
+              endIcon={
                 <i
-                  fa-5x
                   style={{ marginLeft: "0.5rem" }}
                   className="fas fa-arrow-right"
                 ></i>
-              </span>
-            </button>
+              }
+              btnText={" Draw and compete"}
+            />
             <NavbarContact />
           </div>
         ) : (
@@ -136,7 +123,7 @@ class NavBar extends React.Component {
             <Link
               className="nav-link"
               to="/"
-              style={activePage == "/" ? styles.orange : {}}
+              style={activePage === "/" ? styles.orange : {}}
             >
               Home
             </Link>
@@ -144,14 +131,14 @@ class NavBar extends React.Component {
             <Link
               className="nav-link"
               to="/signup"
-              style={activePage == "/signup" ? styles.orange : {}}
+              style={activePage === "/signup" ? styles.orange : {}}
             >
               Sign up
             </Link>
             <Link
               className="nav-link"
               to="/login"
-              style={activePage == "/login" ? styles.orange : {}}
+              style={activePage === "/login" ? styles.orange : {}}
             >
               Login
             </Link>

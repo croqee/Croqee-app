@@ -1,29 +1,33 @@
 .footer {
   display: block;
   position: absolute;
-  bottom: 0;
   width: 100%;
   text-align: left;
   height: 5rem;
 
   &-top {
-    background: $dark-grey;
+    background: $light-black;
     color: $light-grey;
-    padding: 4.3rem 3.55555556rem;
+    padding: 2.3rem 3.55555556rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     padding-left: 7.8125vw;
     padding-right: 7.8125vw;
+    flex-direction: column;
+
+    @media (max-width: 960px) {
+      text-align: center;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      padding: 1rem;
+    }
     @media only screen and (max-width: 1400px) {
       padding-left: 4.5rem;
       padding-right: 4.5rem;
     }
-    @media (max-width: 650px) {
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-      padding-left: 1rem;
-      padding-right: 1rem;
+    @media (min-width: 650px) {
+      flex-direction: row;
     }
     &--newsLetter {
       width: 30%;
@@ -37,36 +41,28 @@
         width: 100%;
         padding: 2rem 0;
       }
+      @media (max-width: 650px) {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+      }
       &-form {
-        border: 1px solid #fff;
         overflow: hidden;
+        @media (max-width: 360px) {
+          overflow: hidden;
+          margin: 0rem -3rem;
+        }
+
+        &-btn {
+          @media only screen and (min-width: 960px) {
+            display: flex;
+            margin: 1rem 0.5rem 0 0.2rem;
+          }
+        }
       }
 
-      &-input {
-        height: 66px;
-        width: 50%;
-        padding: 3px 0 0px 4px;
-        outline: 0;
-        border: 0;
-        color: #fff;
-        background: transparent;
-
-        @media only screen and (min-width: $brk-tablet) {
-          max-width: 40%;
-          padding: 3px 19px 1px 4px;
-        }
-        @media only screen and (min-width: 960px) {
-          width: 59%;
-          padding: 3px 19px 1px 4px;
-        }
-        &:focus {
-          outline: 0;
-          background: transparent;
-          color: $orange;
-        }
-      }
       &-btn {
-        border: 1px solid #fff;
+        //  border: 1px solid #fff;
         height: 70px;
         width: 92px;
         font-weight: 800;
@@ -101,14 +97,15 @@
       }
     }
     &-contact {
-      width: 33.33%;
-      width: 36.66%;
-      padding: 2rem 2.5rem;
       @media only screen and (max-width: 960px) {
         text-align: center;
         width: 100%;
-        padding-left: 0;
-        padding-right: 0;
+        padding: 1.5rem 0;
+      }
+      @media only screen and (min-width: 960px) {
+        width: 24.33%;
+        padding: 1rem 2.5rem;
+        text-align: left;
       }
       & > img {
         max-width: 70px;
@@ -117,25 +114,28 @@
     &-links {
       display: flex;
       flex-direction: column;
-      width: 33.33%;
-      padding: 3rem 0;
+      text-align: center;
+      @media only screen and (min-width: 960px) {
+        margin-top: 0rem;
+        text-align: left;
+        width: 33.33%;
+        padding: 1rem 2.5rem;
+      }
+      @media only screen and (max-width: 960px) {
+        width: 100%;
+      }
       & > a {
-        padding: 0.7rem 0;
+        padding: 0.5rem 0;
         text-decoration: none;
         color: $light-grey;
         &:hover {
           color: $orange;
         }
       }
-      @media only screen and (max-width: 960px) {
-        width: 100%;
-        padding: 3rem 0;
-        text-align: center;
-      }
     }
   }
   &-bottom {
-    color: $orange;
+    color: $dark-grey;
     background: $light-grey;
     padding: 1.4rem 3.55555556rem;
     display: -webkit-box;
@@ -147,17 +147,13 @@
     font-size: 0.75rem;
     padding-left: 7.8125vw;
     padding-right: 7.8125vw;
-    @media (max-width: 650px) {
+    @media (max-width: 960px) {
+      text-align: center;
       -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding: 1rem;
     }
-    @media only screen and (max-width: 960px) {
-      text-align: center;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
-    }
+
     &-copy {
       width: 33.33%;
       font-weight: 700;

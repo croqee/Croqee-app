@@ -26,7 +26,6 @@ class ClubsPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	const { } = state;
 	return {};
 };
 const mapDispatchToProps = (dispatch) => {

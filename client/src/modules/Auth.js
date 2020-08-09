@@ -18,7 +18,6 @@ class Auth {
       localStorage.getItem('token') !== null &&
       localStorage.getItem('token') !== undefined
     )) {
-      console.log('hasan', localStorage.getItem('token'))
     }
     return (
       localStorage.getItem('token') !== null &&

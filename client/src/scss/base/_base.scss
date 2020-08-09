@@ -18,6 +18,17 @@ a:focus {
   text-decoration: none;
 }
 
+.App {
+  text-align: center;
+  position: relative;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.page-content {
+  min-height: 100vh;
+  padding: 2rem 0;
+}
 #drawhere {
   width: 193px;
   height: 106px;

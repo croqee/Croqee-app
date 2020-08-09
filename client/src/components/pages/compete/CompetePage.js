@@ -5,7 +5,6 @@ import Timer from '../../child/timer/Timer';
 import HandSide from '../../child/handside/HandSide';
 import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
 import socketIOClient from 'socket.io-client';
-import CompetePageUsers from '../../child/competepageusers/CompetePageUsers';
 import { socketEndPoint } from '../../../clientglobalvariables';
 import Auth from '../../../modules/Auth';
 import Canvas from '../../child/canvas/Canvas';
@@ -14,7 +13,6 @@ import DrawingModel from '../../child/model/DrawingModel';
 class CompetePage extends React.Component {
 	constructor(props) {
 		super(props);
-		let socket;
 		this.state = {
 			existingPlayer: false,
 			endpoint: socketEndPoint,
@@ -29,11 +27,11 @@ class CompetePage extends React.Component {
 			hasJoined: false,
 			showUserScores: false,
 			isFirstTimePlaying: true,
-			drawingField: this.props.history.location.pathname[this.props.history.location.pathname.length - 1] == "/" ? this.props.history.location.pathname : this.props.history.location.pathname + '/'
+			drawingField: this.props.history.location.pathname[this.props.history.location.pathname.length - 1] === "/" ? this.props.history.location.pathname : this.props.history.location.pathname + '/'
 		};
 	}
 	componentDidMount() {
-        console.log(this.props.history)
+		console.log(this.props.history)
 		this.socket = socketIOClient(this.state.endpoint, { path: `${this.state.drawingField}/socket.io` });
 		const token = Auth.getToken();
 		this.socket.emit('username', token);
