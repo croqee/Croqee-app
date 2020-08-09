@@ -68,12 +68,6 @@ exports.updateUserScore = function (_userId: string, _modelId: string, _score: n
 };
 
 exports.getUsersTotalScore = function (user: any, callback: any) {
-		// console.log(user);
-
-
-	if(user){
-		let query :string= user._id;
-
 
 
 	User.aggregate([
@@ -96,56 +90,63 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
 		"$sort":{
 			totalScore: -1
 		  }
-		},
-		{
-		"$match": {
-			"_id._id":query
 		}
-		}
-
 	]).exec()
 		.then((res: any)=>{
 
-			console.log(res);
-
-
-
-			if(res){
-				let userFoundend: boolean = false;
-				let finalResults: any = [];
 				let data: iuserScoresData = {
 					totalScores : res.length,
 					userRank: null,
 					userFounded: false,
 					data: []
 				};
+
 				if(user){
-					console.log(data.totalScores);
-					console.log(res[3]._id.email);
-					console.log(user.email );
-					let topTen: any = res.splice(0,9);
-					let jaber: any = topTen.filter( (item:any) =>item._id.email === user.email);
-					console.log(jaber);
-					// let topten: any = topTen.filter( (item:any) =>item._id._id === user._id);
-					let topten: any = topTen.findIndex( (item:any) => user._id === item._id._id );
-					console.log(topten);
+					let userRankIndex : number = res.findIndex( (item:any) => user._id === item._id._id );
+					let finalResults: any = res.splice(0,10);
 
+					if(userRankIndex !== -1 ){
+						data.userFounded = true;
+						if(userRankIndex > 10){
+							for(let i = userRankIndex ; i < userRankIndex + 2 ; i++){
+								finalResults.push(res[i]);
+							}
+						}
+					}
+					data.userRank = userRankIndex + 1;
+					data.data = resConverter(finalResults,userRankIndex)
+					callback(data)
 				}
-
-
-
-
-
-			}
-
 		})
 		.catch((err:any) =>console.log(err));
-
-	}
-
-
-
 };
+
+let resConverter = function( finalResults:any,userRankIndex:number){
+
+	const convertetArray : any = [];
+	let helperIndex = userRankIndex
+
+		for(let i = 0 ; i < finalResults.length ; i++){
+			const convertet : any = {};
+			const convertetUser :any = {};
+			convertet._id = finalResults[i]._id._id;
+			convertet.total= finalResults[i].totalScore;
+			convertetUser.email = finalResults[i]._id.email;
+			convertetUser.name = finalResults[i]._id.name;
+			if(finalResults[i]._id.img){
+				convertetUser.img = finalResults[i]._id.img;
+			}
+			convertet.user = convertetUser;
+			if(i > 10){
+				convertet.rank = helperIndex;
+				helperIndex++
+			}
+			convertet.rank = i + 1;
+			convertetArray.push(convertet)
+		}
+
+	return convertetArray
+}
 
 
 

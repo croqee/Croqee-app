@@ -53,7 +53,7 @@ const UserSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: String,
   scores: [ScoresWithinUsers]
-},{ collection : 'UsersWithScores' });
+},{ collection : 'usersWithScores' });
 
 // define the User model schema
 ///////////Old Schema
