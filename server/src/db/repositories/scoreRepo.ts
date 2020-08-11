@@ -103,25 +103,25 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
 
 				if(user){
 					let userRankIndex : number = res.findIndex( (item:any) => user._id === item._id._id );
-					let finalResults: any = res.splice(0,10);
+					let finalResults: any = res.slice(0,10);
 
 					if(userRankIndex !== -1 ){
 						data.userFounded = true;
-						if(userRankIndex > 10){
-							for(let i = userRankIndex ; i < userRankIndex + 2 ; i++){
+						if(userRankIndex > 9){
+							for(let i = userRankIndex ; i < userRankIndex + 3 ; i++){
 								finalResults.push(res[i]);
 							}
 						}
 					}
 					data.userRank = userRankIndex + 1;
-					data.data = resConverter(finalResults,userRankIndex)
+					data.data = responseConverter(finalResults,data.userRank)
 					callback(data)
 				}
 		})
 		.catch((err:any) =>console.log(err));
 };
 
-let resConverter = function( finalResults:any,userRankIndex:number){
+let responseConverter = function( finalResults:any,userRankIndex:number){
 
 	const convertetArray : any = [];
 	let helperIndex = userRankIndex
@@ -137,11 +137,12 @@ let resConverter = function( finalResults:any,userRankIndex:number){
 				convertetUser.img = finalResults[i]._id.img;
 			}
 			convertet.user = convertetUser;
-			if(i > 10){
+			if(i > 9){
 				convertet.rank = helperIndex;
 				helperIndex++
+			}else{
+				convertet.rank = i + 1;
 			}
-			convertet.rank = i + 1;
 			convertetArray.push(convertet)
 		}
 
