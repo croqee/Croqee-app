@@ -62,7 +62,6 @@ export class DrawingCompetitionController extends CompetitionController {
         const round: any = getRound();
         console.log(round);
         console.log(this.models);
-
         console.log(this.models[round - 1].givenTime);
         console.log("hey");
         if (this.models[round - 1].givenTime <= timeDifference) {
@@ -71,7 +70,6 @@ export class DrawingCompetitionController extends CompetitionController {
           this.lastDrawnModel = this.models[this.round - 1].model;
           // this.round++;
           increamentRound();
-
           if (round > this.models.length) {
             //this.round = 1;
             setRound(1);
