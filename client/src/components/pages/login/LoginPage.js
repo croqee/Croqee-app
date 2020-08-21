@@ -175,7 +175,7 @@ class LoginPage extends React.Component {
               responseType="code"
               accessType="offline"
             />
-            <div style={{ marginTop: "1rem" }}>
+            {/* <div style={{ marginTop: "1rem" }}>
               <FacebookLogin
                 appId={facebookAppId}
                 autoLoad={false}
@@ -187,7 +187,7 @@ class LoginPage extends React.Component {
                 textButton="Login to your Facebook"
                 redirectUri="http://localhost:3000"
               />
-            </div>
+            </div> */}
           </Card>
           <div style={{ textAlign: "left", margin: "auto", width: "250px" }}>
             <Typography variant="caption" display="block">
