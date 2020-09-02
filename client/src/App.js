@@ -67,7 +67,6 @@ class App extends Component {
           <GlobalRoute component={NavBar} />
 
           <div
-            maxWidth={false}
             style={{ paddingBottom: "5rem" }}
             className="page-content"
           >

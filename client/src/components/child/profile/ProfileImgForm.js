@@ -10,9 +10,9 @@ import { Chip, Button, Avatar } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import ProfileAvatar from "./ProfileAvatar";
+import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 import imageCompression from 'browser-image-compression';
 import default_image from '../../../img/default-image.png';
-
 export const theme = createMuiTheme({
   overrides: {
     MuiAvatar: {
@@ -24,6 +24,12 @@ export const theme = createMuiTheme({
       text: {
         color: "#ff3c00",
         padding: "1rem 1rem"
+      }
+    },
+    MuiSvgIcon: {
+      root: {
+        width: "96px",
+        height: "96px"
       }
     },
     MuiChip: {
@@ -165,7 +171,7 @@ function ProfileImgForm(props) {
                     alt="profile image"
                   />
                 ) : (
-                    <Avatar className={classes.large} src={default_image} alt="profile image" />
+                  <Avatar  className={classes.large}><PersonSharpIcon /></Avatar>
                   )}
 
                 <a
