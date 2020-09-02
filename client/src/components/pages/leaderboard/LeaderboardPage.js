@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getUsersScore, getScoredModels } from '../../../js/actions';
 import { Avatar } from "@material-ui/core";
 import default_image from '../../../img/default-image.png'; 
+import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 
 class LeaderboardPage extends React.Component {
   constructor(props) {
@@ -85,7 +86,7 @@ class LeaderboardPage extends React.Component {
                       {score.rank}
                     </span>
                     <span className='leaderboard__scores__row__img'>
-                      {score.user.img ? (<Avatar src={"/user-image/" + score.user.img.image_data} alt="profile image" />) : (<Avatar src={default_image}  alt="profile image" />)}
+                      {score.user.img ? (<Avatar src={"/user-image/" + score.user.img.image_data} alt="profile image" />) : (<Avatar><PersonSharpIcon/></Avatar>)}
                     </span>
                     <span className='leaderboard__scores__row__user'>
                       {score.user && score.user.name}

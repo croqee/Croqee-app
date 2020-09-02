@@ -7,8 +7,8 @@ import axios from 'axios';
 import config from '../../../modules/config';
 import ProfileAvatar from '../../child/profile/ProfileAvatar';
 import { Typography } from '@material-ui/core';
-import default_image from '../../../img/default-image.png';
-
+// import default_image from '../../../img/default-image.png';
+import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -53,9 +53,11 @@ class UserProfile extends Component {
           <div className='userProfile'>
             <div className='profile__img-name-wrapper'>
               <div className='profile__img-name-wrapper__img'>
-                <ProfileAvatar
-                  imageSrc={userInfo.image_data ? `/user-image/${userInfo.image_data}` : default_image}
-                />
+                {userInfo.image_data ?
+                  <ProfileAvatar
+                    imageSrc={`/user-image/${userInfo.image_data}`}
+                  />:
+                  <ProfileAvatar><PersonSharpIcon /></ProfileAvatar>}
               </div>
               <div className='profile__img-name-wrapper__name'>
                 <span>Name</span>
