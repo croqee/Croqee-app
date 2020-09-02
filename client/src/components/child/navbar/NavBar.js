@@ -165,30 +165,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
 
 
 
-
-const billAndCoins = {
-  'PENNY': .01,
-  'NICKEL': .05,
-  'DIME': .10,
-  'QUARTER': .25,
-  'HALF DOLLAR': .50,
-  'ONE': 1.00,
-  'TWO': 2.00,
-  'FIVE': 5.00,
-  'TEN': 10.00,
-  'TWENTY': 20.00,
-  'FIFTY': 50.00,
-  'ONE HUNDRED': 100.00
-  }
-
-if(CH == PP){
-  //Handle this
-} else if(PP > CH){
-  //Handle this too
-} else {
-
-  let diff = CH - PP;
-  let remainings = [];
- 
-
-}
