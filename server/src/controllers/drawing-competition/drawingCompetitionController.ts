@@ -4,7 +4,15 @@ import { iJoinedUser, iModel } from "./interfaces";
 import { stillLifeModels } from "./stillLifeModels";
 import { anatomyModels } from "./anatomyModels";
 import { CompetitionController } from "./CompetitionController";
-import { getRound, setRound, increamentRound } from "./gameStateRepositories";
+import {
+  getRound,
+  setRound,
+  increamentRound,
+  setPlayer,
+  getPlayer,
+  setLastDrawnModel,
+  getLastDrawnModel,
+} from "./gameStateRepositories";
 
 require("../../db/models").connect(config.dbUri);
 const User = require("mongoose").model("User");
@@ -12,10 +20,10 @@ const ScoreRepo = require("../../db/repositories/scoreRepo");
 
 export class DrawingCompetitionController extends CompetitionController {
   drawingField: string;
-  protected players: iJoinedUser[] = [];
+  // protected players: iJoinedUser[] = [];
   protected models: iModel[] = [];
-  protected lastDrawnModel: string;
-  protected round: number;
+  //protected lastDrawnModel: string;
+  //protected round: number;
   protected isBeginProcessed: boolean;
   protected isBeginCallbackSent: boolean;
   protected hasToBeResetAsUsersLeave: boolean;
@@ -38,8 +46,7 @@ export class DrawingCompetitionController extends CompetitionController {
     } else if (this.drawingField === "anatomy") {
       this.models = anatomyModels;
     }
-    //this.round = 1;
-    setRound(1);
+    setRound(1, this.drawingField);
     this.isBeginProcessed = false;
     this.isBeginCallbackSent = false;
     this.hasToBeResetAsUsersLeave = false;
@@ -50,8 +57,9 @@ export class DrawingCompetitionController extends CompetitionController {
     return users.filter((u) => u.status === "playing").length;
   }
 
-  loop(io: any) {
-    if (this.players.length != 0) {
+  async loop(io: any) {
+    let players: any = await getPlayer(this.drawingField);
+    if (players && players.length !== 0) {
       !this.hasToBeResetAsUsersLeave
         ? (this.hasToBeResetAsUsersLeave = true)
         : "";
@@ -59,45 +67,47 @@ export class DrawingCompetitionController extends CompetitionController {
         var currentTime = new Date().getTime();
         var timeDifference = currentTime - this.stillLifeLastUpdateTime;
         timeDifference = Math.round(timeDifference / 1000);
-        const round: any = getRound();
-        console.log(round);
-        console.log(this.models);
-        console.log(this.models[round - 1].givenTime);
-        console.log("hey");
+        let round: any = await getRound(this.drawingField);
+
         if (this.models[round - 1].givenTime <= timeDifference) {
           this.isBeginProcessed = false;
           io.sockets.emit("send_your_drawing");
-          this.lastDrawnModel = this.models[this.round - 1].model;
-          // this.round++;
-          increamentRound();
+          let lastDrawnModel = this.models[round - 1].model;
+          setLastDrawnModel(lastDrawnModel, this.drawingField);
+          // this.lastDrawnModel = this.models[round - 1].model;
+          round = await increamentRound(this.drawingField);
+
           if (round > this.models.length) {
-            //this.round = 1;
-            setRound(1);
+            setRound(1, this.drawingField);
           }
         }
       } else {
         if (
-          this.numOfUsersGotScored >=
-            this.getNumberOfPlayingUsers(this.players) ||
-          this.players.length == 1
+          this.numOfUsersGotScored >= this.getNumberOfPlayingUsers(players) ||
+          players.length == 1
         ) {
           if (!this.isBeginCallbackSent) {
             this.isBeginCallbackSent = true;
-            const round: any = getRound();
+            const round: any = await getRound(this.drawingField);
             io.sockets.emit("join_club", this.models[round - 1]);
-            this.players = this.players
-              ? this.players.sort((a: iJoinedUser, b: iJoinedUser) => {
+
+            players = players
+              ? players.sort((a: iJoinedUser, b: iJoinedUser) => {
                   return b.score - a.score;
                 })
               : [];
+
+            //we might have to sync it
+            setPlayer(players, this.drawingField);
+
             setTimeout(() => {
               if (!this.isBeginProcessed) {
-                io.sockets.emit("users_score", this.players);
+                io.sockets.emit("users_score", players);
               }
             }, 2500);
-            setTimeout(() => {
+            setTimeout(async () => {
               if (!this.isBeginProcessed) {
-                const round: any = getRound();
+                const round: any = await getRound(this.drawingField);
                 io.sockets.emit("start_drawing", this.models[round - 1]);
                 this.isBeginCallbackSent = false;
                 this.isBeginProcessed = true;
@@ -118,7 +128,7 @@ export class DrawingCompetitionController extends CompetitionController {
   private trackEachUser(io: any, calculateScore: any) {
     io.on("connection", (socket: any) => {
       let joinedUser: iJoinedUser;
-
+      // setPlayer([], this.drawingField);
       socket.on("username", (token: string) => {
         jwt.verify(token, config.jwtSecret, (err: any, decoded: any) => {
           if (!err) {
@@ -129,11 +139,14 @@ export class DrawingCompetitionController extends CompetitionController {
               userId = decoded;
             }
 
-            return User.findById(userId, (userErr: any, user: any) => {
+            return User.findById(userId, async (userErr: any, user: any) => {
               if (!userErr && user) {
+                let players: any = await getPlayer(this.drawingField);
+
                 let userIsNotAlreadyJoined =
-                  this.players.filter((u: iJoinedUser) => u._id == user._id)
+                  players.filter((u: iJoinedUser) => u._id == user._id)
                     .length == 0;
+
                 if (userIsNotAlreadyJoined) {
                   joinedUser = {
                     _id: user._id,
@@ -141,18 +154,26 @@ export class DrawingCompetitionController extends CompetitionController {
                     status: "recently joined",
                     score: 0,
                   };
-                  this.players.push(joinedUser);
-                  io.sockets.emit("update_user", this.players);
+                  players.push(joinedUser);
+
+                  setPlayer(players, this.drawingField);
+                  io.sockets.emit("update_user", players);
 
                   //Invoking my_drawing after the user is verified
-                  socket.on("my_drawing", (dataURL: string) => {
+                  socket.on("my_drawing", async (dataURL: string) => {
                     let _score: number = 0;
+                    let lastDrawnModel: any = await getLastDrawnModel(
+                      this.drawingField
+                    );
+                    console.log(lastDrawnModel);
+                    console.log("lastDrawnModel");
+
                     if (dataURL != null) {
                       let param = {
                         dataURL: dataURL,
-                        model: this.lastDrawnModel,
+                        model: lastDrawnModel,
                       };
-                      calculateScore(param, (_res: any) => {
+                      calculateScore(param, async (_res: any) => {
                         const result = JSON.parse(_res);
                         _score = Math.floor(result.score);
                         socket.emit("evaluated_score", {
@@ -160,9 +181,9 @@ export class DrawingCompetitionController extends CompetitionController {
                           img: result.img,
                         });
                         this.increaseNumberOfUsersGotScored();
-
+                        let players: any = await getPlayer(this.drawingField);
                         let _index = this.findWithAttr(
-                          this.players,
+                          players,
                           "_id",
                           joinedUser._id
                         );
@@ -171,9 +192,10 @@ export class DrawingCompetitionController extends CompetitionController {
                           ? (joinedUser.status = "playing")
                           : "";
 
-                        this.players[_index] = joinedUser;
-                        io.sockets.emit("update_user", this.players);
-                        const round: any = getRound();
+                        players[_index] = joinedUser;
+                        setPlayer(players, this.drawingField);
+                        io.sockets.emit("update_user", players);
+                        const round: any = await getRound(this.drawingField);
                         ScoreRepo.updateUserScore(
                           joinedUser._id,
                           this.models[round - 1].model,
@@ -186,9 +208,11 @@ export class DrawingCompetitionController extends CompetitionController {
                         img: null,
                       });
                       this.increaseNumberOfUsersGotScored();
-
+                      let players: any = await getPlayer(this.drawingField);
+                      console.log("line 202");
+                      console.log(players);
                       let _index = this.findWithAttr(
-                        this.players,
+                        players,
                         "_id",
                         joinedUser._id
                       );
@@ -196,8 +220,9 @@ export class DrawingCompetitionController extends CompetitionController {
                       joinedUser.status == "recently joined"
                         ? (joinedUser.status = "playing")
                         : "";
-                      this.players[_index] = joinedUser;
-                      io.sockets.emit("update_user", this.players);
+                      players[_index] = joinedUser;
+                      setPlayer(players, this.drawingField);
+                      io.sockets.emit("update_user", players);
                     }
                   });
                 }
@@ -207,11 +232,19 @@ export class DrawingCompetitionController extends CompetitionController {
         });
       });
 
-      socket.on("disconnect", () => {
-        this.players = this.players.filter(
-          (u: iJoinedUser) => u._id != joinedUser._id
-        );
-        io.sockets.emit("update_user", this.players);
+      socket.on("disconnect", async () => {
+        let players: any = await getPlayer(this.drawingField);
+        console.log("players on disconnect before ");
+        console.log(players);
+
+        players = players.filter((u: iJoinedUser) => u._id != joinedUser._id);
+        console.log("players on disconnect after");
+        console.log(players);
+        setPlayer(players, this.drawingField);
+        const _players = await getPlayer(this.drawingField);
+
+        console.log("players on redis", _players);
+        io.sockets.emit("update_user", players);
       });
     });
   }
