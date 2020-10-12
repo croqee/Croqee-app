@@ -3,11 +3,11 @@ import eventlet
 import os
 import json
 import base64
-from chamferDist import chamferDist
-from matchContours import matchContours
+#from chamferDist import chamferDist
+# from matchContours import matchContours
 from calculateScore import compute_distance_score
-from displayImages import displayImages
-from distanceMeasurment import HausdorffDist
+#from displayImages import displayImages
+# from distanceMeasurment import HausdorffDist
 import sys
 from alignImages import alignImages
 import cv2
@@ -30,6 +30,7 @@ class ImageAnalyser(object):
     def wakeUp(self):
         return
 
+    ### load all reference images into dictionary
     folder_names = os.listdir('./src/models')
     image_dict = {}
     for folder_name in folder_names:
@@ -42,52 +43,47 @@ class ImageAnalyser(object):
             # img = cv2.resize(img, (800, 600))
             image_dict[image_name.split('.')[0]] = img
 
-    def numpy2pil(self, np_array: np.ndarray) -> Image:
-        img = Image.fromarray(np_array.astype(np.uint8))
-        return img
-    def pilToNumpy(self, img):
-        img = np.array(img)
-        return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    def padReferenceImage(self, mainImg, userDrawingScale):
+        """
+        :param mainImg: np.ndarray(n, m) of int; base line image in grayscale as reference
+        :param userDrawingScale: (k, l) touple of int; shape of the drawing canvas
+        :return: np.ndarray(k, l) of int; base line image padded with white (255) to match canvas shape
+        """
+        wdth, hght = userDrawingScale
+        ref_wdth, ref_hght = mainImg.shape[:2]
+        x_pad = (wdth - ref_wdth)
+        y_pad = (hght - ref_hght)
+        return np.pad(mainImg, ((x_pad // 2, x_pad - x_pad // 2), (y_pad // 2, y_pad - y_pad // 2)), mode='constant', constant_values=255)
 
     def DrawingDistance(self, param):
+        """
+        :param param: byte-data; parameters coming from the server the server
+        :return: byte-data; matched drawing and score
+        TODO: COULD PRODUCE INCONSISTENT RESULTS IF CANVAS IS MUCH LARGER THAN REFERENCE
+        """
 
+        # load user drawing and get corresponding reference
         userDrawing = imread(BytesIO(b64decode(param["dataURL"])))
+        # reference image should be around (800, 600) in size. For different sizes, scores has to be adjusted
+        mainImg = self.image_dict[param["model"]]
+        refImageShape = mainImg.shape[:2]
+        canvasShape = userDrawing.shape[:2]
 
-        # print(param["model"])
+        # if images are not grayscale, convert them
+        if len(mainImg.shape) == 3: mainImg = cv2.cvtColor(mainImg, cv2.COLOR_BGR2GRAY)
+        if len(userDrawing.shape) == 3: userDrawing = cv2.cvtColor(userDrawing, cv2.COLOR_BGR2GRAY)
 
-        userDrawingScale =  userDrawing.shape
-        userCanvasHeight = userDrawingScale[0]
-        userCanvasWidth = userDrawingScale[1]
-        _mainImg = self.image_dict[param["model"]]
+        # match image sizes by padding and rescaling
+        scaling_factor = max(refImageShape[0] / userDrawing.shape[0], refImageShape[1] / userDrawing.shape[1])
+        userDrawingScale = (int(canvasShape[0] * scaling_factor), int(canvasShape[1] * scaling_factor))
+        userDrawing = cv2.resize(userDrawing, userDrawingScale[::-1])
+        mainImg = self.padReferenceImage(mainImg, userDrawingScale)
 
-        mainImg = np.zeros([userCanvasHeight,userCanvasWidth,3],dtype=np.uint8)
-        mainImg.fill(255) # or img[:] = 255
-        mainImg = Image.fromarray(mainImg, 'RGB')
-
-        imgRatio = 800 / 600
-        if (userCanvasWidth / userCanvasHeight) <= imgRatio:
-            imgWidth = userCanvasWidth
-            imgHeight = round(imgWidth / imgRatio)
-            resizedModel = cv2.resize(_mainImg, (imgWidth, imgHeight))
-            resizedModel = self.numpy2pil(resizedModel)
-            spaceFromTop = round((userCanvasHeight - imgHeight) / 2)
-            mainImg.paste(resizedModel, (0 , spaceFromTop))
-            mainImg = self.pilToNumpy(mainImg)
-        else:
-            imgHeight = userCanvasHeight
-            imgWidth = round(imgHeight * imgRatio)
-            resizedModel = cv2.resize(_mainImg, (imgWidth, imgHeight))
-            resizedModel = self.numpy2pil(resizedModel)
-            spaceFromLeft = round((userCanvasWidth - imgWidth) / 2)
-            mainImg.paste(resizedModel, (spaceFromLeft , 0))
-            mainImg = self.pilToNumpy(mainImg)
-
-
-
-        alignedDrawing = alignImages(userDrawing, mainImg, userCanvasWidth, userCanvasHeight, (round(userCanvasHeight/4),round(userCanvasWidth/4)))
+        # get aligned drawing
+        alignedDrawing = alignImages(userDrawing, mainImg, tuple(2 * (x // 8) for x in userDrawingScale))
 
         score = compute_distance_score(alignedDrawing, mainImg)
-        alignedDrawing = Image.fromarray(alignedDrawing)
+        alignedDrawing = Image.fromarray(cv2.resize(alignedDrawing, canvasShape[::-1]))
         buffered = BytesIO()
         alignedDrawing.save(buffered, format="PNG")
         buffered.seek(0)
