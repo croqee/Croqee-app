@@ -55,10 +55,35 @@ class ImageAnalyser(object):
         y_pad = (hght - ref_hght)
         return np.pad(mainImg, ((x_pad // 2, x_pad - x_pad // 2), (y_pad // 2, y_pad - y_pad // 2)), mode='constant', constant_values=255)
 
+    def matchUserDrawingSize(self, userDrawing, refImageShape):
+        """
+        :param userDrawing: np.ndarray(n, m) of int; drawing supplied by the usert
+        :param refImageShape: (k, l) touple of int; shape of the reference drawing
+        :return: np.ndarray(x, l) or np.ndarray(k, y) of int; rescaled image such that width or height
+            matches the refImageShape but the proportions are kept and the image is bigger than the reference size.
+            If this image is bigger than 4096 in any direction, it gets cropped
+        """
+        canvasShape = userDrawing.shape[:2]
+
+        # get scaling factor which scales such that the relatively smaller side coincides with the reference size
+        scaling_factor = max(refImageShape[0] / canvasShape[0], refImageShape[1] / canvasShape[1])
+        userDrawingScale = tuple([max(int(x * scaling_factor), y) for x, y in zip(canvasShape, refImageShape)])
+
+        # resize image
+        userDrawing = cv2.resize(userDrawing, userDrawingScale[::-1])
+
+        # if image is too large, it is cropped
+        hx, hy = max(userDrawingScale[0] - 4096, 0), max(userDrawingScale[1] - 4096, 0)
+        userDrawing = userDrawing[hx//2:hx//2+4096, hy//2:hy//2+4096]
+
+        return userDrawing
+
     def DrawingDistance(self, param):
         """
         :param param: byte-data; parameters coming from the server the server
         :return: byte-data; matched drawing and score
+        if the user drawing is bigger than 4096 after matching it to the reference image (for extreme proportions), it gets
+        cropped to retain performance
         TODO: COULD PRODUCE INCONSISTENT RESULTS IF CANVAS IS MUCH LARGER THAN REFERENCE
         """
 
@@ -69,18 +94,22 @@ class ImageAnalyser(object):
         refImageShape = mainImg.shape[:2]
         canvasShape = userDrawing.shape[:2]
 
+        # reference image should be around (800, 600) in size. For different sizes, scores has to be adjusted
+        mainImg = self.image_dict[param["model"]]
+        refImageShape = mainImg.shape[:2]
+        canvasShape = userDrawing.shape[:2]
+
         # if images are not grayscale, convert them
         if len(mainImg.shape) == 3: mainImg = cv2.cvtColor(mainImg, cv2.COLOR_BGR2GRAY)
         if len(userDrawing.shape) == 3: userDrawing = cv2.cvtColor(userDrawing, cv2.COLOR_BGR2GRAY)
 
         # match image sizes by padding and rescaling
-        scaling_factor = max(refImageShape[0] / userDrawing.shape[0], refImageShape[1] / userDrawing.shape[1])
-        userDrawingScale = (int(canvasShape[0] * scaling_factor), int(canvasShape[1] * scaling_factor))
-        userDrawing = cv2.resize(userDrawing, userDrawingScale[::-1])
+        userDrawing = self.matchUserDrawingSize(userDrawing, refImageShape)
+        userDrawingScale = userDrawing.shape[:2]
         mainImg = self.padReferenceImage(mainImg, userDrawingScale)
 
         # get aligned drawing
-        alignedDrawing = alignImages(userDrawing, mainImg, tuple(2 * (x // 8) for x in userDrawingScale))
+        alignedDrawing = alignImages(userDrawing, mainImg)
 
         score = compute_distance_score(alignedDrawing, mainImg)
         alignedDrawing = Image.fromarray(cv2.resize(alignedDrawing, canvasShape[::-1]))
