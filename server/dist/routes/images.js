@@ -56,7 +56,6 @@ ImageRouter.route("/uploaduserimg/:id").post(upload.single("image_data"), (req, 
         }
     };
     if (req.user.img && req.user.img.imageName !== "none") {
-        console.log('re.user.imag', req.user.img);
         gfs.remove({ filename: req.user.img.image_data, root: 'images' }, (err, gridStore) => {
             if (err) {
                 return res.status(404).json({ err: err });

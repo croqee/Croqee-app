@@ -177,7 +177,7 @@ class Canvas extends React.Component {
     if (this.props.canStartDrawing) {
       if (this.props.timerDone) {
         if (this.props.isInHomePage) {
-          this.props.setTimer({ showTimer: true, timer: 8 });
+          this.props.setTimer({ showTimer: true, timer: 30 });
           this.props.setTimerDone(false);
         } else {
           this.props.setHasUserDrawnOnCanvas(true);
