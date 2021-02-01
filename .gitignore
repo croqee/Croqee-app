@@ -23,6 +23,7 @@ client/env.production.local
 client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
-.idea/workspace.xml
+.idea
+dist
 image_preprocessing/ColorImages
 image_preprocessing/LineImages
