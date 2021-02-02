@@ -2,12 +2,13 @@
   "compilerOptions": {
     "sourceMap": true,
     "esModuleInterop": true,
-    "allowJs": true,
+    "allowJs": false,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "lib": ["es2018"],
+    "allowSyntheticDefaultImports": true,
+    "lib": ["esNext"],
     "module": "commonjs",
-    "target": "es2018",
+    "target": "es2019",
     "outDir": "./dist"
   },
   "include": ["src/**/*"]

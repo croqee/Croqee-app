@@ -11,7 +11,7 @@ module.exports.connect = uri => {
   });
 
   // load models
-  //require("./ImageSchema");
+  //require("./image-schema");
   require("./user");
   require("./score");
 };

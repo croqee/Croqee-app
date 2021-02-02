@@ -1,6 +1,6 @@
 const express = require('express');
 const router = new express.Router();
-const ScoreRepo = require('../db/repositories/scoreRepo');
+const ScoreRepo = require('../db/repositories/score-repo');
 
 router.get('/userscore', (req, res) => {
     ScoreRepo.getUsersTotalScore(req.user , (usersScore) =>{

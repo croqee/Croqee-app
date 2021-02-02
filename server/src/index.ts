@@ -1,13 +1,12 @@
-import { Express, Request, Response, NextFunction } from "express";
-import express = require("express");
+import type { Express } from "express";
+import * as express from "express";
 import path from "path";
-import bodyParser from "body-parser";
 import passport from "passport";
 import config from "./config";
 import http from "http";
-import { DrawingCompetitionController } from "./controllers/drawing-competition/DrawingCompetitionController";
+import { DrawingCompetitionController } from "./controllers/drawing-competition/drawingCompetitionController";
 
-const app: Express = express();
+const app = express();
 const logger = require("morgan");
 const socketIO = require("socket.io");
 var ioClient = require("socket.io-client");
@@ -20,13 +19,11 @@ interface iError extends Error {
 }
 
 require("./db/models").connect(config.dbUri);
-const { getUsersTotalScore } = require("./db/repositories/scoreRepo");
+const { getUsersTotalScore } = require("./db/repositories/score-repo");
 
 // tell the app to parse HTTP body messages
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use("/uploads", express.static("uploads"));
-app.use(bodyParser.json({ limit: "50mb" }));
 // pass the passport middleware
 app.use(passport.initialize());
 
