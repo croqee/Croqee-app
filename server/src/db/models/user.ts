@@ -1,33 +1,33 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const ImageSchema = new mongoose.Schema({
   image_data: {
-    type: String
-  }
+    type: String,
+  },
 });
 
 // define the User model schema
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
-    index: { unique: true }
+    index: { unique: true },
   },
   password: String,
   name: String,
   googleId: {
     type: String,
-    index: { unique: true }
+    index: { unique: true },
   },
   fbId: {
     type: String,
-    index: { unique: true }
+    index: { unique: true },
   },
   birthDate: {
-    type: Date
+    type: Date,
   },
   city: {
-    type: String
+    type: String,
   },
   img: ImageSchema,
   behance: String,
@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
   facebook: String,
   website: String,
   resetPasswordToken: String,
-  resetPasswordExpires: String
+  resetPasswordExpires: String,
 });
 
 /**
@@ -46,7 +46,7 @@ const UserSchema = new mongoose.Schema({
  */
 UserSchema.methods.comparePassword = function comparePassword(
   password,
-  callback
+  callback,
 ) {
   bcrypt.compare(password, this.password, callback);
 };
@@ -54,11 +54,11 @@ UserSchema.methods.comparePassword = function comparePassword(
 /**
  * The pre-save hook method.
  */
-UserSchema.pre("save", function saveHook(next) {
+UserSchema.pre('save', function saveHook(next) {
   const user = this;
 
   // proceed further only if the password is modified or the user is new
-  if (!user.isModified("password")) return next();
+  if (!user.isModified('password')) return next();
 
   return bcrypt.genSalt((saltError, salt) => {
     if (saltError) {
@@ -77,5 +77,5 @@ UserSchema.pre("save", function saveHook(next) {
     });
   });
 });
-module.exports = mongoose.model("ImageSchema", ImageSchema);
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model('ImageSchema', ImageSchema);
+module.exports = mongoose.model('User', UserSchema);

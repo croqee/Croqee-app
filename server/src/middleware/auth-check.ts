@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const User = require("mongoose").model("User");
-const config = require("../config");
+const jwt = require('jsonwebtoken');
+const User = require('mongoose').model('User');
+const config = require('../config');
 
 /**
  *  The Auth Checker middleware function.
@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   }
 
   // get the last part from a authorization header string like "bearer token-value"
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.headers.authorization.split(' ')[1];
 
   // decode the token using a secret key-phrase
   return jwt.verify(token, config.jwtSecret, (err, decoded) => {
@@ -19,8 +19,8 @@ module.exports = (req, res, next) => {
     if (err) {
       return res.status(401).end();
     }
-    let userId = "";
-    if (typeof decoded.sub === "string") {
+    let userId = '';
+    if (typeof decoded.sub === 'string') {
       userId = decoded.sub;
     } else {
       userId = decoded;
