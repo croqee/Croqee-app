@@ -1,41 +1,41 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+import * as bcrypt from 'bcrypt';
+import { model, Schema } from 'mongoose';
 
-const ImageSchema = new mongoose.Schema({
+const ImageSchema = new Schema({
   image_data: {
     type: String,
   },
 });
 
 // define the User model schema
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    index: { unique: true },
-  },
-  password: String,
-  name: String,
-  googleId: {
-    type: String,
-    index: { unique: true },
-  },
-  fbId: {
-    type: String,
-    index: { unique: true },
-  },
+const UserSchema = new Schema({
+  behance: String,
   birthDate: {
     type: Date,
   },
   city: {
     type: String,
   },
-  img: ImageSchema,
-  behance: String,
-  instagram: String,
+  email: {
+    index: { unique: true },
+    type: String,
+  },
   facebook: String,
-  website: String,
-  resetPasswordToken: String,
+  fbId: {
+    index: { unique: true },
+    type: String,
+  },
+  googleId: {
+    index: { unique: true },
+    type: String,
+  },
+  img: ImageSchema,
+  instagram: String,
+  name: String,
+  password: String,
   resetPasswordExpires: String,
+  resetPasswordToken: String,
+  website: String,
 });
 
 /**
@@ -77,5 +77,6 @@ UserSchema.pre('save', function saveHook(next) {
     });
   });
 });
-module.exports = mongoose.model('ImageSchema', ImageSchema);
-module.exports = mongoose.model('User', UserSchema);
+
+export const Image = model('Image', ImageSchema);
+export const User = model('User', UserSchema);

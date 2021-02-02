@@ -1,5 +1,7 @@
-const Score = require('mongoose').model('Score');
-const User = require('mongoose').model('User');
+import { model } from 'mongoose';
+
+const Score = model('Score');
+const User = model('User');
 
 interface iUserScore {
   user: string;
@@ -7,7 +9,7 @@ interface iUserScore {
 }
 
 interface iUserInfo {
-  email: String;
+  email: string;
   name: string;
   img: any;
 }
@@ -17,18 +19,18 @@ interface iuserScoresData {
   userFounded: boolean;
   data: [];
 }
-exports.updateUserScore = function (
-  _userId: string,
-  _modelId: string,
-  _score: number,
+export function updateUserScore(
+  userId: string,
+  modelId: string,
+  score: number,
 ) {
   Score.findOne({
-    userId: _userId,
-    modelId: _modelId,
+    modelId,
+    userId,
   })
     .then((userScore: any) => {
-      if (userScore && userScore.score < _score) {
-        userScore.score = _score;
+      if (userScore && userScore.score < score) {
+        userScore.score = score;
         userScore.date = new Date();
         userScore.save(function (err: any) {
           if (err) {
@@ -36,13 +38,13 @@ exports.updateUserScore = function (
           }
         });
       } else if (!userScore) {
-        const _userScore = new Score({
-          userId: _userId,
-          modelId: _modelId,
-          score: _score,
+        const userScore = new Score({
           date: new Date(),
+          modelId,
+          score,
+          userId,
         });
-        _userScore.save(function (err: any) {
+        userScore.save(function (err: any) {
           if (err) {
             console.error('ERROR!');
           }
@@ -50,9 +52,9 @@ exports.updateUserScore = function (
       }
     })
     .catch();
-};
+}
 
-exports.getUsersTotalScore = function (user: any, callback: any) {
+export function getUsersTotalScore(user: any, callback: any) {
   if (user) {
     getTotalScores((totalScores: number) => {
       Score.aggregate([
@@ -65,9 +67,9 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
         .exec()
         .then((res: any) => {
           if (res) {
-            let userFoundend: boolean = false;
-            let finalResults: any = [];
-            let data: iuserScoresData = {
+            let userFoundend = false;
+            const finalResults: any = [];
+            const data: iuserScoresData = {
               totalScores,
               userRank: null,
               userFounded: false,
@@ -117,8 +119,8 @@ exports.getUsersTotalScore = function (user: any, callback: any) {
         .catch((err: any) => console.log(err));
     });
   }
-};
-let getUserScorePosition = function (
+}
+function getUserScorePosition(
   data: iuserScoresData,
   userFoundend: boolean,
   res: any,
@@ -133,7 +135,7 @@ let getUserScorePosition = function (
   if (index != -1 && !userFoundend) {
     const iteration = res.length - index < 3 ? res.length - index : 3;
     for (let i = 0; i < iteration; i++) {
-      let _index = index;
+      const _index = index;
       User.findOne({ _id: res[index]._id })
         .then((res2: any) => {
           if (res2) {
@@ -170,9 +172,9 @@ let getUserScorePosition = function (
     data.data = finalResults;
     callback(data);
   }
-};
+}
 
-let getTotalScores = function (callback: any) {
+function getTotalScores(callback: any) {
   Score.aggregate([
     { $match: {} },
     {
@@ -186,9 +188,9 @@ let getTotalScores = function (callback: any) {
       }
     })
     .catch((err: any) => console.log(err));
-};
+}
 
-exports.getScoredModels = function (callback: any) {
+export function getScoredModels(callback: any) {
   Score.distinct('modelId')
     .exec()
     .then((res: any) => {
@@ -196,4 +198,4 @@ exports.getScoredModels = function (callback: any) {
         callback(res);
       }
     });
-};
+}

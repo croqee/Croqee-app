@@ -1,18 +1,18 @@
 const express = require('express');
-const validator = require('validator');
-const passport = require('passport');
 const { google } = require('googleapis');
+const nodemailer = require('nodemailer');
+const passport = require('passport');
+const validator = require('validator');
 const User = require('mongoose').model('User');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const graph = require('fbgraph');
 const router = new express.Router();
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 
-let croqeeBodyParser = (body) => {
-  var reqBody = {};
-  for (var key in body) {
+const croqeeBodyParser = (body) => {
+  let reqBody = {};
+  for (const key in body) {
     reqBody = JSON.parse(key);
   }
   return reqBody;
@@ -62,9 +62,9 @@ function validateSignupForm(payload) {
   }
 
   return {
-    success: isFormValid,
-    message,
     errors,
+    message,
+    success: isFormValid,
   };
 }
 
@@ -217,7 +217,7 @@ router.post('/googleauth', (req, res, next) => {
             },
           });
         } else {
-          User.findOne({ googleId: googleId }, (error, userById) => {
+          User.findOne({ googleId }, (error, userById) => {
             if (userById) {
               //log the user in there
               const token = jwt.sign(userById.id, config.jwtSecret);
@@ -232,7 +232,7 @@ router.post('/googleauth', (req, res, next) => {
               const userInfo = {
                 name: userData.data.name,
                 email: googleMail,
-                googleId: googleId,
+                googleId,
               };
               const newUser = new User(userInfo);
               newUser.save((err) => {
@@ -290,7 +290,7 @@ router.post('/facebookauth', (req, res) => {
                   },
                 });
               } else {
-                User.findOne({ fbId: fbId }, (error, userById) => {
+                User.findOne({ fbId }, (error, userById) => {
                   if (userById) {
                     //log the user in there
                     const token = jwt.sign(userById.id, config.jwtSecret);
@@ -305,7 +305,7 @@ router.post('/facebookauth', (req, res) => {
                     const userInfo = {
                       name: userData.name,
                       email: fbmail,
-                      fbId: fbId,
+                      fbId,
                     };
                     const newUser = new User(userInfo);
                     newUser.save((err) => {
@@ -405,9 +405,9 @@ router.get('/reset-token-check', (req, res, next) => {
   });
 });
 
-let myBodyParser = (body) => {
-  var reqBody = {};
-  for (var key in body) {
+const myBodyParser = (body) => {
+  let reqBody = {};
+  for (const key in body) {
     reqBody = JSON.parse(key);
   }
   return reqBody;

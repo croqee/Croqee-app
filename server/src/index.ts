@@ -10,14 +10,14 @@ import { getUsersTotalScore } from './db/repositories/score-repo';
 import authCheckMiddleware from './middleware/auth-check';
 import localLoginStrategy from './passport/local-login';
 import localSignupStrategy from './passport/local-signup';
-import authRoutes from './routes/auth';
 import apiRoutes from './routes/api';
-import scoreRoutes from './routes/score';
+import authRoutes from './routes/auth';
 import ImageRouter from './routes/images';
+import scoreRoutes from './routes/score';
 import userImage from './routes/user-image';
 
 const app = express();
-var ioClient = require('socket.io-client');
+const ioClient = require('socket.io-client');
 const socketClient = ioClient.connect('http://server_python:9699', {
   reconnect: true,
 });
@@ -60,7 +60,7 @@ app.get('/*', function (req, res) {
 getUsersTotalScore();
 
 app.post('/send_drawing', (req, res, _next) => {
-  let param = {
+  const param = {
     dataURL: req.body.dataURL,
     model: req.body.model,
     canvasWidth: req.body.canvasWidth,

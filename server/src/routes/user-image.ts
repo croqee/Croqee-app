@@ -1,8 +1,9 @@
-const express = require('express');
-const ImageRouter = new express.Router();
-const mongoose = require('mongoose');
-const Grid = require('gridfs-stream');
-const config = require('../config');
+import { Router } from 'express';
+import * as Grid from 'gridfs-stream';
+import * as mongoose from 'mongoose';
+import * as config from '../config';
+
+const ImageRouter = Router();
 
 //create mongo connection
 const conn = mongoose.createConnection(config.dbUri, {
@@ -20,7 +21,7 @@ ImageRouter.route('/:filename').get((req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     if (!file || file.length === 0 || err) {
       return res.status(404).json({
-        err: err,
+        err,
       });
     }
     if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {

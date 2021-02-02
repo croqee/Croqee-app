@@ -1,11 +1,14 @@
-const jwt = require('jsonwebtoken');
-const User = require('mongoose').model('User');
-const config = require('../config');
+import { RequestHandler } from 'express';
+import * as jwt from 'jsonwebtoken';
+import { model } from 'mongoose';
+import * as config from '../config';
+
+const User = model('User');
 
 /**
  *  The Auth Checker middleware function.
  */
-module.exports = (req, res, next) => {
+export const authHandler: RequestHandler = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }

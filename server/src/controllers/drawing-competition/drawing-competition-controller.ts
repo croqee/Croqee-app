@@ -1,13 +1,13 @@
-const jwt = require('jsonwebtoken');
-import config from '../../config';
-import { iJoinedUser, iModel } from './interfaces';
-import { stillLifeModels } from './still-life-models';
+import * as config from '../../config';
 import { anatomyModels } from './anatomy-models';
 import { CompetitionController } from './competition-controller';
+import { iJoinedUser, iModel } from './interfaces';
+import { stillLifeModels } from './still-life-models';
+import * as jwt from 'jsonwebtoken';
 
 require('../../db/models').connect(config.dbUri);
 const User = require('mongoose').model('User');
-const ScoreRepo = require('../../db/repositories/score-repo');
+import ScoreRepo from '../../db/repositories/score-repo';
 
 export class DrawingCompetitionController extends CompetitionController {
   drawingField: string;
@@ -54,8 +54,8 @@ export class DrawingCompetitionController extends CompetitionController {
         ? (this.hasToBeResetAsUsersLeave = true)
         : '';
       if (this.isBeginProcessed) {
-        var currentTime = new Date().getTime();
-        var timeDifference = currentTime - this.stillLifeLastUpdateTime;
+        const currentTime = new Date().getTime();
+        let timeDifference = currentTime - this.stillLifeLastUpdateTime;
         timeDifference = Math.round(timeDifference / 1000);
         if (this.models[this.round - 1].givenTime <= timeDifference) {
           this.isBeginProcessed = false;
@@ -120,7 +120,7 @@ export class DrawingCompetitionController extends CompetitionController {
 
             return User.findById(userId, (userErr: any, user: any) => {
               if (!userErr && user) {
-                let userIsNotAlreadyJoined =
+                const userIsNotAlreadyJoined =
                   this.players.filter((u: iJoinedUser) => u._id == user._id)
                     .length == 0;
                 if (userIsNotAlreadyJoined) {
@@ -135,10 +135,10 @@ export class DrawingCompetitionController extends CompetitionController {
 
                   //Invoking my_drawing after the user is verified
                   socket.on('my_drawing', (dataURL: string) => {
-                    let _score: number = 0;
+                    let _score = 0;
                     if (dataURL != null) {
-                      let param = {
-                        dataURL: dataURL,
+                      const param = {
+                        dataURL,
                         model: this.lastDrawnModel,
                       };
                       calculateScore(param, (_res: any) => {
@@ -150,7 +150,7 @@ export class DrawingCompetitionController extends CompetitionController {
                         });
                         this.increaseNumberOfUsersGotScored();
 
-                        let _index = this.findWithAttr(
+                        const _index = this.findWithAttr(
                           this.players,
                           '_id',
                           joinedUser._id,
@@ -175,7 +175,7 @@ export class DrawingCompetitionController extends CompetitionController {
                       });
                       this.increaseNumberOfUsersGotScored();
 
-                      let _index = this.findWithAttr(
+                      const _index = this.findWithAttr(
                         this.players,
                         '_id',
                         joinedUser._id,

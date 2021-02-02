@@ -6,7 +6,7 @@ router.get('/userscore', (req, res) => {
   ScoreRepo.getUsersTotalScore(req.user, (usersScore) => {
     if (usersScore) {
       res.status(200).json({
-        usersScore: usersScore,
+        usersScore,
       });
     }
   });

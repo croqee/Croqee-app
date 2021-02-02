@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "sourceMap": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "allowJs": false,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "lib": ["esNext"],
+    "allowSyntheticDefaultImports": false,
+    "lib": ["esnext"],
     "module": "commonjs",
     "target": "es2019",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

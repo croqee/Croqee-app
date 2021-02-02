@@ -1,9 +1,9 @@
 const express = require('express');
 const User = require('mongoose').model('User');
 const ImageRouter = new express.Router();
+const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
-const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const crypto = require('crypto');
@@ -31,7 +31,7 @@ const storage = new GridFsStorage({
         }
         const filename = buf.toString('hex') + path.extname(file.originalname);
         const fileInfo = {
-          filename: filename,
+          filename,
           bucketName: 'images',
         };
         resolve(fileInfo);
@@ -48,18 +48,18 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage: storage,
+  storage,
   limits: {
     fileSize: 1 * 1024 * 1024,
   },
-  fileFilter: fileFilter,
+  fileFilter,
 });
 
 ImageRouter.route('/uploaduserimg/:id').post(
   upload.single('image_data'),
   (req, res, next) => {
     const userId = req.params.id;
-    let obj = {
+    const obj = {
       img: {
         image_data: req.file.filename,
       },
@@ -69,7 +69,7 @@ ImageRouter.route('/uploaduserimg/:id').post(
         { filename: req.user.img.image_data, root: 'images' },
         (err, gridStore) => {
           if (err) {
-            return res.status(404).json({ err: err });
+            return res.status(404).json({ err });
           }
         },
       );

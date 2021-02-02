@@ -1,17 +1,15 @@
-const mongoose = require('mongoose');
+import { triggerAsyncId } from 'async_hooks';
+import * as mongoose from 'mongoose';
 
-module.exports.connect = (uri) => {
-  mongoose.connect(uri);
-  // plug in the promise library: This seems not to be necessary in mongoose 5+
-  mongoose.Promise = global.Promise;
-
-  mongoose.connection.on('error', (err) => {
-    console.error(`Mongoose connection error: ${err}`);
+export async function connect(uri: string): Promise<void> {
+  try {
+    await mongoose.connect(uri);
+  } catch (error) {
+    console.error(`Mongoose connection error: ${error.message}`);
     process.exit(1);
-  });
-
+  }
   // load models
   //require("./image-schema");
   require('./user');
   require('./score');
-};
+}

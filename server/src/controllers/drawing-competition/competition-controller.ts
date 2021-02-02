@@ -6,8 +6,8 @@ export class CompetitionController {
   constructor(socketIO: any, server: any, drawingField: string) {
     this.drawingField = drawingField;
     this.io = socketIO(server, {
-      path: `/compete/${drawingField}`,
       cookie: false,
+      path: `/compete/${drawingField}`,
     });
     setInterval(() => {
       this.loop(this.io);
@@ -19,7 +19,7 @@ export class CompetitionController {
   loop(io: any) {}
 
   findWithAttr(array: Array<any>, attr: string, value: string) {
-    for (var i = 0; i < array.length; i += 1) {
+    for (let i = 0; i < array.length; i += 1) {
       if (array[i][attr] === value) {
         return i;
       }

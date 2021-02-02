@@ -1,14 +1,14 @@
 const express = require('express');
 const User = require('mongoose').model('User');
 const passport = require('passport');
-const config = require('../config');
 const validator = require('validator');
+const config = require('../config');
 
 const router = new express.Router();
 
-let croqeeBodyParser = (body) => {
-  var reqBody = {};
-  for (var key in body) {
+const croqeeBodyParser = (body) => {
+  let reqBody = {};
+  for (const key in body) {
     reqBody = JSON.parse(key);
   }
   return reqBody;
@@ -25,7 +25,7 @@ router.get('/user/:id', (req, res) => {
   const userId = req.params.id;
   User.findById({ _id: userId }, (err, user) => {
     if (user) {
-      let editeduser = {
+      const editeduser = {
         email: user.email,
         name: user.name,
         birthDate: user.birthDate,
@@ -113,7 +113,7 @@ router.post('/password', (req, res, next) => {
   const userId = req.user.id;
   req.body = croqeeBodyParser(req.body);
   const validationResult = validatePasswordForm(req.body);
-  let userPassObj = req.body;
+  const userPassObj = req.body;
 
   if (!validationResult.success) {
     return res.status(400).json({
