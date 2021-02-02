@@ -1,14 +1,22 @@
-import type { Express } from "express";
-import * as express from "express";
-import path from "path";
-import passport from "passport";
-import config from "./config";
 import http from "http";
-import { DrawingCompetitionController } from "./controllers/drawing-competition/drawingCompetitionController";
+import path from "path";
+import express, { ErrorRequestHandler } from "express";
+import logger from "morgan";
+import passport from "passport";
+import socketIO from "socket.io";
+import config from "./config";
+import { DrawingCompetitionController } from "./controllers/drawing-competition/drawing-competition-controller";
+import { getUsersTotalScore } from "./db/repositories/score-repo";
+import authCheckMiddleware from "./middleware/auth-check";
+import localLoginStrategy from "./passport/local-login";
+import localSignupStrategy from "./passport/local-signup";
+import authRoutes from "./routes/auth";
+import apiRoutes from "./routes/api";
+import scoreRoutes from "./routes/score";
+import ImageRouter from "./routes/images";
+import userImage from "./routes/user-image";
 
 const app = express();
-const logger = require("morgan");
-const socketIO = require("socket.io");
 var ioClient = require("socket.io-client");
 const socketClient = ioClient.connect("http://server_python:9699", {
   reconnect: true
@@ -19,7 +27,6 @@ interface iError extends Error {
 }
 
 require("./db/models").connect(config.dbUri);
-const { getUsersTotalScore } = require("./db/repositories/score-repo");
 
 // tell the app to parse HTTP body messages
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
@@ -28,23 +35,15 @@ app.use("/uploads", express.static("uploads"));
 app.use(passport.initialize());
 
 // load passport strategies
-const localSignupStrategy = require("./passport/local-signup");
-const localLoginStrategy = require("./passport/local-login");
 passport.use("local-signup", localSignupStrategy);
 passport.use("local-login", localLoginStrategy);
 
 // pass the authenticaion checker middleware
-const authCheckMiddleware = require("./middleware/auth-check");
 app.use("/api", authCheckMiddleware);
 app.use("/score", authCheckMiddleware);
 app.use("/images", authCheckMiddleware);
 
 // routes
-const authRoutes = require("./routes/auth");
-const apiRoutes = require("./routes/api");
-const scoreRoutes = require("./routes/score");
-const ImageRouter = require("./routes/images");
-const userImage = require("./routes/user-image");
 
 
 app.use("/auth", authRoutes);
@@ -55,7 +54,6 @@ app.use("/user-image", userImage);
 
 
 app.use(logger("dev"));
-app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../../client/build")));
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
@@ -63,7 +61,7 @@ app.get('/*', function (req, res) {
 
 getUsersTotalScore();
 
-app.post("/send_drawing", (req, res, next) => {
+app.post("/send_drawing", (req, res, _next) => {
   let param = {
     dataURL: req.body.dataURL,
     model: req.body.model,
@@ -79,13 +77,13 @@ app.post("/send_drawing", (req, res, next) => {
   });
 });
 
-app.use((req, res, next) => {
+app.use((_req, _res, next) => {
   const error = new Error("Not Found") as iError;
   error.status = 404;
   next(error);
 });
 
-app.use((error: any, req: any, res: any, next: any) => {
+const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
   res.status(error.status || 500);
 
   res.json({
@@ -93,7 +91,9 @@ app.use((error: any, req: any, res: any, next: any) => {
       message: error.message
     }
   });
-});
+}
+
+app.use(errorHandler);
 
 const server = http.createServer(app);
 
