@@ -1,9 +1,13 @@
-const express = require('express');
-const router = new express.Router();
-const ScoreRepo = require('../db/repositories/score-repo');
+import { Router } from 'express';
+import {
+  getScoredModels,
+  getUsersTotalScore,
+} from '../db/repositories/score-repo';
+
+export const router = Router();
 
 router.get('/userscore', (req, res) => {
-  ScoreRepo.getUsersTotalScore(req.user, (usersScore) => {
+  getUsersTotalScore(req.user, (usersScore) => {
     if (usersScore) {
       res.status(200).json({
         usersScore,
@@ -12,14 +16,12 @@ router.get('/userscore', (req, res) => {
   });
 });
 
-router.get('/scoredmodels', (req, res) => {
-  ScoreRepo.getScoredModels((res2) => {
-    if (res2) {
+router.get('/scoredmodels', (_req, res) => {
+  getScoredModels((result) => {
+    if (result) {
       res.status(200).json({
-        scoredModels: res2,
+        scoredModels: result,
       });
     }
   });
 });
-
-module.exports = router;

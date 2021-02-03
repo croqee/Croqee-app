@@ -3,13 +3,13 @@ import * as Grid from 'gridfs-stream';
 import * as mongoose from 'mongoose';
 import * as config from '../config';
 
-const ImageRouter = Router();
+export const router = Router();
 
 //create mongo connection
 const conn = mongoose.createConnection(config.dbUri, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
   useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 let gfs;
 conn.once('open', () => {
@@ -17,7 +17,7 @@ conn.once('open', () => {
   gfs.collection('images');
 });
 
-ImageRouter.route('/:filename').get((req, res) => {
+router.route('/:filename').get((req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     if (!file || file.length === 0 || err) {
       return res.status(404).json({
@@ -31,4 +31,4 @@ ImageRouter.route('/:filename').get((req, res) => {
   });
 });
 
-module.exports = ImageRouter;
+module.exports = router;

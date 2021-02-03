@@ -1,4 +1,3 @@
-import { triggerAsyncId } from 'async_hooks';
 import * as mongoose from 'mongoose';
 
 export async function connect(uri: string): Promise<void> {

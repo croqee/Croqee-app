@@ -1,20 +1,21 @@
 import http from 'http';
 import path from 'path';
 import express, { ErrorRequestHandler } from 'express';
+import 'express-async-errors';
 import logger from 'morgan';
 import passport from 'passport';
-import socketIO from 'socket.io';
-import config from './config';
+import * as socketIO from 'socket.io';
+import * as config from './config';
 import { DrawingCompetitionController } from './controllers/drawing-competition/drawing-competition-controller';
 import { getUsersTotalScore } from './db/repositories/score-repo';
-import authCheckMiddleware from './middleware/auth-check';
-import localLoginStrategy from './passport/local-login';
-import localSignupStrategy from './passport/local-signup';
-import apiRoutes from './routes/api';
-import authRoutes from './routes/auth';
-import ImageRouter from './routes/images';
+import { authMiddleware } from './middleware/auth-check';
+import { localLoginStrategy } from './passport/local-login';
+import { localSignupStrategy } from './passport/local-signup';
+import { router as apiRoutes } from './routes/api';
+import { router as authRoutes } from './routes/auth';
+import imageRoutes from './routes/images';
 import scoreRoutes from './routes/score';
-import userImage from './routes/user-image';
+import { router as userImage } from './routes/user-image';
 
 const app = express();
 const ioClient = require('socket.io-client');
@@ -39,16 +40,16 @@ passport.use('local-signup', localSignupStrategy);
 passport.use('local-login', localLoginStrategy);
 
 // pass the authenticaion checker middleware
-app.use('/api', authCheckMiddleware);
-app.use('/score', authCheckMiddleware);
-app.use('/images', authCheckMiddleware);
+app.use('/api', authMiddleware);
+app.use('/score', authMiddleware);
+app.use('/images', authMiddleware);
 
 // routes
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/score', scoreRoutes);
-app.use('/images', ImageRouter);
+app.use('/images', imageRoutes);
 app.use('/user-image', userImage);
 
 app.use(logger('dev'));

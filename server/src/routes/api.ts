@@ -1,10 +1,8 @@
-const express = require('express');
-const User = require('mongoose').model('User');
-const passport = require('passport');
-const validator = require('validator');
-const config = require('../config');
+import { Router } from 'express';
+import { model } from 'mongoose';
 
-const router = new express.Router();
+export const router = Router();
+const User = model('User');
 
 const croqeeBodyParser = (body) => {
   let reqBody = {};
@@ -26,13 +24,13 @@ router.get('/user/:id', (req, res) => {
   User.findById({ _id: userId }, (err, user) => {
     if (user) {
       const editeduser = {
-        email: user.email,
-        name: user.name,
+        behance: user.behance,
         birthDate: user.birthDate,
         city: user.city,
-        behance: user.behance,
-        instagram: user.instagram,
+        email: user.email,
         facebook: user.facebook,
+        instagram: user.instagram,
+        name: user.name,
         website: user.website,
       };
       if (user.img) {
@@ -109,7 +107,7 @@ function validatePasswordForm(payload) {
     errors,
   };
 }
-router.post('/password', (req, res, next) => {
+router.post('/password', (req, res) => {
   const userId = req.user.id;
   req.body = croqeeBodyParser(req.body);
   const validationResult = validatePasswordForm(req.body);
@@ -117,9 +115,9 @@ router.post('/password', (req, res, next) => {
 
   if (!validationResult.success) {
     return res.status(400).json({
-      success: false,
-      message: validationResult.message,
       errors: validationResult.errors,
+      message: validationResult.message,
+      success: false,
     });
   }
 
