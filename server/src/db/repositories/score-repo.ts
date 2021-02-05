@@ -19,6 +19,7 @@ interface iuserScoresData {
   userFounded: boolean;
   data: [];
 }
+
 export function updateUserScore(
   userId: string,
   modelId: string,
@@ -141,8 +142,8 @@ function getUserScorePosition(
           if (res2) {
             const userInfo: iUserInfo = {
               email: res2.email,
-              name: res2.name,
               img: res2.img,
+              name: res2.name,
             };
 
             res[_index].user = userInfo;

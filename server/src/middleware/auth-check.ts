@@ -8,7 +8,7 @@ const User = model('User');
 /**
  *  The Auth Checker middleware function.
  */
-export const authHandler: RequestHandler = (req, res, next) => {
+export const authMiddleware: RequestHandler = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }

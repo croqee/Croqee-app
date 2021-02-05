@@ -1,9 +1,9 @@
+import * as jwt from 'jsonwebtoken';
 import * as config from '../../config';
 import { anatomyModels } from './anatomy-models';
 import { CompetitionController } from './competition-controller';
 import { iJoinedUser, iModel } from './interfaces';
 import { stillLifeModels } from './still-life-models';
-import * as jwt from 'jsonwebtoken';
 
 require('../../db/models').connect(config.dbUri);
 const User = require('mongoose').model('User');

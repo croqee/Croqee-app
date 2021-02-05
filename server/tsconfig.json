@@ -2,11 +2,11 @@
   "compilerOptions": {
     "incremental": true,
     "sourceMap": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowJs": false,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "lib": ["esnext"],
     "module": "commonjs",
     "target": "es2019",

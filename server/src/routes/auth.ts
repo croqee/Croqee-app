@@ -1,14 +1,16 @@
-const express = require('express');
-const { google } = require('googleapis');
-const nodemailer = require('nodemailer');
-const passport = require('passport');
-const validator = require('validator');
-const User = require('mongoose').model('User');
-const jwt = require('jsonwebtoken');
-const config = require('../config');
-const graph = require('fbgraph');
-const router = new express.Router();
-const crypto = require('crypto');
+import { randomBytes } from 'crypto';
+import { Router } from 'express';
+import * as graph from 'fbgraph';
+import { google } from 'googleapis';
+import * as jwt from 'jsonwebtoken';
+import { model } from 'mongoose';
+import * as nodemailer from 'nodemailer';
+import * as passport from 'passport';
+import validator from 'validator';
+import * as config from '../config';
+
+const User = model('User');
+export const router = Router();
 
 const croqeeBodyParser = (body) => {
   let reqBody = {};
@@ -26,7 +28,7 @@ const croqeeBodyParser = (body) => {
  *                   errors tips, and a global message for the whole form.
  */
 function validateSignupForm(payload) {
-  const errors = {};
+  const errors: any = {};
   let isFormValid = true;
   let message = '';
 
@@ -184,7 +186,7 @@ router.post('/login', (req, res, next) => {
 });
 
 //google authentications
-router.post('/googleauth', (req, res, next) => {
+router.post('/googleauth', (req, res) => {
   const googleCode = req.body.googleCode;
   const oauth2Client = new google.auth.OAuth2(
     '701118539942-qhfj5072bdipbp3gj12ki3ol6hg5mhme.apps.googleusercontent.com',
@@ -351,7 +353,7 @@ router.post('/account', (req, res) => {
     if (user === null) {
       res.status(403).send('email not in db');
     } else {
-      const token = crypto.randomBytes(20).toString('hex');
+      const token = randomBytes(20).toString('hex');
       const expiryTime = Date.now() + 360000;
       user.resetPasswordToken = token;
       user.resetPasswordExpires = expiryTime;
@@ -438,4 +440,3 @@ router.put('/reset-pass', (req, res) => {
     }
   });
 });
-module.exports = router;
