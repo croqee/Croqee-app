@@ -55,6 +55,7 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/unbound-method': 'error',
     '@typescript-eslint/no-implied-eval': 'error',
+    '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
     'no-redeclare': 'error',
     'no-var': 'error',
     'sort-vars': 'warn',

@@ -1,10 +1,10 @@
-import { model, Schema } from 'mongoose';
+import { createSchema, Type, typedModel } from 'ts-mongoose';
 
-const ScoreSchema = new Schema({
-  date: Date,
-  modelId: String,
-  score: Number,
-  userId: String,
+const ScoreSchema = createSchema({
+  date: Type.date(),
+  modelId: Type.string(),
+  score: Type.number(),
+  userId: Type.string(),
 });
 
-export const Score = model('Score', ScoreSchema);
+export const Score = typedModel('Score', ScoreSchema);

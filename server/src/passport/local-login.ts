@@ -1,19 +1,19 @@
-const jwt = require('jsonwebtoken');
-const User = require('mongoose').model('User');
-const PassportLocalStrategy = require('passport-local').Strategy;
-const config = require('../config');
+import * as jwt from 'jsonwebtoken';
+import { Strategy as LocalStrategy } from 'passport-local';
+import * as config from '../config';
+import { User } from '../db/models/user';
 
 /**
  * Return the Passport Local Strategy object.
  */
-module.exports = new PassportLocalStrategy(
+export const localStrategy = new LocalStrategy(
   {
-    usernameField: 'email',
+    passReqToCallback: true,
     passwordField: 'password',
     session: false,
-    passReqToCallback: true,
+    usernameField: 'email',
   },
-  (req, email, password, done) => {
+  async (_req, email, password) => {
     const userData = {
       email: email.trim(),
       password: password.trim(),

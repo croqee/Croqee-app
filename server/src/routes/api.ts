@@ -1,12 +1,9 @@
-const express = require('express');
-const User = require('mongoose').model('User');
-const passport = require('passport');
-const validator = require('validator');
-const config = require('../config');
+import { Router } from 'express';
+import { User } from '../db/models/user';
 
-const router = new express.Router();
+export const router = Router();
 
-const croqeeBodyParser = (body) => {
+const croqeeBodyParser = <T>(body: T) => {
   let reqBody = {};
   for (const key in body) {
     reqBody = JSON.parse(key);
@@ -171,4 +168,3 @@ router.delete('/account', (req, res) => {
     }
   });
 });
-module.exports = router;
