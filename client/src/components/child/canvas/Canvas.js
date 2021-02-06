@@ -88,7 +88,7 @@ class Canvas extends React.Component {
         marginRight: '0',
       };
     }
-    const imgRatio = 800 / 600;
+    const imgRatio = 800 / 800;
     let imgWidth;
     let imgHeight;
     if (width / height <= imgRatio) {
@@ -446,7 +446,7 @@ class Canvas extends React.Component {
                           width: `${imgWidth}px`,
                           height: `${imgHeight}px`,
                         }}
-                        src={require('../../../img/compete/anatomy/woman-figure-8.png')}
+                        src={require('../../../img/compete/anatomy/female1.png')}
                       />
                     )
                   ) : (

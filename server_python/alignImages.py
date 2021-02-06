@@ -69,7 +69,7 @@ def computeShiftDft(img1, img2):
     return conv_value, sx, sy
 
 
-def alignImages(img, target, rescale_factor=0.25, tightness=3, num_scales=16, min_scale=0.8, max_scale=1.6):
+def alignImages(img, target, rescale_factor=0.25, tightness=1, num_scales=16, min_scale=0.8, max_scale=1.6):
     """
     :param img: np.ndarray(n, m) of uint8; grayscale drawing image
     :param target: np.ndarray(k, l) of uint8; grayscale reference image

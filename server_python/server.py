@@ -38,7 +38,7 @@ class ImageAnalyser(object):
             if not '.png' in image_name:
                 continue
             img = cv2.imread('./src/models/'+folder_name+'/'+image_name)
-            # print('./src/models/'+folder_name+'/'+image_name)
+            # print('./src/models/'+folder_name+'/'+image_name) 
             # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             # img = cv2.resize(img, (800, 600))
             image_dict[image_name.split('.')[0]] = img

@@ -120,7 +120,7 @@ class DrawingModel extends Component {
         marginLeft: '0',
       };
     }
-    const imgRatio = 800 / 600;
+    const imgRatio = 800 / 800;
     let imgWidth;
     let imgHeight;
     if (width / height <= imgRatio) {
@@ -213,6 +213,15 @@ class DrawingModel extends Component {
                       top: `${(height - 236) / 2 - 15}px`,
                     }}
                   >
+                        <span
+                      className={`drawing-model__select__anatomy ${
+                        this.props.activeModel.model === 'anatomy' &&
+                        'drawing-model__select__anatomy--active'
+                        }`}
+                      onClick={() => {
+                        this.setModelToAnatomy();
+                      }}
+                    />
                     <span
                       className={`drawing-model__select__still-life ${
                         this.props.activeModel.model === 'stillLife' &&
@@ -222,15 +231,7 @@ class DrawingModel extends Component {
                         this.setModelToStillLife();
                       }}
                     />
-                    <span
-                      className={`drawing-model__select__anatomy ${
-                        this.props.activeModel.model === 'anatomy' &&
-                        'drawing-model__select__anatomy--active'
-                        }`}
-                      onClick={() => {
-                        this.setModelToAnatomy();
-                      }}
-                    />
+                
                   </div>
                   {this.props.activeModel &&
                     this.props.activeModel.model === 'stillLife' ? (
@@ -244,7 +245,7 @@ class DrawingModel extends Component {
                     ) : (
                       <img
                         alt=''
-                        src={require('../../../img/compete/anatomy/woman-figure-8.png')}
+                        src={require('../../../img/compete/anatomy/female1.png')}
                         width={`${imgWidth}px`}
                         height={`${imgHeight}px`}
                         className={'drawing-model ' + this.props.side}

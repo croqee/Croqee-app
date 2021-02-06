@@ -15,26 +15,24 @@
     right: 0;
     bottom: 0;
     background-image: -webkit-gradient(
-      linear,
-      left top,
-      left bottom,
-      from(rgba(93, 94, 94, 0.05)),
-      color-stop(38%, rgba(93, 94, 94, 0.05)),
-      color-stop(79%, rgba(35, 35, 35, 0.58)),
-      to(#000)
+      180deg,
+      rgba(0, 0, 0, 0.9) 7%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.58) 79%,
+      #000 100%
     );
     background-image: -o-linear-gradient(
-      top,
-      rgba(93, 94, 94, 0.5) 0%,
-      rgba(93, 94, 94, 0.05) 38%,
-      rgba(35, 35, 35, 0.58) 79%,
+      180deg,
+      rgba(0, 0, 0, 0.9) 7%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.58) 79%,
       #000 100%
     );
     background-image: linear-gradient(
       180deg,
-      rgba(93, 94, 94, 0.5) 0%,
-      rgba(93, 94, 94, 0.05) 38%,
-      rgba(35, 35, 35, 0.58) 79%,
+      rgba(0, 0, 0, 0.9) 7%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.58) 79%,
       #000 100%
     );
     z-index: -1;

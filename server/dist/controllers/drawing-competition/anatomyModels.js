@@ -2,24 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.anatomyModels = [
     {
-        model: 'woman-figure-6',
+        model: 'female1',
         givenTime: 40
     },
     {
-        model: 'woman-figure-1',
+        model: 'female2',
         givenTime: 40
     },
     {
-        model: 'woman-figure-8',
+        model: 'male1',
         givenTime: 40
     },
     {
-        model: 'man-figure-6',
+        model: 'male2',
         givenTime: 40
     },
     {
-        model: 'man-figure-4',
+        model: 'male3',
         givenTime: 40
     },
+    {
+        model: 'male4',
+        givenTime: 40
+    }
 ];
 //# sourceMappingURL=anatomyModels.js.map

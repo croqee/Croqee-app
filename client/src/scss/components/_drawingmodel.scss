@@ -33,7 +33,7 @@ $showModelsDuration: 0.7s;
 }
 .model-wrapper {
 	position: relative;
-	background-color: #e9e9e9;
+	background-color: $dark-grey;
 	display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,16 +51,16 @@ $showModelsDuration: 0.7s;
 }
 .drawing-model__select {
 	position: relative;
-	width: 117px;
+	width: 77px;
+	height: auto;
 	right: 127px;
-	height: 236px;
 	margin-bottom: -249px;
 	padding-left: 11px;
 	padding-top: 13px;
 	z-index: 2;
 	cursor: pointer;
-	background-color: #b1b8b8;
-
+	display: flex;
+	flex-direction: column;
 	&--move-right {
 		animation: linear;
 		animation-name: move-right;
@@ -88,8 +88,8 @@ $showModelsDuration: 0.7s;
 		}
 	}
 	span {
-		width: 100px;
-		height: 100px;
+		width: 70px;
+		height: 70px;
 		display: inline-block;
 		margin-bottom: 10px;
 		position: relative;
@@ -99,9 +99,9 @@ $showModelsDuration: 0.7s;
 		}
 	}
 	&__still-life {
-		background-image: url("https://i.ibb.co/s990BgW/geometrical5.png");
-		background-size: 142px;
-		background-position-x: -19px;
+		background-image: url("https://cdn.discordapp.com/attachments/535653157791989804/807002910184439848/geometrical5.png");
+		background-size: 106px;
+		background-position: -18px -17px;
 		opacity: 0.5;
 		border: 2px solid white;
 		&--active {
@@ -110,9 +110,9 @@ $showModelsDuration: 0.7s;
 		}
 	}
 	&__anatomy {
-		background-image: url("https://cdn.discordapp.com/attachments/618340486083641354/701147023490940998/Woman-figure-8.png");
+		background-image: url("https://cdn.discordapp.com/attachments/535653157791989804/807002946927067196/female1.png");
 		background-size: 167px;
-		background-position: -30px -11px;
+		background-position:-46px -29px;
 		opacity: 0.5;
 		border: 2px solid white;
 		&--active {
