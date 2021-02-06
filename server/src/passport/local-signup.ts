@@ -1,7 +1,5 @@
-import { model } from 'mongoose';
 import { Strategy as LocalStrategy } from 'passport-local';
-
-const User = model('User');
+import { User } from '../db/models/user';
 
 /**
  * Return the Passport Local Strategy object.
@@ -13,20 +11,13 @@ export const localSignupStrategy = new LocalStrategy(
     session: false,
     usernameField: 'email',
   },
-  (req, email, password, done) => {
+  async (req, email, password, done) => {
     const userData = {
       email: email.trim(),
       name: req.body.name.trim(),
       password: password.trim(),
     };
-
-    const newUser = new User(userData);
-    newUser.save((err) => {
-      if (err) {
-        return done(err);
-      }
-
-      return done(null);
-    });
+    const user = await User.create(userData).catch(done);
+    done(null, user);
   },
 );
