@@ -138,9 +138,6 @@ class Canvas extends React.Component {
     });
   }
 
-  /****************
-   * New stuff
-   ****************/
   initCanvas() {
     console.log('this.refs.canvas.current');
     console.log(this.refs.canvas);
@@ -488,30 +485,6 @@ class Canvas extends React.Component {
                 </span>
               )}
             </span>
-            {/* 
-						<canvas
-							id="canvas__drawing"
-							className="canvas__canvas"
-							ref="canvas"
-							width={`${width}px`}
-							height={`${height}px`}
-							style={styles.canvas}
-							onMouseMove={(e) => this.drawing(e)}
-							onMouseDown={(e) => this.penDown(e)}
-							onMouseUp={(e) => this.penUp(e)}
-							onTouchMove={(e) => {
-								e.preventDefault();
-								this.drawing(e);
-							}}
-							onTouchStart={(e) => {
-								e.preventDefault();
-								this.penDown(e);
-							}}
-							onTouchEnd={(e) => {
-								e.preventDefault();
-								this.penUp(e);
-							}}
-						/> */}
             <canvas
               id='canvas__drawing'
               style={styles.canvas}
