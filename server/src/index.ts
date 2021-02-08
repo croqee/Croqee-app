@@ -73,7 +73,6 @@ app.post("/send_drawing", (req, res, next) => {
     canvasWidth: req.body.canvasWidth,
     canvasHeight: req.body.canvasHeight
   };
-  console.log(param)
   calculateScore(param, function (_res: any) {
     const result = JSON.parse(_res);
     res.json({
