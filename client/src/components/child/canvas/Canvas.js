@@ -9,6 +9,7 @@ import {
 } from '../../../js/actions';
 import Loader from '../loader/Loader';
 import Sizes from 'react-sizes';
+import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
 
 let styles = {
   canvas: {
@@ -39,6 +40,12 @@ class Canvas extends React.Component {
       this.setCanvasSize();
     });
   }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setCanvasSize();
+      this.initCanvas();
+    }, 2);
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.shouldResetCanvas !== this.props.shouldResetCanvas) {
@@ -60,6 +67,7 @@ class Canvas extends React.Component {
       this.setCanvasSize();
     }
   }
+
   startCountDown() {
     if (this.state.countDown > 1) {
       setTimeout(() => {
@@ -70,34 +78,15 @@ class Canvas extends React.Component {
       return false;
     }
   }
+
   setCanvasSize() {
-    const screenSize =
-      document.documentElement.clientWidth ||
-      document.body.clientWidth ||
-      window.innerWidth;
-    let width;
-    let height;
-    if (screenSize <= 900) {
-      width = screenSize;
-      height = window.innerHeight / 2;
-    } else {
-      width = Math.floor(screenSize / 2);
-      height = window.innerHeight;
+    const { width, height, imgWidth, imgHeight } = calcCanvasAndModelDim(() => {
       styles.canvas = {
         ...styles.canvas,
         marginRight: '0',
       };
-    }
-    const imgRatio = 800 / 800;
-    let imgWidth;
-    let imgHeight;
-    if (width / height <= imgRatio) {
-      imgWidth = width;
-      imgHeight = imgWidth / imgRatio;
-    } else {
-      imgHeight = height;
-      imgWidth = imgHeight * imgRatio;
-    }
+    });
+
     this.setState({ isSizeSet: false }, () => {
       this.setState(
         {
@@ -131,6 +120,7 @@ class Canvas extends React.Component {
       this.initCanvas();
     }
   }
+
   retryDrawing() {
     this.props.setActiveModel({
       ...this.props.activeModel,
@@ -139,9 +129,6 @@ class Canvas extends React.Component {
   }
 
   initCanvas() {
-    console.log('this.refs.canvas.current');
-    console.log(this.refs.canvas);
-
     this.setState({
       canvas: this.refs.canvas,
     });
@@ -164,12 +151,8 @@ class Canvas extends React.Component {
 
     this.refs.canvas.addEventListener('touchend', this.onMouseUp, false);
   }
-  componentDidMount() {
-    setTimeout(() => {
-      this.setCanvasSize();
-      this.initCanvas();
-    }, 2);
-  }
+
+
   drawLine = (x0, y0, x1, y1, color, emit, force) => {
     if (this.props.canStartDrawing) {
       if (this.props.timerDone) {
@@ -268,6 +251,7 @@ class Canvas extends React.Component {
       }
     };
   };
+
   render() {
     const {
       fadeOut,
@@ -291,7 +275,9 @@ class Canvas extends React.Component {
             width={`${width}px`}
             height={`${height}px`}
           >
-            {this.props.imageProcessing && <Loader />}
+            {this.props.imageProcessing && 
+            <Loader 
+            />}
 
             <div
               className={
@@ -436,19 +422,6 @@ class Canvas extends React.Component {
                         src={require('../../../img/compete/still-life/geometrical5.png')}
                       />
                     ) : (
-                      <img
-                        alt='alt'
-                        className='userscore__model'
-                        style={{
-                          width: `${imgWidth}px`,
-                          height: `${imgHeight}px`,
-                        }}
-                        src={require('../../../img/compete/anatomy/female1.png')}
-                      />
-                    )
-                  ) : (
-                    <React.Fragment>
-                      {this.props.model.model && (
                         <img
                           alt='alt'
                           className='userscore__model'
@@ -456,11 +429,24 @@ class Canvas extends React.Component {
                             width: `${imgWidth}px`,
                             height: `${imgHeight}px`,
                           }}
-                          src={require(`../../../img${this.props.imgPath}${this.props.model.model}.png`)}
+                          src={require('../../../img/compete/anatomy/female1.png')}
                         />
-                      )}
-                    </React.Fragment>
-                  )}
+                      )
+                  ) : (
+                      <React.Fragment>
+                        {this.props.model.model && (
+                          <img
+                            alt='alt'
+                            className='userscore__model'
+                            style={{
+                              width: `${imgWidth}px`,
+                              height: `${imgHeight}px`,
+                            }}
+                            src={require(`../../../img${this.props.imgPath}${this.props.model.model}.png`)}
+                          />
+                        )}
+                      </React.Fragment>
+                    )}
                   <span className='userscore_score'>
                     Score:
                     <span className='userscore_score_score'>
@@ -470,20 +456,20 @@ class Canvas extends React.Component {
                   </span>
                 </React.Fragment>
               ) : (
-                <span
-                  style={{
-                    position: 'absolute',
-                    width: '400px',
-                    textAlign: 'center',
-                    top: `${height / 2 - 50}px`,
-                    left: `${width / 2 - 200}px`,
-                    color: 'white',
-                    fontSize: '28px',
-                  }}
-                >
-                  Nothing was drawn on the canvas
-                </span>
-              )}
+                  <span
+                    style={{
+                      position: 'absolute',
+                      width: '400px',
+                      textAlign: 'center',
+                      top: `${height / 2 - 50}px`,
+                      left: `${width / 2 - 200}px`,
+                      color: 'white',
+                      fontSize: '28px',
+                    }}
+                  >
+                    Nothing was drawn on the canvas
+                  </span>
+                )}
             </span>
             <canvas
               id='canvas__drawing'
@@ -539,5 +525,3 @@ const mapSizesToProps = ({ width }) => ({
 
 const first = connect(mapStateToProps, mapDispatchToProps)(Canvas);
 export default Sizes(mapSizesToProps)(first);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

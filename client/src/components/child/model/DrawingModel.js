@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { setActiveModel } from '../../../js/actions';
 import ModelSelector from './ModelSelector';
 import UserScoreOverview from './UserScoreOverview';
+import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
 
 let styles = {
   model: {},
@@ -33,12 +34,12 @@ class DrawingModel extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.showUserScores !== this.props.showUserScores) {
       if (this.props.showUserScores) {
-       this.displayConcurrentUsersScores();
+        this.displayConcurrentUsersScores();
       }
     }
   }
 
-  displayConcurrentUsersScores(){
+  displayConcurrentUsersScores() {
     this.setState(
       {
         usersScoreFadeClass: 'users-scores--fadein',
@@ -52,35 +53,14 @@ class DrawingModel extends Component {
       }
     );
   }
- 
+
   setModelSize() {
-    const screenSize =
-      document.documentElement.clientWidth ||
-      document.body.clientWidth ||
-      window.innerWidth;
-    let width;
-    let height;
-    if (screenSize <= 900) {
-      width = screenSize;
-      height = window.innerHeight / 2;
-    } else {
-      width = Math.floor(screenSize / 2);
-      height = window.innerHeight;
+    const { width, height, imgWidth, imgHeight } = calcCanvasAndModelDim(() => {
       styles.model = {
         ...styles.model,
         marginLeft: '0',
       };
-    }
-    const imgRatio = 800 / 800;
-    let imgWidth;
-    let imgHeight;
-    if (width / height <= imgRatio) {
-      imgWidth = width;
-      imgHeight = imgWidth / imgRatio;
-    } else {
-      imgHeight = height;
-      imgWidth = imgHeight * imgRatio;
-    }
+    });
 
     this.setState({ isSizeSet: false }, () => {
       this.setState({
@@ -148,7 +128,7 @@ class DrawingModel extends Component {
               </React.Fragment>
             ) : (
                 <React.Fragment>
-                  <ModelSelector height= {height}/>
+                  <ModelSelector height={height} />
                   {this.props.activeModel &&
                     this.props.activeModel.model === 'stillLife' ? (
                       <img
