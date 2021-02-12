@@ -162,7 +162,7 @@ title="Blender UI"/>
   
 <br/>
 
-<img src="images/female3_outline.png" alt="Blender UI"
+<img src="images/female_outline.png" alt="Blender UI"
 title="Blender UI"/>
 
 * Transparent - transparent shader used to make a tranparent render pass of the model when creating the outlines used for image recognition.
