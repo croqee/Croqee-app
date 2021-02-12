@@ -126,18 +126,46 @@ After all of this is done, you'll be able to see your new object in the layers p
 
 <br/>
 
+
+
 ## Model documentation ##
 
+The Croqee models can be split into two categories:  
+1. Still life models  
+2. Anatomical models
 
-### **How to append or link the model and whether it is a group or an object** ###
-
-Think about what you would want to know if you were purchasing the product. Think about what you would want to know if you were purchasing the product. Think about what you would want to know if you were purchasing the product.
+Both of these categories require different treatment when setting up a scene. The details are explained below.
 
 <br/>
 
-### **How to interact with your model's materials** ###
+### **Anatomy models** ###
 
-Think about what you would want to know if you were purchasing the product. Think about what you would want to know if you were purchasing the product. Think about what you would want to know if you were purchasing the product.
+The purpose of the anatomical models is to replace real life human models doing various poses. Because of this, it is necessary 
+
+<br/>
+
+<img src="images/rigged_model.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+<br/>
+
+### **How, when, and why to use different materials** ###
+
+Every model has at least two materials with a very specific uses. 
+
+<br/>
+
+<img src="images/female.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+* White - main diffuse color of the model used for the main rendering
+  
+<br/>
+
+<img src="images/female3_outline.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+* Transparent - transparent shader used to make a tranparent render pass of the model when creating the outlines used for image recognition.
 
 <br/>
 
