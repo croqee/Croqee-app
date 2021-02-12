@@ -74,7 +74,7 @@ The goal of this section is to give a quick introduction to Blender.
 
 ### **Understanding the interface** ###
 
-Blender's interface may seem quite overwhelming at first, but once you understand what each part of it does, it becomes much clearer.
+Blender's interface may seem quite overwhelming at first, but once you understand what each part of it does, it becomes much clearer. To make this easier, you can refer to the graphic below.
 
 <br/>
 
@@ -93,20 +93,44 @@ title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
 
 <br/>
 
-### **Interface** ###
-
-Think about what you would want to know if you were purchasing the product. Think about what you would want to know if you were purchasing the product. Think about what you would want to know if you were purchasing the product.
-
-<br/>
 
 ## Importing models ##
 
 ---
 
-If you need to make a more complex scene, you might want to do it by joining multiple models from different files. This can be done by 
+If you need to make a more complex scene, you might want to do it by joining multiple models from different files. This can be done by importing models into your current project. 
 
 <br/>
 
+<img src="images/append1.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+1. To import .blend object, you have to go to the **File** tab and select the **Append** option.
+
+<br/>
+
+<img src="images/append2.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+2. Then you'll have to navigate to your .blend file and open it.
+
+<br/>
+
+<img src="images/append3.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+3. Once you double click on the .blend file, you'll see a list of different folders. The one that you need to open is called **Mesh**. It stores the geometry of your object.
+
+<br/>
+
+<img src="images/append4.png" alt="Blender UI"
+title="Blender UI" style="border-radius: 10px; box-shadow: 0 0 5px #000;"/>
+
+4. Last step is to select the file with geometry and click the **Append** button.
+
+After all of this is done, you'll be able to see your new object in the layers panel (5) on the right.
+
+<br/>
 
 ## Model documentation ##
 
