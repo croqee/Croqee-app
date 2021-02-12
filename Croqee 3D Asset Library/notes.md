@@ -18,8 +18,8 @@ The current setup corresponds to a person sitting 2,5m away from the model. The 
 
 <br/> 
 
-<kbd><img src="images/human-vision.png" alt="Human vision"
-title="Human vision" style="border-radius: 10px; box-shadow: 0 0 5px #fff; filter: invert(1);"/></kbd>
+<img src="images/human-vision.png" alt="Human vision"
+title="Human vision" style="border-radius: 10px; box-shadow: 0 0 5px #fff; filter: invert(1);"/>
 
 <br/> 
 
