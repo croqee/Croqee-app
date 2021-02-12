@@ -47,19 +47,19 @@ The goal of this section is to give a quick introduction to Blender.
 
 ### **Shortcuts** ###
 
->### Navigation in 3D space ###
+>#### Navigation in 3D space ####
 
 >**Right click -** Select  
 >**Middle click -** Pan  
 >**Mouse wheel -** Zoom   
 
->### Manipulation of objects ###
+>#### Manipulation of objects ####
   
 >**G -** move tool  
 >**R -** rotate tool  
 >**S -** scale tool  
 
->### Useful actions ###
+>#### Useful actions ####
 
 >**Ctrl/⌘ + Z -** Undo  
 >**Ctrl/⌘ + Shift + Z -** Redo   
