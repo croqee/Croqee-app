@@ -29,7 +29,7 @@ const initialState = {
 	leftHand: false,
 	pageToNavigateAfterLogin: '/',
 	activeModel: {
-		model: 'stillLife',
+		model: 'anatomy',
 		isDrawn: false
 	},
 	usersScore: [],

@@ -62,7 +62,6 @@ export function invokeScore(payload) {
     setTimeout(() => {
       dispatch(hideScore());
       setTimeout(() => {
-        // 	// dispatch(setTimer(true));
         dispatch(setTimerDone(true));
         dispatch(setStartImageProcessing(false));
         dispatch(setActiveModelDrawn());
@@ -149,4 +148,3 @@ export function getScoredModels() {
       });
   };
 }
-

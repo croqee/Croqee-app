@@ -14,7 +14,7 @@ const app = express();
 const logger = require("morgan");
 const socketIO = require("socket.io");
 var ioClient = require("socket.io-client");
-const socketClient = ioClient.connect("http://server_python:9699", {
+const socketClient = ioClient.connect("http://localhost:9699", {
     reconnect: true
 });
 require("./db/models").connect(config_1.default.dbUri);
@@ -61,6 +61,7 @@ app.post("/send_drawing", (req, res, next) => {
         canvasWidth: req.body.canvasWidth,
         canvasHeight: req.body.canvasHeight
     };
+    console.log(param);
     calculateScore(param, function (_res) {
         const result = JSON.parse(_res);
         res.json({
