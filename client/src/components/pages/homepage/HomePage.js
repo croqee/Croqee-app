@@ -36,7 +36,7 @@ class HomePage extends React.Component {
       const model =
         this.props.activeModel.model === "stillLife"
           ? "geometrical5"
-          : "woman-figure-8";
+          : "female1";
       axios
         .post("/send_drawing", {
           dataURL: dataURL,
@@ -115,7 +115,7 @@ class HomePage extends React.Component {
         </div>
         <HandSide />
 
-        <div id="home_bottom">
+        {/* <div id="home_bottom">
           <img id="home_bottom_triangle" src="/triangle.png" alt="home-btn" />
           <button
             onClick={() => this.navigateToClubPage()}
@@ -123,7 +123,7 @@ class HomePage extends React.Component {
           >
             Compete with others
           </button>
-        </div>
+        </div> */}
       </Fragment>
     );
   }

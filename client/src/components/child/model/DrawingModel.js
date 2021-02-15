@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setActiveModel } from '../../../js/actions';
+import ModelSelector from './ModelSelector';
 import UserScoreOverview from './UserScoreOverview';
+import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
 
 let styles = {
   model: {},
@@ -23,113 +25,42 @@ class DrawingModel extends Component {
     window.addEventListener('resize', () => {
       this.setModelSize();
     });
-    document.addEventListener('scroll', () => this.trackScrolling());
   }
 
   componentDidMount() {
     this.setModelSize();
   }
-  componentDidUpdate(prevProps, prevStates) {
+
+  componentDidUpdate(prevProps) {
     if (prevProps.showUserScores !== this.props.showUserScores) {
       if (this.props.showUserScores) {
-        this.setState(
-          {
-            usersScoreFadeClass: 'users-scores--fadein',
-          },
-          () => {
-            setTimeout(() => {
-              this.setState({
-                usersScoreFadeClass: 'users-scores--fadeout',
-              });
-            }, 3500);
-          }
-        );
-      }
-    }
-    if (prevProps.leftHand !== this.props.leftHand) {
-      if (this.props.leftHand) {
-        this.setState({
-          modelSelectClassRightFloat: 'drawing-model__select--right-float',
-        });
-      } else {
-        this.setState({
-          modelSelectClassRightFloat: '',
-        });
-      }
-    }
-    if (prevProps.showTimer !== this.props.showTimer) {
-      if (this.props.showTimer) {
-        if (this.props.leftHand) {
-          this.setState({
-            modelSelectClass: 'drawing-model__select--right-float--move-right',
-          });
-        } else {
-          this.setState({
-            modelSelectClass: 'drawing-model__select--move-left',
-          });
-        }
-      }
-    }
-    if (prevProps.timerDone !== this.props.timerDone) {
-      if (this.props.timerDone) {
-        if (this.props.leftHand) {
-          this.setState({
-            modelSelectClass: 'drawing-model__select--right-float--move-left',
-          });
-        } else {
-          this.setState({
-            modelSelectClass: 'drawing-model__select--move-right',
-          });
-        }
+        this.displayConcurrentUsersScores();
       }
     }
   }
-  isBottom(el) {
-    return el.getBoundingClientRect().bottom <= window.innerHeight;
-  }
-  trackScrolling = () => {
-    const element = document.getElementsByClassName('drawing-model')[0];
 
-    if (
-      element &&
-      this.isBottom(element) &&
-      !this.props.leftHand &&
-      this.props.timerDone
-    ) {
-      this.setState({
-        modelSelectClass: 'drawing-model__select--move-right',
-      });
-      document.removeEventListener('scroll', this.trackScrolling);
-    }
-  };
+  displayConcurrentUsersScores() {
+    this.setState(
+      {
+        usersScoreFadeClass: 'users-scores--fadein',
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            usersScoreFadeClass: 'users-scores--fadeout',
+          });
+        }, 7500);
+      }
+    );
+  }
+
   setModelSize() {
-    const screenSize =
-      document.documentElement.clientWidth ||
-      document.body.clientWidth ||
-      window.innerWidth;
-    let width;
-    let height;
-    if (screenSize <= 900) {
-      width = screenSize;
-      height = window.innerHeight / 2;
-    } else {
-      width = Math.floor(screenSize / 2);
-      height = window.innerHeight;
+    const { width, height, imgWidth, imgHeight } = calcCanvasAndModelDim(() => {
       styles.model = {
         ...styles.model,
         marginLeft: '0',
       };
-    }
-    const imgRatio = 800 / 600;
-    let imgWidth;
-    let imgHeight;
-    if (width / height <= imgRatio) {
-      imgWidth = width;
-      imgHeight = imgWidth / imgRatio;
-    } else {
-      imgHeight = height;
-      imgWidth = imgHeight * imgRatio;
-    }
+    });
 
     this.setState({ isSizeSet: false }, () => {
       this.setState({
@@ -141,18 +72,8 @@ class DrawingModel extends Component {
       });
     });
   }
-  setModelToStillLife() {
-    this.props.setActiveModel({
-      model: 'stillLife',
-      isDrawn: false,
-    });
-  }
-  setModelToAnatomy() {
-    this.props.setActiveModel({
-      model: 'anatomy',
-      isDrawn: false,
-    });
-  }
+
+
   render() {
     const {
       width,
@@ -169,7 +90,7 @@ class DrawingModel extends Component {
       playingUsers,
       user,
     } = this.props;
-    //const userScoreOverview = userScoreOverview;
+
     return (
       <React.Fragment>
         {isSizeSet && (
@@ -207,31 +128,7 @@ class DrawingModel extends Component {
               </React.Fragment>
             ) : (
                 <React.Fragment>
-                  <div
-                    className={`drawing-model__select ${this.state.modelSelectClass} ${this.state.modelSelectClassRightFloat}`}
-                    style={{
-                      top: `${(height - 236) / 2 - 15}px`,
-                    }}
-                  >
-                    <span
-                      className={`drawing-model__select__still-life ${
-                        this.props.activeModel.model === 'stillLife' &&
-                        'drawing-model__select__still-life--active'
-                        }`}
-                      onClick={() => {
-                        this.setModelToStillLife();
-                      }}
-                    />
-                    <span
-                      className={`drawing-model__select__anatomy ${
-                        this.props.activeModel.model === 'anatomy' &&
-                        'drawing-model__select__anatomy--active'
-                        }`}
-                      onClick={() => {
-                        this.setModelToAnatomy();
-                      }}
-                    />
-                  </div>
+                  <ModelSelector height={height} />
                   {this.props.activeModel &&
                     this.props.activeModel.model === 'stillLife' ? (
                       <img
@@ -244,7 +141,7 @@ class DrawingModel extends Component {
                     ) : (
                       <img
                         alt=''
-                        src={require('../../../img/compete/anatomy/woman-figure-8.png')}
+                        src={require('../../../img/compete/anatomy/female1.png')}
                         width={`${imgWidth}px`}
                         height={`${imgHeight}px`}
                         className={'drawing-model ' + this.props.side}
@@ -272,9 +169,11 @@ const mapStateToProps = (state) => {
   const { showTimer, timerDone, leftHand, activeModel } = state;
   return { showTimer, timerDone, leftHand, activeModel };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     setActiveModel: (payload) => dispatch(setActiveModel(payload)),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(DrawingModel);
