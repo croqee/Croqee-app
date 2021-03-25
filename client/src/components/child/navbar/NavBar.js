@@ -142,7 +142,7 @@ class NavBar extends React.Component {
                   className='fas fa-arrow-right'
                 ></i>
               }
-              btnText={' Draw and compete'}
+              btnText={'Draw more models'}
             />
             <NavbarContact />
           </div>
@@ -170,7 +170,18 @@ class NavBar extends React.Component {
             >
               Login
             </Link>
-
+            <ActionBtnNav
+              onclick={() => {
+                this.props.history.push('/competes');
+              }}
+              endIcon={
+                <i
+                  style={{ marginLeft: '0.5rem' }}
+                  className='fas fa-arrow-right'
+                ></i>
+              }
+              btnText={' Draw with others'}
+            />
             <NavbarContact />
           </div>
         )}
