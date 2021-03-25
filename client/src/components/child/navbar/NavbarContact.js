@@ -5,7 +5,7 @@ import Links from "./Links";
 
 export default function NavbarContact() {
   return (
-    <Fragment>
+    <>
       <div className="nav-contact">
         <ContactInfo />
       </div>
@@ -15,6 +15,6 @@ export default function NavbarContact() {
       <div className="nav-contact-links">
         <Links />
       </div>
-    </Fragment>
+    </>
   );
 }
