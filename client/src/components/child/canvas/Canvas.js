@@ -109,7 +109,7 @@ class Canvas extends React.Component {
     if (this.state.width < 500) {
       ratio = 1800;
     }
-    let lineWidth = (1.7 * this.state.width) / ratio;
+    let lineWidth = (2 * this.state.width) / ratio;
     this.setState({
       lineWidth: lineWidth,
     });
@@ -174,7 +174,7 @@ class Canvas extends React.Component {
     context.strokeStyle = color;
     context.lineWidth = this.state.lineWidth;
     if (force) {
-      context.lineWidth = this.state.lineWidth * (force * (force + 3.75));
+      context.lineWidth = this.state.lineWidth * (force * (force + 10));
     }
     context.stroke();
     context.closePath();
