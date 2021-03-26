@@ -1,14 +1,7 @@
-import { model } from 'mongoose';
+import { Score } from '../models/score';
+import { User } from '../models/user';
 
-const Score = model('Score');
-const User = model('User');
-
-interface iUserScore {
-  user: string;
-  score: number;
-}
-
-interface iUserInfo {
+interface IUserInfo {
   email: string;
   name: string;
   img: any;
@@ -25,7 +18,7 @@ export function updateUserScore(
   modelId: string,
   score: number,
 ) {
-  Score.findOne({
+  return Score.findOne({
     modelId,
     userId,
   })
@@ -84,7 +77,7 @@ export function getUsersTotalScore(user: any, callback: any) {
                 User.findOne({ _id: finalResults[i]._id })
                   .then((res2: any) => {
                     if (res2) {
-                      const userInfo: iUserInfo = {
+                      const userInfo: IUserInfo = {
                         email: res2.email,
                         name: res2.name,
                         img: res2.img,
@@ -140,7 +133,7 @@ function getUserScorePosition(
       User.findOne({ _id: res[index]._id })
         .then((res2: any) => {
           if (res2) {
-            const userInfo: iUserInfo = {
+            const userInfo: IUserInfo = {
               email: res2.email,
               img: res2.img,
               name: res2.name,

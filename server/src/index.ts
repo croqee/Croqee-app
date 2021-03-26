@@ -5,29 +5,30 @@ import 'express-async-errors';
 import logger from 'morgan';
 import passport from 'passport';
 import * as socketIO from 'socket.io';
+import * as socketIoClient from 'socket.io-client';
 import * as config from './config';
 import { DrawingCompetitionController } from './controllers/drawing-competition/drawing-competition-controller';
+import { connectDb } from './db/models';
 import { getUsersTotalScore } from './db/repositories/score-repo';
 import { authMiddleware } from './middleware/auth-check';
 import { localLoginStrategy } from './passport/local-login';
 import { localSignupStrategy } from './passport/local-signup';
 import { router as apiRoutes } from './routes/api';
 import { router as authRoutes } from './routes/auth';
-import imageRoutes from './routes/images';
-import scoreRoutes from './routes/score';
+import { router as imageRoutes } from './routes/images';
+import { router as scoreRoutes } from './routes/score';
 import { router as userImage } from './routes/user-image';
 
 const app = express();
-const ioClient = require('socket.io-client');
-const socketClient = ioClient.connect('http://server_python:9699', {
+const client = socketIoClient.connect('http://server_python:9699', {
   reconnect: true,
 });
 
-interface iError extends Error {
+interface HttpError extends Error {
   status?: number;
 }
 
-require('./db/models').connect(config.dbUri);
+void connectDb(config.dbUri);
 
 // tell the app to parse HTTP body messages
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
@@ -77,7 +78,7 @@ app.post('/send_drawing', (req, res, _next) => {
 });
 
 app.use((_req, _res, next) => {
-  const error = new Error('Not Found') as iError;
+  const error = new Error('Not Found') as HttpError;
   error.status = 404;
   next(error);
 });
@@ -97,7 +98,7 @@ app.use(errorHandler);
 const server = http.createServer(app);
 
 const calculateScore = (param: any, cb: Function) => {
-  socketClient.emit('calculate_score', param, function (res: any) {
+  client.emit('calculate_score', param, function (res: any) {
     cb(res);
   });
 };

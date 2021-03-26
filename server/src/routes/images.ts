@@ -6,9 +6,9 @@ import * as mongoose from 'mongoose';
 import multer from 'multer';
 import GridFsStorage from 'multer-gridfs-storage';
 import * as config from '../config';
+import { User } from '../db/models/user';
 
-const User = mongoose.model('User');
-const router = Router();
+export const router = Router();
 //create mongo connection
 const conn = mongoose.createConnection(config.dbUri, {
   useFindAndModify: false,
@@ -22,7 +22,6 @@ void conn.once('open', () => {
 });
 
 const storage = new GridFsStorage({
-  url: config.dbUri,
   file: (_req, file) => {
     return new Promise((resolve, reject) => {
       randomBytes(16, (err, buf) => {
@@ -38,8 +37,9 @@ const storage = new GridFsStorage({
       });
     });
   },
+  url: config.dbUri,
 });
-const fileFilter = (_req, file, cb) => {
+const fileFilter: multer.Options['fileFilter'] = (_req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
@@ -55,15 +55,12 @@ const upload = multer({
   storage,
 });
 
-router
-  .route('/uploaduserimg/:id')
-  .post(upload.single('image_data'), (req, res) => {
+router.post(
+  '/uploaduserimg/:id',
+  upload.single('image_data'),
+  async (req, res) => {
     const userId = req.params.id;
-    const obj = {
-      img: {
-        image_data: req.file.filename,
-      },
-    };
+    const img = { image_data: req.file.filename };
     if (req.user.img && req.user.img.imageName !== 'none') {
       gfs.remove(
         { filename: req.user.img.image_data, root: 'images' },
@@ -74,12 +71,7 @@ router
         },
       );
     }
-    User.findOneAndUpdate({ _id: userId }, obj, (err) => {
-      if (err) {
-        console.log(err);
-        res.status(400).json(err);
-      } else {
-        res.status(204).json();
-      }
-    });
-  });
+    await User.findOneAndUpdate({ _id: userId }, { img }).exec();
+    res.status(204).json();
+  },
+);

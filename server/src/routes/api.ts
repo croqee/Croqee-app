@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { User } from '../db/models/user';
+import { User, UserProps } from '../db/models/user';
 
 export const router = Router();
 
-const croqeeBodyParser = <T>(body: T) => {
-  let reqBody = {};
+const croqeeBodyParser = <T>(body: T): T => {
+  let reqBody = {} as T;
   for (const key in body) {
     reqBody = JSON.parse(key);
   }
@@ -18,59 +18,39 @@ router.get('/getuser', (req, res) => {
 });
 
 //find a user by their id
-router.get('/user/:id', (req, res) => {
+router.get<{ id: string }>('/user/:id', async (req, res) => {
   const userId = req.params.id;
-  User.findById({ _id: userId }, (err, user) => {
-    if (user) {
-      const editeduser = {
-        behance: user.behance,
-        birthDate: user.birthDate,
-        city: user.city,
-        email: user.email,
-        facebook: user.facebook,
-        instagram: user.instagram,
-        name: user.name,
-        website: user.website,
-      };
-      if (user.img) {
-        editeduser.image_data = user.img.image_data;
-      }
-      res.status(200).json(editeduser);
-    } else if (err) {
-      res.status(400).json(err);
-    } else {
-      res.status(500).end();
-    }
-  });
+  const user = await User.findById(userId).exec();
+  if (!user) return res.status(400).send('user not found');
+
+  const editeduser = {
+    behance: user.behance,
+    birthDate: user.birthDate,
+    city: user.city,
+    email: user.email,
+    facebook: user.facebook,
+    image_data: user.img?.image_data,
+    instagram: user.instagram,
+    name: user.name,
+    website: user.website,
+  };
+  res.status(200).json(editeduser);
 });
 
-router.post('/updateuser/:id', (req, res) => {
-  const userId = req.params.id;
-  req.body = croqeeBodyParser(req.body);
-  User.findOneAndUpdate({ _id: userId }, req.body, (err) => {
-    if (err) {
-      return res.status(400).json({ errors: 'id not found.' });
-    } else {
-      return res.status(204).json({ success: 'updated' });
-    }
-  });
-});
+router.post<{ id: string }, any, Partial<UserProps>>(
+  '/updateuser/:id',
+  async (req, res) => {
+    const userId = req.params.id;
+    const update = croqeeBodyParser(req.body);
+    await User.findOneAndUpdate({ id: userId }, update).exec();
+    res.status(204).json({ success: 'updated' });
+  },
+);
 
-router.get('/password', (req, res) => {
+router.get('/password', async (req, res) => {
   const userId = req.user.id;
-  User.findById({ _id: userId }, (err, user) => {
-    if (err) {
-      return res.status(400).json({ errors: 'id not found.' });
-    } else if (user) {
-      if (user.password !== undefined) {
-        res.status(200).json(false);
-      } else {
-        res.status(200).json(true);
-      }
-    } else {
-      return res.status(500).json({ errors: 'internal error' });
-    }
-  });
+  const user = await User.findById(userId).exec();
+  res.status(200).json(user.password == null);
 });
 
 function validatePasswordForm(payload) {
@@ -101,16 +81,15 @@ function validatePasswordForm(payload) {
   }
 
   return {
-    success: isFormValid,
-    message,
     errors,
+    message,
+    success: isFormValid,
   };
 }
-router.post('/password', (req, res) => {
-  const userId = req.user.id;
+router.post('/password', async (req, res) => {
   req.body = croqeeBodyParser(req.body);
   const validationResult = validatePasswordForm(req.body);
-  const userPassObj = req.body;
+  const { currentPassword, newPassword } = req.body;
 
   if (!validationResult.success) {
     return res.status(400).json({
@@ -120,51 +99,28 @@ router.post('/password', (req, res) => {
     });
   }
 
-  User.findOne({ email: req.user.email }, (err, user) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json(err);
+  const user = await User.findById(req.user.id).exec();
+  if (!user) throw new Error('Incorrect email or password');
+
+  // check if a hashed user's password is equal to a value saved in the database
+  try {
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      const error = new Error('Incorrect password');
+      console.error(error);
+      return res.status(400).json({ error: 'Incorrect Password' });
     }
-
-    if (!user) {
-      const error = new Error('Incorrect email or password');
-    }
-
-    // check if a hashed user's password is equal to a value saved in the database
-    return user.comparePassword(
-      userPassObj.currentPassword,
-      (passwordErr, isMatch) => {
-        if (passwordErr) {
-          res.status(400).json(err);
-        }
-
-        if (!isMatch) {
-          const error = new Error('Incorrect password');
-          res.status(400).json({ error: 'Incorrect Password' });
-        }
-
-        if (isMatch) {
-          user.password = userPassObj.newPassword.trim();
-          user.save((err) => {
-            if (err) {
-              res.status(400).json(err);
-            } else {
-              res.status(200).json({ msg: 'success' });
-            }
-          });
-        }
-      },
-    );
-  });
+    user.password = newPassword.trim();
+    await user.save().catch((err) => res.status(400).json(err));
+    res.status(200).json({ msg: 'success' });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json(error);
+  }
 });
 
-router.delete('/account', (req, res) => {
+router.delete('/account', async (req, res) => {
   const userId = req.user.id;
-  User.findOneAndDelete({ _id: userId }, (err) => {
-    if (err) {
-      res.status(400).json({ error: err });
-    } else {
-      res.status(204).end();
-    }
-  });
+  await User.findOneAndDelete({ id: userId }).exec();
+  res.status(204).end();
 });

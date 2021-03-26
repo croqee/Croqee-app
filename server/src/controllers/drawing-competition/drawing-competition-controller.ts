@@ -1,13 +1,11 @@
 import * as jwt from 'jsonwebtoken';
 import * as config from '../../config';
+import { User } from '../../db/models/user';
+import * as ScoreRepo from '../../db/repositories/score-repo';
 import { anatomyModels } from './anatomy-models';
 import { CompetitionController } from './competition-controller';
 import { iJoinedUser, iModel } from './interfaces';
 import { stillLifeModels } from './still-life-models';
-
-require('../../db/models').connect(config.dbUri);
-const User = require('mongoose').model('User');
-import ScoreRepo from '../../db/repositories/score-repo';
 
 export class DrawingCompetitionController extends CompetitionController {
   drawingField: string;

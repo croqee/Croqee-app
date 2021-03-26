@@ -9,6 +9,7 @@ import {
 
 const ImageSchema = createSchema({
   image_data: Type.string(),
+  imageName: Type.string({ required: false }),
 });
 
 const UserSchema = createSchema({
@@ -19,7 +20,7 @@ const UserSchema = createSchema({
   facebook: Type.string(),
   fbId: Type.string({ index: true, unique: true }),
   googleId: Type.string({ index: true, unique: true }),
-  img: ImageSchema,
+  img: Type.schema().of(ImageSchema),
   instagram: Type.string(),
   name: Type.string(),
   password: Type.string(),
@@ -52,3 +53,9 @@ export const Image = typedModel('Image', ImageSchema);
 export const User = typedModel('User', UserSchema);
 export type UserDoc = ExtractDoc<typeof UserSchema>;
 export type UserProps = ExtractProps<typeof UserSchema>;
+
+declare global {
+  namespace Express {
+    interface User extends UserDoc {}
+  }
+}
