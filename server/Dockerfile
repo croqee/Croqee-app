@@ -1,14 +1,16 @@
-FROM node:10.16-alpine
-
+FROM node:fermium-alpine AS build
+RUN apk add --no-cache make gcc g++ python
 WORKDIR /usr/app
+COPY package.json .
+RUN npm install
+COPY ./*.json ./*.js ./
+COPY src ./src
+RUN npm run build
 
-COPY package*.json ./
-RUN apk add --no-cache make gcc g++ python && \
-    npm install -qy && \
-    apk del make gcc g++ python 
-
-COPY . .
-
+FROM node:fermium-alpine
+WORKDIR /usr/app
+COPY ./*.json ./*.js ./
+RUN npm install --only=prod
+COPY --from=build /usr/app/dist .
 EXPOSE 8080
-
-CMD ["npm", "start"]
+CMD ["node", "index,js"]

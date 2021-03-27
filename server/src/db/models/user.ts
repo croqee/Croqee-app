@@ -56,6 +56,6 @@ export type UserProps = ExtractProps<typeof UserSchema>;
 
 declare global {
   namespace Express {
-    interface User extends UserDoc {}
+    type User = UserDoc;
   }
 }

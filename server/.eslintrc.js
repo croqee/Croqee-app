@@ -78,6 +78,7 @@ module.exports = {
     'import/no-useless-path-segments': 'error',
     'import/no-unused-modules': 'error',
     // 'import/no-default-export': 'error',
+    'import/no-named-as-default': 'off',
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -103,4 +104,30 @@ module.exports = {
     },
     'import/cache': { lifetime: 10 },
   },
+  overrides: [
+    {
+      files: ['./src/**/*.js', './scripts/**/*.js', './*.js'],
+      parser: '@babel/eslint-parser',
+      env: {
+        node: true,
+        es6: true,
+        es2020: true,
+        browser: false,
+      },
+      rules: {
+        'no-console': 'off',
+        'import/order': 'off',
+        'import/no-extraneous-dependencies': 'off',
+        '@typescript-eslint/await-thenable': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-implied-eval': 'off',
+        '@typescript-eslint/no-misused-promises': 'off',
+        '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+        '@typescript-eslint/prefer-regexp-exec': 'off',
+        '@typescript-eslint/require-await': 'off',
+        '@typescript-eslint/restrict-plus-operands': 'off',
+        '@typescript-eslint/unbound-method': 'off',
+      },
+    },
+  ],
 };

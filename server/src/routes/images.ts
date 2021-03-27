@@ -2,7 +2,7 @@ import { randomBytes } from 'crypto';
 import path from 'path';
 import { Router } from 'express';
 import GridFs from 'gridfs-stream';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import multer from 'multer';
 import GridFsStorage from 'multer-gridfs-storage';
 import * as config from '../config';
@@ -15,6 +15,7 @@ const conn = mongoose.createConnection(config.dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 let gfs: GridFs.Grid;
 void conn.once('open', () => {
   gfs = GridFs(conn.db, mongoose.mongo);

@@ -1,11 +1,11 @@
 import { randomBytes } from 'crypto';
 import { Router } from 'express';
-import * as graph from 'fbgraph';
+import graph from 'fbgraph';
 import { google } from 'googleapis';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { model } from 'mongoose';
-import * as nodemailer from 'nodemailer';
-import * as passport from 'passport';
+import nodemailer from 'nodemailer';
+import passport from 'passport';
 import validator from 'validator';
 import * as config from '../config';
 

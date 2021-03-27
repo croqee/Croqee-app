@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as Grid from 'gridfs-stream';
-import * as mongoose from 'mongoose';
+import GridFs from 'gridfs-stream';
+import mongoose from 'mongoose';
 import * as config from '../config';
 
 export const router = Router();
@@ -11,9 +11,9 @@ const conn = mongoose.createConnection(config.dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-let gfs;
+let gfs: GridFs.Grid;
 conn.once('open', () => {
-  gfs = Grid(conn.db, mongoose.mongo);
+  gfs = GridFs(conn.db, mongoose.mongo);
   gfs.collection('images');
 });
 
