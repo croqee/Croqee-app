@@ -12,7 +12,7 @@ const conn = mongoose.createConnection(config.dbUri, {
   useUnifiedTopology: true,
 });
 let gfs: GridFs.Grid;
-conn.once('open', () => {
+void conn.once('open', () => {
   gfs = GridFs(conn.db, mongoose.mongo);
   gfs.collection('images');
 });

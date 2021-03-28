@@ -24,7 +24,7 @@ const UserSchema = createSchema({
   instagram: Type.string(),
   name: Type.string(),
   password: Type.string(),
-  resetPasswordExpires: Type.string(),
+  resetPasswordExpires: Type.number(),
   resetPasswordToken: Type.string(),
   website: Type.string(),
   ...({} as { comparePassword: typeof comparePassword }),
