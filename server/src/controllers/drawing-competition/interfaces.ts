@@ -1,10 +1,10 @@
-export interface iJoinedUser {
+export interface IJoinedUser {
   _id: string;
   name: string;
   status: string;
   score: number;
 }
-export interface iModel {
+export interface IModel {
   model: string;
   givenTime: number;
 }

@@ -6,7 +6,7 @@ interface IUserInfo {
   name: string;
   img: any;
 }
-interface iuserScoresData {
+interface IUserScoresData {
   totalScores: number;
   userRank: number | null;
   userFounded: boolean;
@@ -63,11 +63,11 @@ export function getUsersTotalScore(user: any, callback: any) {
           if (res) {
             let userFoundend = false;
             const finalResults: any = [];
-            const data: iuserScoresData = {
-              totalScores,
-              userRank: null,
-              userFounded: false,
+            const data: IUserScoresData = {
               data: [],
+              totalScores,
+              userFounded: false,
+              userRank: null,
             };
             let counter = 0;
             const iteration = res.length < 10 ? res.length : 10;
@@ -115,7 +115,7 @@ export function getUsersTotalScore(user: any, callback: any) {
   }
 }
 function getUserScorePosition(
-  data: iuserScoresData,
+  data: IUserScoresData,
   userFoundend: boolean,
   res: any,
   finalResults: any,

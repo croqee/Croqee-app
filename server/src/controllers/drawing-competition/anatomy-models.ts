@@ -1,6 +1,6 @@
-import { iModel } from './interfaces';
+import { IModel } from './interfaces';
 
-export const anatomyModels: iModel[] = [
+export const anatomyModels: IModel[] = [
   {
     givenTime: 40,
     model: 'woman-figure-6',

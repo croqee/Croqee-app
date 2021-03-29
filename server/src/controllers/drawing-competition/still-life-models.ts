@@ -1,6 +1,6 @@
-import { iModel } from './interfaces';
+import { IModel } from './interfaces';
 
-export const stillLifeModels: iModel[] = [
+export const stillLifeModels: IModel[] = [
   {
     givenTime: 40,
     model: 'geometrical1',

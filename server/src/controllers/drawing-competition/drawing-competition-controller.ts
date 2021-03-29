@@ -1,16 +1,20 @@
-import * as jwt from 'jsonwebtoken';
-import * as config from '../../config';
+import { Server } from 'http';
 import { User } from '../../db/models/user';
 import * as ScoreRepo from '../../db/repositories/score-repo';
+import { getIdFromToken } from '../../lib/jwt';
 import { anatomyModels } from './anatomy-models';
 import { CompetitionController } from './competition-controller';
-import { iJoinedUser, iModel } from './interfaces';
+import { IJoinedUser, IModel } from './interfaces';
 import { stillLifeModels } from './still-life-models';
 
+type CalculateScore = (
+  param: { dataURL: string; model: string },
+  cb: (res: string) => void,
+) => void;
 export class DrawingCompetitionController extends CompetitionController {
   drawingField: string;
-  protected players: iJoinedUser[] = [];
-  protected models: iModel[] = [];
+  protected players: IJoinedUser[] = [];
+  protected models: IModel[] = [];
   protected lastDrawnModel: string;
   protected round: number;
   protected isBeginProcessed: boolean;
@@ -19,17 +23,16 @@ export class DrawingCompetitionController extends CompetitionController {
   protected numOfUsersGotScored: number;
 
   constructor(
-    socketIO: any,
-    server: any,
-    calculateScore: any,
+    server: Server,
+    calculateScore: CalculateScore,
     drawingField: string,
   ) {
-    super(socketIO, server, drawingField);
+    super(server, drawingField);
     this.reset();
-    this.trackEachUser(this.io, calculateScore);
+    this.trackEachUser(calculateScore);
   }
 
-  reset() {
+  reset(): void {
     if (this.drawingField === 'still-life') {
       this.models = stillLifeModels;
     } else if (this.drawingField === 'anatomy') {
@@ -41,23 +44,22 @@ export class DrawingCompetitionController extends CompetitionController {
     this.hasToBeResetAsUsersLeave = false;
     this.numOfUsersGotScored = 0;
   }
-  private stillLifeLastUpdateTime: any;
-  private getNumberOfPlayingUsers(users: Array<iJoinedUser>) {
+  private stillLifeLastUpdateTime: number;
+  private getNumberOfPlayingUsers(users: Array<IJoinedUser>) {
     return users.filter((u) => u.status === 'playing').length;
   }
 
-  loop(io: any) {
+  loop(): void {
     if (this.players.length != 0) {
-      !this.hasToBeResetAsUsersLeave
-        ? (this.hasToBeResetAsUsersLeave = true)
-        : '';
+      this.hasToBeResetAsUsersLeave = true;
+
       if (this.isBeginProcessed) {
         const currentTime = new Date().getTime();
         let timeDifference = currentTime - this.stillLifeLastUpdateTime;
         timeDifference = Math.round(timeDifference / 1000);
         if (this.models[this.round - 1].givenTime <= timeDifference) {
           this.isBeginProcessed = false;
-          io.sockets.emit('send_your_drawing');
+          this.io.sockets.emit('send_your_drawing');
           this.lastDrawnModel = this.models[this.round - 1].model;
           this.round++;
           if (this.round > this.models.length) {
@@ -72,24 +74,27 @@ export class DrawingCompetitionController extends CompetitionController {
         ) {
           if (!this.isBeginCallbackSent) {
             this.isBeginCallbackSent = true;
-            io.sockets.emit('join_club', this.models[this.round - 1]);
+            this.io.sockets.emit('join_club', this.models[this.round - 1]);
             this.players = this.players
-              ? this.players.sort((a: iJoinedUser, b: iJoinedUser) => {
+              ? this.players.sort((a: IJoinedUser, b: IJoinedUser) => {
                   return b.score - a.score;
                 })
               : [];
             setTimeout(() => {
               if (!this.isBeginProcessed) {
-                io.sockets.emit('users_score', this.players);
+                this.io.sockets.emit('users_score', this.players);
               }
             }, 2500);
             setTimeout(() => {
               if (!this.isBeginProcessed) {
-                io.sockets.emit('start_drawing', this.models[this.round - 1]);
+                this.io.sockets.emit(
+                  'start_drawing',
+                  this.models[this.round - 1],
+                );
                 this.isBeginCallbackSent = false;
                 this.isBeginProcessed = true;
                 this.setNumberofUsersGotScoredToZero();
-                this.stillLifeLastUpdateTime = new Date().getTime();
+                this.stillLifeLastUpdateTime = Date.now();
               }
             }, 7000);
           }
@@ -102,102 +107,91 @@ export class DrawingCompetitionController extends CompetitionController {
     }
   }
 
-  private trackEachUser(io: any, calculateScore: any) {
-    io.on('connection', (socket: any) => {
-      let joinedUser: iJoinedUser;
+  private trackEachUser(calculateScore: CalculateScore) {
+    this.io.on('connection', (socket) => {
+      let joinedUser: IJoinedUser;
 
-      socket.on('username', (token: string) => {
-        jwt.verify(token, config.jwtSecret, (err: any, decoded: any) => {
-          if (!err) {
-            let userId = '';
-            if (typeof decoded.sub === 'string') {
-              userId = decoded.sub;
-            } else {
-              userId = decoded;
-            }
+      socket.on('username', async (token: string) => {
+        const userId = await getIdFromToken(token);
 
-            return User.findById(userId, (userErr: any, user: any) => {
-              if (!userErr && user) {
-                const userIsNotAlreadyJoined =
-                  this.players.filter((u: iJoinedUser) => u._id == user._id)
-                    .length == 0;
-                if (userIsNotAlreadyJoined) {
-                  joinedUser = {
-                    _id: user._id,
-                    name: user.name,
-                    status: 'recently joined',
-                    score: 0,
-                  };
-                  this.players.push(joinedUser);
-                  io.sockets.emit('update_user', this.players);
+        const user = await User.findById(userId);
+        const userIsNotAlreadyJoined = this.players.every(
+          (u) => u._id != user._id,
+        );
 
-                  //Invoking my_drawing after the user is verified
-                  socket.on('my_drawing', (dataURL: string) => {
-                    let _score = 0;
-                    if (dataURL != null) {
-                      const param = {
-                        dataURL,
-                        model: this.lastDrawnModel,
-                      };
-                      calculateScore(param, (_res: any) => {
-                        const result = JSON.parse(_res);
-                        _score = Math.floor(result.score);
-                        socket.emit('evaluated_score', {
-                          score: _score,
-                          img: result.img,
-                        });
-                        this.increaseNumberOfUsersGotScored();
+        if (!userIsNotAlreadyJoined) return;
 
-                        const _index = this.findWithAttr(
-                          this.players,
-                          '_id',
-                          joinedUser._id,
-                        );
-                        joinedUser.score = _score;
-                        joinedUser.status == 'recently joined'
-                          ? (joinedUser.status = 'playing')
-                          : '';
+        joinedUser = {
+          _id: user._id,
+          name: user.name,
+          score: 0,
+          status: 'recently joined',
+        };
+        this.players.push(joinedUser);
+        this.io.sockets.emit('update_user', this.players);
 
-                        this.players[_index] = joinedUser;
-                        io.sockets.emit('update_user', this.players);
-                        ScoreRepo.updateUserScore(
-                          joinedUser._id,
-                          this.models[this.round - 1].model,
-                          _score,
-                        );
-                      });
-                    } else {
-                      socket.emit('evaluated_score', {
-                        score: _score,
-                        img: null,
-                      });
-                      this.increaseNumberOfUsersGotScored();
+        //Invoking my_drawing after the user is verified
+        socket.on('my_drawing', (dataURL: string) => {
+          let score = 0;
+          if (dataURL != null) {
+            const param = {
+              dataURL,
+              model: this.lastDrawnModel,
+            };
+            calculateScore(param, async (res) => {
+              const result = JSON.parse(res);
+              score = Math.floor(result.score);
+              socket.emit('evaluated_score', {
+                img: result.img,
+                score,
+              });
+              this.increaseNumberOfUsersGotScored();
 
-                      const _index = this.findWithAttr(
-                        this.players,
-                        '_id',
-                        joinedUser._id,
-                      );
-                      joinedUser.score = _score;
-                      joinedUser.status == 'recently joined'
-                        ? (joinedUser.status = 'playing')
-                        : '';
-                      this.players[_index] = joinedUser;
-                      io.sockets.emit('update_user', this.players);
-                    }
-                  });
-                }
-              }
+              const index = this.findWithAttr(
+                this.players,
+                '_id',
+                joinedUser._id,
+              );
+              joinedUser.score = score;
+              joinedUser.status == 'recently joined'
+                ? (joinedUser.status = 'playing')
+                : '';
+
+              this.players[index] = joinedUser;
+              this.io.sockets.emit('update_user', this.players);
+              await ScoreRepo.updateUserScore(
+                joinedUser._id,
+                this.models[this.round - 1].model,
+                score,
+              );
             });
+          } else {
+            socket.emit('evaluated_score', {
+              img: null,
+              score,
+            });
+            this.increaseNumberOfUsersGotScored();
+
+            const index = this.findWithAttr(
+              this.players,
+              '_id',
+              joinedUser._id,
+            );
+            joinedUser.score = score;
+            joinedUser.status == 'recently joined'
+              ? (joinedUser.status = 'playing')
+              : '';
+            this.players[index] = joinedUser;
+            this.io.sockets.emit('update_user', this.players);
           }
         });
       });
 
       socket.on('disconnect', () => {
         this.players = this.players.filter(
-          (u: iJoinedUser) => u._id != joinedUser._id,
+          (u: IJoinedUser) => u._id != joinedUser._id,
         );
-        io.sockets.emit('update_user', this.players);
+        this.io.sockets.emit('update_user', this.players);
       });
     });
   }

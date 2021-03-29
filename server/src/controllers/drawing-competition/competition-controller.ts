@@ -1,29 +1,24 @@
-export class CompetitionController {
-  io: any;
+import { Server } from 'http';
+import { Server as SocketIoServer, Socket } from 'socket.io';
+export abstract class CompetitionController {
   drawingField: string;
-  socket: any;
+  socket: Socket;
+  io: SocketIoServer;
 
-  constructor(socketIO: any, server: any, drawingField: string) {
+  constructor(server: Server, drawingField: string) {
     this.drawingField = drawingField;
-    this.io = socketIO(server, {
+    this.io = new SocketIoServer(server, {
       cookie: false,
       path: `/compete/${drawingField}`,
     });
-    setInterval(() => {
-      this.loop(this.io);
-    }, 80);
+    setInterval(() => this.loop(), 80);
   }
 
-  reset() {}
+  abstract reset(): void;
 
-  loop(io: any) {}
+  abstract loop(): void;
 
-  findWithAttr(array: Array<any>, attr: string, value: string) {
-    for (let i = 0; i < array.length; i += 1) {
-      if (array[i][attr] === value) {
-        return i;
-      }
-    }
-    return -1;
+  findWithAttr<T, K extends keyof T>(array: T[], attr: K, value: T[K]): number {
+    return array.findIndex((el) => (el[attr] = value));
   }
 }

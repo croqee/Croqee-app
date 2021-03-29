@@ -1,42 +1,26 @@
 import { RequestHandler } from 'express';
-import * as jwt from 'jsonwebtoken';
-import { model } from 'mongoose';
-import * as config from '../config';
-
-const User = model('User');
+import { User } from '../db/models/user';
+import { getIdFromToken } from '../lib/jwt';
 
 /**
  *  The Auth Checker middleware function.
  */
-export const authMiddleware: RequestHandler = (req, res, next) => {
+export const authMiddleware: RequestHandler = async (req, res) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
 
   // get the last part from a authorization header string like "bearer token-value"
-  const token = req.headers.authorization.split(' ')[1];
+  const token = req.headers.authorization.replace(/bearer\s+/i, '');
 
-  // decode the token using a secret key-phrase
-  return jwt.verify(token, config.jwtSecret, (err, decoded) => {
+  try {
+    const userId = await getIdFromToken(token);
+    const user = await User.findById(userId).exec();
+
+    // pass user details onto next route
+    req.user = user;
+  } catch {
     // the 401 code is for unauthorized status
-    if (err) {
-      return res.status(401).end();
-    }
-    let userId = '';
-    if (typeof decoded.sub === 'string') {
-      userId = decoded.sub;
-    } else {
-      userId = decoded;
-    }
-
-    // check if a user exists
-    return User.findById(userId, (userErr, user) => {
-      if (userErr || !user) {
-        return res.status(401).end();
-      }
-      // pass user details onto next route
-      req.user = user;
-      return next();
-    });
-  });
+    return res.status(401).end();
+  }
 };
