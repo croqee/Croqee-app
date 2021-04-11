@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setActiveModel } from '../../../js/actions';
+import { setActiveModel } from '../../../state-manager/actions';
 
 const MODEL_SELECTOR_CLASS = 'model-selector';
 const MODEL_SELECTOR_ANATOMY_CLASS = 'model-selector__anatomy';

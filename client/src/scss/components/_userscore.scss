@@ -28,7 +28,7 @@
 		left: 20px;
 		z-index: 1001;
 		color: $dark-grey;
-		.userscore_score_score {
+		&-score {
 			color: $orange;
 		}
 	}

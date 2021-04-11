@@ -9,7 +9,7 @@ import {
   setUser,
   getUser,
   setPageToNavigateAfterLogin
-} from "../../../js/actions";
+} from "../../../state-manager/actions";
 import { GoogleLogin } from "react-google-login";
 import { googleApiKey } from "../../../clientglobalvariables";
 import { facebookAppId } from "../../../clientglobalvariables";

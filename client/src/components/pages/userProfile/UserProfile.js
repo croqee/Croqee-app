@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
-import { getUsersScore, getScoredModels } from '../../../js/actions';
+import { getUsersScore, getScoredModels } from '../../../state-manager/actions';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import axios from 'axios';

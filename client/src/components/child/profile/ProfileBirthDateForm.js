@@ -7,7 +7,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import config from "../../../modules/config";
 import { connect } from "react-redux";
-import { getUser } from "../../../js/actions";
+import { getUser } from "../../../state-manager/actions";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 

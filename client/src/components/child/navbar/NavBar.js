@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../img/logo-vw.svg';
 import { connect } from 'react-redux';
-import { getUser } from '../../../js/actions';
+import { getUser } from '../../../state-manager/actions';
 import NavbarContact from './NavbarContact';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
@@ -103,7 +103,7 @@ class NavBar extends React.Component {
             >
               Leaderboard
             </Link>
-            <Link className='nav-link'>
+            <span className='nav-link' to='#'>
               <div className='profile-nav'>
                 <div className='user-img'>
                   {this.props.user.img ? (
@@ -130,7 +130,7 @@ class NavBar extends React.Component {
                   <DropDown />
                 </div>
               </div>
-            </Link>
+            </span>
 
             <ActionBtnNav
               onclick={() => {

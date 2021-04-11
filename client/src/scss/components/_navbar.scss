@@ -117,8 +117,7 @@
     }
     &:after {
       top: 14px;
-      -webkit-transition: -webkit-transform 0.4s
-        cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       -o-transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -130,7 +129,7 @@
 
 .hamburger-inner:before,
 .hamburger-inner:after {
-  content: '';
+  content: "";
   display: block;
 }
 
@@ -296,9 +295,13 @@
   }
 }
 
-//aryan
 .profile-nav {
   padding-bottom: 40px;
+  display: inline-block;
+  padding: 0px 1.1rem;
+  margin-right: 5px;
+  font-size: 1em;
+  line-height: 2.5em;
   &:hover {
     .profile-list {
       display: block;
@@ -356,7 +359,7 @@
     }
   }
   &:after {
-    content: '';
+    content: "";
     width: 0px;
     height: 0px;
     position: absolute;
