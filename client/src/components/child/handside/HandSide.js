@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setHandSide } from '../../../js/actions';
+import { setHandSide } from '../../../state-manager/actions';
 
 class HandSide extends Component {
   constructor(props) {

@@ -6,11 +6,14 @@ import {
   setImageProcessing,
   setTimerDone,
   setActiveModel,
-} from '../../../js/actions';
+} from '../../../state-manager/actions';
 import Loader from '../loader/Loader';
 import Sizes from 'react-sizes';
 import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
 
+export const CANVAS_LEFT_HAND_CLASS = "canvas_left-hand";
+export const CANVAS_OVERLAY_CLASS = "canvas__overay";
+export const CANVAS_BLOCKER_CLASS = "canvas__blocker";
 let styles = {
   canvas: {
     cursor: 'crosshair',
@@ -265,8 +268,7 @@ class Canvas extends React.Component {
       moveStartTextClass,
     } = this.state;
     const { isCompeting } = this.props;
-    let side = this.props.leftHand ? 'canvas_left_hand' : '';
-    console.log(width);
+    let side = this.props.leftHand ? CANVAS_LEFT_HAND_CLASS : '';
     return (
       <React.Fragment>
         {isSizeSet && (
@@ -275,15 +277,15 @@ class Canvas extends React.Component {
             width={`${width}px`}
             height={`${height}px`}
           >
-            {this.props.imageProcessing && 
-            <Loader 
-            />}
+            {this.props.imageProcessing &&
+              <Loader
+              />}
 
             <div
               className={
                 fadeOut
-                  ? 'canvas__overay canvas__overay--fadeout'
-                  : 'canvas__overay canvas__overay--fadein '
+                  ? `${CANVAS_OVERLAY_CLASS} ${CANVAS_OVERLAY_CLASS}--fadeout`
+                  : `${CANVAS_OVERLAY_CLASS} ${CANVAS_OVERLAY_CLASS}--fadein `
               }
               style={{
                 width: `${width}px`,
@@ -293,7 +295,7 @@ class Canvas extends React.Component {
             >
               {!isCompeting && (
                 <span
-                  className='canvas__overay__homepage-text'
+                  className={`${CANVAS_OVERLAY_CLASS}-homepage-text`}
                   style={{
                     top: `${height / 2 - 40}px`,
                   }}
@@ -303,23 +305,23 @@ class Canvas extends React.Component {
               )}
               {isCompeting && (
                 <div
-                  className='canvas__overay__compete-text'
+                  className={CANVAS_OVERLAY_CLASS + '-compete-text'}
                   style={{
                     top: `${height / 2 - 40}px`,
                   }}
                 >
-                  <div className='canvas__overay__compete-text__first-line'>
+                  <div className={CANVAS_OVERLAY_CLASS + "-compete-text-first-line"}>
                     <span
                       className={
-                        'canvas__overay__compete-text__first-line__start ' +
+                        CANVAS_OVERLAY_CLASS + '-compete-text-first-line-start ' +
                         moveStartTextClass
                       }
                     >
                       Start
                     </span>
                     <span
-                      className={
-                        'canvas__overay__compete-text__first-line__text ' +
+                      className=
+                        {CANVAS_OVERLAY_CLASS + '-compete-text-first-line-text ' +
                         competeTextHideClass
                       }
                     >
@@ -327,26 +329,23 @@ class Canvas extends React.Component {
                       drawing the model
                     </span>
                   </div>
-                  <div className={'canvas__overay__compete-text__second-line '}>
+                  <div className={CANVAS_OVERLAY_CLASS +'-compete-text-second-line '}>
                     <span
-                      className={
-                        'canvas__overay__compete-text__second-line__text ' +
+                      className={CANVAS_OVERLAY_CLASS + '-compete-text-second-line-text ' +
                         competeTextHideClass
                       }
                     >
                       here in{' '}
                     </span>
                     <span
-                      className={
-                        'canvas__overay__compete-text__second-line__text --counter ' +
+                      className={CANVAS_OVERLAY_CLASS + '-compete-text-second-line-text --counter ' +
                         competeTextHideClass
                       }
                     >
                       {countDown}
                     </span>
                     <span
-                      className={
-                        'canvas__overay__compete-text__second-line__text ' +
+                      className={CANVAS_OVERLAY_CLASS + '-compete-text-second-line-text ' +
                         competeTextHideClass
                       }
                     >
@@ -373,7 +372,7 @@ class Canvas extends React.Component {
               >
                 <button
                   onClick={() => this.props.navigateToClubPage()}
-                  className='canvas__blocker__compete-button'
+                  className={CANVAS_BLOCKER_CLASS+"-compete-button"}
                 >
                   Draw more models and compete
                 </button>
@@ -382,7 +381,7 @@ class Canvas extends React.Component {
 
                 <button
                   onClick={() => this.retryDrawing()}
-                  className='canvas__blocker__retry-button'
+                  className={CANVAS_BLOCKER_CLASS+"-retry-button"}
                 >
                   Retry
                 </button>
@@ -449,7 +448,7 @@ class Canvas extends React.Component {
                     )}
                   <span className='userscore_score'>
                     Score:
-                    <span className='userscore_score_score'>
+                    <span className='userscore_score-score'>
                       {' '}
                       {this.props.currentScore && this.props.currentScore}
                     </span>
@@ -474,7 +473,7 @@ class Canvas extends React.Component {
             <canvas
               id='canvas__drawing'
               style={styles.canvas}
-              className='canvas__canvas'
+              className='canvas__area'
               height={`${height}px`}
               width={`${width}px`}
               ref='canvas'

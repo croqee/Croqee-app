@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setTimer, setTimerDone, setStartImageProcessing } from '../../../js/actions';
+import { setTimer, setTimerDone, setStartImageProcessing } from '../../../state-manager/actions';
 
 class Timer extends Component {
 	constructor(props) {

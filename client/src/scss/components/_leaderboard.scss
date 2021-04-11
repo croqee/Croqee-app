@@ -11,6 +11,7 @@ $button-size : 28px;
         padding-bottom: 50px;
         font-size: 41px;
     }
+
     &__rank-desc{
         font-weight: 500;
         padding-top: 35px;
@@ -27,6 +28,7 @@ $button-size : 28px;
             width: 100%;
         }
     }
+
     &__right{
         float: right;
         width: 49%;
@@ -35,26 +37,25 @@ $button-size : 28px;
         @media (max-width: 852px){
             width: 100%;
         }
-
     }
 
     &__overall-percentage {
         margin-bottom: 60px;
-        &__circle{
+        &-circle{
             width: 120px;
             height: 120px;
             margin: auto;
             background-color: $light-grey;
             border-radius: 50%;
             color:$dark-grey;
-            &__text{
+            &-text{
                 position: relative;
                 top: 30px;
                 font-size: 40px;
             }
             position: relative;
         }
-        &__desc{
+        &-desc{
             margin-top: 20px;
             font-size: 18px;
             position: relative;
@@ -65,24 +66,24 @@ $button-size : 28px;
         margin-bottom: 60px;
         margin-right: 22px;
         margin-left: 22px;
-        &__circle{
+        &-circle{
             width: 120px;
             height: 120px;
             margin: auto;
             background-color: $mid-light-grey;
             border-radius: 50%;
-            &__text{
+            &-text{
                 position: relative;
                 top: 30px;
                 font-size: 40px;
             }
         }
-        &__desc{
+        &-desc{
             margin-top: 20px;
             font-size: 18px;
         }
     }
-    b{
+    b {
         color:$orange;
         font-weight: 400;
     }
@@ -93,13 +94,13 @@ $button-size : 28px;
         margin: auto;
         font-size: 22px;
         clear: both;
-        &__head {
+        &-head {
             border-bottom: 1px solid $light-grey;
             height: 40px;
             background-color: $orange;
             color: black
         }
-        &__row {
+        &-row {
             border-bottom: 1px solid $mid-grey;
             height: 50px;
             width: 100%;
@@ -110,13 +111,13 @@ $button-size : 28px;
                     cursor: pointer;
                     border-bottom: 1px solid #adadad;
                   }
-            &__rank {
+            &-rank {
                 margin-top: 8px;
                margin-right:20px;
                width: 20px;
 
             }
-            &__img{
+            &-img{
                 margin-right:20px;
                 margin-top: 4px;
                 img{
@@ -124,11 +125,11 @@ $button-size : 28px;
                 height:40px;
             }
             }
-            &__user {
+            &-user {
                 margin-top: 8px;
                 
              }
-             &__score {
+             &-score {
                 margin-top: 8px;
                 align-self: end;
                 margin-left: auto;
@@ -140,7 +141,7 @@ $button-size : 28px;
                 }
             }
         }
-        &__etc{
+        &-etc{
             background-color: $dark-grey;
             height: 50px;
             padding-top: 8px;
@@ -148,22 +149,6 @@ $button-size : 28px;
             font-size: 40px;
             line-height: 27px;
             user-select: none;
-        }
-    }
-
-    &__pagination {
-        margin-top: 40px;
-
-        &__button {
-            margin-right: 8px;
-            border: none;
-            width: $button-size;
-            height: $button-size;
-            cursor: pointer;
-
-            &--active {
-                background-color: $orange;
-            }
         }
     }
 }

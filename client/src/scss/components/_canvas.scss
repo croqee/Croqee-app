@@ -28,18 +28,18 @@
 .canvas {
 	-webkit-user-drag: none;
 	user-select: none;
-	&.canvas_left_hand {
+	&_left-hand {
 		float: left !important;
 	}
-	.canvas__canvas {
+	&__area {
 		-webkit-user-drag: none;
 		user-select: none;
 	}
-	.canvas__title {
+	&__title {
 		font-size: 40px;
 		color: red;
 	}
-	.canvas__overay {
+	&__overay {
 		position: relative;
 		z-index: 100;
 		user-select: none;
@@ -56,29 +56,31 @@
 			margin: auto;
 			display: block;
 		}
-		.canvas__overay__homepage-text {
+		&-homepage-text {
 			position: relative;
 			font-size: 35px;
 		}
-		.canvas__overay__compete-text {
+		&-compete-text {
 			position: relative;
 			font-size: 35px;
 			.--hiden-compete-text {
 				visibility: hidden;
 			}
-			.canvas__overay__compete-text__second-line__text {
-				&.--counter {
-					color: $orange;
-				}
+		
+		
+		}
+		&-compete-text-second-line-text {
+			&.--counter {
+				color: $orange;
 			}
-			.canvas__overay__compete-text__first-line__start {
-				display: inline-block;
-				&.--move-compete-start-text {
-					transition: width 1.5s, height 1.5s, transform 1.5s, font-size 1.5s;
+		}
+		&-compete-text-first-line-start {
+			display: inline-block;
+			&.--move-compete-start-text {
+				transition: width 1.5s, height 1.5s, transform 1.5s, font-size 1.5s;
 
-					transform: translate(145px);
-					font-size: 50px;
-				}
+				transform: translate(145px);
+				font-size: 50px;
 			}
 		}
 	}
@@ -104,7 +106,7 @@
 			font-weight: 400;
 			font-size:20px;
 		}
-		&__compete-button {
+		&-compete-button {
 			width: 368px;
 			height: 60px;
 			border: 1px solid #b8b8b8;
@@ -117,7 +119,7 @@
 				color:white;
 			}
 		}
-		&__retry-button {
+		&-retry-button {
 			width: 115px;
 			height: 60px;
 			border: 1px solid #b8b8b8;

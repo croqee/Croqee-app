@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setActiveModel } from '../../../js/actions';
+import { setActiveModel } from '../../../state-manager/actions';
 import ModelSelector from './ModelSelector';
 import UserScoreOverview from './UserScoreOverview';
 import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
@@ -18,7 +18,6 @@ class DrawingModel extends Component {
       height: null,
       imgWidth: null,
       imgHeight: null,
-      usersScoreFadeClass: '',
     };
     this.modelSelect = React.createRef();
 
@@ -31,28 +30,6 @@ class DrawingModel extends Component {
     this.setModelSize();
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.showUserScores !== this.props.showUserScores) {
-      if (this.props.showUserScores) {
-        this.displayConcurrentUsersScores();
-      }
-    }
-  }
-
-  displayConcurrentUsersScores() {
-    this.setState(
-      {
-        usersScoreFadeClass: 'users-scores--fadein',
-      },
-      () => {
-        setTimeout(() => {
-          this.setState({
-            usersScoreFadeClass: 'users-scores--fadeout',
-          });
-        }, 7500);
-      }
-    );
-  }
 
   setModelSize() {
     const { width, height, imgWidth, imgHeight } = calcCanvasAndModelDim(() => {
@@ -79,7 +56,6 @@ class DrawingModel extends Component {
       width,
       height,
       isSizeSet,
-      usersScoreFadeClass,
       imgWidth,
       imgHeight,
     } = this.state;
@@ -117,7 +93,6 @@ class DrawingModel extends Component {
                 )}
                 {showUserScores && (
                   <UserScoreOverview
-                    usersScoreFadeClass={usersScoreFadeClass}
                     styles={styles}
                     width={width}
                     height={height}
@@ -149,7 +124,6 @@ class DrawingModel extends Component {
                     )}
                   {showUserScores && (
                     <UserScoreOverview
-                      usersScoreFadeClass={usersScoreFadeClass}
                       styles={styles}
                       width={width}
                       height={height}

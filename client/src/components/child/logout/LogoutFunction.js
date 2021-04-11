@@ -1,7 +1,7 @@
 import React from 'react';
 import Auth from '../../../modules/Auth';
 import { connect } from "react-redux"
-import { authenticate, setUser } from '../../../js/actions';
+import { authenticate, setUser } from '../../../state-manager/actions';
 
 class LogoutFunction extends React.Component {
 

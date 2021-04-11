@@ -13,7 +13,7 @@ import {
   setUser,
   getUser,
   setPageToNavigateAfterLogin
-} from "../../../js/actions";
+} from "../../../state-manager/actions";
 import { connect } from "react-redux";
 
 class SignUpPage extends React.Component {
