@@ -1,6 +1,6 @@
 .model-wrapper {
 	position: relative;
-	background-color: $dark-grey;
+	background-color: $color--neutral-800;
 	display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,7 +31,7 @@
 		height: 40px;
 		font-size: 22px;
 		padding-top: 7px;
-		border-bottom: 1px solid $dark-grey;
+		border-bottom: 1px solid $color--neutral-800;
 		color: #585858;
 	}
 	table {
@@ -39,7 +39,7 @@
 		table-layout: fixed;
 	}
 	.tbl-header {
-		border-bottom: 1px solid $dark-grey;
+		border-bottom: 1px solid $color--neutral-800;
 		height: 40px;
 		th {
 			position: relative;
@@ -52,7 +52,7 @@
 		margin-top: 0px;
 		&__orange {
 			td {
-				color: $orange;
+				color: $brand-color;
 			}
 		}
 	}

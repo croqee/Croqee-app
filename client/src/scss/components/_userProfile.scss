@@ -4,7 +4,7 @@
 .userProfile {
   text-align: left;
   padding: 1rem;
-  @media (min-width: $brk-tablet) {
+  @media (min-width: $breakpoint--small) {
     min-width: 300px;
     max-width: 600px;
     margin: 2rem auto;

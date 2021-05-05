@@ -1,4 +1,4 @@
-.userscore {
+.drawing-result {
 	list-style-type: none;
 	user-select: none;
 	cursor: crosshair;
@@ -12,24 +12,24 @@
 	transition: opacity 0.5s;
 	z-index: 1000;
 	position: relative;
-	background-color: $dark-grey;
-	&.userscore--show {
+	background-color: $color--neutral-800;
+	&--show {
 		visibility: visible;
 		opacity: 1;
 	}
-	&.userscore--hide {
+	&--hide {
 		visibility: visible;
 		opacity: 0;
 	}
-	&_score {
+	&__score {
 		margin: center;
 		position: absolute;
 		top: 10px;
 		left: 20px;
 		z-index: 1001;
-		color: $dark-grey;
-		&-score {
-			color: $orange;
+		color: $color--neutral-800;
+		&-number {
+			color: $brand-color;
 		}
 	}
 	&__drawing {

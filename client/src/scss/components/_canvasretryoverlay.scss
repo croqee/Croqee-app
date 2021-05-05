@@ -1,0 +1,48 @@
+.canvas-retry-overlay {
+	position: relative;
+	z-index: 100;
+	background-color: $color--neutral-800;
+	border: 1px solid $color--neutral-100;
+	box-sizing: border-box;
+	&--fadein {
+		@include fadeIn();
+	}
+	&--fadeout {
+		@include fadeOut();
+	}
+	@include x-small-screen() {
+		float: none;
+		margin: auto;
+		display: block;
+	}
+	h3 {
+		font-weight: 400;
+		font-size: 20px;
+	}
+	&-compete-button {
+		width: 368px;
+		height: 60px;
+		border: 1px solid #b8b8b8;
+		background-color: transparent;
+		color: $color--neutral-100;
+		font-size: 20px;
+		cursor: pointer;
+		&:hover {
+			border: 1px solid white;
+			color: white;
+		}
+	}
+	&-retry-button {
+		width: 115px;
+		height: 60px;
+		border: 1px solid #b8b8b8;
+		background-color: transparent;
+		color: $color--neutral-100;
+		font-size: 20px;
+		cursor: pointer;
+		&:hover {
+			border: 1px solid white;
+			color: white;
+		}
+	}
+}

@@ -1,0 +1,23 @@
+.canvas-compete-start-overlay {
+    position: relative;
+    font-size: 35px;
+   
+    &__second-line-text {
+        &-counter {
+            color: $brand-color;
+        }
+    }
+    &__first-line-start {
+        display: inline-block;
+    
+    }
+    &-item--hide{
+        visibility: hidden;
+    }
+    &-item--enlarge {
+        transition: width 1.5s, height 1.5s, transform 1.5s, font-size 1.5s;
+
+        transform: translate(80px);
+        font-size: 50px;
+    }
+}

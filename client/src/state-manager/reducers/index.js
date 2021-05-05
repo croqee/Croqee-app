@@ -68,13 +68,13 @@ function rootReducer(state = initialState, action) {
 		case SHOW_SCORE:
 			return {
 				...state,
-				scoreClass: 'userscore--show',
+				scoreClass: 'drawing-result--show',
 				currentScore: action.score
 			};
 		case HIDE_SCORE:
 			return {
 				...state,
-				scoreClass: 'userscore--hide'
+				scoreClass: 'drawing-result--hide'
 			};
 		case REMOVE_SCORE:
 			return {

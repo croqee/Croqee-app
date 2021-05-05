@@ -1,9 +1,8 @@
-
-.hand-side{
+.hand-side {
     position: relative;
     top: 15px;
     clear: both;
-    color:$mid-light-grey;
+    color: $color--neutral-400;
     font-size: 22px;
     &--fade-in {
         @include fadeIn();
@@ -12,7 +11,7 @@
         @include fadeOut();
     }
 }
-.btn{    
+.btn {
     display: inline-block;
     padding: 10px;
     position: relative;
@@ -22,14 +21,14 @@
 
 input[type="radio"].toggle {
     display: none;
-    & + label{
+    & + label {
         cursor: pointer;
         min-width: 80px;
-        color: $light-grey;
-        &:hover{
+        color: $color--neutral-100;
+        &:hover {
             background: none;
         }
-        &:after{
+        &:after {
             content: "";
             height: 100%;
             position: absolute;
@@ -41,21 +40,21 @@ input[type="radio"].toggle {
     }
     &.toggle-left + label {
         border-right: 0;
-        &:after{
-            left: 100%
+        &:after {
+            left: 100%;
         }
     }
-    &.toggle-right + label{
+    &.toggle-right + label {
         margin-left: -5px;
-        &:after{
+        &:after {
             left: -100%;
         }
     }
     &:checked + label {
         cursor: default;
-        color: $orange;
+        color: $brand-color;
         transition: color 200ms;
-        &:after{
+        &:after {
             left: 0;
         }
     }

@@ -1,6 +1,6 @@
 // $Var
-$bg-color: $mid-light-grey;
-$color: $orange;
+$bg-color: $color--neutral-400;
+$color: $brand-color;
 
 // $Mixin
 @mixin size($width , $height: $width ) {

@@ -1,9 +1,9 @@
 .account {
-  @media (min-width: $brk-tablet) {
+  @media (min-width: $breakpoint--small) {
     float: left;
     padding: 3rem 3rem 0 0;
   }
-  @media (min-width: $brk-desktop) {
+  @media (min-width: $breakpoint--xlarge) {
     float: left;
     padding: 5rem 5rem 0 3rem;
   }
@@ -13,7 +13,7 @@
     flex-direction: column;
     text-align: left;
     padding: 1rem;
-    @media (min-width: $brk-tablet) {
+    @media (min-width: $breakpoint--small) {
       flex: 0 0 22%;
       padding: 2rem;
     }
@@ -26,7 +26,7 @@
       color: white;
     }
     &__active {
-      color: $orange;
+      color: $brand-color;
     }
   }
 }

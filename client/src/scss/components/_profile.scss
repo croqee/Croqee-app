@@ -1,7 +1,7 @@
 .profile {
   text-align: left;
   padding: 1rem;
-  @media (min-width: $brk-tablet) {
+  @media (min-width: $breakpoint--small) {
     float: left;
     width: 60%;
   }
@@ -10,7 +10,7 @@
     flex-direction: row;
     justify-content: space-around;
     &__highlight {
-      color: $orange;
+      color: $brand-color;
     }
   }
   &__img__msg {
@@ -46,7 +46,7 @@
       width: 100%;
       padding-left: 4rem;
       > span {
-        font-size: $sm-font;
+        font-size: 1em;
         color: white;
       }
       & > h1 {
@@ -60,7 +60,7 @@
     margin-top: 1rem;
     & > span {
       color: white;
-      font-size: $sm-font;
+      font-size: 1em;
     }
 
     &__container {
@@ -69,7 +69,7 @@
       justify-content: space-between;
       & > p {
         font-weight: lighter;
-        font-size: $md-font;
+        font-size: 1.3em;
         margin: 0;
       }
       a {
@@ -86,17 +86,17 @@
         }
         &__btn {
           flex-basis: 20%;
-          color: $orange;
+          color: $brand-color;
           border: none;
           font-size: 1rem;
           background-color: transparent;
           outline: none;
           text-align: right;
           &:hover {
-            color: $active-color;
+            color: $brand-color;
           }
           &:focus {
-            color: $active-color;
+            color: $brand-color;
           }
         }
       }
@@ -104,11 +104,11 @@
   }
   &__links {
     margin-top: 2rem;
-    border-top: 1px solid $mid-grey;
+    border-top: 1px solid $color--neutral-500;
     height: 100%;
     width: 100%;
     > p {
-      font-size: $sm-font;
+      font-size: 1em;
       color: white;
     }
     &__data {
@@ -118,7 +118,7 @@
         width: 0;
         height: 1px;
         display: block;
-        border-bottom: 1px solid $orange;
+        border-bottom: 1px solid $brand-color;
         transition: width 0.3s ease;
         position: relative;
       }
@@ -132,12 +132,12 @@
       color: #b8b8b8;
       margin: 0.5rem;
       &:hover {
-        color: $orange;
+        color: $brand-color;
       }
     }
   }
 }
 
 .MuiSvgIcon-root {
-  color: $light-grey;
+  color: $color--neutral-100;
 }
