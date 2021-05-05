@@ -4,7 +4,7 @@ import CanvasCompeteStartOverlay from './CanvasCompeteStartOverlay';
 export const CANVAS_START_OVERLAY_CLASS = "canvas-start-overay";
 
 class CanvasStartOverlay extends React.Component {
-  
+
   render() {
     const {
       width,
@@ -27,15 +27,15 @@ class CanvasStartOverlay extends React.Component {
           marginBottom: `-${height}px`,
         }}
       >
-        {!isCompeting && (
-          <CanvasTestStartOverlay height={height} />
-        )}
-        {isCompeting && (
+
+        {isCompeting ? (
           <CanvasCompeteStartOverlay
             height={height}
             canStartDrawing={canStartDrawing}
             canJoinClub={canJoinClub} />
-        )}
+        ) : (
+            <CanvasTestStartOverlay height={height} />
+          )}
       </div>
     );
   }
