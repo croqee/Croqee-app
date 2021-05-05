@@ -1,14 +1,15 @@
 import React from 'react';
 import CanvasTestStartOverlay from './CanvasTestStartOverlay';
 import CanvasCompeteStartOverlay from './CanvasCompeteStartOverlay';
+import { connect } from 'react-redux';
 export const CANVAS_START_OVERLAY_CLASS = "canvas-start-overay";
 
 class CanvasStartOverlay extends React.Component {
 
   render() {
     const {
-      width,
-      height,
+      canvasWidth,
+      canvasHeight,
       isCompeting,
       canStartDrawing,
       canJoinClub,
@@ -22,23 +23,35 @@ class CanvasStartOverlay extends React.Component {
             : `${CANVAS_START_OVERLAY_CLASS} ${CANVAS_START_OVERLAY_CLASS}--fadein `
         }
         style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          marginBottom: `-${height}px`,
+          width: `${canvasWidth}px`,
+          height: `${canvasHeight}px`,
+          marginBottom: `-${canvasHeight}px`,
         }}
       >
 
         {isCompeting ? (
           <CanvasCompeteStartOverlay
-            height={height}
             canStartDrawing={canStartDrawing}
             canJoinClub={canJoinClub} />
         ) : (
-            <CanvasTestStartOverlay height={height} />
+            <CanvasTestStartOverlay />
           )}
       </div>
     );
   }
 }
 
-export default CanvasStartOverlay;
+const mapStateToProps = (state) => {
+  const {
+    canvasWidth,
+    canvasHeight,
+  } = state;
+  return {
+    canvasWidth,
+    canvasHeight,
+  };
+};
+
+const mapDispatchToProps = () => {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CanvasStartOverlay);

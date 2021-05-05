@@ -17,8 +17,8 @@ class CanvasRetryOverlay extends React.Component {
 
   render() {
     const {
-      width,
-      height,
+      canvasWidth,
+      canvasHeight,
     } = this.props;
     return (
       <div
@@ -28,10 +28,10 @@ class CanvasRetryOverlay extends React.Component {
             : `${CANVAS_RETRY_OVERLAY_CLASS} ${CANVAS_RETRY_OVERLAY_CLASS}'--fadein'`
         }
         style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          marginBottom: `-${height}px`,
-          paddingTop: `${height / 2 - 100}px`,
+          width: `${canvasWidth}px`,
+          height: `${canvasHeight}px`,
+          marginBottom: `-${canvasHeight}px`,
+          paddingTop: `${canvasHeight / 2 - 100}px`,
         }}
       >
         <button
@@ -57,10 +57,13 @@ class CanvasRetryOverlay extends React.Component {
 const mapStateToProps = (state) => {
   const {
     activeModel,
+    canvasWidth,
+    canvasHeight,
   } = state;
   return {
-
     activeModel,
+    canvasWidth,
+    canvasHeight,
   };
 };
 

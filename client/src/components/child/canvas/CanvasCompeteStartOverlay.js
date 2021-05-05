@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 
 export const CANVAS_COMPETE_START_OVERLAY_CLASS = 'canvas-compete-start-overlay';
@@ -39,7 +40,7 @@ class CanvasCompeteStartOverlay extends React.Component {
 
 
   render() {
-    const { height } = this.props;
+    const { canvasHeight } = this.props;
     const {
       countDown,
       competeTextHideClass,
@@ -50,7 +51,7 @@ class CanvasCompeteStartOverlay extends React.Component {
       <div
         className={CANVAS_COMPETE_START_OVERLAY_CLASS}
         style={{
-          top: `${height / 2 - 40}px`,
+          top: `${canvasHeight / 2 - 40}px`,
         }}
       >
         <div className={CANVAS_COMPETE_START_OVERLAY_CLASS + '__first-line'}>
@@ -101,4 +102,16 @@ class CanvasCompeteStartOverlay extends React.Component {
   }
 }
 
-export default CanvasCompeteStartOverlay;
+const mapStateToProps = (state) => {
+  const {
+    canvasHeight,
+  } = state;
+  return {
+    canvasHeight,
+  };
+};
+
+const mapDispatchToProps = () => {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CanvasCompeteStartOverlay);
+

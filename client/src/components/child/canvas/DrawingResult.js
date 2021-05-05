@@ -7,19 +7,19 @@ class DrawingResult extends React.Component {
 
   render() {
     const {
-      width,
-      height,
-      imgWidth,
-      imgHeight,
+      canvasWidth,
+      canvasHeight,
+      innerModelWidth,
+      innerModelHeight,
     } = this.props;
     return (
       <span
         id='userScore'
         className={DRAWING_RESULT_CLASS + ' ' + this.props.scoreClass}
         style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          marginBottom: `-${height}px`,
+          width: `${canvasWidth}px`,
+          height: `${canvasHeight}px`,
+          marginBottom: `-${canvasHeight}px`,
         }}
       >
         {this.props.baseURL ? (
@@ -28,9 +28,9 @@ class DrawingResult extends React.Component {
               alt='alt'
               className={DRAWING_RESULT_CLASS + '__drawing'}
               style={{
-                width: `${width}px`,
-                height: `${height}px`,
-                marginBottom: `-${height}px`,
+                width: `${canvasWidth}px`,
+                height: `${canvasHeight}px`,
+                marginBottom: `-${canvasHeight}px`,
               }}
               src={this.props.baseURL}
             />
@@ -41,8 +41,8 @@ class DrawingResult extends React.Component {
                   alt='alt'
                   className={DRAWING_RESULT_CLASS + '__model'}
                   style={{
-                    width: `${imgWidth}px`,
-                    height: `${imgHeight}px`,
+                    width: `${innerModelWidth}px`,
+                    height: `${innerModelHeight}px`,
                   }}
                   src={require('../../../img/compete/still-life/geometrical5.png')}
                 />
@@ -51,8 +51,8 @@ class DrawingResult extends React.Component {
                     alt='alt'
                     className={DRAWING_RESULT_CLASS + '__model'}
                     style={{
-                      width: `${imgWidth}px`,
-                      height: `${imgHeight}px`,
+                      width: `${innerModelWidth}px`,
+                      height: `${innerModelHeight}px`,
                     }}
                     src={require('../../../img/compete/anatomy/female1.png')}
                   />
@@ -64,8 +64,8 @@ class DrawingResult extends React.Component {
                       alt='alt'
                       className={DRAWING_RESULT_CLASS + '__model'}
                       style={{
-                        width: `${imgWidth}px`,
-                        height: `${imgHeight}px`,
+                        width: `${innerModelWidth}px`,
+                        height: `${innerModelHeight}px`,
                       }}
                       src={require(`../../../img${this.props.imgPath}${this.props.model.model}.png`)}
                     />
@@ -86,8 +86,8 @@ class DrawingResult extends React.Component {
                 position: 'absolute',
                 width: '400px',
                 textAlign: 'center',
-                top: `${height / 2 - 50}px`,
-                left: `${width / 2 - 200}px`,
+                top: `${canvasHeight / 2 - 50}px`,
+                left: `${canvasWidth / 2 - 200}px`,
                 color: 'white',
                 fontSize: '28px',
               }}
@@ -106,18 +106,22 @@ const mapStateToProps = (state) => {
     scoreClass,
     leftHand,
     activeModel,
+    canvasWidth,
+    canvasHeight,
+    innerModelWidth,
+    innerModelHeight
   } = state;
   return {
     currentScore,
     scoreClass,
     leftHand,
     activeModel,
+    canvasWidth,
+    canvasHeight,
+    innerModelWidth,
+    innerModelHeight
   };
 };
-const mapDispatchToProps = () => {
-  return {
-  };
-};
-
+const mapDispatchToProps = () => { };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawingResult);

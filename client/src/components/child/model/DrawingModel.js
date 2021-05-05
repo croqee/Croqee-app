@@ -32,7 +32,7 @@ class DrawingModel extends Component {
 
 
   setModelSize() {
-    const { width, height, imgWidth, imgHeight } = calcCanvasAndModelDim(() => {
+    const { canvasWidth, canvasHeight, innerModelWidth, innerModelHeight } = calcCanvasAndModelDim(() => {
       styles.model = {
         ...styles.model,
         marginLeft: '0',
@@ -41,10 +41,10 @@ class DrawingModel extends Component {
 
     this.setState({ isSizeSet: false }, () => {
       this.setState({
-        width,
-        height,
-        imgWidth,
-        imgHeight,
+        width:canvasWidth,
+        height:canvasHeight,
+        imgWidth: innerModelWidth,
+        imgHeight: innerModelHeight,
         isSizeSet: true,
       });
     });

@@ -5,6 +5,8 @@ import {
   invokeScore,
   setImageProcessing,
   setTimerDone,
+  setCanvasDimension,
+  setInnerModelDimension
 } from '../../../state-manager/actions';
 import Loader from '../loader/Loader';
 import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
@@ -27,29 +29,19 @@ class Canvas extends React.Component {
     this.state = {
       baseURL: null,
       fadeOut: false,
-      isSizeSet: false,
-      width: null,
-      height: null,
-      imgWidth: null,
-      imgHeight: null,
       drawing: false,
       currentColor: 'black',
-      cleared: false,
     };
 
     window.addEventListener('resize', () => {
-      this.setCanvasSize();
+      if (this.props.timerDone) {
+        this.setCanvasSize();
+      }
     });
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setCanvasSize();
-      this.initCanvas();
-    }, 2);
-  }
-
   componentDidUpdate(prevProps) {
+
     if (prevProps.shouldResetCanvas !== this.props.shouldResetCanvas) {
       if (this.props.shouldResetCanvas) {
         this.reset();
@@ -72,44 +64,45 @@ class Canvas extends React.Component {
     }
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.setCanvasSize();
+      this.initCanvas();
+    }, 2);
+  }
+
   setCanvasSize() {
-    const { width, height, imgWidth, imgHeight } = calcCanvasAndModelDim(() => {
+    const { canvasWidth, canvasHeight, innerModelWidth, innerModelHeight } = calcCanvasAndModelDim(() => {
       styles.canvas = {
         ...styles.canvas,
         marginRight: '0',
       };
     });
 
-    this.setState({ isSizeSet: false }, () => {
-      this.setState(
-        {
-          width,
-          height,
-          imgWidth,
-          imgHeight,
-          isSizeSet: true,
-        },
-        () => {
-          this.reset();
-        }
-      );
+    this.props.setCanvasDimension({
+      canvasWidth,
+      canvasHeight
     });
+    this.props.setInnerModelDimension({
+      innerModelWidth,
+      innerModelHeight
+    });
+    this.reset();
   }
 
   reset() {
-    //clears it to all white, resets state to original
     let ratio = 700;
-    if (this.state.width < 500) {
+    if (this.props.canvasWidth < 500) {
       ratio = 1800;
     }
-    let lineWidth = (2 * this.state.width) / ratio;
+    let lineWidth = (2 * this.props.canvasWidth) / ratio;
     this.setState({
       lineWidth: lineWidth,
     });
     if (this.refs.canvas) {
       this.ctx = this.refs.canvas.getContext('2d');
       this.ctx.fillStyle = 'white';
-      this.ctx.fillRect(0, 0, this.state.width, this.state.height);
+      this.ctx.fillRect(0, 0, this.props.canvasWidth, this.props.canvasHeight);
       this.initCanvas();
     }
   }
@@ -232,28 +225,22 @@ class Canvas extends React.Component {
   render() {
     const {
       fadeOut,
-      width,
-      height,
-      imgWidth,
-      imgHeight,
-      isSizeSet,
     } = this.state;
-    const { isCompeting } = this.props;
+    const { canvasWidth, canvasHeight, isCompeting } = this.props;
     const side = this.props.leftHand ? `${CANVAS_CLASS}--left-hand` : '';
     return (
       <React.Fragment>
-        {isSizeSet && (
+        {canvasWidth && canvasHeight && (
           <div
             className={CANVAS_CLASS + ' ' + side}
-            width={`${width}px`}
-            height={`${height}px`}
+            width={`${canvasWidth}px`}
+            height={`${canvasHeight}px`}
           >
             {this.props.imageProcessing &&
               <Loader
               />}
 
             <CanvasStartOverlay
-              height={height}
               canStartDrawing={this.props.canStartDrawing}
               canJoinClub={this.props.canJoinClub}
               isCompeting={isCompeting}
@@ -262,17 +249,11 @@ class Canvas extends React.Component {
 
             {this.props.activeModel.isDrawn && !isCompeting && (
               <CanvasRetryOverlay
-                width={width}
-                height={height}
                 navigateToClubPage={this.props.navigateToClubPage}
               />
             )}
 
             <DrawingResult
-              width={width}
-              height={height}
-              imgWidth={imgWidth}
-              imgHeight={imgHeight}
               isInHomePage={this.props.isInHomePage}
               imgPath={this.props.imgPath}
               model={this.props.model}
@@ -282,8 +263,8 @@ class Canvas extends React.Component {
               id='canvas__drawing'
               style={styles.canvas}
               className={CANVAS_CLASS + ' ' + '__area'}
-              height={`${height}px`}
-              width={`${width}px`}
+              width={`${canvasWidth}px`}
+              height={`${canvasHeight}px`}
               ref='canvas'
             />
           </div>
@@ -303,6 +284,8 @@ const mapStateToProps = (state) => {
     leftHand,
     startImageProcessing,
     activeModel,
+    canvasWidth,
+    canvasHeight
   } = state;
   return {
     timer,
@@ -313,6 +296,8 @@ const mapStateToProps = (state) => {
     leftHand,
     startImageProcessing,
     activeModel,
+    canvasWidth,
+    canvasHeight
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -321,6 +306,8 @@ const mapDispatchToProps = (dispatch) => {
     invokeScore: (payload) => dispatch(invokeScore(payload)),
     setImageProcessing: (payload) => dispatch(setImageProcessing(payload)),
     setTimerDone: (payload) => dispatch(setTimerDone(payload)),
+    setCanvasDimension: (payload) => dispatch(setCanvasDimension(payload)),
+    setInnerModelDimension: (payload) => dispatch(setInnerModelDimension(payload))
   };
 };
 
