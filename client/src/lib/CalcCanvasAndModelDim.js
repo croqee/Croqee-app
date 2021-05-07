@@ -1,4 +1,5 @@
 const IMG_RATIO = 800 / 800;
+const TABLET_SCREEN_SIZE = 900;
 
 export function calcCanvasAndModelDim(cb) {
   const screenSize =
@@ -7,7 +8,7 @@ export function calcCanvasAndModelDim(cb) {
     window.innerWidth;
   let canvasWidth;
   let canvasHeight;
-  if (screenSize <= 900) {
+  if (screenSize <= TABLET_SCREEN_SIZE) {
     canvasWidth = screenSize;
     canvasHeight = window.innerHeight / 2;
   } else {

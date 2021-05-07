@@ -11,11 +11,12 @@ class DrawingResult extends React.Component {
       canvasHeight,
       innerModelWidth,
       innerModelHeight,
+      scoreClass
     } = this.props;
     return (
       <span
         id='userScore'
-        className={DRAWING_RESULT_CLASS + ' ' + this.props.scoreClass}
+        className={DRAWING_RESULT_CLASS + ' ' + scoreClass}
         style={{
           width: `${canvasWidth}px`,
           height: `${canvasHeight}px`,
@@ -25,7 +26,7 @@ class DrawingResult extends React.Component {
         {this.props.baseURL ? (
           <React.Fragment>
             <img
-              alt='alt'
+              alt='Drawing result'
               className={DRAWING_RESULT_CLASS + '__drawing'}
               style={{
                 width: `${canvasWidth}px`,
@@ -38,7 +39,7 @@ class DrawingResult extends React.Component {
             {this.props.isInHomePage ? (
               this.props.activeModel.model === 'stillLife' ? (
                 <img
-                  alt='alt'
+                  alt='Original geometrical model on drawing result'
                   className={DRAWING_RESULT_CLASS + '__model'}
                   style={{
                     width: `${innerModelWidth}px`,
@@ -48,7 +49,7 @@ class DrawingResult extends React.Component {
                 />
               ) : (
                   <img
-                    alt='alt'
+                    alt='Original anatomy model on drawing result'
                     className={DRAWING_RESULT_CLASS + '__model'}
                     style={{
                       width: `${innerModelWidth}px`,
@@ -61,7 +62,7 @@ class DrawingResult extends React.Component {
                 <React.Fragment>
                   {this.props.model.model && (
                     <img
-                      alt='alt'
+                      alt='Original model on drawing result'
                       className={DRAWING_RESULT_CLASS + '__model'}
                       style={{
                         width: `${innerModelWidth}px`,
@@ -122,6 +123,5 @@ const mapStateToProps = (state) => {
     innerModelHeight
   };
 };
-const mapDispatchToProps = () => { };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DrawingResult);
+export default connect(mapStateToProps, {})(DrawingResult);

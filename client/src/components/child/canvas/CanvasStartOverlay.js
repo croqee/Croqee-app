@@ -52,6 +52,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = () => {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CanvasStartOverlay);
+export default connect(mapStateToProps, {})(CanvasStartOverlay);
