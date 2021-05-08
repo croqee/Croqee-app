@@ -35,7 +35,7 @@ class DrawingModel extends Component {
                 {model.model && (
                   <ModelImage
                     model={model}
-                    imgPath={`../../../img${imgPath}${model.model}.png`}
+                    imgPath={require(`../../../img${imgPath}${model.model}.png`)}
                     description={DRAWING_MODEL_DESCRIPTION} />
                 )}
                 {showUserScores && (
@@ -54,12 +54,12 @@ class DrawingModel extends Component {
                     activeModel.model === 'stillLife' ? (
                       <ModelImage
                         model={model}
-                        imgPath={'../../../img/compete/still-life/geometrical5.png'}
+                        imgPath={require('../../../img/compete/still-life/geometrical5.png')}
                         description={DRAWING_MODEL_DESCRIPTION} />
                     ) : (
                       <ModelImage
                         model={model}
-                        imgPath={'../../../img/compete/anatomy/female1.png'}
+                        imgPath={require('../../../img/compete/anatomy/female1.png')}
                         description={DRAWING_MODEL_DESCRIPTION} />
                     )}
                 </React.Fragment>

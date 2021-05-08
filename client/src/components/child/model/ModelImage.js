@@ -18,7 +18,7 @@ class ModelImage extends Component {
     return (
       <img
         alt={description}
-        src={require(imgPath)}
+        src={imgPath}
         style={{
           width: `${innerModelWidth}px`,
           height: `${innerModelHeight}px`,
