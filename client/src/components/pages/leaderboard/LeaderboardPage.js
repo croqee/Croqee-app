@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getUsersScore, getScoredModels } from '../../../state-manager/actions';
 import { Avatar } from "@material-ui/core";
-import default_image from '../../../img/default-image.png'; 
 import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 
 class LeaderboardPage extends React.Component {
@@ -35,7 +34,7 @@ class LeaderboardPage extends React.Component {
         <div className='leaderboard__left'>
           <div className='leaderboard__overall-percentage'>
             <div className='leaderboard__overall-percentage-circle'>
-              <span className='leaderboard__overall-percentage-circle__text'>
+              <span className='leaderboard__overall-percentage-circle-text'>
                 {this.state.overAllPercentage}
               </span>
             </div>

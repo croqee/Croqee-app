@@ -11,12 +11,14 @@ import {
   SET_IMAGE_PROCESSING,
   SET_HAND_SIDE,
   SET_TIMER_DONE,
-  SET_Start_Image_Processing,
+  SET_START_IMAGE_PROCESSING,
   SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
   SET_ACTIVE_MODEL,
   SET_ACTIVE_MODEL_DRAWN,
   GET_USERS_SCORE_ASYNC,
   GET_SCORED_MODELS_ASYNC,
+  SET_CANVAS_DIMENSION,
+  SET_INNER_MODEL_DIMENSION
 } from "./action-types";
 import Auth from "../../modules/Auth";
 
@@ -95,7 +97,7 @@ export function setHandSide(payload) {
   return { type: SET_HAND_SIDE, side: payload };
 }
 export function setStartImageProcessing(payload) {
-  return { type: SET_Start_Image_Processing, startImageProcessing: payload };
+  return { type: SET_START_IMAGE_PROCESSING, startImageProcessing: payload };
 }
 export function setPageToNavigateAfterLogin(payload) {
   return {
@@ -147,4 +149,13 @@ export function getScoredModels() {
         dispatch(getScoredModelsAsync(scoredModels));
       });
   };
+}
+
+export function setCanvasDimension(payload){
+  return { type: SET_CANVAS_DIMENSION, dimension: payload };
+}
+
+
+export function setInnerModelDimension(payload){
+  return { type: SET_INNER_MODEL_DIMENSION, dimension: payload };
 }

@@ -2,19 +2,18 @@
 	width: 400px;
 	height: 250px;
 	background-image: url("http://www.williamaberry.com/Images3/photos_still_life_large/pho_sl_geo_white_color.jpg");
-	background-color: $orange;
+	background-color: $brand-color;
 	display: inline-block;
 	cursor: pointer;
-	color:$dark-grey;
-	margin-right:30px;
-	&--anatomy{
-		background-image:url("https://cdn.discordapp.com/attachments/618340486083641354/701147023490940998/Woman-figure-8.png");
+	color: $color--neutral-800;
+	margin-right: 30px;
+	&--anatomy {
+		background-image: url("https://cdn.discordapp.com/attachments/618340486083641354/701147023490940998/Woman-figure-8.png");
 	}
 	&:hover {
 		.clubthumbnail__overlay {
-			background-color: $orange;
+			background-color: $brand-color;
 			opacity: 0.9;
-
 		}
 		.clubthumbnail__text {
 			color: white;
@@ -23,7 +22,7 @@
 	&__overlay {
 		width: 100%;
 		height: 250px;
-	    background-color: white;
+		background-color: white;
 		display: inline-block;
 		opacity: 0.5;
 	}

@@ -135,3 +135,29 @@
     width: 600px;
     height: 450px;
 }
+
+
+//account/profile form
+@mixin profile-form {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+  }
+  @mixin profile-form-input {
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	border-bottom-style: outset;
+	background-color: transparent;
+	outline: none;
+	color: #b8b8b8;
+	font-size: 1rem;
+	flex-basis: 60%;
+  }
+  @mixin profile-form-input-focus {
+	transition: border-bottom 0.2s ease-in;
+	border-bottom: 2px solid $brand-color;
+  }
+
+  

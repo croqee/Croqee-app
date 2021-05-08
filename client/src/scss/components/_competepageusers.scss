@@ -13,7 +13,7 @@
 	}
 	&__user-splitter {
 		height: 50px;
-		border-right: 1px solid $light-grey;
+		border-right: 1px solid $color--neutral-100;
 		display: inline-block;
 		margin-right: 20px;
 		position: relative;
@@ -23,11 +23,11 @@
 	&__user-name {
 		font-size: 18px;
 		font-weight: 600;
-		color: $light-grey;
+		color: $color--neutral-100;
 	}
 	&__user-score {
 		font-size: 18px;
-		color: $orange;
+		color: $brand-color;
 		text-align: center;
 	}
 	&__user-score-number {

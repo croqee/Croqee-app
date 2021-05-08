@@ -6,8 +6,8 @@
   height: 5rem;
 
   &-top {
-    background: $light-black;
-    color: $light-grey;
+    background: $color--neutral-900;
+    color: $color--neutral-100;
     padding: 2.3rem 3.55555556rem;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -74,7 +74,7 @@
         text-transform: uppercase;
         font-weight: bold;
         position: relative;
-        background: linear-gradient(to right, white 50%, $orange 50%);
+        background: linear-gradient(to right, white 50%, $brand-color 50%);
         background-size: 200% 100%;
         background-position: right bottom;
         transition: all 0.25s ease;
@@ -85,13 +85,13 @@
         }
         &-text {
           text-align: center;
-          font-size: $sm-font;
+          font-size: 1em;
           line-height: 70px;
           color: white;
           transition: all 0.3s ease;
           display: block;
           &:hover {
-            color: $orange;
+            color: $brand-color;
           }
         }
       }
@@ -127,16 +127,16 @@
       & > a {
         padding: 0.5rem 0;
         text-decoration: none;
-        color: $light-grey;
+        color: $color--neutral-100;
         &:hover {
-          color: $orange;
+          color: $brand-color;
         }
       }
     }
   }
   &-bottom {
-    color: $dark-grey;
-    background: $light-grey;
+    color: $color--neutral-800;
+    background: $color--neutral-100;
     padding: 1.4rem 3.55555556rem;
     display: -webkit-box;
     display: -ms-flexbox;

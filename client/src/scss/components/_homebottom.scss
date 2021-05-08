@@ -3,7 +3,7 @@
 	height: 600px;
 	display: block;
 	clear: both;
-    background-color: $black;
+    background-color: $color--neutral-1000;
     position: relative;
     top: 60px;
 }
@@ -22,7 +22,7 @@
     font-weight: lighter;
     font-size: 24px;
     color: white;
-    background-color: $orange;
+    background-color: $brand-color;
     border: none;
     cursor: pointer;
 }
