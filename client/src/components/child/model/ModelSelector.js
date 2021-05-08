@@ -93,18 +93,23 @@ class ModelSelector extends Component {
 
   render() {
     const {
-      height
+      modelSelectClass,
+      modelSelectClassRight
+    } = this.state;
+    const {
+      height,
+      activeModel
     } = this.props;
 
     return (
       <div
-        className={`${MODEL_SELECTOR_CLASS} ${this.state.modelSelectClass} ${this.state.modelSelectClassRight}`}
+        className={`${MODEL_SELECTOR_CLASS} ${modelSelectClass} ${modelSelectClassRight}`}
         style={{
           top: `${(height - 236) / 2 - 15}px`,
         }}
       >
         <span
-          className={`${MODEL_SELECTOR_ANATOMY_CLASS} ${this.props.activeModel.model === 'anatomy' &&
+          className={`${MODEL_SELECTOR_ANATOMY_CLASS} ${activeModel.model === 'anatomy' &&
             `${MODEL_SELECTOR_ANATOMY_CLASS}--active`
             }`}
           onClick={() => {
@@ -112,14 +117,13 @@ class ModelSelector extends Component {
           }}
         />
         <span
-          className={`${MODEL_SELECTOR_STILL_LIFE_CLASS} ${this.props.activeModel.model === 'stillLife' &&
-          `${MODEL_SELECTOR_STILL_LIFE_CLASS}--active` 
+          className={`${MODEL_SELECTOR_STILL_LIFE_CLASS} ${activeModel.model === 'stillLife' &&
+            `${MODEL_SELECTOR_STILL_LIFE_CLASS}--active`
             }`}
           onClick={() => {
             this.setModelToStillLife();
           }}
         />
-
       </div>
     );
   }
