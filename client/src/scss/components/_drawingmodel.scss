@@ -1,93 +1,9 @@
-.model-wrapper {
+.drawing-model {
 	position: relative;
 	background-color: $color--neutral-800;
 	display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-.drawing-model {
-	margin: auto;
-	@include x-small-screen() {
-		float: none;
-		margin: auto;
-		display: block;
-	}
-	&.model_left_hand {
-		float: right;
-	}
-}
-
-.users-scores {
-	background-color: black;
-	opacity: 0.93;
-	position: absolute;
-	&--fadein {
-		@include fadeIn();
-	}
-	&--fadeout {
-		@include fadeOut();
-	}
-	&__currently-playing {
-		height: 40px;
-		font-size: 22px;
-		padding-top: 7px;
-		border-bottom: 1px solid $color--neutral-800;
-		color: #585858;
-	}
-	table {
-		width: 100%;
-		table-layout: fixed;
-	}
-	.tbl-header {
-		border-bottom: 1px solid $color--neutral-800;
-		height: 40px;
-		th {
-			position: relative;
-			bottom: 9px;
-		}
-		color: #585858;
-	}
-	.tbl-content {
-		overflow-x: auto;
-		margin-top: 0px;
-		&__orange {
-			td {
-				color: $brand-color;
-			}
-		}
-	}
-	th {
-		padding: 20px 15px;
-		text-align: left;
-		font-weight: 800;
-		font-size: 17px;
-		text-transform: uppercase;
-	}
-	td {
-		padding: 15px;
-		text-align: left;
-		vertical-align: middle;
-		font-weight: 700;
-		font-size: 16px;
-		border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-	}
-
-	body {
-		background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-		background: linear-gradient(to right, #25c481, #25b7c4);
-		font-family: "Hind", sans-serif;
-	}
-	section {
-		margin: 50px;
-	}
-
-	::-webkit-scrollbar {
-		width: 6px;
-	}
-	::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	}
-	::-webkit-scrollbar-thumb {
-		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	}
+	justify-content: center;
+	z-index: 3;
+	overflow: hidden;
 }

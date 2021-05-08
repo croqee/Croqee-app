@@ -121,7 +121,6 @@ class CompetePage extends React.Component {
 		});
 	};
 	render() {
-		const side = this.props.leftHand ? 'model_left_hand' : '';
 		const { baseURL, playingUsers, startDrawing, canJoinClub, showUserScores } = this.state;
 		return (
 			<React.Fragment>
@@ -132,11 +131,10 @@ class CompetePage extends React.Component {
 				)}
 				<div>
 					<br />
-					<div className={`drawing-environment ${side}`}>
+					<div className={'drawing-environment'}>
 						{this.props.showTimer && <Timer />}
 						<DrawingModel
 							model={this.state.model}
-							side={side}
 							compete={true}
 							playingUsers={playingUsers}
 							showUserScores={showUserScores}
