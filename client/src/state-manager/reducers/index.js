@@ -9,12 +9,14 @@ import {
 	SET_IMAGE_PROCESSING,
 	SET_HAND_SIDE,
 	SET_TIMER_DONE,
-	SET_Start_Image_Processing,
+	SET_START_IMAGE_PROCESSING,
 	SET_PAGE_TO_NAVIGATE_AFTER_LOGIN,
 	SET_ACTIVE_MODEL,
 	SET_ACTIVE_MODEL_DRAWN,
 	GET_USERS_SCORE_ASYNC,
-	GET_SCORED_MODELS_ASYNC
+	GET_SCORED_MODELS_ASYNC,
+	SET_CANVAS_DIMENSION,
+	SET_INNER_MODEL_DIMENSION
 } from '../actions/action-types';
 const initialState = {
 	user: {},
@@ -34,6 +36,10 @@ const initialState = {
 	},
 	usersScore: [],
 	scoredModels: [],
+	canvasWidth: 0,
+	canvasHeight: 0,
+	innerModelWidth: 0,
+	innerModelHeight: 0
 };
 
 function rootReducer(state = initialState, action) {
@@ -68,13 +74,13 @@ function rootReducer(state = initialState, action) {
 		case SHOW_SCORE:
 			return {
 				...state,
-				scoreClass: 'userscore--show',
+				scoreClass: 'drawing-result--show',
 				currentScore: action.score
 			};
 		case HIDE_SCORE:
 			return {
 				...state,
-				scoreClass: 'userscore--hide'
+				scoreClass: 'drawing-result--hide'
 			};
 		case REMOVE_SCORE:
 			return {
@@ -91,7 +97,7 @@ function rootReducer(state = initialState, action) {
 				...state,
 				leftHand: action.side
 			};
-		case SET_Start_Image_Processing:
+		case SET_START_IMAGE_PROCESSING:
 			return {
 				...state,
 				startImageProcessing: action.startImageProcessing
@@ -125,6 +131,18 @@ function rootReducer(state = initialState, action) {
 				...state,
 				scoredModels: action.scoredModels
 			};
+		case SET_CANVAS_DIMENSION:
+			return {
+				...state,
+				canvasWidth: action.dimension.canvasWidth,
+				canvasHeight: action.dimension.canvasHeight
+			};
+		case SET_INNER_MODEL_DIMENSION:
+			return {
+				...state,
+				innerModelWidth: action.dimension.innerModelWidth,
+				innerModelHeight: action.dimension.innerModelHeight
+			}
 		default:
 			return state;
 	}

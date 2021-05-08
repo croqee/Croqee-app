@@ -61,7 +61,7 @@ class CompetePage extends React.Component {
 		});
 		this.socket.on('send_your_drawing', () => {
 			if (this.state.startDrawing) {
-				let canvas = document.getElementById('canvas__drawing');
+				const canvas = document.getElementById('canvas__drawing');
 				if (canvas) {
 					this.props.setImageProcessing(true);
 					this.props.setTimer({ showTimer: false, timer: 0 });
