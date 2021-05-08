@@ -78,7 +78,6 @@ class Canvas extends React.Component {
         marginRight: '0',
       };
     });
-
     this.props.setCanvasDimension({
       canvasWidth,
       canvasHeight

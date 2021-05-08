@@ -1,0 +1,11 @@
+.model-image {
+	margin: auto;
+	@include x-small-screen() {
+		float: none;
+		margin: auto;
+		display: block;
+	}
+	&.model_left_hand {
+		float: right;
+	}
+}
