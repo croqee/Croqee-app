@@ -14,7 +14,7 @@ class DrawingResult extends React.Component {
       scoreClass
     } = this.props;
     return (
-      <span
+      <div
         id='userScore'
         className={DRAWING_RESULT_CLASS + ' ' + scoreClass}
         style={{
@@ -96,7 +96,7 @@ class DrawingResult extends React.Component {
               Nothing was drawn on the canvas
             </span>
           )}
-      </span>
+      </div>
     )
   }
 }

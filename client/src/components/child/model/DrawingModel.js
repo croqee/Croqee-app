@@ -1,101 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setActiveModel } from '../../../state-manager/actions';
 import ModelSelector from './ModelSelector';
-import UserScoreOverview from './UserScoreOverview';
-import { calcCanvasAndModelDim } from '../../../lib/CalcCanvasAndModelDim';
-
-let styles = {
-  model: {},
-};
-
+import UserScoreOverview from './UsersScores';
+import ModelImage from './ModelImage';
+const DRAWING_MODEL_CLASS = 'drawing-model';
+const DRAWING_MODEL_DESCRIPTION = 'drawing model image';
 class DrawingModel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSizeSet: false,
-      width: null,
-      height: null,
-      imgWidth: null,
-      imgHeight: null,
-    };
-    this.modelSelect = React.createRef();
-
-    window.addEventListener('resize', () => {
-      this.setModelSize();
-    });
-  }
-
-  componentDidMount() {
-    this.setModelSize();
-  }
-
-
-  setModelSize() {
-    const { canvasWidth, canvasHeight, innerModelWidth, innerModelHeight } = calcCanvasAndModelDim(() => {
-      styles.model = {
-        ...styles.model,
-        marginLeft: '0',
-      };
-    });
-
-    this.setState({ isSizeSet: false }, () => {
-      this.setState({
-        width:canvasWidth,
-        height:canvasHeight,
-        imgWidth: innerModelWidth,
-        imgHeight: innerModelHeight,
-        isSizeSet: true,
-      });
-    });
-  }
-
 
   render() {
-    const {
-      width,
-      height,
-      isSizeSet,
-      imgWidth,
-      imgHeight,
-    } = this.state;
     const {
       model,
       compete,
       showUserScores,
       playingUsers,
       user,
+      canvasWidth,
+      canvasHeight,
+      activeModel,
+      imgPath
     } = this.props;
 
     return (
       <React.Fragment>
-        {isSizeSet && (
+        {canvasWidth && (
           <div
-            className='model-wrapper'
+            className={DRAWING_MODEL_CLASS}
             style={{
-              ...styles.model,
-              width: `${width}px`,
-              height: `${height}px`,
-              zIndex: '3',
-              overflow: 'hidden',
+              width: `${canvasWidth}px`,
+              height: `${canvasHeight}px`,
             }}
           >
             {compete ? (
               <React.Fragment>
                 {model.model && (
-                  <img
-                    alt=''
-                    src={require(`../../../img${this.props.imgPath}${model.model}.png`)}
-                    width={`${imgWidth}px`}
-                    height={`${imgHeight}px`}
-                    className={'drawing-model ' + this.props.side}
-                  />
+                  <ModelImage
+                    model={model}
+                    imgPath={require(`../../../img${imgPath}${model.model}.png`)}
+                    description={DRAWING_MODEL_DESCRIPTION} />
                 )}
                 {showUserScores && (
                   <UserScoreOverview
-                    styles={styles}
-                    width={width}
-                    height={height}
+                    width={canvasWidth}
+                    height={canvasHeight}
                     playingUsers={playingUsers}
                     user={user}
                   />
@@ -103,34 +49,19 @@ class DrawingModel extends Component {
               </React.Fragment>
             ) : (
                 <React.Fragment>
-                  <ModelSelector height={height} />
-                  {this.props.activeModel &&
-                    this.props.activeModel.model === 'stillLife' ? (
-                      <img
-                        alt=''
-                        src={require('../../../img/compete/still-life/geometrical5.png')}
-                        width={`${imgWidth}px`}
-                        height={`${imgHeight}px`}
-                        className={'drawing-model ' + this.props.side}
-                      />
+                  <ModelSelector height={canvasHeight} />
+                  {activeModel &&
+                    activeModel.model === 'stillLife' ? (
+                      <ModelImage
+                        model={model}
+                        imgPath={require('../../../img/compete/still-life/geometrical5.png')}
+                        description={DRAWING_MODEL_DESCRIPTION} />
                     ) : (
-                      <img
-                        alt=''
-                        src={require('../../../img/compete/anatomy/female1.png')}
-                        width={`${imgWidth}px`}
-                        height={`${imgHeight}px`}
-                        className={'drawing-model ' + this.props.side}
-                      />
+                      <ModelImage
+                        model={model}
+                        imgPath={require('../../../img/compete/anatomy/female1.png')}
+                        description={DRAWING_MODEL_DESCRIPTION} />
                     )}
-                  {showUserScores && (
-                    <UserScoreOverview
-                      styles={styles}
-                      width={width}
-                      height={height}
-                      playingUsers={playingUsers}
-                      user={user}
-                    />
-                  )}
                 </React.Fragment>
               )}
           </div>
@@ -139,15 +70,18 @@ class DrawingModel extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  const { showTimer, timerDone, leftHand, activeModel } = state;
-  return { showTimer, timerDone, leftHand, activeModel };
-};
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
+  const {
+    activeModel,
+    canvasWidth,
+    canvasHeight,
+  } = state;
   return {
-    setActiveModel: (payload) => dispatch(setActiveModel(payload)),
+    activeModel,
+    canvasWidth,
+    canvasHeight,
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DrawingModel);
+export default connect(mapStateToProps, {})(DrawingModel);

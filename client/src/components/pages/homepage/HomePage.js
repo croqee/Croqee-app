@@ -82,17 +82,17 @@ class HomePage extends React.Component {
     let side = this.props.leftHand ? "model_left_hand" : "";
     return (
       <Fragment>
-        <div className= {CROQEE_VIDEO_SECTION_CLASS}>
-          <div className={CROQEE_VIDEO_SECTION_CLASS+"__title"}>
-            <h1 className={CROQEE_VIDEO_SECTION_CLASS+"__title-main"}>
+        <div className={CROQEE_VIDEO_SECTION_CLASS}>
+          <div className={CROQEE_VIDEO_SECTION_CLASS + "__title"}>
+            <h1 className={CROQEE_VIDEO_SECTION_CLASS + "__title-main"}>
               Draw, compete <br></br>improve your techniques
             </h1>
-            <span className={CROQEE_VIDEO_SECTION_CLASS+"__title-caption"}>
+            <span className={CROQEE_VIDEO_SECTION_CLASS + "__title-caption"}>
               This section is filled with sample content.
             </span>
           </div>
 
-          <video autoPlay muted loop className= {CROQEE_VIDEO_SECTION_CLASS+"__video"}>
+          <video autoPlay muted loop className={CROQEE_VIDEO_SECTION_CLASS + "__video"}>
             <source
               src={require("../../../videos/drawing.mp4")}
               type="video/mp4"
@@ -103,7 +103,7 @@ class HomePage extends React.Component {
 
         <div className={`drawing-environment ${side}`}>
           {this.props.showTimer && <Timer />}
-          <DrawingModel side={side} />
+          <DrawingModel />
           <Canvas
             isInHomePage={true}
             setBaseUrl={this.setBaseUrl}
