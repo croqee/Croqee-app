@@ -5,6 +5,8 @@ import UserScoreOverview from './UsersScores';
 import ModelImage from './ModelImage';
 const DRAWING_MODEL_CLASS = 'drawing-model';
 const DRAWING_MODEL_DESCRIPTION = 'drawing model image';
+
+
 class DrawingModel extends Component {
 
   render() {
