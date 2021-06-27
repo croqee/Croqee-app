@@ -5,6 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "watch": "ts-node-dev --watch 'src' --respawn --transpile-only src/index.ts",
+    "build": "tsc",
     "start": "node ./dist/index.js",
     "server": "node ./dist/index.js",
     "client": "npm start --prefix ../client",

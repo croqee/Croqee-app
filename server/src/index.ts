@@ -51,7 +51,7 @@ app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/score', scoreRoutes);
 app.use('/images', imageRoutes);
-app.use('/user-image', userImage);
+app.use('/user-image', () => userImage);
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, '../../client/build')));
@@ -104,11 +104,10 @@ const calculateScore = (param: any, cb: Function) => {
 };
 //Drawing competitions
 new DrawingCompetitionController(
-  socketIO,
   server,
   calculateScore,
   'still-life',
 );
-new DrawingCompetitionController(socketIO, server, calculateScore, 'anatomy');
+new DrawingCompetitionController( server, calculateScore, 'anatomy');
 
 server.listen(process.env.PORT || 8080);
