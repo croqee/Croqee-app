@@ -3,7 +3,7 @@
   width: 36px;
   height: 36px;
   position: relative;
-  border: 4px solid $orange;
+  border: 4px solid $brand-color;
   top: 50%;
   -webkit-animation: loader 2s infinite ease;
   animation: loader 2s infinite ease;
@@ -14,9 +14,16 @@
     vertical-align: top;
     display: inline-block;
     width: 100%;
-    background-color: $orange;
+    background-color: $brand-color;
     animation: loader-inner 1s infinite ease-in;
   }
+}
+.loader-canvas-blocker {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: $color--neutral-900;
+  opacity: 0.6;
 }
 
 @keyframes loader {

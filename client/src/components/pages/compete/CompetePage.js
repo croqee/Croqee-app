@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getUser, setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../js/actions';
+import { getUser, setTimer, invokeScore, setImageProcessing, setTimerDone } from '../../../state-manager/actions';
 import Timer from '../../child/timer/Timer';
 import HandSide from '../../child/handside/HandSide';
 import UserPendingLoader from '../../child/userpendingloader/UserPendingLoader';
@@ -31,18 +31,15 @@ class CompetePage extends React.Component {
 		};
 	}
 	componentDidMount() {
-		console.log(this.props.history)
 		this.socket = socketIOClient(this.state.endpoint, { path: `${this.state.drawingField}/socket.io` });
 		const token = Auth.getToken();
 		this.socket.emit('username', token);
 		this.socket.on('update_user', (users) => {
-			console.log(users);
 			this.setState({
 				playingUsers: users
 			});
 		});
 		this.socket.on('join_club', (model) => {
-			console.log("should join")
 			if (!this.state.hasJoined) {
 				this.setState({
 					canJoinClub: true,
@@ -55,8 +52,6 @@ class CompetePage extends React.Component {
 		this.socket.on('start_drawing', (model) => {
 			if (this.state.hasJoined) {
 				this.setState({ model: model });
-				console.log('start drawing');
-				console.log(model);
 				this.setState({
 					startDrawing: true,
 					showUserScores: false,
@@ -66,7 +61,7 @@ class CompetePage extends React.Component {
 		});
 		this.socket.on('send_your_drawing', () => {
 			if (this.state.startDrawing) {
-				let canvas = document.getElementById('canvas__drawing');
+				const canvas = document.getElementById('canvas__drawing');
 				if (canvas) {
 					this.props.setImageProcessing(true);
 					this.props.setTimer({ showTimer: false, timer: 0 });
@@ -82,7 +77,6 @@ class CompetePage extends React.Component {
 		});
 		this.socket.on('evaluated_score', (scoreDetails) => {
 			if (this.state.startDrawing) {
-				console.log(scoreDetails.score);
 				this.props.setImageProcessing(false);
 
 				this.setState(
@@ -95,7 +89,6 @@ class CompetePage extends React.Component {
 						this.setHasUserDrawnOnCanvas(false);
 					}
 				);
-				//this.reset();
 			}
 		});
 
@@ -128,7 +121,6 @@ class CompetePage extends React.Component {
 		});
 	};
 	render() {
-		const side = this.props.leftHand ? 'model_left_hand' : '';
 		const { baseURL, playingUsers, startDrawing, canJoinClub, showUserScores } = this.state;
 		return (
 			<React.Fragment>
@@ -139,11 +131,10 @@ class CompetePage extends React.Component {
 				)}
 				<div>
 					<br />
-					<div className={`drawing-environment ${side}`}>
+					<div className={'drawing-environment'}>
 						{this.props.showTimer && <Timer />}
 						<DrawingModel
 							model={this.state.model}
-							side={side}
 							compete={true}
 							playingUsers={playingUsers}
 							showUserScores={showUserScores}

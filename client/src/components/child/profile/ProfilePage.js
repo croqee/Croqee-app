@@ -3,7 +3,7 @@ import ProfileForm from "./ProfileForm";
 import { connect } from "react-redux";
 import axios from "axios";
 import config from "../../../modules/config";
-import { getUser } from "../../../js/actions";
+import { getUser } from "../../../state-manager/actions";
 import ProfileBirthDateForm from "./ProfileBirthDateForm";
 import ProfileUsernameForm from "./ProfileUsernameForm";
 import ProfileCityForm from "./ProfileCityForm";

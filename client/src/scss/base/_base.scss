@@ -4,7 +4,7 @@
 
 body {
   font-family: "Hind", sans-serif;
-  background-color: $dark-grey !important;
+  background-color: $color--neutral-800 !important;
   margin: 0;
   @include x-small-screen() {
     -webkit-user-drag: none;
@@ -24,43 +24,16 @@ a:focus {
   min-height: 100vh;
   height: 100%;
 }
+
 ul > li{
     list-style: none;
 }
- 
 
 .page-content {
   min-height: 100vh;
   padding: 2rem 0;
 }
-#drawhere {
-  width: 193px;
-  height: 106px;
-  background-image: url(http://localhost:3000/drawhere.png);
-  display: block;
-  background-size: 193px;
-  background-repeat: no-repeat;
-  float: right;
-  position: relative;
-  right: 180px;
-  top: -92px;
-  margin-bottom: -200px;
-}
 
-#countDown {
-  font-size: 40px;
-  background: #0523cc;
-  height: 40px;
-  display: block;
-  position: fixed;
-  right: 430px;
-  color: white;
-  top: 113px;
-  width: 70px;
-  text-align: left;
-  padding: 10px;
-  padding-left: 30px;
-}
 
 .begindrawing {
   font-size: 26px;
@@ -71,7 +44,7 @@ ul > li{
   margin: auto;
   margin-bottom: -100px;
   display: block;
-  color: $light-grey;
+  color: $color--neutral-100;
 }
 
 //autoComplete input textarea select styling
@@ -85,54 +58,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border-bottom: 1px solid $active-color;
-  -webkit-text-fill-color: $active-color;
+  border-bottom: 1px solid $brand-color;
+  -webkit-text-fill-color: $brand-color;
   transition: background-color 5000s ease-in-out 0s;
-}
-
-@media only screen and (max-width: 1750px) {
-  .canvas {
-    margin-right: 0 !important;
-  }
-  .draw_and_model {
-    position: inherit;
-    margin-left: 8px;
-    margin-top: 10px;
-  }
-}
-@media only screen and (max-width: 1660px) {
-  .draw_and_model {
-    width: 700px !important;
-  }
-}
-
-@media only screen and (max-width: 1550px) {
-  .draw_and_model {
-    width: 650px !important;
-  }
-}
-@media only screen and (max-width: 1500px) {
-  .draw_and_model {
-    width: 600px !important;
-  }
-}
-@media only screen and (max-width: 1445px) {
-  .draw_and_model {
-    width: 550px !important;
-  }
-}
-@media only screen and (max-width: 1395px) {
-  .draw_and_model {
-    width: 500px !important;
-  }
-}
-@media only screen and (max-width: 1345px) {
-  .draw_and_model {
-    width: 450px !important;
-  }
-}
-@media only screen and (max-width: 1295px) {
-  .draw_and_model {
-    width: 400px !important;
-  }
 }

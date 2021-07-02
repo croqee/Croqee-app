@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import config from "../../../modules/config";
 import { connect } from "react-redux";
-import { getUser } from "../../../js/actions";
+import { getUser } from "../../../state-manager/actions";
 import { makeStyles } from "@material-ui/core/styles";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";

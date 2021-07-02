@@ -35,11 +35,11 @@
       text-decoration: none;
       color: white;
       margin-right: 5px;
-      font-size: $sm-font;
+      font-size: 1em;
       line-height: 2.5em;
       transition: color 0.15s ease-in-out;
       &:hover {
-        color: $orange;
+        color: $brand-color;
       }
     }
     &-btn {
@@ -55,7 +55,7 @@
       font-weight: bold;
       position: relative;
       border: none;
-      background: linear-gradient(to right, white 50%, $orange 50%);
+      background: linear-gradient(to right, white 50%, $brand-color 50%);
       background-size: 200% 100%;
       background-position: right bottom;
       transition: all 0.25s ease;
@@ -65,13 +65,13 @@
       }
       &-text {
         text-align: center;
-        font-size: $sm-font;
+        font-size: 1em;
         line-height: 70px;
         color: white;
         transition: all 0.3s ease;
         display: block;
         &:hover {
-          color: $orange;
+          color: $brand-color;
         }
       }
     }
@@ -117,8 +117,7 @@
     }
     &:after {
       top: 14px;
-      -webkit-transition: -webkit-transform 0.4s
-        cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       -o-transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -130,7 +129,7 @@
 
 .hamburger-inner:before,
 .hamburger-inner:after {
-  content: '';
+  content: "";
   display: block;
 }
 
@@ -172,12 +171,12 @@
         display: block;
         width: 100%;
         position: relative;
-        color: $dark-grey;
+        color: $color--neutral-800;
         padding: 0.25rem 2rem;
-        font-size: $md-font;
+        font-size: 1.3em;
         font-weight: 100;
         &:hover {
-          color: $orange;
+          color: $brand-color;
         }
       }
       &-btn {
@@ -191,7 +190,7 @@
       bottom: 25%;
       & > p {
         color: black;
-        font-size: $sm-font;
+        font-size: 1em;
         font-weight: lighter;
         line-height: 1rem;
       }
@@ -204,9 +203,9 @@
           padding-left: 0;
         }
         & > svg {
-          font-size: $lg-font;
+          font-size:  2em;
           padding: 0 1rem;
-          color: $orange;
+          color: $brand-color;
           & > svg:first-child {
             padding-left: 0;
           }
@@ -221,10 +220,10 @@
           padding-left: 0;
         }
         & > a {
-          color: $dark-grey;
+          color: $color--neutral-800;
           text-decoration: none;
           margin-right: 0.5rem;
-          font-size: $xs-font;
+          font-size:  0.8em;
           &:hover {
             text-decoration: underline;
           }
@@ -296,9 +295,13 @@
   }
 }
 
-//aryan
 .profile-nav {
   padding-bottom: 40px;
+  display: inline-block;
+  padding: 0px 1.1rem;
+  margin-right: 5px;
+  font-size: 1em;
+  line-height: 2.5em;
   &:hover {
     .profile-list {
       display: block;
@@ -331,7 +334,7 @@
   height: 20rem;
   width: 60%;
   position: absolute;
-  color: $light-grey;
+  color: $color--neutral-100;
   z-index: 100;
   top: 84px;
   right: 246px;
@@ -356,7 +359,7 @@
     }
   }
   &:after {
-    content: '';
+    content: "";
     width: 0px;
     height: 0px;
     position: absolute;
@@ -385,13 +388,13 @@
         padding-top: 6px;
       }
       a {
-        color: $light-grey;
+        color: $color--neutral-100;
         text-decoration: none;
         transition: color 0.15s ease-in-out;
       }
       &:hover {
         a {
-          color: $orange;
+          color: $brand-color;
         }
       }
     }
@@ -468,7 +471,7 @@
           padding-top: 0;
         }
         a {
-          color: $light-black;
+          color: $color--neutral-900;
         }
         &:hover {
           padding-left: 24px;

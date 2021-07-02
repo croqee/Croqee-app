@@ -12,7 +12,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import Auth from "../../../modules/Auth";
 import { connect } from "react-redux";
-import { authenticate, setUser } from "../../../js/actions";
+import { authenticate, setUser } from "../../../state-manager/actions";
 import DeleteAccount from "../../child/account/DeleteAccount";
 
 class Password extends Component {

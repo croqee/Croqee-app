@@ -1,38 +1,36 @@
-
 .compete-page-users {
 	width: 90%;
 	text-align: center;
 	margin: auto;
 	z-index: 100;
-	border:1px solid white;
-	.compete-page-users__user-splitter{
+	border: 1px solid white;
+	&__user {
+		vertical-align: top;
+		text-align: center;
+		display: inline-block;
+		padding: 10px;
+		min-width: 130px;
+	}
+	&__user-splitter {
 		height: 50px;
-		border-right: 1px solid $light-grey;
+		border-right: 1px solid $color--neutral-100;
 		display: inline-block;
 		margin-right: 20px;
 		position: relative;
 		top: 10px;
 		margin-left: 20px;
 	}
-	.compete-page-users__user {
-        vertical-align: top;
+	&__user-name {
+		font-size: 18px;
+		font-weight: 600;
+		color: $color--neutral-100;
+	}
+	&__user-score {
+		font-size: 18px;
+		color: $brand-color;
 		text-align: center;
-		display: inline-block;
-        padding: 10px;
-        min-width: 130px;
-		.compete-page-users__user__name {
-  
-			font-size: 18px;
-			font-weight: 600;
-			color: $light-grey;
-		}
-		.compete-page-users__user__score {
-			font-size: 18px;
-			color: $orange;
-			text-align: center;
-			.compete-page-users__user__score__number{
-				font-weight: 600;
-			}
-		}
+	}
+	&__user-score-number {
+		font-weight: 600;
 	}
 }

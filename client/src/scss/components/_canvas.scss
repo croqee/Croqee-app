@@ -1,134 +1,15 @@
-@mixin fadeOut() {
-	animation: fadeout 0.3s ease-in 0s 1 forwards;
-	@keyframes fadeout {
-		0% {
-			visibility: visible;
-			opacity: 1;
-		}
-		100% {
-			visibility: hidden;
-			opacity: 0;
-		}
-	}
-}
-@mixin fadeIn() {
-	animation: fadein 0.3s ease-in 0s 1 forwards;
-	@keyframes fadein {
-		0% {
-			visibility: hidden;
-			opacity: 0;
-		}
-		100% {
-			visibility: visible;
-			opacity: 1;
-		}
-	}
-}
-
 .canvas {
 	-webkit-user-drag: none;
 	user-select: none;
-	&.canvas_left_hand {
-		float: left !important;
-	}
-	.canvas__canvas {
+	&__area {
 		-webkit-user-drag: none;
 		user-select: none;
 	}
-	.canvas__title {
+	&__title {
 		font-size: 40px;
 		color: red;
 	}
-	.canvas__overay {
-		position: relative;
-		z-index: 100;
-		user-select: none;
-		cursor: crosshair;
-		pointer-events: none;
-		&--fadein {
-			@include fadeIn();
-		}
-		&--fadeout {
-			@include fadeOut();
-		}
-		@include x-small-screen() {
-			float: none;
-			margin: auto;
-			display: block;
-		}
-		.canvas__overay__homepage-text {
-			position: relative;
-			font-size: 35px;
-		}
-		.canvas__overay__compete-text {
-			position: relative;
-			font-size: 35px;
-			.--hiden-compete-text {
-				visibility: hidden;
-			}
-			.canvas__overay__compete-text__second-line__text {
-				&.--counter {
-					color: $orange;
-				}
-			}
-			.canvas__overay__compete-text__first-line__start {
-				display: inline-block;
-				&.--move-compete-start-text {
-					transition: width 1.5s, height 1.5s, transform 1.5s, font-size 1.5s;
-
-					transform: translate(145px);
-					font-size: 50px;
-				}
-			}
-		}
-	}
-
-	.canvas__blocker {
-		position: relative;
-		z-index: 100;
-		background-color: $dark-grey;
-		border: 1px solid $light-grey;
-		box-sizing: border-box;
-		&--fadein {
-			@include fadeIn();
-		}
-		&--fadeout {
-			@include fadeOut();
-		}
-		@include x-small-screen() {
-			float: none;
-			margin: auto;
-			display: block;
-		}
-		h3{
-			font-weight: 400;
-			font-size:20px;
-		}
-		&__compete-button {
-			width: 368px;
-			height: 60px;
-			border: 1px solid #b8b8b8;
-			background-color: transparent;
-			color: $light-grey;
-			font-size: 20px;
-			cursor: pointer;
-			&:hover{
-				border: 1px solid white;
-				color:white;
-			}
-		}
-		&__retry-button {
-			width: 115px;
-			height: 60px;
-			border: 1px solid #b8b8b8;
-			background-color: transparent;
-			color: $light-grey;
-			font-size: 20px;
-			cursor: pointer;
-			&:hover{
-				border: 1px solid white;
-				color:white;
-			}
-		}
+	&--left-hand {
+		float: left !important;
 	}
 }
