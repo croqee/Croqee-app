@@ -4,12 +4,10 @@ import express, { ErrorRequestHandler } from 'express';
 import 'express-async-errors';
 import logger from 'morgan';
 import passport from 'passport';
-import socketIO from 'socket.io';
 import socketIoClient from 'socket.io-client';
 import * as config from './config';
 import { DrawingCompetitionController } from './controllers/drawing-competition/drawing-competition-controller';
 import { connectDb } from './db/models';
-import { getUsersTotalScore } from './db/repositories/score-repo';
 import { authMiddleware } from './middleware/auth-check';
 import { localLoginStrategy } from './passport/local-login';
 import { localSignupStrategy } from './passport/local-signup';
@@ -59,7 +57,6 @@ app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
 });
 
-getUsersTotalScore();
 
 app.post('/send_drawing', (req, res, _next) => {
   const param = {
