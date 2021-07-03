@@ -29,6 +29,8 @@ function getUserAsync(payload) {
 export function getUser() {
   return dispatch => {
     let AuthorizationHeader = config.AuthorizationHeader();
+
+    //Set the authorization header as axios default header and delete that on log out
     axios.get("/api/getuser", AuthorizationHeader).then(response => {
       dispatch(authenticate(true));
       let user = response.data;

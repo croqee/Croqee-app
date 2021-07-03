@@ -12,8 +12,8 @@ import {
 } from "../../../state-manager/actions";
 import { GoogleLogin } from "react-google-login";
 import { googleApiKey } from "../../../clientglobalvariables";
-import { facebookAppId } from "../../../clientglobalvariables";
-import FacebookLogin from "react-facebook-login";
+// import { facebookAppId } from "../../../clientglobalvariables";
+// import FacebookLogin from "react-facebook-login";
 import { Card, Button, Typography } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../../child/MuiTheme";
@@ -58,18 +58,11 @@ class LoginPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const body = {
-      email,
-      password
-    };
-    let UnAthorizedHeader = config.UnAthorizedHeader();
+    // let UnAthorizedHeader = config.UnAthorizedHeader();
     // let formData = Object.assign({}, body, UnAthorizedHeader);
 
     axios
-      .post("/auth/login", body, UnAthorizedHeader)
+      .post("/auth/login", this.state.user)
       .then(response => {
         const { token, user } = response.data;
         this.props.setUser(user);

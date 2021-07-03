@@ -2,16 +2,9 @@ import { Router } from 'express';
 import { User, UserProps } from '../db/models/user';
 
 export const router = Router();
-
-const croqeeBodyParser = <T>(body: T): T => {
-  let reqBody = {} as T;
-  for (const key in body) {
-    reqBody = JSON.parse(key);
-  }
-  return reqBody;
-};
-
+// change to /me
 router.get('/getuser', (req, res) => {
+  console.log("trig")
   res.status(200).json({
     user: req.user,
   });
@@ -41,20 +34,19 @@ router.post<{ id: string }, any, Partial<UserProps>>(
   '/updateuser/:id',
   async (req, res) => {
     const userId = req.params.id;
-    const update = croqeeBodyParser(req.body);
-    await User.findOneAndUpdate({ id: userId }, update).exec();
+    await User.findOneAndUpdate({ id: userId }, req.body as any).exec();
     res.status(204).json({ success: 'updated' });
   },
 );
 
-router.get('/password', async (req, res) => {
+router.get('/password', async (req: any, res: any) => {
   const userId = req.user.id;
   const user = await User.findById(userId).exec();
   res.status(200).json(user.password == null);
 });
 
-function validatePasswordForm(payload) {
-  const errors = {};
+function validatePasswordForm(payload: any) {
+  const errors: any = {};
   let isFormValid = true;
   let message = '';
 
@@ -86,8 +78,7 @@ function validatePasswordForm(payload) {
     success: isFormValid,
   };
 }
-router.post('/password', async (req, res) => {
-  req.body = croqeeBodyParser(req.body);
+router.post('/password', async (req:any, res: any) => {
   const validationResult = validatePasswordForm(req.body);
   const { currentPassword, newPassword } = req.body;
 
@@ -119,7 +110,7 @@ router.post('/password', async (req, res) => {
   }
 });
 
-router.delete('/account', async (req, res) => {
+router.delete('/account', async (req: any, res: any) => {
   const userId = req.user.id;
   await User.findOneAndDelete({ id: userId }).exec();
   res.status(204).end();

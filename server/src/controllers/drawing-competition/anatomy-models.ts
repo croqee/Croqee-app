@@ -1,24 +1,24 @@
-import { IModel } from './interfaces';
+import { IModel } from "./interfaces";
 
-export const anatomyModels: IModel[] = [
-  {
-    givenTime: 40,
-    model: 'woman-figure-6',
-  },
-  {
-    givenTime: 40,
-    model: 'woman-figure-1',
-  },
-  {
-    givenTime: 40,
-    model: 'woman-figure-8',
-  },
-  {
-    givenTime: 40,
-    model: 'man-figure-6',
-  },
-  {
-    givenTime: 40,
-    model: 'man-figure-4',
-  },
-];
+   export const anatomyModels:IModel[] = [
+    {
+        model: 'female1',
+        givenTime: 60
+    },
+    {
+        model: 'female2',
+        givenTime: 60
+    },
+    {
+        model: 'male1',
+        givenTime: 60
+    },
+    {
+        model: 'male2',
+        givenTime: 60
+    },
+    {
+        model: 'male3',
+        givenTime: 60
+    },
+    ];

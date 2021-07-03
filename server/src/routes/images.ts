@@ -59,9 +59,9 @@ const upload = multer({
 router.post(
   '/uploaduserimg/:id',
   upload.single('image_data'),
-  async (req, res) => {
+  async (req: any, res:any) => {
     const userId = req.params.id;
-    const img = { image_data: req.file.filename };
+    const img: any = { image_data: req.file.filename };
     if (req.user.img && req.user.img.imageName !== 'none') {
       gfs.remove(
         { filename: req.user.img.image_data, root: 'images' },

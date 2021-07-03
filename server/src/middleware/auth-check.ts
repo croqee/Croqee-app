@@ -16,7 +16,6 @@ export const authMiddleware: RequestHandler = async (req, res) => {
   try {
     const userId = await getIdFromToken(token);
     const user = await User.findById(userId).exec();
-
     // pass user details onto next route
     req.user = user;
   } catch {

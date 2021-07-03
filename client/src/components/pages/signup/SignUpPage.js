@@ -46,21 +46,11 @@ class SignUpPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.user.name);
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-
-    const body = {
-      name,
-      email,
-      password
-    };
 
     let UnAthorizedHeader = config.UnAthorizedHeader();
 
     axios
-      .post("/auth/signup", body, UnAthorizedHeader)
+      .post("/auth/signup", this.state.user, UnAthorizedHeader)
       .then(response => {
         this.setState({
           errors: {}

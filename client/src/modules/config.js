@@ -4,7 +4,6 @@ const config = {
 	AuthorizationHeader: () => {
 		const AuthorizationHeader = {
 			headers: {
-				'Content-type': 'application/x-www-form-urlencoded',
 				Authorization: `bearer ${Auth.getToken()}`
 			}
 		};
@@ -13,7 +12,6 @@ const config = {
 	UnAthorizedHeader: () => {
 		const AuthorizationHeader = {
 			headers: {
-				'Content-type': 'application/x-www-form-urlencoded'
 			}
 		};
 		return AuthorizationHeader;

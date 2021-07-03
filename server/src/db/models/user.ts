@@ -18,8 +18,8 @@ const UserSchema = createSchema({
   city: Type.string(),
   email: Type.string({ index: true, unique: true }),
   facebook: Type.string(),
-  fbId: Type.string({ index: true, unique: true }),
-  googleId: Type.string({ index: true, unique: true }),
+  fbId: Type.string({ index: true, unique: false }),
+  googleId: Type.string({ index: true, unique: false }),
   img: Type.schema().of(ImageSchema),
   instagram: Type.string(),
   name: Type.string(),
@@ -56,6 +56,6 @@ export type UserProps = ExtractProps<typeof UserSchema>;
 
 declare global {
   namespace Express {
-    type User = UserDoc;
+    type IUser = UserDoc;
   }
 }

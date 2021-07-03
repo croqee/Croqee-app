@@ -10,7 +10,7 @@ const SignUpForm = ({ onSubmit, onChange, errors, user }) => (
       <form action="/" onSubmit={onSubmit} className="auth_form" noValidate>
         <h2 className="card-heading">Sign Up</h2>
 
-        {errors.summary && <p className="error-message">{errors.summary}</p>}
+        {errors?.summary && <p className="error-message">{errors?.summary}</p>}
 
         <div className="field-line">
           <TextField
@@ -22,10 +22,10 @@ const SignUpForm = ({ onSubmit, onChange, errors, user }) => (
             value={user.name}
             placeholder="Your Username"
             error={Boolean(
-              errors.name !== undefined || errors.summary !== undefined
+              errors?.name || errors?.summary
             )}
             helperText={
-              errors.name === undefined ? errors.summary : errors.name
+              errors?.name ? errors.name: errors.summary
             }
           />
         </div>
@@ -39,10 +39,10 @@ const SignUpForm = ({ onSubmit, onChange, errors, user }) => (
           value={user.email}
           placeholder="Your Email address"
           error={Boolean(
-            errors.email !== undefined || errors.summary !== undefined
+            errors?.email ||  errors?.summary
           )}
           helperText={
-            errors.email === undefined ? errors.summary : errors.email
+            errors?.email ? errors.email : errors?.summary
           }
         />
 
@@ -56,10 +56,10 @@ const SignUpForm = ({ onSubmit, onChange, errors, user }) => (
           value={user.password}
           placeholder="Your Password "
           error={Boolean(
-            errors.password !== undefined || errors.summary !== undefined
+            errors?.password || errors?.summary 
           )}
           helperText={
-            errors.password === undefined ? errors.summary : errors.password
+            errors?.password ? errors.password : errors?.summary 
           }
         />
 
@@ -70,12 +70,5 @@ const SignUpForm = ({ onSubmit, onChange, errors, user }) => (
     </div>
   </MuiThemeProvider>
 );
-
-// SignUpForm.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   errors: PropTypes.object.isRequired,
-//   user: PropTypes.object.isRequired
-// };
 
 export default SignUpForm;

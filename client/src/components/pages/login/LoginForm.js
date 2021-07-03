@@ -18,9 +18,9 @@ const LoginForm = ({ onSubmit, onChange, errors, successMessage, user }) => (
           onChange={onChange}
           value={user.email}
           placeholder="Your Email address"
-          error={Boolean(errors.summary !== undefined)}
+          error={Boolean(errors && errors.summary)}
           helperText={
-            errors.email === undefined ? errors.summary : errors.email
+            errors?.email ? errors.email : errors?.summary 
           }
         />
         <TextField
@@ -32,9 +32,9 @@ const LoginForm = ({ onSubmit, onChange, errors, successMessage, user }) => (
           placeholder="Your Password "
           onChange={onChange}
           value={user.password}
-          error={Boolean(errors.summary !== undefined)}
+          error={Boolean(errors && errors.summary)}
           helperText={
-            errors.password === undefined ? errors.summary : errors.password
+            errors?.password ? errors.password : errors?.summary 
           }
         />
         <Button variant="outlined" type="submit">

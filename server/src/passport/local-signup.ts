@@ -17,7 +17,7 @@ export const localSignupStrategy = new LocalStrategy(
       name: req.body.name.trim(),
       password: password.trim(),
     };
-    const user = await User.create(userData).catch(done);
+    const user = await User.create(userData as any).catch(done);
     done(null, user);
   },
 );

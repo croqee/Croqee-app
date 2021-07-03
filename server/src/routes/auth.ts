@@ -9,13 +9,17 @@ import passport from 'passport';
 import * as config from '../config';
 import { LoginDto, SignUpDto } from '../controllers/drawing-competition/dtos';
 import { User } from '../db/models/user';
+import { getIdFromToken } from '../lib/jwt';
 
 export const router = Router();
 
-// function croqeeBodyParser<T>(body: T): T {
-//   const entries = Object.entries(body).map(([k, v]) => [k, JSON.parse(v)]);
-//   return Object.fromEntries(entries);
-// }
+// const croqeeBodyParser = (body: any) => {
+//   var reqBody = {};
+//   for (var key in body) {
+//     reqBody = JSON.parse(key);
+//   }
+//   return reqBody;
+// };
 
 // /**
 //  * Validate the sign up form
@@ -110,7 +114,7 @@ export const router = Router();
 
 router.post('/signup', async (req, res, next) => {
   // req.body = croqeeBodyParser(req.body);
-  await transformAndValidate(SignUpDto, req.body).catch(next);
+  // await transformAndValidate(SignUpDto, req.body).catch(next);
 
   return passport.authenticate('local-signup', (err) => {
     if (err) {
@@ -141,10 +145,10 @@ router.post('/signup', async (req, res, next) => {
 });
 
 router.post('/login', async (req, res, next) => {
-  // req.body = croqeeBodyParser(req.body);
-  await transformAndValidate(LoginDto, req.body).catch(next);
-
-  return passport.authenticate('local-login', (err, token, userData) => {
+  // req.body = croqeeBodyParser(req.body)
+  // await transformAndValidate(LoginDto, req.body).catch(next);
+  console.log(req.body)
+  return passport.authenticate('local-login', async (err, tokenData: any) => {
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(400).json({
@@ -158,12 +162,17 @@ router.post('/login', async (req, res, next) => {
         success: false,
       });
     }
+    const { token } = tokenData;
+    console.log(tokenData)
 
+    console.log(tokenData)
+    const userId = await getIdFromToken(token);
+    const user = await User.findById(userId).exec();
     return res.json({
       message: 'You have successfully logged in!',
       success: true,
       token,
-      user: userData,
+      user,
     });
   })(req, res, next);
 });
@@ -282,8 +291,8 @@ router.post('/googleauth', async (req, res) => {
 // });
 
 //forgot password get link
-router.post('/account', async (req, res) => {
-  // const {email} = croqeeBodyParser(req.body);
+router.post('/account', async (req:any, res: any) => {
+  // req.body = croqeeBodyParser(req.body);
   const { email } = req.body;
   if (email === '') {
     res.status(400).send('email required');
@@ -347,16 +356,8 @@ router.get('/reset-token-check', async (req, res) => {
   });
 });
 
-// const myBodyParser = (body) => {
-//   let reqBody = {};
-//   for (const key in body) {
-//     reqBody = JSON.parse(key);
-//   }
-//   return reqBody;
-// };
-
 router.put('/reset-pass', async (req, res) => {
-  // req.body = myBodyParser(req.body);
+  // req.body = croqeeBodyParser(req.body);
   const user = await User.findOne({
     email: req.body.email,
     resetPasswordExpires: { $gt: Date.now() },
